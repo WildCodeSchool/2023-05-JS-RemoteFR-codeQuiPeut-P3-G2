@@ -1,0 +1,95 @@
+.editor-main {
+  position: relative;
+  /* display: flex;
+    justify-content: space-around;
+    align-items: flex-start; */
+  width: 100vw;
+  height: 1414px;
+  background-color: rgb(23, 13, 42);
+
+  .editor-bandeau-superieur {
+    width: 100%;
+    background-color: white;
+  }
+
+  .sommaire-editeur {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+}
+
+.section-page {
+  position: relative;
+  /* width: 50vw;
+    height: 70.7vw; */
+  min-width: 1000px;
+  width: 1000px;
+  height: 1414px;
+  border: 1px solid black;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: white;
+  /* overflow-y: auto;
+    overflow-x: hidden; */
+}
+
+.configurator {
+  position: sticky;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  width: 400px;
+  min-width: 400px;
+  height: 100vh;
+  border: 1px solid black;
+  background-color: rgb(253, 255, 240);
+}
+
+.section-sommaire {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: 400px;
+  min-width: 400px;
+
+  height: 100vh;
+  border: 1px solid black;
+  background-color: rgb(253, 255, 240);
+}
+
+textarea:focus {
+  box-shadow: 5px 5px 10px red;
+}
+
+h1 {
+  font-size: 1.5rem;
+}
+
+.container {
+  min-width: 800px;
+}
+
+.page-container {
+  max-height: 100vh;
+  height: 100%;
+  width: 1000px;
+  overflow: auto;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid red;
+}
+
+/* @media screen and (max-width: 500px) {
+    .section-page {
+      width: 100vw;
+      height: 141.4vw;
+    }
+  } */
