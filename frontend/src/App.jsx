@@ -5,6 +5,7 @@ import Forum from "./pages/Forum"
 import Scripts from "./pages/Scripts"
 import { Routes, Route } from "react-router-dom"
 import { useState, useMemo } from "react"
+import "../index.scss"
 
 function App() {
   // users sera l'ensemble des utilisateurs de mon site
