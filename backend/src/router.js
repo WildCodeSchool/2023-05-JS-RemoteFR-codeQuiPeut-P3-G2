@@ -2,19 +2,19 @@ const express = require("express")
 
 const router = express.Router()
 
-const itemControllers = require("./controllers/itemControllers")
-const charactersControllers = require("./controllers/charactersControllers")
+const scenariosControllers = require("./controllers/scenariosControllers")
+const utilisateursControllers = require("./controllers/UtilisateursControllers")
 
-router.get("/characters", charactersControllers.browse)
-router.get("/characters/:id", charactersControllers.read)
-router.post("/characters", charactersControllers.add)
-router.put("/characters/:id", charactersControllers.edit)
-router.delete("/characters/:id", charactersControllers.destroy)
+router.get("/utilisateurs", utilisateursControllers.browse)
+router.get("/utilisateurs/:id", utilisateursControllers.read)
+router.post("/utilisateurs", utilisateursControllers.add)
+router.put("/utilisateurs/:id", utilisateursControllers.edit)
+router.delete("/utilisateurs/:id", utilisateursControllers.destroy)
 
-router.get("/items", itemControllers.browse)
-router.get("/items/:id", itemControllers.read)
-router.put("/items/:id", itemControllers.edit)
-router.post("/items", itemControllers.add)
-router.delete("/items/:id", itemControllers.destroy)
+router.get("/scenarios", scenariosControllers.browse)
+router.get("/scenarios/:id", scenariosControllers.read)
+router.put("/scenarios/:id", scenariosControllers.edit)
+router.post("/scenarios", scenariosControllers.add)
+router.delete("/scenarios/:id", scenariosControllers.destroy)
 
 module.exports = router
