@@ -1,141 +1,552 @@
--- MySQL dump 10.13  Distrib 8.0.32, for macos13 (arm64)
---
--- Host: localhost    Database: harryBdd
--- ------------------------------------------------------
--- Server version	8.0.32
+-- MySQL Workbench Forward Engineering
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8mb4 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
---
--- Current Database: `harryBdd`
---
+-- -----------------------------------------------------
+-- Schema scripterBdd
+-- -----------------------------------------------------
 
-/*!40000 DROP DATABASE IF EXISTS `harryBdd`*/;
+-- -----------------------------------------------------
+-- Schema scripterBdd
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `scripterBdd` DEFAULT CHARACTER SET utf8 ;
+USE `scripterBdd` ;
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `harryBdd` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+-- -----------------------------------------------------
+-- Table `scripterBdd`.`utilisateurs`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `scripterBdd`.`utilisateurs` (
+  `id` INT NOT NULL,
+  `lastname` VARCHAR(100) NOT NULL,
+  `firstname` VARCHAR(100) NOT NULL,
+  `login` VARCHAR(100) NOT NULL,
+  `email` VARCHAR(255) NOT NULL,
+  `password` VARCHAR(45) NOT NULL,
+  `img` VARCHAR(1000) NULL,
+  `inscription_date` DATE NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
 
-USE `harryBdd`;
 
---
--- Table structure for table `characters`
---
+-- -----------------------------------------------------
+-- Table `scripterBdd`.`auteurs`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `scripterBdd`.`auteurs` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
+  `utilisateurs_id` INT NOT NULL,
+  PRIMARY KEY (`id`, `utilisateurs_id`),
+  INDEX `fk_auteurs_utilisateurs1_idx` (`utilisateurs_id` ASC) VISIBLE,
+  CONSTRAINT `fk_auteurs_utilisateurs1`
+    FOREIGN KEY (`utilisateurs_id`)
+    REFERENCES `scripterBdd`.`utilisateurs` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
-DROP TABLE IF EXISTS `characters`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `characters` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `firstname` varchar(100) DEFAULT NULL,
-  `lastname` varchar(100) DEFAULT NULL,
-  `imgUrl` varchar(255) DEFAULT NULL,
-  `houses_id` int NOT NULL,
-  PRIMARY KEY (`id`,`houses_id`),
-  KEY `fk_characters_houses_idx` (`houses_id`),
-  CONSTRAINT `fk_characters_houses` FOREIGN KEY (`houses_id`) REFERENCES `houses` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `characters`
---
+-- -----------------------------------------------------
+-- Table `scripterBdd`.`jeux_de_role`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `scripterBdd`.`jeux_de_role` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
 
-LOCK TABLES `characters` WRITE;
-/*!40000 ALTER TABLE `characters` DISABLE KEYS */;
-INSERT INTO `characters` VALUES (1,'Harry','Potter','https://static.actu.fr/uploads/2023/01/25512-230106120939397-0.jpg',1),(2,'Hermione','Granger','https://upload.wikimedia.org/wikipedia/en/thumb/d/d3/Hermione_Granger_poster.jpg/220px-Hermione_Granger_poster.jpg',1),(3,'Drago','Malefoy','https://wingardium-leviosa.com/wp-content/uploads/2018/03/draco-malfoy-produit-baguette-magique.jpg',2),(5,'Ron','weasley','https://upload.wikimedia.org/wikipedia/en/thumb/5/5e/Ron_Weasley_poster.jpg/220px-Ron_Weasley_poster.jpg',1);
-/*!40000 ALTER TABLE `characters` ENABLE KEYS */;
-UNLOCK TABLES;
 
---
--- Table structure for table `houses`
---
+-- -----------------------------------------------------
+-- Table `scripterBdd`.`campagnes`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `scripterBdd`.`campagnes` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `auteurs_id` INT NOT NULL,
+  `jeux_de_role_id` INT NOT NULL,
+  `name` VARCHAR(255) NOT NULL,
+  `img` VARCHAR(1000) NOT NULL,
+  `synopsis` TEXT NOT NULL,
+  `nb_player_min` INT NOT NULL,
+  `nb_player_max` INT NOT NULL,
+  `level` VARCHAR(45) NOT NULL,
+  `start_writing_date` DATE NOT NULL,
+  `publication_date` DATE NOT NULL,
+  PRIMARY KEY (`id`, `auteurs_id`, `jeux_de_role_id`),
+  INDEX `fk_campagnes_auteurs1_idx` (`auteurs_id` ASC) VISIBLE,
+  INDEX `fk_campagnes_jeux_de_role1_idx` (`jeux_de_role_id` ASC) VISIBLE,
+  CONSTRAINT `fk_campagnes_auteurs1`
+    FOREIGN KEY (`auteurs_id`)
+    REFERENCES `scripterBdd`.`auteurs` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_campagnes_jeux_de_role1`
+    FOREIGN KEY (`jeux_de_role_id`)
+    REFERENCES `scripterBdd`.`jeux_de_role` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
-DROP TABLE IF EXISTS `houses`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `houses` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `houseName` varchar(100) DEFAULT NULL,
-  `housePoint` int DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `houses`
---
+-- -----------------------------------------------------
+-- Table `scripterBdd`.`scenarios`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `scripterBdd`.`scenarios` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `auteurs_id` INT NOT NULL,
+  `jeux_de_role_id` INT NOT NULL,
+  `campagnes_id` INT NOT NULL,
+  `name` VARCHAR(255) NOT NULL,
+  `nb_player_min` INT NOT NULL,
+  `nb_player_max` INT NOT NULL,
+  `type` VARCHAR(255) NOT NULL,
+  `level` VARCHAR(50) NOT NULL,
+  `start_writing_date` DATE NOT NULL,
+  `publication_date` DATE NOT NULL,
+  `img` VARCHAR(1000) NOT NULL,
+  `description` TEXT NOT NULL,
+  `model` INT NOT NULL,
+  `pdf` VARCHAR(1000) NULL,
+  PRIMARY KEY (`id`, `auteurs_id`, `jeux_de_role_id`, `campagnes_id`),
+  INDEX `fk_scenarios_jeux_de_role1_idx` (`jeux_de_role_id` ASC) VISIBLE,
+  INDEX `fk_scenarios_auteurs1_idx` (`auteurs_id` ASC) VISIBLE,
+  INDEX `fk_scenarios_campagnes1_idx` (`campagnes_id` ASC) VISIBLE,
+  CONSTRAINT `fk_scenarios_jeux_de_role1`
+    FOREIGN KEY (`jeux_de_role_id`)
+    REFERENCES `scripterBdd`.`jeux_de_role` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_scenarios_auteurs1`
+    FOREIGN KEY (`auteurs_id`)
+    REFERENCES `scripterBdd`.`auteurs` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_scenarios_campagnes1`
+    FOREIGN KEY (`campagnes_id`)
+    REFERENCES `scripterBdd`.`campagnes` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
-LOCK TABLES `houses` WRITE;
-/*!40000 ALTER TABLE `houses` DISABLE KEYS */;
-INSERT INTO `houses` VALUES (1,'Grifondor',100),(2,'Serpentard',100);
-/*!40000 ALTER TABLE `houses` ENABLE KEYS */;
-UNLOCK TABLES;
 
---
--- Table structure for table `spells`
---
+-- -----------------------------------------------------
+-- Table `scripterBdd`.`themes`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `scripterBdd`.`themes` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
 
-DROP TABLE IF EXISTS `spells`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `spells` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `spellName` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `spells`
---
+-- -----------------------------------------------------
+-- Table `scripterBdd`.`page_types`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `scripterBdd`.`page_types` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `categorie` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
 
-LOCK TABLES `spells` WRITE;
-/*!40000 ALTER TABLE `spells` DISABLE KEYS */;
-/*!40000 ALTER TABLE `spells` ENABLE KEYS */;
-UNLOCK TABLES;
 
---
--- Table structure for table `spells_has_characters`
---
+-- -----------------------------------------------------
+-- Table `scripterBdd`.`scenarios_themes`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `scripterBdd`.`scenarios_themes` (
+  `scenarios_id` INT NOT NULL,
+  `themes_id` INT NOT NULL,
+  PRIMARY KEY (`scenarios_id`, `themes_id`),
+  INDEX `fk_scenarios_has_themes_themes1_idx` (`themes_id` ASC) VISIBLE,
+  INDEX `fk_scenarios_has_themes_scenarios1_idx` (`scenarios_id` ASC) VISIBLE,
+  CONSTRAINT `fk_scenarios_has_themes_scenarios1`
+    FOREIGN KEY (`scenarios_id`)
+    REFERENCES `scripterBdd`.`scenarios` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_scenarios_has_themes_themes1`
+    FOREIGN KEY (`themes_id`)
+    REFERENCES `scripterBdd`.`themes` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
-DROP TABLE IF EXISTS `spells_has_characters`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `spells_has_characters` (
-  `spells_id` int NOT NULL,
-  `characters_id` int NOT NULL,
-  PRIMARY KEY (`spells_id`,`characters_id`),
-  KEY `fk_spells_has_characters_characters1_idx` (`characters_id`),
-  KEY `fk_spells_has_characters_spells1_idx` (`spells_id`),
-  CONSTRAINT `fk_spells_has_characters_characters1` FOREIGN KEY (`characters_id`) REFERENCES `characters` (`id`),
-  CONSTRAINT `fk_spells_has_characters_spells1` FOREIGN KEY (`spells_id`) REFERENCES `spells` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `spells_has_characters`
---
+-- -----------------------------------------------------
+-- Table `scripterBdd`.`pages`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `scripterBdd`.`pages` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `scenarios_id` INT NOT NULL,
+  `page_types_id` INT NOT NULL,
+  `img` VARCHAR(1000) NULL,
+  `titre` VARCHAR(255) NULL,
+  `number` INT NULL,
+  PRIMARY KEY (`id`, `scenarios_id`, `page_types_id`),
+  INDEX `fk_pages_page_types1_idx` (`page_types_id` ASC) VISIBLE,
+  INDEX `fk_pages_scenarios1_idx` (`scenarios_id` ASC) VISIBLE,
+  CONSTRAINT `fk_pages_page_types1`
+    FOREIGN KEY (`page_types_id`)
+    REFERENCES `scripterBdd`.`page_types` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_pages_scenarios1`
+    FOREIGN KEY (`scenarios_id`)
+    REFERENCES `scripterBdd`.`scenarios` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
-LOCK TABLES `spells_has_characters` WRITE;
-/*!40000 ALTER TABLE `spells_has_characters` DISABLE KEYS */;
-/*!40000 ALTER TABLE `spells_has_characters` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+-- -----------------------------------------------------
+-- Table `scripterBdd`.`page_textes`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `scripterBdd`.`page_textes` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `data` TEXT NULL,
+  `pages_id` INT NOT NULL,
+  PRIMARY KEY (`id`, `pages_id`),
+  INDEX `fk_textes_pages1_idx` (`pages_id` ASC) VISIBLE,
+  CONSTRAINT `fk_textes_pages1`
+    FOREIGN KEY (`pages_id`)
+    REFERENCES `scripterBdd`.`pages` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
--- Dump completed on 2023-07-12  2:40:41
+
+-- -----------------------------------------------------
+-- Table `scripterBdd`.`page_images`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `scripterBdd`.`page_images` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `pages_id` INT NOT NULL,
+  `img_src` VARCHAR(1000) NOT NULL,
+  PRIMARY KEY (`id`, `pages_id`),
+  INDEX `fk_page_images_pages1_idx` (`pages_id` ASC) VISIBLE,
+  CONSTRAINT `fk_page_images_pages1`
+    FOREIGN KEY (`pages_id`)
+    REFERENCES `scripterBdd`.`pages` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `scripterBdd`.`text_style`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `scripterBdd`.`text_style` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `page_textes_id` INT NOT NULL,
+  `width` VARCHAR(45) NOT NULL,
+  `height` VARCHAR(45) NOT NULL,
+  `top` VARCHAR(45) NOT NULL,
+  `left` VARCHAR(45) NOT NULL,
+  `z_index` INT NULL,
+  `border_style` VARCHAR(45) NULL,
+  `border_color` VARCHAR(45) NULL,
+  `border_width` VARCHAR(45) NULL,
+  `border_radius` VARCHAR(45) NULL,
+  `box_shadow` VARCHAR(100) NULL,
+  `background_color` VARCHAR(45) NULL,
+  `font_size` VARCHAR(45) NULL,
+  `font_style` VARCHAR(45) NULL,
+  `font_weight` VARCHAR(45) NULL,
+  `font_family` VARCHAR(255) NULL,
+  `color` VARCHAR(45) NULL,
+  `padding` VARCHAR(45) NULL,
+  `back_drop_filter` VARCHAR(45) NULL,
+  `webkit_backdrop_filter` VARCHAR(45) NULL,
+  `text_align` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`, `page_textes_id`),
+  INDEX `fk_textStyle_pageTextes1_idx` (`page_textes_id` ASC) VISIBLE,
+  CONSTRAINT `fk_textStyle_pageTextes1`
+    FOREIGN KEY (`page_textes_id`)
+    REFERENCES `scripterBdd`.`page_textes` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `scripterBdd`.`image_style`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `scripterBdd`.`image_style` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `page_images_id` INT NOT NULL,
+  `width` VARCHAR(45) NOT NULL,
+  `height` VARCHAR(45) NOT NULL,
+  `top` VARCHAR(45) NOT NULL,
+  `left` VARCHAR(45) NOT NULL,
+  `z-index` INT NULL,
+  `border_style` VARCHAR(45) NULL,
+  `border_width` VARCHAR(45) NULL,
+  `border_radius` VARCHAR(45) NULL,
+  `border_color` VARCHAR(45) NULL,
+  `box_shadow` VARCHAR(45) NULL,
+  `opacity` VARCHAR(45) NULL,
+  `padding` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`, `page_images_id`),
+  INDEX `fk_imageStyle_pageImages1_idx` (`page_images_id` ASC) VISIBLE,
+  CONSTRAINT `fk_imageStyle_pageImages1`
+    FOREIGN KEY (`page_images_id`)
+    REFERENCES `scripterBdd`.`page_images` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `scripterBdd`.`page_style`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `scripterBdd`.`page_style` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `pages_id` INT NOT NULL,
+  `padding` VARCHAR(45) NULL,
+  `background_color` VARCHAR(155) NULL,
+  PRIMARY KEY (`id`, `pages_id`),
+  INDEX `fk_page_style_pages1_idx` (`pages_id` ASC) VISIBLE,
+  CONSTRAINT `fk_page_style_pages1`
+    FOREIGN KEY (`pages_id`)
+    REFERENCES `scripterBdd`.`pages` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `scripterBdd`.`saved_style_text`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `scripterBdd`.`saved_style_text` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `scenarios_id` INT NOT NULL,
+  `width` VARCHAR(45) NOT NULL,
+  `height` VARCHAR(45) NOT NULL,
+  `top` VARCHAR(45) NOT NULL,
+  `left` VARCHAR(45) NOT NULL,
+  `z_index` INT NULL,
+  `border_style` VARCHAR(45) NULL,
+  `border_color` VARCHAR(45) NULL,
+  `border_width` VARCHAR(45) NULL,
+  `border_radius` VARCHAR(45) NULL,
+  `box_shadow` VARCHAR(100) NULL,
+  `background_color` VARCHAR(45) NULL,
+  `font_size` VARCHAR(45) NULL,
+  `font_style` VARCHAR(45) NULL,
+  `font_weight` VARCHAR(45) NULL,
+  `font_family` VARCHAR(255) NULL,
+  `color` VARCHAR(45) NULL,
+  `padding` VARCHAR(45) NULL,
+  `backdrop_filter` VARCHAR(45) NULL,
+  `webkit_backdrop_filter` VARCHAR(45) NULL,
+  `text_align` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`, `scenarios_id`),
+  INDEX `fk_saved_style_text_scenarios1_idx` (`scenarios_id` ASC) VISIBLE,
+  CONSTRAINT `fk_saved_style_text_scenarios1`
+    FOREIGN KEY (`scenarios_id`)
+    REFERENCES `scripterBdd`.`scenarios` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `scripterBdd`.`saved_style_image`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `scripterBdd`.`saved_style_image` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `scenarios_id` INT NOT NULL,
+  `width` VARCHAR(45) NOT NULL,
+  `height` VARCHAR(45) NOT NULL,
+  `top` VARCHAR(45) NOT NULL,
+  `left` VARCHAR(45) NOT NULL,
+  `z_index` INT NULL,
+  `border_style` VARCHAR(45) NULL,
+  `border_width` VARCHAR(45) NULL,
+  `border_radius` VARCHAR(45) NULL,
+  `border_color` VARCHAR(45) NULL,
+  `box_shadow` VARCHAR(45) NULL,
+  `opacity` VARCHAR(45) NULL,
+  `padding` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`, `scenarios_id`),
+  INDEX `fk_saved_style_image_scenarios1_idx` (`scenarios_id` ASC) VISIBLE,
+  CONSTRAINT `fk_saved_style_image_scenarios1`
+    FOREIGN KEY (`scenarios_id`)
+    REFERENCES `scripterBdd`.`scenarios` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `scripterBdd`.`saved_style_page`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `scripterBdd`.`saved_style_page` (
+  `id` INT NOT NULL,
+  `scenarios_id` INT NOT NULL,
+  `padding` VARCHAR(45) NULL,
+  `background_color` VARCHAR(155) NULL,
+  PRIMARY KEY (`id`, `scenarios_id`),
+  INDEX `fk_saved_style_page_scenarios1_idx` (`scenarios_id` ASC) VISIBLE,
+  CONSTRAINT `fk_saved_style_page_scenarios1`
+    FOREIGN KEY (`scenarios_id`)
+    REFERENCES `scripterBdd`.`scenarios` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `scripterBdd`.`auteurs_favoris`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `scripterBdd`.`auteurs_favoris` (
+  `utilisateurs_id` INT NOT NULL,
+  `auteurs_id` INT NOT NULL,
+  PRIMARY KEY (`utilisateurs_id`, `auteurs_id`),
+  INDEX `fk_utilisateurs_has_auteurs_auteurs1_idx` (`auteurs_id` ASC) VISIBLE,
+  INDEX `fk_utilisateurs_has_auteurs_utilisateurs1_idx` (`utilisateurs_id` ASC) VISIBLE,
+  CONSTRAINT `fk_utilisateurs_has_auteurs_utilisateurs1`
+    FOREIGN KEY (`utilisateurs_id`)
+    REFERENCES `scripterBdd`.`utilisateurs` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_utilisateurs_has_auteurs_auteurs1`
+    FOREIGN KEY (`auteurs_id`)
+    REFERENCES `scripterBdd`.`auteurs` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `scripterBdd`.`scenarios_favoris`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `scripterBdd`.`scenarios_favoris` (
+  `utilisateurs_id` INT NOT NULL,
+  `scenarios_id` INT NOT NULL,
+  PRIMARY KEY (`utilisateurs_id`, `scenarios_id`),
+  INDEX `fk_utilisateurs_has_scenarios_scenarios1_idx` (`scenarios_id` ASC) VISIBLE,
+  INDEX `fk_utilisateurs_has_scenarios_utilisateurs1_idx` (`utilisateurs_id` ASC) VISIBLE,
+  CONSTRAINT `fk_utilisateurs_has_scenarios_utilisateurs1`
+    FOREIGN KEY (`utilisateurs_id`)
+    REFERENCES `scripterBdd`.`utilisateurs` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_utilisateurs_has_scenarios_scenarios1`
+    FOREIGN KEY (`scenarios_id`)
+    REFERENCES `scripterBdd`.`scenarios` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `scripterBdd`.`avis_scenario`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `scripterBdd`.`avis_scenario` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `commentaire` TEXT NOT NULL,
+  `date` DATE NOT NULL,
+  `scenarios_id` INT NOT NULL,
+  `utilisateurs_id` INT NOT NULL,
+  PRIMARY KEY (`id`, `scenarios_id`, `utilisateurs_id`),
+  INDEX `fk_avisScenario_scenarios1_idx` (`scenarios_id` ASC) VISIBLE,
+  INDEX `fk_avisScenario_utilisateurs1_idx` (`utilisateurs_id` ASC) VISIBLE,
+  CONSTRAINT `fk_avisScenario_scenarios1`
+    FOREIGN KEY (`scenarios_id`)
+    REFERENCES `scripterBdd`.`scenarios` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_avisScenario_utilisateurs1`
+    FOREIGN KEY (`utilisateurs_id`)
+    REFERENCES `scripterBdd`.`utilisateurs` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `scripterBdd`.`sujet_forum`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `scripterBdd`.`sujet_forum` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `sujet` VARCHAR(255) NOT NULL,
+  `open_date` DATE NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `scripterBdd`.`commentaires_forum`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `scripterBdd`.`commentaires_forum` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `commentaire` TEXT NOT NULL,
+  `sujet_forum_id` INT NOT NULL,
+  `utilisateurs_id` INT NOT NULL,
+  `date_time` TIMESTAMP NOT NULL,
+  PRIMARY KEY (`id`, `sujet_forum_id`, `utilisateurs_id`),
+  INDEX `fk_commentairesForum_sujetForum1_idx` (`sujet_forum_id` ASC) VISIBLE,
+  INDEX `fk_commentairesForum_utilisateurs1_idx` (`utilisateurs_id` ASC) VISIBLE,
+  CONSTRAINT `fk_commentairesForum_sujetForum1`
+    FOREIGN KEY (`sujet_forum_id`)
+    REFERENCES `scripterBdd`.`sujet_forum` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_commentairesForum_utilisateurs1`
+    FOREIGN KEY (`utilisateurs_id`)
+    REFERENCES `scripterBdd`.`utilisateurs` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `scripterBdd`.`mode_creation`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `scripterBdd`.`mode_creation` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `commentaire` TEXT NOT NULL,
+  `scenarios_id` INT NOT NULL,
+  `utilisateurs_id` INT NOT NULL,
+  `date_time` TIMESTAMP NOT NULL,
+  PRIMARY KEY (`id`, `scenarios_id`, `utilisateurs_id`),
+  INDEX `fk_chatModeCreation_scenarios1_idx` (`scenarios_id` ASC) VISIBLE,
+  INDEX `fk_chatModeCreation_utilisateurs1_idx` (`utilisateurs_id` ASC) VISIBLE,
+  CONSTRAINT `fk_chatModeCreation_scenarios1`
+    FOREIGN KEY (`scenarios_id`)
+    REFERENCES `scripterBdd`.`scenarios` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_chatModeCreation_utilisateurs1`
+    FOREIGN KEY (`utilisateurs_id`)
+    REFERENCES `scripterBdd`.`utilisateurs` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `scripterBdd`.`campagnes_themes`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `scripterBdd`.`campagnes_themes` (
+  `campagnes_id` INT NOT NULL,
+  `themes_id` INT NOT NULL,
+  PRIMARY KEY (`campagnes_id`, `themes_id`),
+  INDEX `fk_campagnes_has_themes_themes1_idx` (`themes_id` ASC) VISIBLE,
+  INDEX `fk_campagnes_has_themes_campagnes1_idx` (`campagnes_id` ASC) VISIBLE,
+  CONSTRAINT `fk_campagnes_has_themes_campagnes1`
+    FOREIGN KEY (`campagnes_id`)
+    REFERENCES `scripterBdd`.`campagnes` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_campagnes_has_themes_themes1`
+    FOREIGN KEY (`themes_id`)
+    REFERENCES `scripterBdd`.`themes` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
