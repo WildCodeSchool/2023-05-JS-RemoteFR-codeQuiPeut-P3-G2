@@ -1,6 +1,19 @@
+// @import "./src/library";
 @import "./src/App.scss";
 @import "./src/pages/Home.scss";
 @import "./src/pages/Scripts.scss";
 @import "./src/pages/Editor.scss";
 @import "./src/pages/Forum.scss";
 @import "./src/components/EditorPage.scss";
+@import "./src/components/EditorTextStyle.scss";
+
+$colorYellow: #ffbd59;
+$colorDark: #070a09;
+$blueColor: #4c60ae;
+$fontSizeP: 1.2rem;
+$fontSizeBouton: 1.3rem;
+$fontSizeTitre: 1.5rem;
+
+body {
+  background-color: $colorDark;
+}

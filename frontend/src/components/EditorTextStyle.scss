@@ -1,0 +1,96 @@
+$colorYellow: #ffbd59;
+$colorDark: #070a09;
+$blueColor: #4c60ae;
+$fontSizeP: 1.2rem;
+$fontSizeBouton: 1.3rem;
+$fontSizeTitre: 1.5rem;
+
+.main-editorTextStyle {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 16px;
+  // background-color: white;
+
+  p {
+    color: white;
+    font-size: $fontSizeTitre;
+  }
+
+  .positions-composant {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    gap: 16px;
+
+    img {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  .positions-detaillees {
+    background-color: white;
+    width: 80%;
+    margin: 16px auto 16px auto;
+
+    .positions-xy,
+    .dimensions-wh {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .positionX,
+    .positionY,
+    .dimensionW,
+    .dimensionH {
+      width: 90px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+
+      p,
+      input {
+        color: black;
+        font-size: $fontSizeP;
+      }
+
+      input {
+        height: 24px;
+        width: 48px;
+        border: none;
+
+        &:hover,
+        &:focus {
+          background-color: #4c60ae5f;
+        }
+      }
+    }
+  }
+
+  .police-couleur-texte {
+    margin: 16px auto 16px auto;
+    width: 90%;
+
+    background-color: #4c60ae;
+    display: flex;
+    flex-direction: row;
+
+    select {
+      width: 60%;
+      height: 40px;
+      font-size: $fontSizeP;
+
+      option {
+        background-color: $colorDark;
+        color: white;
+      }
+    }
+  }
+}

@@ -1,4 +1,9 @@
 import { useState, useEffect } from "react"
+import EditorPage from "../components/EditorPage"
+import saveDisquette from "../assets/images/saveDisquette.svg"
+import addText from "../assets/images/addText.svg"
+import addImg from "../assets/images/addImg.svg"
+import EditorTextStyle from "../components/EditorTextStyle"
 
 export default function Editor() {
   const [mounted, setMounted] = useState(false)
@@ -11,8 +16,76 @@ export default function Editor() {
   const [textes, setTextes] = useState([])
 
   const maPage = document.querySelector(".section-page")
-  // const maPage = document.querySelector(".page-container");
 
+  // --------------------------------------------------------------
+  // --------AJOUT DE NOUVEAUX ELEMENTS DANS LA PAGE--------------
+  // -----------------------------------------------------------
+  const handleClickNewTextZone = () => {
+    setAddNewText(true)
+  }
+
+  const handleClickDropNewText = (e) => {
+    // console.log(
+    //   "e.clientX",
+    //   e.clientX,
+    //   "e.pageX",
+    //   e.pageX,
+    //   "offsetLeft",
+    //   maPage.offsetLeft,
+    //   "boundingLeft",
+    //   maPage.getBoundingClientRect().left
+    // )
+    // console.log(
+    //   "e.clientY",
+    //   e.clientY,
+    //   "e.pageY",
+    //   e.pageY,
+    //   "offsetTop",
+    //   maPage.offsetTop,
+    //   "boundingTop",
+    //   maPage.getBoundingClientRect().top
+    // )
+
+    const newTop = (100 * (e.pageY - pageOffsetY)) / pageHeight + "%"
+
+    const newLeft = (100 * (e.pageX - pageOffsetX)) / pageWidth + "%"
+    let newID = null
+
+    if (textes.length === 0) {
+      newID = 1
+    } else {
+      newID = textes[textes.length - 1].id + 1
+    }
+
+    const newTextearea = {
+      id: newID,
+      text: "",
+      placeHolder: "Tapez votre texte",
+      style: {
+        backgroundColor: "none",
+        position: "absolute",
+        top: newTop,
+        left: newLeft,
+        border: "none",
+        width: "50%",
+        height: "5%",
+      },
+    }
+
+    if (addNewText === true) {
+      const newTextes = textes
+      newTextes.push(newTextearea)
+      //   console.log("newTextes", newTextes)
+      setTextes(newTextes)
+      setAddNewText(false)
+    }
+  }
+  // ------------------------------------------------------------
+  // -----------------------------------------------------------
+
+  // ---------------------------------------------------------------
+  // ----DRAG & DROP : DEPLACEMENT DES TEXTAREA ET DES IMAGES
+  // -----------------------------------------------------------
   const handleDragStart = (event, id) => {
     setTextes((prevState) =>
       prevState.map((item) =>
@@ -21,11 +94,10 @@ export default function Editor() {
           : { ...item, selected: false }
       )
     )
-
-    event.dataTransfer.setData(
-      "application/json",
-      JSON.stringify(event.target.value)
-    )
+    // event.dataTransfer.setData(
+    //   "application/json",
+    //   JSON.stringify(event.target.value)
+    // )
   }
 
   const handleDragOver = (event) => {
@@ -34,9 +106,6 @@ export default function Editor() {
 
   const handleDrop = (event) => {
     event.preventDefault()
-
-    //
-
     // console.log("pageOffsetX", pageOffsetX)
 
     const newTop = 100 * ((event.pageY - pageOffsetY) / pageHeight) + "%"
@@ -52,16 +121,11 @@ export default function Editor() {
       )
     )
   }
+  // ------------------------------------------------------------------------
+  // --------------------------------------------------------------------------
 
-  const handleChangeTexte = (id, newText) => {
-    // console.log("id",id);
-    setTextes((prevState) =>
-      prevState.map((item) =>
-        item.id === id ? { ...item, text: newText } : item
-      )
-    )
-  }
-
+  // quand on clique sur un élément son state selected passe à true, le state des autres éléments passe à false
+  // ceci permet de modifier le style ou la position uniquement de l'élément sélectionné
   const handleClickElement = (id) => {
     setTextes((prevState) =>
       prevState.map((item) =>
@@ -71,6 +135,20 @@ export default function Editor() {
       )
     )
   }
+
+  // enregistrement du texte des textearea lors de leur modification
+  const handleChangeTexte = (id, newText) => {
+    // console.log("id",id);
+    setTextes((prevState) =>
+      prevState.map((item) =>
+        item.id === id ? { ...item, text: newText } : item
+      )
+    )
+  }
+
+  // -----------------------------------------------------------------------
+  // ----FONCTIONS DE CHANGEMENT DE STYLE DES TEXTAREA--------------------
+  // --------------------------------------------------------------------
 
   const handleClickBordureEpaisse = () => {
     setTextes((prevState) =>
@@ -135,9 +213,12 @@ export default function Editor() {
 
     // console.log(textes)
   }
+  // ------------------------------------------------------------------------------------
+  // -----------------------------------------------------------------------------------
 
-  // ---------------------------------------------------------
-  // fonctions pour mettre à jour width et height lorsqu'on étire les textarea
+  // ----------------------------------------------------------------
+  // ---MISE A JOUR DE WIDTH ET HEIGHT LORS DE L'ETIREMENT DES TEXTAREA----
+  // ---------------------------------------------------------------
   const [resizing, setResizing] = useState(null)
 
   const handleMouseDown = (e, id) => {
@@ -188,69 +269,8 @@ export default function Editor() {
     setResizing(null)
     // console.log("resizing up", resizing)
   }
-
-  // -----------------------------------------------------------
-
-  const handleClickNewTextZone = () => {
-    setAddNewText(true)
-  }
-
-  const handleClickDropNewText = (e) => {
-    // console.log(
-    //   "e.clientX",
-    //   e.clientX,
-    //   "e.pageX",
-    //   e.pageX,
-    //   "offsetLeft",
-    //   maPage.offsetLeft,
-    //   "boundingLeft",
-    //   maPage.getBoundingClientRect().left
-    // )
-    // console.log(
-    //   "e.clientY",
-    //   e.clientY,
-    //   "e.pageY",
-    //   e.pageY,
-    //   "offsetTop",
-    //   maPage.offsetTop,
-    //   "boundingTop",
-    //   maPage.getBoundingClientRect().top
-    // )
-
-    const newTop = (100 * (e.pageY - pageOffsetY)) / pageHeight + "%"
-
-    const newLeft = (100 * (e.pageX - pageOffsetX)) / pageWidth + "%"
-    let newID = null
-
-    if (textes.length === 0) {
-      newID = 1
-    } else {
-      newID = textes[textes.length - 1].id + 1
-    }
-
-    const newTextearea = {
-      id: newID,
-      text: "",
-      placeHolder: "Tapez votre texte",
-      style: {
-        backgroundColor: "lightblue",
-        position: "absolute",
-        top: newTop,
-        left: newLeft,
-        border: "1px solid grey",
-        width: "50%",
-        height: "5%",
-      },
-    }
-
-    if (addNewText === true) {
-      const newTextes = textes
-      newTextes.push(newTextearea)
-      //   console.log("newTextes", newTextes)
-      setTextes(newTextes)
-      setAddNewText(false)
-    }
-  }
+  // -----------------------------------------------------------------------
+  // --------------------------------------------------------------------
 
   // --------------------------------
   // mise à jour des dimensions et position de maPage lorsque la taille de la fenêtre change
@@ -286,16 +306,70 @@ export default function Editor() {
 
   return (
     <>
+      <div className="fausse-navbar"></div>
+
       <section className="editor-bandeau-superieur">
-        <button type="button" onClick={handleClickNewTextZone}>
+        <div className="editor-bandeau-gauche">
+          <img src={saveDisquette} alt="save" />
+          <button type="button">Nouveau</button>
+          <button type="button">Ouvrir</button>
+        </div>
+
+        <div className="editor-bandeau-centre">
+          <div className="new-text-image">
+            <img
+              src={addText}
+              alt="new textarea"
+              onClick={handleClickNewTextZone}
+            />
+            <img src={addImg} alt="new image" onClick={() => {}} />
+          </div>
+          <div className="saved-styles-text">
+            <p>Styles des textes</p>
+            <div className="saved-styles-container">
+              <div className="saved-style">
+                <p>Style 1</p>
+              </div>
+              <div className="saved-style">
+                <p>Style 2</p>
+              </div>
+            </div>
+          </div>
+          <div className="saved-styles-images">
+            <p>Styles des images</p>
+            <div className="saved-styles-container">
+              <div className="saved-style">
+                <p>Style 1</p>
+              </div>
+              <div className="saved-style">
+                <p>Style 2</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="editor-bandeau-droite">
+          <p>Styles des pages</p>
+          <div className="saved-styles-container">
+            <div className="saved-style">
+              <p>Style 1</p>
+            </div>
+            <div className="saved-style">
+              <p>Style 2</p>
+            </div>
+          </div>
+        </div>
+        {/* <button type="button" onClick={handleClickNewTextZone}>
           Nouvelle Zone de texte
-        </button>
+        </button> */}
       </section>
+
       <main className="editor-main">
         <section className="sommaire-editeur">
           <div className="section-sommaire"></div>
 
           <div className="configurator">
+            <EditorTextStyle />
             <div>
               <button type="button" onClick={handleClickBordureEpaisse}>
                 Bordure épaisse
@@ -326,33 +400,19 @@ export default function Editor() {
           </div>
         </section>
 
-        <div className="container">
-          {/* <div className='page-container'> */}
-          <section
-            className="section-page"
-            onDragOver={handleDragOver}
-            onDrop={(event) => handleDrop(event, "idColumn1")}
-            onClick={handleClickDropNewText}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-          >
-            {textes.map((item) => (
-              <textarea
-                key={item.id}
-                style={item.style}
-                onChange={(e) => handleChangeTexte(item.id, e.target.value)}
-                value={item.text}
-                placeholder={item.placeHolder}
-                draggable
-                onDragStart={(e) => handleDragStart(e, item.id)}
-                onClick={(e) => handleClickElement(item.id)}
-                onMouseDown={(e) => handleMouseDown(e, item.id)}
-              ></textarea>
-            ))}
-
-            {/* <button type='button' onClick={handleClickNewTextZone}>Nouvelle Zone de texte</button> */}
-          </section>
-          {/* </div> */}
+        <div className="editor-page-container">
+          <EditorPage
+            textes={textes}
+            handleClickDropNewText={handleClickDropNewText}
+            handleMouseMove={handleMouseMove}
+            handleMouseUp={handleMouseUp}
+            handleDragOver={handleDragOver}
+            handleDrop={handleDrop}
+            handleChangeTexte={handleChangeTexte}
+            handleDragStart={handleDragStart}
+            handleClickElement={handleClickElement}
+            handleMouseDown={handleMouseDown}
+          />
         </div>
       </main>
     </>
