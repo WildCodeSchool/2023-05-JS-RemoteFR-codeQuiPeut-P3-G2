@@ -18,6 +18,7 @@ export default function Home() {
           <p>{character.firstname}</p>
         </>
       ))}
+      <p>page Home</p>
     </header>
   )
 }
