@@ -1,4 +1,4 @@
-import Home from "./"
+import Home from "./pages/Home"
 import Navbar from "./components/Navbar"
 import Welcome from "./pages/Welcome"
 import MyContext from "./components/MyContext"

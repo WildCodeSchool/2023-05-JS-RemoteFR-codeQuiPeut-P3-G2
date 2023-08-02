@@ -1,10 +1,10 @@
-import "./Home.scss"
+import "./Welcome.scss"
 import TitreAccueil from "../assets/TitreAccueil.png"
 import LivreAccueil from "../assets/LivreAccueil.png"
 import TitleLine from "../assets/TitleLine.png"
 // import { useState, useEffect } from 'react'
 
-const Home = () => {
+const Welcome = () => {
   return (
     <body className="GlobalWelcContain" alt="Accueil">
       <title className="TitleContain" alt="ScriptScenario">
@@ -45,4 +45,4 @@ const Home = () => {
     </body>
   )
 }
-export default Home
+export default Welcome
