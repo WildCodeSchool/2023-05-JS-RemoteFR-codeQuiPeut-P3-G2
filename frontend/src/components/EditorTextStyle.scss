@@ -28,6 +28,10 @@ $fontSizeTitre: 1.5rem;
     img {
       width: 40px;
       height: 40px;
+
+      &:hover {
+        box-shadow: 0 0 20px 5px $colorYellow;
+      }
     }
   }
 
@@ -78,9 +82,9 @@ $fontSizeTitre: 1.5rem;
     margin: 16px auto 16px auto;
     width: 90%;
 
-    background-color: #4c60ae;
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
 
     select {
       width: 60%;
@@ -90,6 +94,319 @@ $fontSizeTitre: 1.5rem;
       option {
         background-color: $colorDark;
         color: white;
+      }
+    }
+
+    .text-color {
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+
+      .choix-color {
+        p {
+          text-align: center;
+          font-size: $fontSizeTitre;
+          color: white;
+          margin: 0;
+        }
+
+        div {
+          position: relative;
+          width: 30px;
+          height: 10px;
+          margin: 0;
+          border: 1px solid gray;
+
+          &::before {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+          }
+        }
+      }
+
+      .choice-arrow {
+        width: 18px;
+        height: 10px;
+        background-color: white;
+        clip-path: polygon(50% 60%, 80% 0, 100% 0, 50% 100%, 0 0, 20% 0);
+        transition: transform 0.3s;
+      }
+
+      &:hover .choice-arrow {
+        transform: translateY(5px);
+        background-color: $colorYellow;
+      }
+
+      .textColorPicker-container {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        // transform: scale(1.5);
+      }
+    }
+  }
+
+  .section-bordures {
+    margin: 16px auto 16px auto;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+
+    .section-bordures-ligne1 {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+
+      img {
+        width: 40px;
+        height: 40px;
+
+        &:hover {
+          box-shadow: 0 0 20px 5px $colorYellow;
+        }
+      }
+
+      label {
+        color: white;
+        font-size: $fontSizeBouton;
+      }
+
+      input {
+        background-color: $colorDark;
+        color: white;
+        font-size: $fontSizeBouton;
+        width: 40px;
+
+        &:hover,
+        &:focus {
+          background-color: $blueColor;
+        }
+      }
+
+      .text-color {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+
+        .choix-color {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          align-items: center;
+          gap: 4px;
+          img {
+            width: 30px;
+            height: 30px;
+
+            &:hover {
+              box-shadow: none;
+            }
+          }
+
+          div {
+            position: relative;
+            width: 30px;
+            height: 10px;
+            margin: 0;
+            border: 1px solid gray;
+
+            &::before {
+              content: "";
+              position: absolute;
+              z-index: -1;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              background-color: white;
+            }
+          }
+        }
+
+        .choice-arrow {
+          width: 18px;
+          height: 10px;
+          background-color: white;
+          clip-path: polygon(50% 60%, 80% 0, 100% 0, 50% 100%, 0 0, 20% 0);
+          transition: transform 0.3s;
+        }
+
+        &:hover .choice-arrow {
+          transform: translateY(5px);
+          background-color: $colorYellow;
+        }
+
+        .textColorPicker-container {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          // transform: scale(1.5);
+        }
+      }
+    }
+
+    .section-bordures-ligne2 {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 16px;
+
+      img {
+        width: 40px;
+        height: 40px;
+
+        &:hover {
+          box-shadow: 0 0 20px 5px $colorYellow;
+        }
+      }
+
+      input {
+        background-color: $colorDark;
+        color: white;
+        font-size: $fontSizeBouton;
+        width: 50px;
+
+        &:hover,
+        &:focus {
+          background-color: $blueColor;
+        }
+      }
+    }
+  }
+
+  .section-ombre {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    width: 90%;
+    margin: 16px auto 16px auto;
+
+    .choix-ombre {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+
+      .images-ombre {
+        img {
+          width: 40px;
+          height: 40px;
+          margin-right: 32px;
+
+          &:hover {
+            box-shadow: 0 0 20px 5px $colorYellow;
+          }
+        }
+      }
+
+      .text-color {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+
+        .choix-color {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          align-items: center;
+          gap: 4px;
+          img {
+            width: 30px;
+            height: 30px;
+
+            &:hover {
+              box-shadow: none;
+            }
+          }
+
+          div {
+            position: relative;
+            width: 30px;
+            height: 10px;
+            margin: 0;
+            border: 1px solid gray;
+
+            &::before {
+              content: "";
+              position: absolute;
+              z-index: -1;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              background-color: white;
+            }
+          }
+        }
+
+        .choice-arrow {
+          width: 18px;
+          height: 10px;
+          background-color: white;
+          clip-path: polygon(50% 60%, 80% 0, 100% 0, 50% 100%, 0 0, 20% 0);
+          transition: transform 0.3s;
+        }
+
+        &:hover .choice-arrow {
+          transform: translateY(5px);
+          background-color: $colorYellow;
+        }
+
+        .textColorPicker-container {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          // transform: scale(1.5);
+        }
+      }
+    }
+
+    .shadow-values {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+
+      label {
+        color: white;
+        font-size: $fontSizeP;
+      }
+
+      input {
+        background-color: $colorDark;
+        color: white;
+        font-size: $fontSizeBouton;
+        width: 40px;
+
+        &:hover,
+        &:focus {
+          background-color: $blueColor;
+        }
       }
     }
   }
