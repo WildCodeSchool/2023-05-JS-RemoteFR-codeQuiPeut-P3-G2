@@ -1,0 +1,48 @@
+@import url("https://fonts.googleapis.com/css2?family=Lustria&display=swap");
+
+.GlobalWelcContain {
+  display: flex;
+  border-top: 2px solid #4c60ae;
+  height: 1500px;
+  width: 100%;
+  background-color: #070a09;
+}
+.TitleContain {
+  display: flex;
+  height: 340px;
+  width: 70%;
+  padding-top: 145px;
+  margin-left: 200px;
+  .BookFall {
+    display: flex;
+    position: absolute;
+    left: 65%;
+    height: 540px;
+  }
+}
+.Line {
+  display: flex;
+  position: relative;
+  right: 900px;
+  height: 2.5px;
+  top: 400px;
+}
+.SubTitCon {
+  display: flex;
+  position: absolute;
+  top: 830px;
+  right: 690px;
+  left: 200px;
+  font-family: Lustria;
+  font-size: 1.3rem;
+  color: #ffffff;
+}
+.FindScrip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  top: 1000px;
+  left: -1245px;
+  background-color: aquamarine;
+}

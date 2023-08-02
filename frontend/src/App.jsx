@@ -1,5 +1,6 @@
-import Home from "./pages/Home"
+import Home from "./"
 import Navbar from "./components/Navbar"
+import Welcome from "./pages/Welcome"
 import MyContext from "./components/MyContext"
 import Editor from "./pages/Editor"
 import Forum from "./pages/Forum"
@@ -47,6 +48,7 @@ function App() {
     <div className="App">
       <MyContext.Provider value={valeursFourniesDansMyContextProvider}>
         <Navbar />
+        <Welcome />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/editor" element={<Editor />} />
