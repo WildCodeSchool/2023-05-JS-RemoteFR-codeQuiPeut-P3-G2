@@ -17,17 +17,20 @@ $fontSizeTitre: 1.5rem;
     font-size: $fontSizeTitre;
   }
 
-  .positions-composant {
-    width: 100%;
+  .positions-composant,
+  .style-texte {
+    width: 90%;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
     gap: 16px;
+    margin: 16px auto 16px auto;
 
     img {
       width: 40px;
       height: 40px;
+      border-radius: 4px;
 
       &:hover {
         box-shadow: 0 0 20px 5px $colorYellow;
@@ -39,6 +42,7 @@ $fontSizeTitre: 1.5rem;
     background-color: white;
     width: 80%;
     margin: 16px auto 16px auto;
+    padding: 0 0 0 24px;
 
     .positions-xy,
     .dimensions-wh {
@@ -50,6 +54,7 @@ $fontSizeTitre: 1.5rem;
 
     .positionX,
     .positionY,
+    .positionZ,
     .dimensionW,
     .dimensionH {
       width: 90px;
@@ -173,6 +178,7 @@ $fontSizeTitre: 1.5rem;
       img {
         width: 40px;
         height: 40px;
+        border-radius: 4px;
 
         &:hover {
           box-shadow: 0 0 20px 5px $colorYellow;
@@ -265,28 +271,32 @@ $fontSizeTitre: 1.5rem;
       width: 100%;
       display: flex;
       flex-direction: row;
-      justify-content: flex-start;
+      justify-content: space-between;
       align-items: center;
       gap: 16px;
+      .div-bordures-ligne2 {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 16px;
 
-      img {
-        width: 40px;
-        height: 40px;
-
-        &:hover {
-          box-shadow: 0 0 20px 5px $colorYellow;
+        img {
+          width: 40px;
+          height: 40px;
+          border-radius: 4px;
         }
-      }
 
-      input {
-        background-color: $colorDark;
-        color: white;
-        font-size: $fontSizeBouton;
-        width: 50px;
+        input {
+          background-color: $colorDark;
+          color: white;
+          font-size: $fontSizeBouton;
+          width: 50px;
 
-        &:hover,
-        &:focus {
-          background-color: $blueColor;
+          &:hover,
+          &:focus {
+            background-color: $blueColor;
+          }
         }
       }
     }
@@ -312,6 +322,7 @@ $fontSizeTitre: 1.5rem;
         img {
           width: 40px;
           height: 40px;
+          border-radius: 4px;
           margin-right: 32px;
 
           &:hover {
@@ -407,6 +418,82 @@ $fontSizeTitre: 1.5rem;
         &:focus {
           background-color: $blueColor;
         }
+      }
+    }
+  }
+
+  .section-background {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    margin: 16px auto 16px auto;
+
+    .div-blur {
+      label {
+        color: white;
+        font-size: $fontSizeP;
+      }
+
+      input {
+        background-color: $colorDark;
+        color: white;
+        font-size: $fontSizeBouton;
+        width: 40px;
+
+        &:hover,
+        &:focus {
+          background-color: $blueColor;
+        }
+      }
+    }
+
+    .text-color {
+      // position: relative;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+
+      .choix-color {
+        position: relative;
+        width: 30px;
+        height: 30px;
+        margin: 0;
+        border: 1px solid gray;
+
+        &::before {
+          content: "";
+          position: absolute;
+          z-index: -1;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: white;
+        }
+      }
+
+      .choice-arrow {
+        width: 18px;
+        height: 10px;
+        background-color: white;
+        clip-path: polygon(50% 60%, 80% 0, 100% 0, 50% 100%, 0 0, 20% 0);
+        transition: transform 0.3s;
+      }
+
+      &:hover .choice-arrow {
+        transform: translateY(5px);
+        background-color: $colorYellow;
+      }
+
+      .textColorPicker-container {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        // transform: scale(1.5);
       }
     }
   }

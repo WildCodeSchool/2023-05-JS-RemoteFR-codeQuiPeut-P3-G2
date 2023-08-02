@@ -7,12 +7,17 @@ import ombreOff from "../assets/images/ombreOff.png"
 import bordureRadius from "../assets/images/bordureRadius.png"
 import bordureOn from "../assets/images/bordureOn.png"
 import bordureOff from "../assets/images/bordureOff.png"
+import miseEnGras from "../assets/images/miseEnGras.png"
+import miseEnItalic from "../assets/images/miseEnItalic.png"
+import soulignage from "../assets/images/soulignage.png"
+import marges from "../assets/images/marges.png"
 import { SketchPicker } from "react-color"
 import { React, useState } from "react"
 
 export default function EditorTextStyle() {
   const [coordX, setCoordX] = useState(0)
   const [coordY, setCoordY] = useState(0)
+  const [coordZ, setCoordZ] = useState(0)
   const [itemWidth, setItemWidth] = useState(0)
   const [itemHeight, setItemHeight] = useState(0)
   const [font, setFont] = useState("Serif")
@@ -24,6 +29,7 @@ export default function EditorTextStyle() {
   const [borderColor, setBorderColor] = useState("#000000")
   const [borderColorVisible, setBorderColorVisible] = useState(false)
   const [divBorderRadius, setDivBorderRadius] = useState(0)
+  const [divPadding, setDivPadding] = useState(0)
   const [ombreX, setOmbreX] = useState(0)
   const [ombreY, setOmbreY] = useState(0)
   const [ombreAlpha, setOmbreAlpha] = useState(0)
@@ -31,6 +37,10 @@ export default function EditorTextStyle() {
   const [pickerShadowColor, setPickerShadowColor] = useState("#000000")
   const [shadowColor, setShadowColor] = useState("#000000")
   const [shadowColorVisible, setShadowColorVisible] = useState(false)
+  const [blur, setBlur] = useState(0)
+  const [pickerBackColor, setPickerBackColor] = useState("#000000")
+  const [backColor, setBackColor] = useState("#000000")
+  const [backColorVisible, setBackColorVisible] = useState(false)
 
   const handleChangeCoordX = (e) => {
     setCoordX(e.target.value)
@@ -38,6 +48,10 @@ export default function EditorTextStyle() {
 
   const handleChangeCoordY = (e) => {
     setCoordY(e.target.value)
+  }
+
+  const handleChangeCoordZ = (e) => {
+    setCoordZ(e.target.value)
   }
 
   const handleChangeItemWidth = (e) => {
@@ -90,6 +104,10 @@ export default function EditorTextStyle() {
     setDivBorderRadius(e.target.value)
   }
 
+  const handleChangeDivPadding = (e) => {
+    setDivPadding(e.target.value)
+  }
+
   const handleChangeOmbreX = (e) => {
     setOmbreX(e.target.value)
   }
@@ -119,6 +137,25 @@ export default function EditorTextStyle() {
 
   const handleLeaveShadowColor = () => {
     setShadowColorVisible(false)
+  }
+
+  const handleChangeBlur = (e) => {
+    setBlur(e.target.value)
+  }
+
+  const handleClickDivBackColor = () => {
+    setBackColorVisible(true)
+  }
+
+  const handleChangeColorBack = (color) => {
+    setPickerBackColor(color.rgb)
+    setBackColor(
+      `rgba(${color.rgb.r},${color.rgb.g},${color.rgb.b},${color.rgb.a})`
+    )
+  }
+
+  const handleLeaveBackColor = () => {
+    setBackColorVisible(false)
   }
 
   return (
@@ -162,6 +199,16 @@ export default function EditorTextStyle() {
               max={100}
               value={coordY}
               onChange={handleChangeCoordY}
+            />
+          </div>
+          <div className="positionZ">
+            <p>Z :</p>
+            <input
+              type="number"
+              min={0}
+              max={10}
+              value={coordZ}
+              onChange={handleChangeCoordZ}
             />
           </div>
         </div>
@@ -212,6 +259,16 @@ export default function EditorTextStyle() {
           title="Justifier le texte"
         />
       </div>
+
+      <section className="style-texte">
+        <img src={miseEnGras} alt="Mettre en gras" title="Mettre en gras" />
+        <img
+          src={miseEnItalic}
+          alt="Mettre en italique"
+          title="Mettre en italique"
+        />
+        <img src={soulignage} alt="Souligner" title="Souligner" />
+      </section>
 
       <section className="police-couleur-texte">
         <select
@@ -342,18 +399,34 @@ export default function EditorTextStyle() {
           </div>
         </div>
         <div className="section-bordures-ligne2">
-          <img
-            src={bordureRadius}
-            alt="bordure radius"
-            title="Entrez à côté un rayon pour les bordures"
-          />
-          <input
-            type="number"
-            min={0}
-            max={500}
-            value={divBorderRadius}
-            onChange={handleChangeDivBorderRadius}
-          />
+          <div className="div-bordures-ligne2">
+            <img
+              src={bordureRadius}
+              alt="bordure radius"
+              title="Entrez à côté un rayon pour les bordures"
+            />
+            <input
+              type="number"
+              min={0}
+              max={500}
+              value={divBorderRadius}
+              onChange={handleChangeDivBorderRadius}
+            />
+          </div>
+          <div className="div-bordures-ligne2">
+            <img
+              src={marges}
+              alt="marges intérieures"
+              title="Entrez à côté une valeur pour les marges intérieures"
+            />
+            <input
+              type="number"
+              min={0}
+              max={200}
+              value={divPadding}
+              onChange={handleChangeDivPadding}
+            />
+          </div>
         </div>
       </section>
 
@@ -427,6 +500,43 @@ export default function EditorTextStyle() {
             value={ombreBeta}
             onChange={handleChangeOmbreBeta}
           />
+        </div>
+      </section>
+
+      <p>Arrière plan</p>
+      <section className="section-background">
+        <div className="div-blur">
+          <label htmlFor="blur">Flou :</label>
+          <input
+            type="number"
+            id="blur"
+            min={0}
+            max={50}
+            value={blur}
+            onChange={handleChangeBlur}
+          />
+        </div>
+
+        <div className="text-color" onClick={handleClickDivBackColor}>
+          <div
+            className="choix-color"
+            style={{ backgroundColor: backColor }}
+          ></div>
+
+          <div className="choice-arrow"></div>
+
+          {backColorVisible && (
+            <div
+              className="textColorPicker-container"
+              onMouseLeave={handleLeaveBackColor}
+            >
+              <SketchPicker
+                color={pickerBackColor}
+                onChangeComplete={handleChangeColorBack}
+                width="300px"
+              />
+            </div>
+          )}
         </div>
       </section>
     </main>
