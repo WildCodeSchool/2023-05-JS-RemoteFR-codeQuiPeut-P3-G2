@@ -22,7 +22,7 @@ class UtilisateursManager extends AbstractManager {
 
   update(utilisateurs) {
     return this.database.query(
-      `UPDATE ${this.table} SET lastname = ?, firstname = ?, login = ?, email = ? password = ? img = ? inscription_date = ? WHERE (id = ?)`,
+      `update ${this.table} set lastname = ?, firstname = ?, login = ?, email = ?, password = ?, img = ?, inscription_date = ? WHERE (id = ?)`,
       [
         utilisateurs.lastname,
         utilisateurs.firstname,

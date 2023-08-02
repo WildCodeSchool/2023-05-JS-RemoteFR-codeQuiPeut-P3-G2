@@ -18,7 +18,7 @@ USE `scripterBdd` ;
 -- Table `scripterBdd`.`utilisateurs`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `scripterBdd`.`utilisateurs` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `lastname` VARCHAR(100) NOT NULL,
   `firstname` VARCHAR(100) NOT NULL,
   `login` VARCHAR(100) NOT NULL,
@@ -482,17 +482,17 @@ CREATE TABLE IF NOT EXISTS `scripterBdd`.`commentaires_forum` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `commentaire` TEXT NOT NULL,
   `sujet_forum_id` INT NOT NULL,
-  `utilisateurs_id` INT NOT NULL,
   `date_time` TIMESTAMP NOT NULL,
+  `utilisateurs_id` INT NOT NULL,
   PRIMARY KEY (`id`, `sujet_forum_id`, `utilisateurs_id`),
   INDEX `fk_commentairesForum_sujetForum1_idx` (`sujet_forum_id` ASC) VISIBLE,
-  INDEX `fk_commentairesForum_utilisateurs1_idx` (`utilisateurs_id` ASC) VISIBLE,
+  INDEX `fk_commentaires_forum_utilisateurs1_idx` (`utilisateurs_id` ASC) VISIBLE,
   CONSTRAINT `fk_commentairesForum_sujetForum1`
     FOREIGN KEY (`sujet_forum_id`)
     REFERENCES `scripterBdd`.`sujet_forum` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_commentairesForum_utilisateurs1`
+  CONSTRAINT `fk_commentaires_forum_utilisateurs1`
     FOREIGN KEY (`utilisateurs_id`)
     REFERENCES `scripterBdd`.`utilisateurs` (`id`)
     ON DELETE NO ACTION
