@@ -12,24 +12,45 @@ import miseEnItalic from "../assets/images/miseEnItalic.png"
 import soulignage from "../assets/images/soulignage.png"
 import marges from "../assets/images/marges.png"
 import { SketchPicker } from "react-color"
-import { React, useState } from "react"
+import { React, useState, useEffect } from "react"
 
-export default function EditorTextStyle({ textes, setTextes }) {
+export default function EditorTextStyle({
+  textes,
+  setTextes,
+  savedTextStyles,
+  setSavedTextStyles,
+}) {
+  const [mounted, setMounted] = useState(false)
   const [coordX, setCoordX] = useState(0)
   const [coordY, setCoordY] = useState(0)
   const [coordZ, setCoordZ] = useState(0)
   const [itemWidth, setItemWidth] = useState(0)
   const [itemHeight, setItemHeight] = useState(0)
+  const [alignLeftActived, setAlignLeftActived] = useState(false)
+  const [alignCenterActived, setAlignCenterActived] = useState(false)
+  const [alignRightActived, setAlignRightActived] = useState(false)
+  const [alignJustifyActived, setAlignJustifyActived] = useState(false)
+  const [appliedTextAlign, setappliedTextAlign] = useState("normal")
+  const [boldActived, setBoldActived] = useState(false)
+  const [appliedFontWeight, setappliedFontWeight] = useState("normal")
+  const [italicActived, setItalicActived] = useState(false)
+  const [appliedFontStyle, setappliedFontStyle] = useState("normal")
+  const [underlineActived, setUnderlineActived] = useState(false)
+  const [appliedTextDecoration, setappliedTextDecoration] = useState("none")
   const [font, setFont] = useState("Serif")
+  const [divFontSize, setDivFontSize] = useState(20)
   const [pickerTextColor, setPickerTextColor] = useState("#000000")
   const [textColor, setTextColor] = useState("#000000")
   const [textColorVisible, setTextColorVisible] = useState(false)
+  const [borderActived, setBorderActived] = useState(false)
+  const [appliedBorderStyle, setappliedBorderStyle] = useState("none")
   const [borderThickness, setBorderThickness] = useState(1)
   const [pickerBorderColor, setPickerBorderColor] = useState("#000000")
   const [borderColor, setBorderColor] = useState("#000000")
   const [borderColorVisible, setBorderColorVisible] = useState(false)
   const [divBorderRadius, setDivBorderRadius] = useState(0)
   const [divPadding, setDivPadding] = useState(0)
+  const [shadowActived, setShadowActived] = useState(false)
   const [ombreX, setOmbreX] = useState(0)
   const [ombreY, setOmbreY] = useState(0)
   const [ombreAlpha, setOmbreAlpha] = useState(0)
@@ -41,6 +62,192 @@ export default function EditorTextStyle({ textes, setTextes }) {
   const [pickerBackColor, setPickerBackColor] = useState("#000000")
   const [backColor, setBackColor] = useState("#000000")
   const [backColorVisible, setBackColorVisible] = useState(false)
+
+  // passage de l'état mounted à true une fois que la page est montée
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (mounted && textes) {
+      const item = textes.filter((texte) => texte.selected === true)[0]
+
+      if (item) {
+        const itemStyle = item.style
+
+        setCoordX(parseInt(itemStyle.left, 10))
+        setCoordY(parseInt(itemStyle.top, 10))
+        setCoordZ(itemStyle.zIndex)
+        setItemWidth(parseInt(itemStyle.width, 10))
+        setItemHeight(parseInt(itemStyle.height, 10))
+
+        if (itemStyle.textAlign === "left") {
+          setAlignLeftActived(true)
+          setAlignCenterActived(false)
+          setAlignRightActived(false)
+          setAlignJustifyActived(false)
+        } else if (itemStyle.textAlign === "center") {
+          setAlignLeftActived(false)
+          setAlignCenterActived(true)
+          setAlignRightActived(false)
+          setAlignJustifyActived(false)
+        } else if (itemStyle.textAlign === "right") {
+          setAlignLeftActived(false)
+          setAlignCenterActived(false)
+          setAlignRightActived(true)
+          setAlignJustifyActived(false)
+        } else if (itemStyle.textAlign === "justify") {
+          setAlignLeftActived(false)
+          setAlignCenterActived(false)
+          setAlignRightActived(false)
+          setAlignJustifyActived(true)
+        }
+
+        if (itemStyle.fontWeight === 700) {
+          setBoldActived(true)
+        } else {
+          setBoldActived(false)
+        }
+
+        if (itemStyle.fontStyle === "italic") {
+          setItalicActived(true)
+        } else {
+          setItalicActived(false)
+        }
+
+        if (itemStyle.textDecoration === "underline") {
+          setUnderlineActived(true)
+        } else {
+          setUnderlineActived(false)
+        }
+
+        setFont(itemStyle.fontFamily)
+
+        setDivFontSize(parseInt(itemStyle.fontSize, 10))
+
+        setTextColor(itemStyle.color)
+
+        const textColorR = itemStyle.color
+          .slice(5, itemStyle.color.length - 1)
+          .split(",")[0]
+        const textColorG = itemStyle.color
+          .slice(5, itemStyle.color.length - 1)
+          .split(",")[1]
+        const textColorB = itemStyle.color
+          .slice(5, itemStyle.color.length - 1)
+          .split(",")[2]
+        const textColorA = itemStyle.color
+          .slice(5, itemStyle.color.length - 1)
+          .split(",")[3]
+
+        setPickerTextColor({
+          r: textColorR,
+          g: textColorG,
+          b: textColorB,
+          a: textColorA,
+        })
+
+        if (itemStyle.borderStyle === "none") {
+          setBorderActived(false)
+        } else {
+          setBorderActived(true)
+        }
+
+        setBorderThickness(parseInt(itemStyle.borderWidth, 10))
+        setDivBorderRadius(parseInt(itemStyle.borderRadius, 10))
+        setDivPadding(parseInt(itemStyle.padding, 10))
+
+        setBorderColor(itemStyle.borderColor)
+
+        const borderColorR = itemStyle.borderColor
+          .slice(5, itemStyle.borderColor.length - 1)
+          .split(",")[0]
+        const borderColorG = itemStyle.borderColor
+          .slice(5, itemStyle.borderColor.length - 1)
+          .split(",")[1]
+        const borderColorB = itemStyle.borderColor
+          .slice(5, itemStyle.borderColor.length - 1)
+          .split(",")[2]
+        const borderColorA = itemStyle.borderColor
+          .slice(5, itemStyle.borderColor.length - 1)
+          .split(",")[3]
+
+        setPickerBorderColor({
+          r: borderColorR,
+          g: borderColorG,
+          b: borderColorB,
+          a: borderColorA,
+        })
+
+        if (itemStyle.boxShadow === "0px 0px 0px 0px rgba(0,0,0,0)") {
+          setShadowActived(false)
+        } else {
+          setShadowActived(true)
+        }
+
+        const colorShadow = itemStyle.boxShadow.split(" ")[4]
+        const shadowColorR = colorShadow
+          .slice(5, colorShadow.length - 1)
+          .split(",")[0]
+        const shadowColorG = colorShadow
+          .slice(5, colorShadow.length - 1)
+          .split(",")[1]
+        const shadowColorB = colorShadow
+          .slice(5, colorShadow.length - 1)
+          .split(",")[2]
+        const shadowColorA = colorShadow
+          .slice(5, colorShadow.length - 1)
+          .split(",")[3]
+        setShadowColor(
+          `rgba(${shadowColorR},${shadowColorG},${shadowColorB},${shadowColorA})`
+        )
+
+        setPickerShadowColor({
+          r: shadowColorR,
+          g: shadowColorG,
+          b: shadowColorB,
+          a: shadowColorA,
+        })
+
+        setOmbreX(parseInt(itemStyle.boxShadow.split(" ")[0], 10))
+        setOmbreY(parseInt(itemStyle.boxShadow.split(" ")[1], 10))
+        setOmbreAlpha(parseInt(itemStyle.boxShadow.split(" ")[2], 10))
+        setOmbreBeta(parseInt(itemStyle.boxShadow.split(" ")[3], 10))
+
+        setBlur(
+          parseInt(
+            itemStyle.backdropFilter.slice(
+              5,
+              itemStyle.backdropFilter.length - 1
+            ),
+            10
+          )
+        )
+
+        setBackColor(itemStyle.backgroundColor)
+
+        const backColorR = itemStyle.backgroundColor
+          .slice(5, itemStyle.backgroundColor.length - 1)
+          .split(",")[0]
+        const backColorG = itemStyle.backgroundColor
+          .slice(5, itemStyle.backgroundColor.length - 1)
+          .split(",")[1]
+        const backColorB = itemStyle.backgroundColor
+          .slice(5, itemStyle.backgroundColor.length - 1)
+          .split(",")[2]
+        const backColorA = itemStyle.backgroundColor
+          .slice(5, itemStyle.backgroundColor.length - 1)
+          .split(",")[3]
+
+        setPickerBackColor({
+          r: backColorR,
+          g: backColorG,
+          b: backColorB,
+          a: backColorA,
+        })
+      }
+    }
+  }, [textes])
 
   // --------------------------------------------------------------------
   // -----FONCTIONS SECTION - POSITION DU COMPOSANT---------------------
@@ -170,6 +377,8 @@ export default function EditorTextStyle({ textes, setTextes }) {
           : item
       )
     )
+
+    setappliedTextAlign("left")
   }
 
   const handleClickAlignCenter = () => {
@@ -180,6 +389,8 @@ export default function EditorTextStyle({ textes, setTextes }) {
           : item
       )
     )
+
+    setappliedTextAlign("center")
   }
 
   const handleClickAlignRight = () => {
@@ -190,6 +401,8 @@ export default function EditorTextStyle({ textes, setTextes }) {
           : item
       )
     )
+
+    setappliedTextAlign("right")
   }
 
   const handleClickAlignJustify = () => {
@@ -200,6 +413,8 @@ export default function EditorTextStyle({ textes, setTextes }) {
           : item
       )
     )
+
+    setappliedTextAlign("justify")
   }
 
   const handleClickBold = () => {
@@ -213,6 +428,8 @@ export default function EditorTextStyle({ textes, setTextes }) {
             : item
         )
       )
+
+      setappliedFontWeight(400)
     } else {
       setTextes((prevState) =>
         prevState.map((item) =>
@@ -221,6 +438,8 @@ export default function EditorTextStyle({ textes, setTextes }) {
             : item
         )
       )
+
+      setappliedFontWeight(700)
     }
   }
 
@@ -235,6 +454,8 @@ export default function EditorTextStyle({ textes, setTextes }) {
             : item
         )
       )
+
+      setappliedFontStyle("italic")
     } else {
       setTextes((prevState) =>
         prevState.map((item) =>
@@ -243,6 +464,8 @@ export default function EditorTextStyle({ textes, setTextes }) {
             : item
         )
       )
+
+      setappliedFontStyle("normal")
     }
   }
 
@@ -257,6 +480,8 @@ export default function EditorTextStyle({ textes, setTextes }) {
             : item
         )
       )
+
+      setappliedTextDecoration("underline")
     } else {
       setTextes((prevState) =>
         prevState.map((item) =>
@@ -265,6 +490,8 @@ export default function EditorTextStyle({ textes, setTextes }) {
             : item
         )
       )
+
+      setappliedTextDecoration("none")
     }
   }
 
@@ -282,6 +509,21 @@ export default function EditorTextStyle({ textes, setTextes }) {
 
   const handleClickDivTextColor = () => {
     setTextColorVisible(true)
+  }
+
+  const handleClickFontSize = (e) => {
+    setDivFontSize(e.target.value)
+
+    setTextes((prevState) =>
+      prevState.map((item) =>
+        item.selected === true
+          ? {
+              ...item,
+              style: { ...item.style, fontSize: e.target.value + "px" },
+            }
+          : item
+      )
+    )
   }
 
   const handleChangeColorText = (color) => {
@@ -325,6 +567,8 @@ export default function EditorTextStyle({ textes, setTextes }) {
             : item
         )
       )
+
+      setappliedBorderStyle("solid")
     } else if (item.style.borderStyle === "solid") {
       setTextes((prevState) =>
         prevState.map((item) =>
@@ -333,6 +577,8 @@ export default function EditorTextStyle({ textes, setTextes }) {
             : item
         )
       )
+
+      setappliedBorderStyle("dotted")
     } else if (item.style.borderStyle === "dotted") {
       setTextes((prevState) =>
         prevState.map((item) =>
@@ -341,6 +587,8 @@ export default function EditorTextStyle({ textes, setTextes }) {
             : item
         )
       )
+
+      setappliedBorderStyle("dashed")
     } else if (item.style.borderStyle === "dashed") {
       setTextes((prevState) =>
         prevState.map((item) =>
@@ -349,6 +597,8 @@ export default function EditorTextStyle({ textes, setTextes }) {
             : item
         )
       )
+
+      setappliedBorderStyle("double")
     } else if (item.style.borderStyle === "double") {
       setTextes((prevState) =>
         prevState.map((item) =>
@@ -357,6 +607,8 @@ export default function EditorTextStyle({ textes, setTextes }) {
             : item
         )
       )
+
+      setappliedBorderStyle("groove")
     } else if (item.style.borderStyle === "groove") {
       setTextes((prevState) =>
         prevState.map((item) =>
@@ -365,6 +617,8 @@ export default function EditorTextStyle({ textes, setTextes }) {
             : item
         )
       )
+
+      setappliedBorderStyle("ridge")
     } else if (item.style.borderStyle === "ridge") {
       setTextes((prevState) =>
         prevState.map((item) =>
@@ -373,6 +627,8 @@ export default function EditorTextStyle({ textes, setTextes }) {
             : item
         )
       )
+
+      setappliedBorderStyle("outset")
     } else if (item.style.borderStyle === "outset") {
       setTextes((prevState) =>
         prevState.map((item) =>
@@ -381,6 +637,8 @@ export default function EditorTextStyle({ textes, setTextes }) {
             : item
         )
       )
+
+      setappliedBorderStyle("inset")
     } else if (item.style.borderStyle === "inset") {
       setTextes((prevState) =>
         prevState.map((item) =>
@@ -389,6 +647,8 @@ export default function EditorTextStyle({ textes, setTextes }) {
             : item
         )
       )
+
+      setappliedBorderStyle("solid")
     }
   }
 
@@ -400,6 +660,8 @@ export default function EditorTextStyle({ textes, setTextes }) {
           : item
       )
     )
+
+    setappliedBorderStyle("none")
   }
 
   const handleChangeBorderThickness = (e) => {
@@ -673,6 +935,52 @@ export default function EditorTextStyle({ textes, setTextes }) {
   }
   // ---FIN SECTION---------------------------------------------------------------------------
 
+  // ---------------------------------------------------------------------------------------------
+  // ----SAUVEGARDE DE STYLES----------------------------------------------------
+  // ------------------------------------------------------------------------------
+  const handleClickSaveStyle = () => {
+    const savedBoxShadow = `${ombreX}px ${ombreY}px ${ombreAlpha}px ${ombreBeta}px ${shadowColor}`
+
+    const newStyleCss = {
+      backgroundColor: backColor,
+      position: "absolute",
+      boxSizing: "border-box",
+      zIndex: coordZ,
+      borderStyle: appliedBorderStyle,
+      borderColor,
+      borderWidth: borderThickness,
+      borderRadius: divBorderRadius,
+      boxShadow: savedBoxShadow,
+      fontSize: `${divFontSize}px`,
+      fontStyle: appliedFontStyle,
+      textDecoration: appliedTextDecoration,
+      fontWeight: appliedFontWeight,
+      fontFamily: font,
+      color: textColor,
+      padding: divPadding,
+      textAlign: appliedTextAlign,
+      backdropFilter: `blur(${blur}px)`,
+      WebkitBackdropFilter: `blur(${blur}px)`,
+    }
+
+    const newStyleName = prompt("Veuillez définir un nom pour ce style")
+
+    const newStyleId =
+      savedTextStyles.length === 0
+        ? 1
+        : Math.max(...savedTextStyles.map((obj) => obj.id)) + 1
+
+    const newStyle = {
+      id: newStyleId,
+      styleName: newStyleName,
+      styleCss: newStyleCss,
+    }
+
+    setSavedTextStyles((prevState) => [...prevState, newStyle])
+  }
+
+  // ---FIN SECTION---------------------------------------------------------------------------
+
   return (
     <main className="main-editorTextStyle">
       <p>Position du composant</p>
@@ -761,24 +1069,36 @@ export default function EditorTextStyle({ textes, setTextes }) {
           alt="alignement gauche"
           title="Aligner le texte à gauche"
           onClick={handleClickAlignLeft}
+          style={
+            alignLeftActived ? { boxShadow: "0px 0px 20px 5px #ffbd59" } : {}
+          }
         />
         <img
           src={positionCentre}
           alt="alignement centre"
           title="Centrer le texte"
           onClick={handleClickAlignCenter}
+          style={
+            alignCenterActived ? { boxShadow: "0px 0px 20px 5px #ffbd59" } : {}
+          }
         />
         <img
           src={positionDroite}
           alt="alignement droite"
           title="Aligner le texte à droite"
           onClick={handleClickAlignRight}
+          style={
+            alignRightActived ? { boxShadow: "0px 0px 20px 5px #ffbd59" } : {}
+          }
         />
         <img
           src={positionJustify}
           alt="alignement justifié"
           title="Justifier le texte"
           onClick={handleClickAlignJustify}
+          style={
+            alignJustifyActived ? { boxShadow: "0px 0px 20px 5px #ffbd59" } : {}
+          }
         />
       </div>
 
@@ -788,18 +1108,23 @@ export default function EditorTextStyle({ textes, setTextes }) {
           alt="Mettre en gras"
           title="Mettre en gras"
           onClick={handleClickBold}
+          style={boldActived ? { boxShadow: "0px 0px 20px 5px #ffbd59" } : {}}
         />
         <img
           src={miseEnItalic}
           alt="Mettre en italique"
           title="Mettre en italique"
           onClick={handleClickItalic}
+          style={italicActived ? { boxShadow: "0px 0px 20px 5px #ffbd59" } : {}}
         />
         <img
           src={soulignage}
           alt="Souligner"
           title="Souligner"
           onClick={handleClickUnderline}
+          style={
+            underlineActived ? { boxShadow: "0px 0px 20px 5px #ffbd59" } : {}
+          }
         />
       </section>
 
@@ -868,6 +1193,14 @@ export default function EditorTextStyle({ textes, setTextes }) {
           </option>
         </select>
 
+        <input
+          type="number"
+          value={divFontSize}
+          min={2}
+          max={150}
+          onChange={handleClickFontSize}
+        />
+
         <div className="text-color" onClick={handleClickDivTextColor}>
           <div className="choix-color">
             <p>A</p>
@@ -897,12 +1230,20 @@ export default function EditorTextStyle({ textes, setTextes }) {
             alt="bordure on"
             title="Ajouter une bordure à l'élément - Cliquez plusieurs fois pour changer le style"
             onClick={handleClickAjoutBordure}
+            style={
+              borderActived ? { boxShadow: "0px 0px 20px 5px #ffbd59" } : {}
+            }
           />
           <img
             src={bordureOff}
             alt="bordure off"
             title="Supprimer la bordure"
             onClick={handleClickBorderOff}
+            style={
+              borderActived === false
+                ? { boxShadow: "0px 0px 20px 5px #ffbd59" }
+                : {}
+            }
           />
           <label htmlFor="borderThickness">ep :</label>
           <input
@@ -974,12 +1315,20 @@ export default function EditorTextStyle({ textes, setTextes }) {
               alt="presence ombre"
               title="Ajouter une ombre à l'élément"
               onClick={handleClickShadowOn}
+              style={
+                shadowActived ? { boxShadow: "0px 0px 20px 5px #ffbd59" } : {}
+              }
             />
             <img
               src={ombreOff}
               alt="pas d'ombre"
               title="Supprimer l'ombre"
               onClick={handleClickShadowOff}
+              style={
+                shadowActived === false
+                  ? { boxShadow: "0px 0px 20px 5px #ffbd59" }
+                  : {}
+              }
             />
           </div>
 
@@ -1082,7 +1431,9 @@ export default function EditorTextStyle({ textes, setTextes }) {
         </div>
       </section>
 
-      <button type="button">Sauvegarder ce style</button>
+      <button type="button" onClick={handleClickSaveStyle}>
+        Sauvegarder ce style
+      </button>
     </main>
   )
 }

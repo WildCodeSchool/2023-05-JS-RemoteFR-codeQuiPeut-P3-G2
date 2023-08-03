@@ -14,6 +14,7 @@ export default function Editor() {
 
   const [addNewText, setAddNewText] = useState(false)
   const [textes, setTextes] = useState([])
+  const [savedTextStyles, setSavedTextStyles] = useState([])
 
   const maPage = document.querySelector(".section-page")
 
@@ -66,11 +67,12 @@ export default function Editor() {
         position: "absolute",
         width: "50%",
         height: "5%",
+        boxSizing: "border-box",
         top: newTop,
         left: newLeft,
         zIndex: 0,
         borderStyle: "none",
-        borderColor: "lightgray",
+        borderColor: "rgba(200,200,200,1)",
         borderWidth: 1,
         borderRadius: 0,
         boxShadow: "0px 0px 0px 0px rgba(0,0,0,0)",
@@ -217,6 +219,26 @@ export default function Editor() {
   // -----------------------------------------------------------------------
   // --------------------------------------------------------------------
 
+  // application d'un style sauvegardé à la textarea sélectionnée
+  const handleClickApplyTextStyle = (styleToApply) => {
+    setTextes((prevState) =>
+      prevState.map((item) =>
+        item.selected === true
+          ? {
+              ...item,
+              style: {
+                ...styleToApply,
+                width: item.style.width,
+                height: item.style.height,
+                left: item.style.left,
+                top: item.style.top,
+              },
+            }
+          : item
+      )
+    )
+  }
+
   // --------------------------------
   // mise à jour des dimensions et position de maPage lorsque la taille de la fenêtre change
 
@@ -272,12 +294,15 @@ export default function Editor() {
           <div className="saved-styles-text">
             <p>Styles des textes</p>
             <div className="saved-styles-container">
-              <div className="saved-style">
-                <p>Style 1</p>
-              </div>
-              <div className="saved-style">
-                <p>Style 2</p>
-              </div>
+              {savedTextStyles.map((item) => (
+                <button
+                  className="saved-style"
+                  onClick={() => handleClickApplyTextStyle(item.styleCss)}
+                  key={item.id}
+                >
+                  {item.styleName}
+                </button>
+              ))}
             </div>
           </div>
           <div className="saved-styles-images">
@@ -314,7 +339,12 @@ export default function Editor() {
           <div className="section-sommaire"></div>
 
           <div className="configurator">
-            <EditorTextStyle textes={textes} setTextes={setTextes} />
+            <EditorTextStyle
+              textes={textes}
+              setTextes={setTextes}
+              savedTextStyles={savedTextStyles}
+              setSavedTextStyles={setSavedTextStyles}
+            />
 
             {/* {textes.length > 0 && (
               <div>
