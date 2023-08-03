@@ -161,76 +161,6 @@ export default function Editor() {
     )
   }
 
-  // -----------------------------------------------------------------------
-  // ----FONCTIONS DE CHANGEMENT DE STYLE DES TEXTAREA--------------------
-  // --------------------------------------------------------------------
-
-  const handleClickBordureEpaisse = () => {
-    setTextes((prevState) =>
-      prevState.map((item) =>
-        item.selected === true
-          ? { ...item, style: { ...item.style, border: "5px solid black" } }
-          : item
-      )
-    )
-  }
-
-  const handleClickBordureFine = () => {
-    setTextes((prevState) =>
-      prevState.map((item) =>
-        item.selected === true
-          ? { ...item, style: { ...item.style, border: "1px solid grey" } }
-          : item
-      )
-    )
-  }
-
-  const handleClickTextareaOnLeft = () => {
-    setTextes((prevState) =>
-      prevState.map((item) =>
-        item.selected === true
-          ? { ...item, style: { ...item.style, left: 0 } }
-          : item
-      )
-    )
-  }
-
-  const handleClickTextareaOnRight = () => {
-    const item = textes.filter((texte) => texte.selected === true)[0]
-    const itemWidth = parseInt(item.style.width, 10)
-    // console.log("pageWidth",pageWidth,"itemWidth",itemWidth);
-    const newLeft = 100 - itemWidth + "%"
-
-    setTextes((prevState) =>
-      prevState.map((item) =>
-        item.selected === true
-          ? { ...item, style: { ...item.style, left: newLeft } }
-          : item
-      )
-    )
-  }
-
-  const handleClickTextareaOnCenter = () => {
-    const item = textes.filter((texte) => texte.selected === true)[0]
-    // const itemWidth = parseInt(item.style.width.slice(0, item.style.width.length - 2) )
-    const itemWidth = parseInt(item.style.width, 10)
-    const newLeft = (100 - itemWidth) / 2 + "%"
-
-    // const newLeft = (pageWidth -itemWidth)/2 +"px";
-
-    setTextes((prevState) =>
-      prevState.map((item) =>
-        item.selected === true
-          ? { ...item, style: { ...item.style, left: newLeft } }
-          : item
-      )
-    )
-
-    // console.log(textes)
-  }
-  // ------------------------------------------------------------------------------------
-  // -----------------------------------------------------------------------------------
-
   // ----------------------------------------------------------------
   // ---MISE A JOUR DE WIDTH ET HEIGHT LORS DE L'ETIREMENT DES TEXTAREA----
   // ---------------------------------------------------------------
@@ -384,34 +314,16 @@ export default function Editor() {
           <div className="section-sommaire"></div>
 
           <div className="configurator">
-            <EditorTextStyle />
-            <div>
-              <button type="button" onClick={handleClickBordureEpaisse}>
-                Bordure épaisse
-              </button>
-              <button type="button" onClick={handleClickBordureFine}>
-                Bordure Fine
-              </button>
-            </div>
-            <div>
-              <button type="button" onClick={handleClickTextareaOnLeft}>
-                Positionner à gauche
-              </button>
-              <button type="button" onClick={handleClickTextareaOnCenter}>
-                Centrer
-              </button>
-              <button type="button" onClick={handleClickTextareaOnRight}>
-                Positionner à droite
-              </button>
-            </div>
-            {textes.length > 0 && (
+            <EditorTextStyle textes={textes} setTextes={setTextes} />
+
+            {/* {textes.length > 0 && (
               <div>
                 <h1>{`width : ${textes[0].style.width}`}</h1>
                 <h1>{`height : ${textes[0].style.height}`}</h1>
                 <h1>{`top : ${textes[0].style.top}`}</h1>
                 <h1>{`left : ${textes[0].style.left}`}</h1>
               </div>
-            )}
+            )} */}
           </div>
         </section>
 

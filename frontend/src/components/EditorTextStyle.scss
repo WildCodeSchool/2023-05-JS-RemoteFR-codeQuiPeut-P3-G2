@@ -10,6 +10,8 @@ $fontSizeTitre: 1.5rem;
   height: 100%;
   box-sizing: border-box;
   padding: 16px;
+  overflow-y: auto;
+
   // background-color: white;
 
   p {
@@ -495,6 +497,26 @@ $fontSizeTitre: 1.5rem;
         right: 0;
         // transform: scale(1.5);
       }
+    }
+  }
+
+  button {
+    display: block;
+    padding: 8px 16px;
+    font-size: $fontSizeP;
+    border-radius: 16px;
+    width: 150px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: $colorYellow;
+    border: 5px outset #a98f67;
+
+    &:hover {
+      box-shadow: 0 0 20px 3px $colorYellow;
+    }
+
+    &:active {
+      border: 5px inset #a98f67;
     }
   }
 }
