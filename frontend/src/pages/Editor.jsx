@@ -11,10 +11,13 @@ export default function Editor() {
   const [pageHeight, setPageHeight] = useState()
   const [pageOffsetX, setPageOffsetX] = useState()
   const [pageOffsetY, setPageOffsetY] = useState()
-
   const [addNewText, setAddNewText] = useState(false)
   const [textes, setTextes] = useState([])
   const [savedTextStyles, setSavedTextStyles] = useState([])
+  const [indexAfficheStyleText, setIndexAfficheStyleText] = useState({
+    min: 0,
+    max: 2,
+  })
 
   const maPage = document.querySelector(".section-page")
 
@@ -26,27 +29,6 @@ export default function Editor() {
   }
 
   const handleClickDropNewText = (e) => {
-    // console.log(
-    //   "e.clientX",
-    //   e.clientX,
-    //   "e.pageX",
-    //   e.pageX,
-    //   "offsetLeft",
-    //   maPage.offsetLeft,
-    //   "boundingLeft",
-    //   maPage.getBoundingClientRect().left
-    // )
-    // console.log(
-    //   "e.clientY",
-    //   e.clientY,
-    //   "e.pageY",
-    //   e.pageY,
-    //   "offsetTop",
-    //   maPage.offsetTop,
-    //   "boundingTop",
-    //   maPage.getBoundingClientRect().top
-    // )
-
     const newTop = (100 * (e.pageY - pageOffsetY)) / pageHeight + "%"
 
     const newLeft = (100 * (e.pageX - pageOffsetX)) / pageWidth + "%"
@@ -239,6 +221,36 @@ export default function Editor() {
     )
   }
 
+  // ----------------------------------------------------------------------------
+  // ------FONCTIONS CLICK SUR FLECHES PERMETTANT LE CHANGEMENT D'AFFICHAGE DES STYLES SAUVEGARDES----
+  // ---------------------------------------------------------------------------
+  const handleClickNextStylesText = () => {
+    if (indexAfficheStyleText.max < savedTextStyles.length - 1) {
+      setIndexAfficheStyleText((prevState) => ({
+        min: prevState.min + 3,
+        max: prevState.max + 3,
+      }))
+    }
+  }
+
+  const handleClickPreviousStylesText = () => {
+    if (indexAfficheStyleText.min > 0) {
+      if (indexAfficheStyleText.min - 3 < 0) {
+        setIndexAfficheStyleText((prevState) => ({
+          min: 0,
+          max: 2,
+        }))
+      } else {
+        setIndexAfficheStyleText((prevState) => ({
+          min: prevState.min - 3,
+          max: prevState.max - 3,
+        }))
+      }
+    }
+  }
+
+  // ----FIN SECTION
+
   // --------------------------------
   // mise à jour des dimensions et position de maPage lorsque la taille de la fenêtre change
 
@@ -296,22 +308,34 @@ export default function Editor() {
             <div className="saved-styles-text">
               <p>Styles des textes</p>
               <div className="saved-styles-container">
-                {savedTextStyles.map((item) => (
-                  <button
-                    className="saved-style"
-                    onClick={() => handleClickApplyTextStyle(item.styleCss)}
-                    key={item.id}
-                  >
-                    {item.styleName}
-                  </button>
-                ))}
+                {savedTextStyles
+                  .filter(
+                    (item, index) =>
+                      index >= indexAfficheStyleText.min &&
+                      index <= indexAfficheStyleText.max
+                  )
+                  .map((item) => (
+                    <button
+                      className="saved-style"
+                      onClick={() => handleClickApplyTextStyle(item.styleCss)}
+                      key={item.id}
+                    >
+                      {item.styleName}
+                    </button>
+                  ))}
               </div>
             </div>
             <div className="arrowButton-container">
-              <button className="arrowButton">
+              <button
+                className="arrowButton"
+                onClick={handleClickPreviousStylesText}
+              >
                 <div className="arrowButtonPrevious"></div>{" "}
               </button>
-              <button className="arrowButton">
+              <button
+                className="arrowButton"
+                onClick={handleClickNextStylesText}
+              >
                 <div className="arrowButtonNext"></div>{" "}
               </button>
             </div>
