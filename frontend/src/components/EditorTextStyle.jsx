@@ -974,6 +974,7 @@ export default function EditorTextStyle({
       id: newStyleId,
       styleName: newStyleName,
       styleCss: newStyleCss,
+      showDelete: false,
     }
 
     setSavedTextStyles((prevState) => [...prevState, newStyle])
@@ -1250,7 +1251,7 @@ export default function EditorTextStyle({
             type="number"
             id="borderThickness"
             min={1}
-            max={15}
+            max={50}
             value={borderThickness}
             onChange={handleChangeBorderThickness}
           />
@@ -1284,7 +1285,7 @@ export default function EditorTextStyle({
             <input
               type="number"
               min={0}
-              max={500}
+              max={1000}
               value={divBorderRadius}
               onChange={handleChangeDivBorderRadius}
             />
@@ -1298,7 +1299,7 @@ export default function EditorTextStyle({
             <input
               type="number"
               min={0}
-              max={200}
+              max={500}
               value={divPadding}
               onChange={handleChangeDivPadding}
             />
@@ -1358,8 +1359,8 @@ export default function EditorTextStyle({
           <input
             type="number"
             id="ombreX"
-            min={0}
-            max={50}
+            min={-200}
+            max={200}
             value={ombreX}
             onChange={handleChangeOmbreX}
           />
@@ -1367,8 +1368,8 @@ export default function EditorTextStyle({
           <input
             type="number"
             id="ombreY"
-            min={0}
-            max={50}
+            min={-200}
+            max={200}
             value={ombreY}
             onChange={handleChangeOmbreY}
           />
@@ -1377,7 +1378,7 @@ export default function EditorTextStyle({
             type="number"
             id="ombreAlpha"
             min={0}
-            max={50}
+            max={200}
             value={ombreAlpha}
             onChange={handleChangeOmbreAlpha}
           />
@@ -1386,7 +1387,7 @@ export default function EditorTextStyle({
             type="number"
             id="ombreBeta"
             min={0}
-            max={50}
+            max={200}
             value={ombreBeta}
             onChange={handleChangeOmbreBeta}
           />
@@ -1401,7 +1402,7 @@ export default function EditorTextStyle({
             type="number"
             id="blur"
             min={0}
-            max={50}
+            max={100}
             value={blur}
             onChange={handleChangeBlur}
             title="Mettre de la transparence à l'arrière plan pour en observer l'effet"

@@ -131,14 +131,24 @@ $fontSizeTitre: 1.5rem;
           padding: 8px;
 
           .saved-style {
+            position: relative;
             background-color: white;
             width: 30%;
             height: 50px;
             cursor: pointer;
+            overflow-y: auto;
             font-size: $fontSizeP;
 
             &:hover {
               background-color: #ffe7c3;
+            }
+
+            > .button-suppression-style {
+              position: absolute;
+              font-size: $fontSizeP;
+              width: 100%;
+              top: 20%;
+              left: 0;
             }
 
             p {

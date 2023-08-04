@@ -249,7 +249,37 @@ export default function Editor() {
     }
   }
 
-  // ----FIN SECTION
+  // ----FIN SECTION--------------------------------------------------
+
+  // ----------------------------------------------------------------------------
+  // ------FONCTIONS POUR SUPPRESSION DES STYLES ENREGISTRES----
+  // ---------------------------------------------------------------------------
+  const handleContextMenuStyleText = (event, index) => {
+    event.preventDefault()
+    setSavedTextStyles((prevState) => {
+      const newState = [...prevState]
+      newState[index] = { ...newState[index], showDelete: true }
+      return newState
+    })
+
+    setTextes((prevState) =>
+      prevState.map((item) => ({ ...item, selected: false }))
+    )
+  }
+
+  const handleLeaveContextMenuStyleText = (index) => {
+    setSavedTextStyles((prevState) => {
+      const newState = [...prevState]
+      newState[index] = { ...newState[index], showDelete: false }
+      return newState
+    })
+  }
+
+  const handleDeleteStyleText = (index) => {
+    setSavedTextStyles((prevState) => prevState.filter((_, i) => i !== index))
+  }
+
+  // ----FIN SECTION--------------------------------------------------
 
   // --------------------------------
   // mise à jour des dimensions et position de maPage lorsque la taille de la fenêtre change
@@ -314,13 +344,30 @@ export default function Editor() {
                       index >= indexAfficheStyleText.min &&
                       index <= indexAfficheStyleText.max
                   )
-                  .map((item) => (
+                  .map((item, index) => (
                     <button
                       className="saved-style"
                       onClick={() => handleClickApplyTextStyle(item.styleCss)}
+                      onContextMenu={(event) =>
+                        handleContextMenuStyleText(event, index)
+                      }
+                      onMouseLeave={() =>
+                        handleLeaveContextMenuStyleText(index)
+                      }
                       key={item.id}
                     >
                       {item.styleName}
+                      {savedTextStyles[index].showDelete && (
+                        <input
+                          type="button"
+                          className="button-suppression-style"
+                          onClick={() => handleDeleteStyleText(index)}
+                          onMouseLeave={() =>
+                            handleLeaveContextMenuStyleText(index)
+                          }
+                          value="Supprimer"
+                        />
+                      )}
                     </button>
                   ))}
               </div>
