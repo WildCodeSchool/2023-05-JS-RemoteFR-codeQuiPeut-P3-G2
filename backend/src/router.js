@@ -7,6 +7,8 @@ const utilisateursControllers = require("./controllers/utilisateursControllers")
 const forumCommControllers = require("./controllers/forumCommControllers")
 const sujetForumControllers = require("./controllers/sujetForumControllers")
 const savedStyleTextControllers = require("./controllers/savedStyleTextControllers")
+const savedStyleImageControllers = require("./controllers/savedStyleImageControllers")
+const savedStylePageControllers = require("./controllers/savedStylePageControllers")
 
 router.get("/scenarios", scenariosControllers.browse)
 router.get("/scenarios/:id", scenariosControllers.read)
@@ -37,5 +39,17 @@ router.get("/saved_style_text/:id", savedStyleTextControllers.read)
 router.post("/saved_style_text", savedStyleTextControllers.add)
 router.put("/saved_style_text/:id", savedStyleTextControllers.edit)
 router.delete("/saved_style_text/:id", savedStyleTextControllers.destroy)
+
+router.get("/saved_style_image", savedStyleImageControllers.browse)
+router.get("/saved_style_image/:id", savedStyleImageControllers.read)
+router.put("/saved_style_image/:id", savedStyleImageControllers.edit)
+router.post("/saved_style_image", savedStyleImageControllers.add)
+router.delete("/saved_style_image/:id", savedStyleImageControllers.destroy)
+
+router.get("/saved_style_page", savedStylePageControllers.browse)
+router.get("/saved_style_page/:id", savedStylePageControllers.read)
+router.put("/saved_style_page/:id", savedStylePageControllers.edit)
+router.post("/saved_style_page", savedStylePageControllers.add)
+router.delete("/saved_style_page/:id", savedStylePageControllers.destroy)
 
 module.exports = router
