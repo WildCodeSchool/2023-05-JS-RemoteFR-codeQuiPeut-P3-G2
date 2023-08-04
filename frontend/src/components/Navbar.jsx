@@ -4,10 +4,10 @@ import ScripLogo from "../assets/ScripLogo.png"
 const Navbar = () => {
   return (
     <>
-      <navbar className="ContainNav" alt="Navigation">
-        <logo className="FeatherBox" alt="logo">
+      <nav className="ContainNav" alt="Navigation">
+        <figcaption className="FeatherBox" alt="logo">
           <img src={ScripLogo}></img>
-        </logo>
+        </figcaption>
         <ul className="ContainLink">
           <li className="link" alt="Home">
             HOME
@@ -33,7 +33,7 @@ const Navbar = () => {
         <div className="BurgerMenu">
           <div className="BurgerIcon"></div>
         </div>
-      </navbar>
+      </nav>
     </>
   )
 }
