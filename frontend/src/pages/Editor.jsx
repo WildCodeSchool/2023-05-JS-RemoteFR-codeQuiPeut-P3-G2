@@ -291,22 +291,59 @@ export default function Editor() {
             />
             <img src={addImg} alt="new image" onClick={() => {}} />
           </div>
-          <div className="saved-styles-text">
-            <p>Styles des textes</p>
-            <div className="saved-styles-container">
-              {savedTextStyles.map((item) => (
-                <button
-                  className="saved-style"
-                  onClick={() => handleClickApplyTextStyle(item.styleCss)}
-                  key={item.id}
-                >
-                  {item.styleName}
-                </button>
-              ))}
+
+          <section className="container-saved-styles-text">
+            <div className="saved-styles-text">
+              <p>Styles des textes</p>
+              <div className="saved-styles-container">
+                {savedTextStyles.map((item) => (
+                  <button
+                    className="saved-style"
+                    onClick={() => handleClickApplyTextStyle(item.styleCss)}
+                    key={item.id}
+                  >
+                    {item.styleName}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
-          <div className="saved-styles-images">
-            <p>Styles des images</p>
+            <div className="arrowButton-container">
+              <button className="arrowButton">
+                <div className="arrowButtonPrevious"></div>{" "}
+              </button>
+              <button className="arrowButton">
+                <div className="arrowButtonNext"></div>{" "}
+              </button>
+            </div>
+          </section>
+
+          <section className="container-saved-styles-image">
+            <div className="saved-styles-images">
+              <p>Styles des images</p>
+              <div className="saved-styles-container">
+                <div className="saved-style">
+                  <p>Style 1</p>
+                </div>
+                <div className="saved-style">
+                  <p>Style 2</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="arrowButton-container">
+              <button className="arrowButton">
+                <div className="arrowButtonPrevious"></div>{" "}
+              </button>
+              <button className="arrowButton">
+                <div className="arrowButtonNext"></div>{" "}
+              </button>
+            </div>
+          </section>
+        </div>
+
+        <div className="editor-bandeau-droite">
+          <section className="container-pages-saved-styles">
+            <p>Styles des pages</p>
             <div className="saved-styles-container">
               <div className="saved-style">
                 <p>Style 1</p>
@@ -315,23 +352,17 @@ export default function Editor() {
                 <p>Style 2</p>
               </div>
             </div>
-          </div>
-        </div>
+          </section>
 
-        <div className="editor-bandeau-droite">
-          <p>Styles des pages</p>
-          <div className="saved-styles-container">
-            <div className="saved-style">
-              <p>Style 1</p>
-            </div>
-            <div className="saved-style">
-              <p>Style 2</p>
-            </div>
+          <div className="arrowButton-container">
+            <button className="arrowButton">
+              <div className="arrowButtonPrevious"></div>{" "}
+            </button>
+            <button className="arrowButton">
+              <div className="arrowButtonNext"></div>{" "}
+            </button>
           </div>
         </div>
-        {/* <button type="button" onClick={handleClickNewTextZone}>
-          Nouvelle Zone de texte
-        </button> */}
       </section>
 
       <main className="editor-main">
