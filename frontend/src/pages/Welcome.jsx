@@ -8,7 +8,7 @@ import Navbar from "../components/Navbar"
 const Welcome = () => {
   return (
     <>
-      <body className="GlobalWelcContain" alt="Accueil">
+      <main className="GlobalWelcContain" alt="Accueil">
         <Navbar />
         <header className="TitleContain">
           <div className="images_header">
@@ -72,7 +72,7 @@ const Welcome = () => {
             quam iure, cumque quo!
           </p>
         </div>
-      </body>
+      </main>
     </>
   )
 }
