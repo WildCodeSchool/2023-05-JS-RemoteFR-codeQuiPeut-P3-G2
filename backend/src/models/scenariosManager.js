@@ -1,6 +1,6 @@
 const AbstractManager = require("./AbstractManager")
 
-class scenariosManager extends AbstractManager {
+class ScenariosManager extends AbstractManager {
   constructor() {
     super({ table: "scenarios" })
   }
@@ -48,4 +48,4 @@ class scenariosManager extends AbstractManager {
   }
 }
 
-module.exports = scenariosManager
+module.exports = ScenariosManager
