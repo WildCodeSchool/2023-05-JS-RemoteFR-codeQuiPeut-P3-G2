@@ -35,8 +35,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `scripterBdd`.`auteurs` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(100) NOT NULL,
   `utilisateurs_id` INT NOT NULL,
+  `name` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`id`, `utilisateurs_id`),
   INDEX `fk_auteurs_utilisateurs1_idx` (`utilisateurs_id` ASC) VISIBLE,
   CONSTRAINT `fk_auteurs_utilisateurs1`
@@ -202,8 +202,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `scripterBdd`.`page_textes` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `data` TEXT NULL,
   `pages_id` INT NOT NULL,
+  `data` TEXT NULL,
   PRIMARY KEY (`id`, `pages_id`),
   INDEX `fk_textes_pages1_idx` (`pages_id` ASC) VISIBLE,
   CONSTRAINT `fk_textes_pages1`
@@ -255,7 +255,7 @@ CREATE TABLE IF NOT EXISTS `scripterBdd`.`text_style` (
   `color` VARCHAR(45) NULL,
   `padding` VARCHAR(45) NULL,
   `back_drop_filter` VARCHAR(45) NULL,
-  `webkit_backdrop_filter` VARCHAR(45) NULL,
+  `text_decoration` VARCHAR(45) NULL,
   `text_align` VARCHAR(45) NULL,
   PRIMARY KEY (`id`, `page_textes_id`),
   INDEX `fk_textStyle_pageTextes1_idx` (`page_textes_id` ASC) VISIBLE,
@@ -318,11 +318,11 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `scripterBdd`.`saved_style_text` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `scenarios_id` INT NOT NULL,
+  `utilisateurs_id` INT NOT NULL,
   `width` VARCHAR(45) NOT NULL,
   `height` VARCHAR(45) NOT NULL,
   `top` VARCHAR(45) NOT NULL,
-  `left` VARCHAR(45) NOT NULL,
+  `sst_left` VARCHAR(45) NOT NULL,
   `z_index` INT NULL,
   `border_style` VARCHAR(45) NULL,
   `border_color` VARCHAR(45) NULL,
@@ -337,13 +337,13 @@ CREATE TABLE IF NOT EXISTS `scripterBdd`.`saved_style_text` (
   `color` VARCHAR(45) NULL,
   `padding` VARCHAR(45) NULL,
   `backdrop_filter` VARCHAR(45) NULL,
-  `webkit_backdrop_filter` VARCHAR(45) NULL,
+  `text_decoration` VARCHAR(45) NULL,
   `text_align` VARCHAR(45) NULL,
-  PRIMARY KEY (`id`, `scenarios_id`),
-  INDEX `fk_saved_style_text_scenarios1_idx` (`scenarios_id` ASC) VISIBLE,
-  CONSTRAINT `fk_saved_style_text_scenarios1`
-    FOREIGN KEY (`scenarios_id`)
-    REFERENCES `scripterBdd`.`scenarios` (`id`)
+  PRIMARY KEY (`id`, `utilisateurs_id`),
+  INDEX `fk_saved_style_text_utilisateurs1_idx` (`utilisateurs_id` ASC) VISIBLE,
+  CONSTRAINT `fk_saved_style_text_utilisateurs1`
+    FOREIGN KEY (`utilisateurs_id`)
+    REFERENCES `scripterBdd`.`utilisateurs` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -354,7 +354,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `scripterBdd`.`saved_style_image` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `scenarios_id` INT NOT NULL,
+  `utilisateurs_id` INT NOT NULL,
   `width` VARCHAR(45) NOT NULL,
   `height` VARCHAR(45) NOT NULL,
   `top` VARCHAR(45) NOT NULL,
@@ -367,11 +367,11 @@ CREATE TABLE IF NOT EXISTS `scripterBdd`.`saved_style_image` (
   `box_shadow` VARCHAR(45) NULL,
   `opacity` VARCHAR(45) NULL,
   `padding` VARCHAR(45) NULL,
-  PRIMARY KEY (`id`, `scenarios_id`),
-  INDEX `fk_saved_style_image_scenarios1_idx` (`scenarios_id` ASC) VISIBLE,
-  CONSTRAINT `fk_saved_style_image_scenarios1`
-    FOREIGN KEY (`scenarios_id`)
-    REFERENCES `scripterBdd`.`scenarios` (`id`)
+  PRIMARY KEY (`id`, `utilisateurs_id`),
+  INDEX `fk_saved_style_image_utilisateurs1_idx` (`utilisateurs_id` ASC) VISIBLE,
+  CONSTRAINT `fk_saved_style_image_utilisateurs1`
+    FOREIGN KEY (`utilisateurs_id`)
+    REFERENCES `scripterBdd`.`utilisateurs` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -381,15 +381,15 @@ ENGINE = InnoDB;
 -- Table `scripterBdd`.`saved_style_page`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `scripterBdd`.`saved_style_page` (
-  `id` INT NOT NULL,
-  `scenarios_id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `utilisateurs_id` INT NOT NULL,
   `padding` VARCHAR(45) NULL,
   `background_color` VARCHAR(155) NULL,
-  PRIMARY KEY (`id`, `scenarios_id`),
-  INDEX `fk_saved_style_page_scenarios1_idx` (`scenarios_id` ASC) VISIBLE,
-  CONSTRAINT `fk_saved_style_page_scenarios1`
-    FOREIGN KEY (`scenarios_id`)
-    REFERENCES `scripterBdd`.`scenarios` (`id`)
+  PRIMARY KEY (`id`, `utilisateurs_id`),
+  INDEX `fk_saved_style_page_utilisateurs1_idx` (`utilisateurs_id` ASC) VISIBLE,
+  CONSTRAINT `fk_saved_style_page_utilisateurs1`
+    FOREIGN KEY (`utilisateurs_id`)
+    REFERENCES `scripterBdd`.`utilisateurs` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -444,10 +444,10 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `scripterBdd`.`avis_scenario` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `commentaire` TEXT NOT NULL,
-  `date` DATE NOT NULL,
   `scenarios_id` INT NOT NULL,
   `utilisateurs_id` INT NOT NULL,
+  `commentaire` TEXT NOT NULL,
+  `date` DATE NOT NULL,
   PRIMARY KEY (`id`, `scenarios_id`, `utilisateurs_id`),
   INDEX `fk_avisScenario_scenarios1_idx` (`scenarios_id` ASC) VISIBLE,
   INDEX `fk_avisScenario_utilisateurs1_idx` (`utilisateurs_id` ASC) VISIBLE,
@@ -480,10 +480,10 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `scripterBdd`.`commentaires_forum` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `commentaire` TEXT NOT NULL,
-  `sujet_forum_id` INT NOT NULL,
-  `date_time` TIMESTAMP NOT NULL,
   `utilisateurs_id` INT NOT NULL,
+  `sujet_forum_id` INT NOT NULL,
+  `commentaire` TEXT NOT NULL,
+  `date_time` TIMESTAMP NOT NULL,
   PRIMARY KEY (`id`, `sujet_forum_id`, `utilisateurs_id`),
   INDEX `fk_commentairesForum_sujetForum1_idx` (`sujet_forum_id` ASC) VISIBLE,
   INDEX `fk_commentaires_forum_utilisateurs1_idx` (`utilisateurs_id` ASC) VISIBLE,
@@ -505,9 +505,9 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `scripterBdd`.`mode_creation` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `commentaire` TEXT NOT NULL,
   `scenarios_id` INT NOT NULL,
   `utilisateurs_id` INT NOT NULL,
+  `commentaire` TEXT NOT NULL,
   `date_time` TIMESTAMP NOT NULL,
   PRIMARY KEY (`id`, `scenarios_id`, `utilisateurs_id`),
   INDEX `fk_chatModeCreation_scenarios1_idx` (`scenarios_id` ASC) VISIBLE,
