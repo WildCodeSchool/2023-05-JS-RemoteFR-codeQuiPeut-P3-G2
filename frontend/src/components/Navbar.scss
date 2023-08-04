@@ -1,0 +1,65 @@
+@import url("https://fonts.googleapis.com/css2?family=IM+Fell+Great+Primer+SC&family=Julius+Sans+One&family=Kablammo&family=MedievalSharp&display=swap");
+
+.ContainNav {
+  display: flex;
+  height: 100px;
+  width: 100%;
+  background-color: #070a09;
+
+  .FeatherBox {
+    display: flex;
+    flex-direction: left;
+    cursor: pointer;
+  }
+}
+
+.ContainLink {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+
+  .link {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    font-family: Julius Sans One;
+    font-size: 2rem;
+    color: white;
+    padding: 5px 60px;
+    border-left: 2px solid #4c60ae;
+    height: 70%;
+    cursor: pointer;
+    &:last-child {
+      border-right: 2px solid #4c60ae;
+      height: 70px;
+    }
+    &:hover {
+      color: #ffbd59;
+    }
+  }
+}
+.PushContain {
+  margin: 10px;
+  height: 100%;
+  width: 930px;
+
+  .push {
+    width: 160px;
+    height: 50px;
+    border-color: #4c60ae;
+    background-color: #070a09;
+    border-radius: 10px;
+    margin-right: 10px;
+    margin-left: 50px;
+    margin-top: 15px;
+    font-family: Julius Sans One;
+    font-size: 1.5rem;
+    color: #4c60ae;
+    cursor: pointer;
+    &:hover {
+      background-color: #4c60ae;
+      color: #ffffff;
+    }
+  }
+}
