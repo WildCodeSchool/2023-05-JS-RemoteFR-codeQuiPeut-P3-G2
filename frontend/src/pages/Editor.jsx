@@ -3,6 +3,9 @@ import EditorPage from "../components/EditorPage"
 import saveDisquette from "../assets/images/saveDisquette.svg"
 import addText from "../assets/images/addText.svg"
 import addImg from "../assets/images/addImg.svg"
+import undo from "../assets/images/undo.png"
+import redo from "../assets/images/redo.png"
+import iconSupprimer from "../assets/images/iconSupprimer.svg"
 import EditorTextStyle from "../components/EditorTextStyle"
 
 export default function Editor() {
@@ -13,6 +16,9 @@ export default function Editor() {
   const [pageOffsetY, setPageOffsetY] = useState()
   const [addNewText, setAddNewText] = useState(false)
   const [textes, setTextes] = useState([])
+  const [images, setImages] = useState([])
+  const [pageHistory, setPageHistory] = useState([]) // pour pouvoir faire un undo
+  const [pageFuture, setPageFuture] = useState([]) // pour pouvoir faire un redo
   const [savedTextStyles, setSavedTextStyles] = useState([])
   const [indexAfficheStyleText, setIndexAfficheStyleText] = useState({
     min: 0,
@@ -44,6 +50,7 @@ export default function Editor() {
       id: newID,
       text: "",
       placeHolder: "Tapez votre texte",
+      selected: true,
       style: {
         backgroundColor: "rgba(250,250,250,1)",
         position: "absolute",
@@ -72,11 +79,29 @@ export default function Editor() {
     }
 
     if (addNewText === true) {
+      // quand on ajoute un élément à la page on ne peux plus rétablir l'ancien état
+      setPageFuture([])
+      // Par contre on ajoute le nouvel élément à l'historique
+      setPageHistory((prevState) => {
+        const newTexteHistory = JSON.parse(JSON.stringify(textes)) // obligé sinon ça copie la référence de textes et du coup la suite ne fonctionne pas
+        newTexteHistory.pop() // textes étant mis à jour avec un nouvel élément, on enlève cet élément
+        const newState = [...prevState, { textes: newTexteHistory, images }]
+        return newState
+      })
+
       const newTextes = textes
       newTextes.push(newTextearea)
-      //   console.log("newTextes", newTextes)
       setTextes(newTextes)
       setAddNewText(false)
+
+      // le champ selected de tous les textes passe à false sauf celui qu'on vient de déposer
+      setTextes((prevState) =>
+        prevState.map((item) =>
+          item.id === newID
+            ? { ...item, selected: true }
+            : { ...item, selected: false }
+        )
+      )
     }
   }
   // ------------------------------------------------------------
@@ -281,6 +306,57 @@ export default function Editor() {
 
   // ----FIN SECTION--------------------------------------------------
 
+  // ----------------------------------------------------------------------------
+  // ------FONCTIONS POUR SUPPRESSION DES ELEMENTS DE LA PAGE----
+  // ---------------------------------------------------------------------------
+
+  const handleClickDeleteElement = () => {
+    // A MODIFIER QUAND IL Y AURA DES IMAGES
+    const newPageHistory = {
+      textes,
+      images,
+    }
+    setPageHistory((prevState) => {
+      const newState = prevState
+      newState.push(newPageHistory)
+      return newState
+    })
+    setTextes((prevState) => prevState.filter((text) => !text.selected))
+    // console.log("newPageHistory", newPageHistory);
+  }
+  // ----FIN SECTION--------------------------------------------------
+
+  // ----------------------------------------------------------------------------
+  // ------FONCTIONS POUR GERER L'ANNULATION ET LE RETABLISSEMENT DES ACTIONS DANSLA PAGE----
+  // ---------------------------------------------------------------------------
+
+  // Fonction pour gérer l'annulation
+  const handleClickUndo = () => {
+    if (pageHistory.length > 0) {
+      const prevStates = pageHistory.pop()
+      setPageHistory(pageHistory)
+      setPageFuture([{ textes, images }, ...pageFuture])
+      setTextes(prevStates.textes)
+      setImages(prevStates.images)
+    } else {
+      // setTextes([])
+      // setImages([])
+    }
+  }
+
+  // Fonction pour gérer le rétablissement
+  const handleClickRedo = () => {
+    if (pageFuture.length > 0) {
+      const nextStates = pageFuture.shift()
+      setPageFuture(pageFuture)
+      setPageHistory([...pageHistory, { textes, images }])
+      setTextes(nextStates.textes)
+      setImages(nextStates.images)
+    }
+  }
+
+  // ----FIN SECTION--------------------------------------------------
+
   // --------------------------------
   // mise à jour des dimensions et position de maPage lorsque la taille de la fenêtre change
 
@@ -313,6 +389,31 @@ export default function Editor() {
     setMounted(true)
   }, [])
 
+  // ----------------------------------------------------------------------------
+  // ------FONCTIONS POUR la GESTION DES RACCOURCIS CLAVIER----
+  // ---------------------------------------------------------------------------
+
+  useEffect(() => {
+    // annulation avec la combinaison de touche ctrl + z
+
+    const handleKeyDownEditor = (event) => {
+      if (event.ctrlKey && event.key === "z") {
+        // console.log("undo")
+        handleClickUndo()
+      } else if (event.ctrlKey && event.key === "y") {
+        // console.log("redo")
+        handleClickRedo()
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDownEditor)
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDownEditor)
+    }
+  }, [])
+  // ----FIN SECTION--------------------------------------------------
+
   return (
     <>
       <div className="fausse-navbar"></div>
@@ -322,6 +423,18 @@ export default function Editor() {
           <img src={saveDisquette} alt="save" />
           <button type="button">Nouveau</button>
           <button type="button">Ouvrir</button>
+          <img
+            src={undo}
+            alt="annuler"
+            onClick={handleClickUndo}
+            title="Annuler suppression d'élément (ctrl + z)"
+          />
+          <img
+            src={redo}
+            alt="Rétablir"
+            onClick={handleClickRedo}
+            title="Rétablir suppression d'élément (ctrl + y)"
+          />
         </div>
 
         <div className="editor-bandeau-centre">
@@ -330,8 +443,20 @@ export default function Editor() {
               src={addText}
               alt="new textarea"
               onClick={handleClickNewTextZone}
+              title="Ajouter une zone de texte"
             />
-            <img src={addImg} alt="new image" onClick={() => {}} />
+            <img
+              src={addImg}
+              alt="new image"
+              onClick={() => {}}
+              title="Importer une image"
+            />
+            <img
+              src={iconSupprimer}
+              alt="supprimer élément"
+              onClick={handleClickDeleteElement}
+              title="Supprimer l'élement sélectionné (ctrl + suppr)"
+            />
           </div>
 
           <section className="container-saved-styles-text">
@@ -462,6 +587,7 @@ export default function Editor() {
         <div className="editor-page-container">
           <EditorPage
             textes={textes}
+            setTextes={setTextes}
             handleClickDropNewText={handleClickDropNewText}
             handleMouseMove={handleMouseMove}
             handleMouseUp={handleMouseUp}
