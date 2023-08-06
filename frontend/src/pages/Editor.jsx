@@ -332,6 +332,7 @@ export default function Editor() {
 
   // Fonction pour gérer l'annulation
   const handleClickUndo = () => {
+    // console.log("pageHistory", pageHistory)
     if (pageHistory.length > 0) {
       const prevStates = pageHistory.pop()
       setPageHistory(pageHistory)
@@ -346,6 +347,7 @@ export default function Editor() {
 
   // Fonction pour gérer le rétablissement
   const handleClickRedo = () => {
+    // console.log("pageFuture", pageFuture)
     if (pageFuture.length > 0) {
       const nextStates = pageFuture.shift()
       setPageFuture(pageFuture)
@@ -399,10 +401,14 @@ export default function Editor() {
     const handleKeyDownEditor = (event) => {
       if (event.ctrlKey && event.key === "z") {
         // console.log("undo")
-        handleClickUndo()
+        handleClickUndo() // non appelé... pourquoi ?
       } else if (event.ctrlKey && event.key === "y") {
         // console.log("redo")
-        handleClickRedo()
+        handleClickRedo() // non appelé... pourquoi ?
+      } else if (event.ctrlKey && event.key === "Delete") {
+        // suppression avec la combinaison de touche ctrl + suppr
+        // car la touche suppr seule doit pouvoir servir à supprimer du texte dans ma textarea
+        handleClickDeleteElement()
       }
     }
 
@@ -597,6 +603,8 @@ export default function Editor() {
             handleDragStart={handleDragStart}
             handleClickElement={handleClickElement}
             handleMouseDown={handleMouseDown}
+            setPageHistory={setPageHistory}
+            images={images}
           />
         </div>
       </main>

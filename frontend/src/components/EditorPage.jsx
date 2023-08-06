@@ -1,9 +1,10 @@
-import { useEffect } from "react"
+// import { useEffect } from "react"
 
 export default function EditorPage(props) {
   const {
     textes,
-    setTextes,
+    // setTextes,
+    // images,
     handleClickDropNewText,
     handleMouseMove,
     handleMouseUp,
@@ -13,29 +14,28 @@ export default function EditorPage(props) {
     handleDragStart,
     handleClickElement,
     handleMouseDown,
+    // setPageHistory,
   } = props
 
   // ----------------------------------------------------------------------------
-  // ------FONCTIONS POUR SUPPRESSION DES ZONES DE TEXTES----
+  // ------FONCTIONS POUR ENREGISTRER AVANT SUPPRESSION DES TEXTES DANS DES ZONES DE TEXTES----
   // ---------------------------------------------------------------------------
 
-  useEffect(() => {
-    // suppression avec la combinaison de touche ctrl + suppr
-    // car la touche suppr seule doit pouvoir servir à supprimer du texte dans ma textarea
-    // A MODIFIER QUAND IL Y AURA DES IMAGES
+  //   //Ne fonctionne pas !
+  //   const handleKeyDownDelete = (event) => {
+  //     console.log("event.inputType", event.key)
+  //     if (event.key === 'Delete' || event.key === 'Backspace') {
+  //         console.log("test delete");
+  //         // on enregistre le state de textes dans history afin de pouvoir récupérer le contenu supprimé
+  //         setPageHistory((prevState) => {
+  //             const newTexteHistory = JSON.parse(JSON.stringify(textes)) // obligé sinon ça copie la référence de textes et du coup la suite ne fonctionne pas
+  //             newTexteHistory.pop() // textes étant mis à jour avec un nouvel élément, on enlève cet élément
+  //             const newState = [...prevState, { textes: newTexteHistory, images }]
+  //             return newState
+  //           })
+  //       }
+  //   }
 
-    const handleKeyDown = (event) => {
-      if (event.ctrlKey && event.key === "Delete") {
-        setTextes((prevState) => prevState.filter((text) => !text.selected))
-      }
-    }
-
-    document.addEventListener("keydown", handleKeyDown)
-
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown)
-    }
-  }, [])
   // ----FIN SECTION--------------------------------------------------
 
   return (
@@ -58,8 +58,7 @@ export default function EditorPage(props) {
           onDragStart={(e) => handleDragStart(e, item.id)}
           onClick={(e) => handleClickElement(item.id)}
           onMouseDown={(e) => handleMouseDown(e, item.id)}
-          //   onContextMenu={(e)=>handleContextMenuTextarea(e,item.id)}
-          //   onMouseLeave={() =>handleLeaveContextMenuTextarea(item.id)}
+          //   onKeyDown={handleKeyDownDelete}
         ></textarea>
       ))}
 
