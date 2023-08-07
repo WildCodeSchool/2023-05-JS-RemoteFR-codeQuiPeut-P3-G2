@@ -358,7 +358,7 @@ CREATE TABLE IF NOT EXISTS `scripterBdd`.`saved_style_image` (
   `width` VARCHAR(45) NOT NULL,
   `height` VARCHAR(45) NOT NULL,
   `top` VARCHAR(45) NOT NULL,
-  `left` VARCHAR(45) NOT NULL,
+  `ssi_left` VARCHAR(45) NOT NULL,
   `z_index` INT NULL,
   `border_style` VARCHAR(45) NULL,
   `border_width` VARCHAR(45) NULL,

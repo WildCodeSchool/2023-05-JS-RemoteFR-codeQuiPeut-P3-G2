@@ -34,6 +34,8 @@ const UtilisateursManager = require("./UtilisateursManager")
 const ForumCommManager = require("./ForumCommManager")
 const SujetForumManager = require("./SujetForumManager")
 const SavedStyleTextManager = require("./SavedStyleTextManager")
+const SavedStyleImageManager = require("./SavedStyleImageManager")
+const SavedStylePageManager = require("./SavedStylePageManager")
 
 models.scenarios = new ScenariosManager()
 models.scenarios.setDatabase(pool)
@@ -49,6 +51,12 @@ models.sujetForum.setDatabase(pool)
 
 models.savStylTxt = new SavedStyleTextManager()
 models.savStylTxt.setDatabase(pool)
+
+models.savStylImg = new SavedStyleImageManager()
+models.savStylImg.setDatabase(pool)
+
+models.savStylPag = new SavedStylePageManager()
+models.savStylPag.setDatabase(pool)
 
 // bonus: use a proxy to personalize error message,
 // when asking for a non existing model
