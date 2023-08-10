@@ -1,0 +1,113 @@
+$colorYellow: #ffbd59;
+$colorDark: #070a09;
+$blueColor: #4c60ae;
+$fontSizeP: 1.2rem;
+$fontSizeBouton: 1.3rem;
+$fontSizeTitre: 1.5rem;
+
+.main-sommaire-editor {
+  padding: 16px;
+
+  .section-boutons-nouvelle-page {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 16px;
+    height: 112px;
+
+    img {
+      width: 50px;
+      height: auto;
+      cursor: pointer;
+
+      &:hover {
+        box-shadow: 0 0 20px 5px $colorYellow;
+      }
+
+      &:active {
+        box-shadow: 0 0 20px 5px $blueColor;
+      }
+    }
+
+    .div-boutons-nouvelle-page {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+
+      button {
+        width: 140px;
+        height: 40px;
+        padding: 8px 16px;
+        color: white;
+        background-color: $blueColor;
+        border-radius: 16px;
+        font-size: $fontSizeP;
+        border: 4px outset #6573ac;
+        cursor: pointer;
+
+        &:hover {
+          box-shadow: 0 0 20px 5px $colorYellow;
+        }
+
+        &:active {
+          box-shadow: 0 0 20px 5px $blueColor;
+        }
+      }
+    }
+  }
+
+  .section-scenarios,
+  .section-pages {
+    p {
+      cursor: pointer;
+    }
+  }
+
+  .section-campagne,
+  .section-scenarios,
+  .section-pages {
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 16px;
+    width: 80%;
+
+    h1 {
+      text-align: center;
+      margin: 0;
+      font-size: $fontSizeTitre;
+      color: $colorYellow;
+      margin-bottom: 8px;
+    }
+
+    div {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+
+      p {
+        color: white;
+        font-size: $fontSizeP;
+        text-align: center;
+        margin: 8px;
+      }
+
+      img {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        cursor: pointer;
+
+        &:hover {
+          box-shadow: 0px 0px 20px 3px $colorYellow;
+        }
+      }
+    }
+  }
+}

@@ -46,6 +46,13 @@ class ScenariosManager extends AbstractManager {
       ]
     )
   }
+
+  findPages(id) {
+    return this.database.query(
+      `select pages.* from  ${this.table} INNER JOIN pages ON pages.scenarios_id = scenarios.id where scenarios.id = ?`,
+      [id]
+    )
+  }
 }
 
 module.exports = ScenariosManager

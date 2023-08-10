@@ -1,6 +1,10 @@
+// import { useEffect } from "react"
+
 export default function EditorPage(props) {
   const {
     textes,
+    // setTextes,
+    // images,
     handleClickDropNewText,
     handleMouseMove,
     handleMouseUp,
@@ -10,7 +14,29 @@ export default function EditorPage(props) {
     handleDragStart,
     handleClickElement,
     handleMouseDown,
+    // setPageHistory,
   } = props
+
+  // ----------------------------------------------------------------------------
+  // ------FONCTIONS POUR ENREGISTRER AVANT SUPPRESSION DES TEXTES DANS DES ZONES DE TEXTES----
+  // ---------------------------------------------------------------------------
+
+  //   //Ne fonctionne pas !
+  //   const handleKeyDownDelete = (event) => {
+  //     console.log("event.inputType", event.key)
+  //     if (event.key === 'Delete' || event.key === 'Backspace') {
+  //         console.log("test delete");
+  //         // on enregistre le state de textes dans history afin de pouvoir récupérer le contenu supprimé
+  //         setPageHistory((prevState) => {
+  //             const newTexteHistory = JSON.parse(JSON.stringify(textes)) // obligé sinon ça copie la référence de textes et du coup la suite ne fonctionne pas
+  //             newTexteHistory.pop() // textes étant mis à jour avec un nouvel élément, on enlève cet élément
+  //             const newState = [...prevState, { textes: newTexteHistory, images }]
+  //             return newState
+  //           })
+  //       }
+  //   }
+
+  // ----FIN SECTION--------------------------------------------------
 
   return (
     <section
@@ -32,6 +58,7 @@ export default function EditorPage(props) {
           onDragStart={(e) => handleDragStart(e, item.id)}
           onClick={(e) => handleClickElement(item.id)}
           onMouseDown={(e) => handleMouseDown(e, item.id)}
+          //   onKeyDown={handleKeyDownDelete}
         ></textarea>
       ))}
 
