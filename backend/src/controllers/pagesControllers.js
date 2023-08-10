@@ -1,7 +1,7 @@
 const models = require("../models")
 
 const browse = (req, res) => {
-  models.scenarios
+  models.pages
     .findAll()
     .then(([rows]) => {
       res.send(rows)
@@ -12,8 +12,24 @@ const browse = (req, res) => {
     })
 }
 
+const add = (req, res) => {
+  const pages = req.body
+
+  // TODO validations (length, format...)
+
+  models.pages
+    .insert(pages)
+    .then(([result]) => {
+      res.json(result.insertId)
+    })
+    .catch((err) => {
+      console.error(err)
+      res.sendStatus(500)
+    })
+}
+
 const read = (req, res) => {
-  models.scenarios
+  models.pages
     .find(req.params.id)
     .then(([rows]) => {
       if (rows[0] == null) {
@@ -29,14 +45,12 @@ const read = (req, res) => {
 }
 
 const edit = (req, res) => {
-  const scenarios = req.body
+  const pages = req.body
 
-  // TODO validations (length, format...)
+  const id = req.params.id
 
-  scenarios.id = parseInt(req.params.id, 10)
-
-  models.scenarios
-    .update(scenarios)
+  models.pages
+    .update(pages, id)
     .then(([result]) => {
       if (result.affectedRows === 0) {
         res.sendStatus(404)
@@ -50,24 +64,8 @@ const edit = (req, res) => {
     })
 }
 
-const add = (req, res) => {
-  const scenarios = req.body
-
-  // TODO validations (length, format...)
-
-  models.scenarios
-    .insert(scenarios)
-    .then(([result]) => {
-      res.location(`/items/${result.insertId}`).sendStatus(201)
-    })
-    .catch((err) => {
-      console.error(err)
-      res.sendStatus(500)
-    })
-}
-
 const destroy = (req, res) => {
-  models.scenarios
+  models.pages
     .delete(req.params.id)
     .then(([result]) => {
       if (result.affectedRows === 0) {
@@ -82,27 +80,26 @@ const destroy = (req, res) => {
     })
 }
 
-const readPages = (req, res) => {
-  models.scenarios
-    .findPages(req.params.id)
-    .then(([rows]) => {
-      if (rows[0] == null) {
-        res.sendStatus(404)
-      } else {
-        res.send(rows)
-      }
-    })
-    .catch((err) => {
-      console.error(err)
-      res.sendStatus(500)
-    })
-}
+// const readpagescenarios = (req, res) => {
+//     models.pages
+//     .findScenarios(req.params.id)
+//     .then(([rows]) => {
+//         if (rows[0] == null) {
+//           res.sendStatus(404)
+//         } else {
+//           res.send(rows)
+//         }
+//       })
+//       .catch((err) => {
+//         console.error(err)
+//         res.sendStatus(500)
+//       })
+// }
 
 module.exports = {
   browse,
+  add,
   read,
   edit,
-  add,
   destroy,
-  readPages,
 }

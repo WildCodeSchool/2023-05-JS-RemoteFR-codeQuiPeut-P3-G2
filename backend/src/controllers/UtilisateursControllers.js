@@ -27,6 +27,7 @@ const add = (req, res) => {
       res.sendStatus(500)
     })
 }
+
 const read = (req, res) => {
   models.utilisateurs
     .find(req.params.id)

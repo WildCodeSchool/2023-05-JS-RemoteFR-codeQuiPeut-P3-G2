@@ -1,3 +1,4 @@
+import axios from "axios"
 import { useState, useEffect } from "react"
 import EditorPage from "../components/EditorPage"
 import saveDisquette from "../assets/images/saveDisquette.svg"
@@ -7,8 +8,18 @@ import undo from "../assets/images/undo.png"
 import redo from "../assets/images/redo.png"
 import iconSupprimer from "../assets/images/iconSupprimer.svg"
 import EditorTextStyle from "../components/EditorTextStyle"
+import SommaireEditor from "../components/SommaireEditor"
 
 export default function Editor() {
+  const [user, setUser] = useState({}) // à SUPPRIMER par la suite, à récupérer via un context
+  const [author, setAuthor] = useState({}) // (id, authorName)
+  const [campagnesUtilisateur, setCampagnesUtilisateur] = useState([]) // (id, campagneName)
+  const [editedCampagne, setEditedCampagne] = useState({})
+  const [scenariosOfEditedCampagne, setScenariosOfEditedCampagne] = useState([])
+  const [pagesOfScenarioSelected, setPagesOfScenarioSelected] = useState([])
+
+  const [showMenuOpen, setShowMenuOpen] = useState(false)
+
   const [mounted, setMounted] = useState(false)
   const [pageWidth, setPageWidth] = useState()
   const [pageHeight, setPageHeight] = useState()
@@ -26,6 +37,37 @@ export default function Editor() {
   })
 
   const maPage = document.querySelector(".section-page")
+
+  // récupération de l'utilisateur ... A SUPPRIMER PLUS TARD
+  // puis de l'auteur (pas à supprimer)
+  // puis de ses campagnes
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:4242/utilisateurs/1")
+      .then(({ data }) => {
+        setUser(data)
+        return data
+      })
+      .then((userData) => {
+        axios
+          .get(`http://localhost:4242/auteurs/user/${userData.id}`)
+          .then(({ data }) => {
+            setAuthor(data)
+            return data
+          })
+          .then((author) => {
+            axios
+              .get(`http://localhost:4242/auteurs/${author.id}/campagnes`) // A MODIFIER - NE FONCTIONNE PAS
+              .then(({ data }) => setCampagnesUtilisateur(data))
+            // .catch((error) =>
+            //   console.log("error axios recup campagnesUtilisateur", error)
+            // )
+          })
+        // .catch((error) => console.log("error axios recup auteur", error))
+      })
+    // .catch((error) => console.log("error axios recup user", error))
+  }, [])
 
   // --------------------------------------------------------------
   // --------AJOUT DE NOUVEAUX ELEMENTS DANS LA PAGE--------------
@@ -327,7 +369,62 @@ export default function Editor() {
   // ----FIN SECTION--------------------------------------------------
 
   // ----------------------------------------------------------------------------
-  // ------FONCTIONS POUR GERER L'ANNULATION ET LE RETABLISSEMENT DES ACTIONS DANSLA PAGE----
+  // ------FONCTIONS POUR OUVRIR ou AJOUTER / CREER UN NOUVEAU SCENARIO----
+  // ---------------------------------------------------------------------------
+  const handleClickNouveauScenario = () => {
+    // const scenarioName = prompt("Entrez un nom pour votre scénario")
+  }
+
+  const handleClickOpen = () => {
+    setShowMenuOpen(!showMenuOpen)
+    // console.log("scenariosOfEditedCampagne", scenariosOfEditedCampagne);
+  }
+
+  const handleLeaveOpen = () => {
+    setShowMenuOpen(false)
+  }
+
+  const handleClickOpenCampagne = (idCampagne) => {
+    setShowMenuOpen(false)
+    const newEditedCampagne = campagnesUtilisateur.filter(
+      (campagne) => campagne.id === idCampagne
+    )[0]
+    setEditedCampagne(newEditedCampagne)
+
+    axios
+      .get(`http://localhost:4242/campagnes/${idCampagne}/scenarios`)
+      .then(({ data }) => {
+        data[0].selected = true // on ajoute un champ selected à true pour que le 1er scenario soit sélectionné par défaut
+        setScenariosOfEditedCampagne(data)
+        return data // on va s'en servir pour récupérer les pages associées au scenario sélectionné
+      })
+      .then((scenarios) => {
+        const idScenarioSelected = scenarios.filter(
+          (item) => item.selected === true
+        )[0].id
+
+        axios
+          .get(`http://localhost:4242/scenarios/${idScenarioSelected}/pages`)
+          .then(({ data }) => setPagesOfScenarioSelected(data))
+        // .catch((error) =>
+        //   console.log(
+        //     "error axios recup pages du scénario sélectionné",
+        //     error
+        //   )
+        // )
+      })
+    // .catch((error) =>
+    //   console.log(
+    //     "error axios recup scenarios de la campagne sélectionnée",
+    //     error
+    //   )
+    // )
+  }
+
+  // ----FIN SECTION--------------------------------------------------
+
+  // ----------------------------------------------------------------------------
+  // ------FONCTIONS POUR GERER L'ANNULATION ET LE RETABLISSEMENT DES ACTIONS DANS LA PAGE----
   // ---------------------------------------------------------------------------
 
   // Fonction pour gérer l'annulation
@@ -427,8 +524,34 @@ export default function Editor() {
       <section className="editor-bandeau-superieur">
         <div className="editor-bandeau-gauche">
           <img src={saveDisquette} alt="save" />
-          <button type="button">Nouveau</button>
-          <button type="button">Ouvrir</button>
+          <button
+            type="button"
+            onClick={handleClickNouveauScenario}
+            className="button-editor-bandeau-gauche"
+          >
+            Nouveau
+          </button>
+          <div className="div-menu-open">
+            <button
+              type="button"
+              className="button-editor-bandeau-gauche"
+              onClick={handleClickOpen}
+            >
+              Ouvrir
+            </button>
+            <div className="menu-open" onMouseLeave={handleLeaveOpen}>
+              {showMenuOpen &&
+                campagnesUtilisateur.map((item) => (
+                  <button
+                    type="button"
+                    key={item.id}
+                    onClick={() => handleClickOpenCampagne(item.id)}
+                  >
+                    {item.name}
+                  </button>
+                ))}
+            </div>
+          </div>
           <img
             src={undo}
             alt="annuler"
@@ -569,7 +692,18 @@ export default function Editor() {
 
       <main className="editor-main">
         <section className="sommaire-editeur">
-          <div className="section-sommaire"></div>
+          <div className="section-sommaire">
+            <SommaireEditor
+              editedCampagne={editedCampagne}
+              setEditedCampagne={setEditedCampagne}
+              scenariosOfEditedCampagne={scenariosOfEditedCampagne}
+              setScenariosOfEditedCampagne={setScenariosOfEditedCampagne}
+              pagesOfScenarioSelected={pagesOfScenarioSelected}
+              setPagesOfScenarioSelected={setPagesOfScenarioSelected}
+              user={user} // a SUPPRIMER probablement
+              author={author} // a SUPPRIMER éventuellement, a voir
+            />
+          </div>
 
           <div className="configurator">
             <EditorTextStyle
