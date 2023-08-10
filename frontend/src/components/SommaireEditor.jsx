@@ -59,7 +59,10 @@ export default function SommaireEditor(props) {
 
     axios
       .get(`http://localhost:4242/scenarios/${scenarioID}/pages`)
-      .then(({ data }) => setPagesOfScenarioSelected(data))
+      .then(({ data }) => {
+        data[0].selected = true
+        setPagesOfScenarioSelected(data)
+      })
     // .catch((error) =>
     //   console.log("error axios recup pages du scénario sélectionné", error)
     // )

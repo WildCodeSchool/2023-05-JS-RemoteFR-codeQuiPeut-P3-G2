@@ -73,6 +73,7 @@ export default function Editor() {
   // --------AJOUT DE NOUVEAUX ELEMENTS DANS LA PAGE--------------
   // -----------------------------------------------------------
   const handleClickNewTextZone = () => {
+    // console.log("test");
     setAddNewText(true)
   }
 
@@ -392,7 +393,7 @@ export default function Editor() {
     setEditedCampagne(newEditedCampagne)
 
     axios
-      .get(`http://localhost:4242/campagnes/${idCampagne}/scenarios`)
+      .get(`http://localhost:4242/campagnes/${idCampagne}/scenarios`) // on va chercher les scénarios liés à la campagne et on se place sur le 1er
       .then(({ data }) => {
         data[0].selected = true // on ajoute un champ selected à true pour que le 1er scenario soit sélectionné par défaut
         setScenariosOfEditedCampagne(data)
@@ -404,8 +405,23 @@ export default function Editor() {
         )[0].id
 
         axios
-          .get(`http://localhost:4242/scenarios/${idScenarioSelected}/pages`)
-          .then(({ data }) => setPagesOfScenarioSelected(data))
+          .get(`http://localhost:4242/scenarios/${idScenarioSelected}/pages`) // on va chercher les pages du scénario sélectionné et on se place sur la première
+          .then(({ data }) => {
+            data[0].selected = true
+            setPagesOfScenarioSelected(data)
+            return data
+          })
+          .then((pages) => {
+            const idPageSelected = pages.filter(
+              (item) => item.selected === true
+            )[0].id
+
+            axios
+              .get(`http://localhost:4242/pages/${idPageSelected}/textes`) // on va chercher les textes de la page sélectionnée
+              .then(({ data }) => {
+                setTextes(data)
+              })
+          })
         // .catch((error) =>
         //   console.log(
         //     "error axios recup pages du scénario sélectionné",
