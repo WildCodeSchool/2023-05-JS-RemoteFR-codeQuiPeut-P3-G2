@@ -19,14 +19,12 @@ class PagesManager extends AbstractManager {
     )
   }
 
-  //   findScenarios(id) {
-  //     return this.database.query(
-  //       `select scenarios.id, scenarios.name FROM ${this.table} INNER JOIN scenarios ON scenarios.pages_id = pages.id WHERE campagnes.id = ?`,
-  //       [
-  //         id,
-  //       ]
-  //     )
-  //   }
+  findPageTexts(id) {
+    return this.database.query(
+      `select pt.id, pt.pages_id, pt.data AS text , s.width, s.height, s.top, s.sst_left AS \`left\`, s.z_index AS zIndex, s.border_style AS borderStyle, s.border_color AS borderColor, s.border_width AS borderWidth, s.border_radius AS borderRadius, s.box_shadow AS boxShadow, s.background_color AS backgroundColor, s.font_size AS fontSize, s.font_style AS fontStyle, s.font_weight AS fontWeight, s.font_family AS fontFamily, s.color, s.padding, s.back_drop_filter AS backdropFilter, s.back_drop_filter AS WebkitBackdropFilter, s.text_decoration AS textDecoration, s.text_align AS textAlign from  ${this.table} INNER JOIN page_textes AS pt ON pt.pages_id = pages.id INNER JOIN text_style as s ON s.page_textes_id = pt.id  where pages.id = ?`,
+      [id]
+    )
+  }
 }
 
 module.exports = PagesManager

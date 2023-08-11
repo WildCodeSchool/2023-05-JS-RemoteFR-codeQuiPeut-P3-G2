@@ -1,7 +1,7 @@
 const models = require("../models")
 
 const browse = (req, res) => {
-  models.utilisateurs
+  models.styleText
     .findAll()
     .then(([rows]) => {
       res.send(rows)
@@ -13,12 +13,12 @@ const browse = (req, res) => {
 }
 
 const add = (req, res) => {
-  const utilisateurs = req.body
+  const saveStTx = req.body
 
   // TODO validations (length, format...)
 
-  models.utilisateurs
-    .insert(utilisateurs)
+  models.styleText
+    .insert(saveStTx)
     .then(([result]) => {
       res.json(result.insertId)
     })
@@ -29,7 +29,7 @@ const add = (req, res) => {
 }
 
 const read = (req, res) => {
-  models.utilisateurs
+  models.styleText
     .find(req.params.id)
     .then(([rows]) => {
       if (rows[0] == null) {
@@ -45,14 +45,14 @@ const read = (req, res) => {
 }
 
 const edit = (req, res) => {
-  const utilisateurs = req.body
+  const saveStTx = req.body
 
   // TODO validations (length, format...)
 
   const id = req.params.id
 
-  models.utilisateurs
-    .update(utilisateurs, id)
+  models.styleText
+    .update(saveStTx, id)
     .then(([result]) => {
       if (result.affectedRows === 0) {
         res.sendStatus(404)
@@ -65,9 +65,32 @@ const edit = (req, res) => {
       res.sendStatus(500)
     })
 }
+
 const destroy = (req, res) => {
-  models.utilisateurs
+  models.styleText
     .delete(req.params.id)
+    .then(([result]) => {
+      if (result.affectedRows === 0) {
+        res.sendStatus(404)
+      } else {
+        res.sendStatus(204)
+      }
+    })
+    .catch((err) => {
+      console.error(err)
+      res.sendStatus(500)
+    })
+}
+
+const editStyleFromTexteID = (req, res) => {
+  const style = req.body
+
+  // TODO validations (length, format...)
+
+  const textID = req.params.id
+
+  models.styleText
+    .editStyleFromTexteID(style, textID)
     .then(([result]) => {
       if (result.affectedRows === 0) {
         res.sendStatus(404)
@@ -87,4 +110,5 @@ module.exports = {
   read,
   edit,
   destroy,
+  editStyleFromTexteID,
 }

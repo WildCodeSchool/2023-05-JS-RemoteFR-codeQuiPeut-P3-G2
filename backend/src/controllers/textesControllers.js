@@ -1,7 +1,7 @@
 const models = require("../models")
 
 const browse = (req, res) => {
-  models.pages
+  models.textes
     .findAll()
     .then(([rows]) => {
       res.send(rows)
@@ -13,12 +13,12 @@ const browse = (req, res) => {
 }
 
 const add = (req, res) => {
-  const pages = req.body
+  const textes = req.body
 
   // TODO validations (length, format...)
 
-  models.pages
-    .insert(pages)
+  models.textes
+    .insert(textes)
     .then(([result]) => {
       res.json(result.insertId)
     })
@@ -29,7 +29,7 @@ const add = (req, res) => {
 }
 
 const read = (req, res) => {
-  models.pages
+  models.textes
     .find(req.params.id)
     .then(([rows]) => {
       if (rows[0] == null) {
@@ -45,12 +45,14 @@ const read = (req, res) => {
 }
 
 const edit = (req, res) => {
-  const pages = req.body
+  const textes = req.body
+
+  // TODO validations (length, format...)
 
   const id = req.params.id
 
-  models.pages
-    .update(pages, id)
+  models.textes
+    .update(textes, id)
     .then(([result]) => {
       if (result.affectedRows === 0) {
         res.sendStatus(404)
@@ -63,9 +65,8 @@ const edit = (req, res) => {
       res.sendStatus(500)
     })
 }
-
 const destroy = (req, res) => {
-  models.pages
+  models.textes
     .delete(req.params.id)
     .then(([result]) => {
       if (result.affectedRows === 0) {
@@ -80,9 +81,23 @@ const destroy = (req, res) => {
     })
 }
 
-const readPageTexts = (req, res) => {
-  models.pages
-    .findPageTexts(req.params.id)
+const createNew = (req, res) => {
+  const position = req.body // doit contenir sst_left et top
+
+  models.textes
+    .createNew(position, req.params.id)
+    .then((result) => {
+      res.json(result)
+    })
+    .catch((err) => {
+      console.error(err)
+      res.sendStatus(500)
+    })
+}
+
+const getLast = (req, res) => {
+  models.textes
+    .getLast()
     .then(([rows]) => {
       if (rows[0] == null) {
         res.sendStatus(404)
@@ -119,7 +134,7 @@ const readPageTexts = (req, res) => {
             WebkitBackdropFilter: item.backdropFilter,
           },
         }))
-        res.send(data)
+        res.send(data[0])
       }
     })
     .catch((err) => {
@@ -134,5 +149,6 @@ module.exports = {
   read,
   edit,
   destroy,
-  readPageTexts,
+  createNew,
+  getLast,
 }

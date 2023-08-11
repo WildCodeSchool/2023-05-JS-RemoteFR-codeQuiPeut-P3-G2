@@ -10,6 +10,7 @@ export default function SommaireEditor(props) {
     setScenariosOfEditedCampagne,
     pagesOfScenarioSelected,
     setPagesOfScenarioSelected,
+    setTextes,
   } = props
 
   //  console.log("scenariosOfEditedCampagne",scenariosOfEditedCampagne);
@@ -59,20 +60,56 @@ export default function SommaireEditor(props) {
 
     axios
       .get(`http://localhost:4242/scenarios/${scenarioID}/pages`)
-      .then(({ data }) => setPagesOfScenarioSelected(data))
+      .then(({ data }) => {
+        data[0].selected = true
+        setPagesOfScenarioSelected(data)
+        return data
+      })
+      .then((pages) => {
+        const idPageSelected = pages.filter((item) => item.selected === true)[0]
+          .id
+
+        axios
+          .get(`http://localhost:4242/pages/${idPageSelected}/textes`) // on va chercher les textes de la page sélectionnée
+          .then(({ data }) => {
+            setTextes(data)
+          })
+          .catch(() => {
+            // .catch((error)
+            // permet de jouer setTextes([]) s'il n'y a pas de données dans la BDD
+            // console.log(error)
+            setTextes([])
+          })
+      })
     // .catch((error) =>
     //   console.log("error axios recup pages du scénario sélectionné", error)
     // )
   }
 
   const handleClickSelectpage = (pageID) => {
-    setPagesOfScenarioSelected((prevstate) =>
-      prevstate.map((page) =>
-        page.id === pageID
-          ? { ...page, selected: true }
-          : { ...page, selected: false }
-      )
+    const newPagesOfScenarioSelected = pagesOfScenarioSelected.map((page) =>
+      page.id === pageID
+        ? { ...page, selected: true }
+        : { ...page, selected: false }
     )
+
+    setPagesOfScenarioSelected(newPagesOfScenarioSelected)
+
+    const idPageSelected = newPagesOfScenarioSelected.filter(
+      (item) => item.selected === true
+    )[0].id
+
+    axios
+      .get(`http://localhost:4242/pages/${idPageSelected}/textes`) // on va chercher les textes de la page sélectionnée
+      .then(({ data }) => {
+        setTextes(data)
+      })
+      .catch(() => {
+        // .catch((error)
+        // permet de jouer setTextes([]) s'il n'y a pas de données dans la BDD
+        // console.log(error)
+        setTextes([])
+      })
   }
 
   // ----FIN SECTION-----------------------------------------------------
