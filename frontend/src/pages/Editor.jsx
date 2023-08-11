@@ -716,6 +716,7 @@ export default function Editor() {
               setScenariosOfEditedCampagne={setScenariosOfEditedCampagne}
               pagesOfScenarioSelected={pagesOfScenarioSelected}
               setPagesOfScenarioSelected={setPagesOfScenarioSelected}
+              setTextes={setTextes}
               user={user} // a SUPPRIMER probablement
               author={author} // a SUPPRIMER éventuellement, a voir
             />
