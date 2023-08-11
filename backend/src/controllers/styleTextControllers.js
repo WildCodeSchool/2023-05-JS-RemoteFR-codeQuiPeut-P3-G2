@@ -49,10 +49,10 @@ const edit = (req, res) => {
 
   // TODO validations (length, format...)
 
-  saveStTx.id = parseInt(req.params.id, 10)
+  const id = req.params.id
 
   models.styleText
-    .update(saveStTx)
+    .update(saveStTx, id)
     .then(([result]) => {
       if (result.affectedRows === 0) {
         res.sendStatus(404)
@@ -82,10 +82,33 @@ const destroy = (req, res) => {
     })
 }
 
+const editStyleFromTexteID = (req, res) => {
+  const style = req.body
+
+  // TODO validations (length, format...)
+
+  const textID = req.params.id
+
+  models.styleText
+    .editStyleFromTexteID(style, textID)
+    .then(([result]) => {
+      if (result.affectedRows === 0) {
+        res.sendStatus(404)
+      } else {
+        res.sendStatus(204)
+      }
+    })
+    .catch((err) => {
+      console.error(err)
+      res.sendStatus(500)
+    })
+}
+
 module.exports = {
   browse,
   add,
   read,
   edit,
   destroy,
+  editStyleFromTexteID,
 }

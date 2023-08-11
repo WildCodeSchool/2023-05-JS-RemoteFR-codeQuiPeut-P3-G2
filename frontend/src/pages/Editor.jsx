@@ -81,45 +81,50 @@ export default function Editor() {
     const newTop = (100 * (e.pageY - pageOffsetY)) / pageHeight + "%"
 
     const newLeft = (100 * (e.pageX - pageOffsetX)) / pageWidth + "%"
-    let newID = null
 
-    if (textes.length === 0) {
-      newID = 1
-    } else {
-      newID = textes[textes.length - 1].id + 1
-    }
+    const idPageSelected = pagesOfScenarioSelected.filter(
+      (item) => item.selected === true
+    )[0].id
 
-    const newTextearea = {
-      id: newID,
-      text: "",
-      placeHolder: "Tapez votre texte",
-      selected: true,
-      style: {
-        backgroundColor: "rgba(250,250,250,1)",
-        position: "absolute",
-        width: "50%",
-        height: "5%",
-        boxSizing: "border-box",
-        top: newTop,
-        left: newLeft,
-        zIndex: 0,
-        borderStyle: "none",
-        borderColor: "rgba(200,200,200,1)",
-        borderWidth: 1,
-        borderRadius: 0,
-        boxShadow: "0px 0px 0px 0px rgba(0,0,0,0)",
-        fontSize: "20px",
-        fontStyle: "normal",
-        textDecoration: "none",
-        fontWeight: 400,
-        fontFamily: "cursive",
-        color: "rgba(0,0,0,1)",
-        padding: "4px",
-        textAlign: "left",
-        backdropFilter: "blur(0px)",
-        WebkitBackdropFilter: "blur(0px)",
-      },
-    }
+    // let newID = null
+
+    // if (textes.length === 0) {
+    //   newID = 1
+    // } else {
+    //   newID = textes[textes.length - 1].id + 1
+    // }
+
+    // const newTextearea = {
+    //   id: newID,
+    //   text: "",
+    //   placeHolder: "Tapez votre texte",
+    //   selected: true,
+    //   style: {
+    //     backgroundColor: "rgba(250,250,250,1)",
+    //     position: "absolute",
+    //     width: "50%",
+    //     height: "5%",
+    //     boxSizing: "border-box",
+    //     top: newTop,
+    //     left: newLeft,
+    //     zIndex: 0,
+    //     borderStyle: "none",
+    //     borderColor: "rgba(200,200,200,1)",
+    //     borderWidth: 1,
+    //     borderRadius: 0,
+    //     boxShadow: "0px 0px 0px 0px rgba(0,0,0,0)",
+    //     fontSize: "20px",
+    //     fontStyle: "normal",
+    //     textDecoration: "none",
+    //     fontWeight: 400,
+    //     fontFamily: "cursive",
+    //     color: "rgba(0,0,0,1)",
+    //     padding: "4px",
+    //     textAlign: "left",
+    //     backdropFilter: "blur(0px)",
+    //     WebkitBackdropFilter: "blur(0px)",
+    //   },
+    // }
 
     if (addNewText === true) {
       // quand on ajoute un élément à la page on ne peux plus rétablir l'ancien état
@@ -132,19 +137,40 @@ export default function Editor() {
         return newState
       })
 
-      const newTextes = textes
-      newTextes.push(newTextearea)
-      setTextes(newTextes)
+      // on crée un nouveau texte dans la base de donnée puis on le récupère pour l'injecter dans newtextarea
+
+      axios
+        .post(`http://localhost:4242/pages/${idPageSelected}/newtexte`, {
+          top: newTop,
+          left: newLeft,
+        })
+        .then(() => {
+          axios
+            .get(`http://localhost:4242/lasttexte`) // on va chercher les textes de la page sélectionnée
+            .then(({ data }) => {
+              // const newTextes = textes
+              // newTextes.push(data)
+              const newTextes = [...textes, data]
+              setTextes(newTextes)
+            })
+        })
+        .catch(function (error) {
+          console.error(error)
+        })
+
+      // const newTextes = textes
+      // newTextes.push(newTextearea)
+      // setTextes(newTextes)
       setAddNewText(false)
 
       // le champ selected de tous les textes passe à false sauf celui qu'on vient de déposer
-      setTextes((prevState) =>
-        prevState.map((item) =>
-          item.id === newID
-            ? { ...item, selected: true }
-            : { ...item, selected: false }
-        )
-      )
+      // setTextes((prevState) =>
+      //   prevState.map((item) =>
+      //     item.id === newID
+      //       ? { ...item, selected: true }
+      //       : { ...item, selected: false }
+      //   )
+      // )
     }
   }
   // ------------------------------------------------------------
@@ -472,6 +498,46 @@ export default function Editor() {
 
   // ----FIN SECTION--------------------------------------------------
 
+  // ----------------------------------------------------------------------------
+  // ------FONCTIONS POUR SAUVEGARDER L'ETAT DES TEXTES ET DES STYLES DE LA PAGE----
+  // ---------------------------------------------------------------------------
+  const handleSave = () => {
+    textes.map((texte) => {
+      axios.put(`http://localhost:4242/textes/${texte.id}`, {
+        pages_id: texte.pages_id,
+        text: texte.text,
+      })
+
+      axios.put(`http://localhost:4242/styleText/texte/${texte.id}`, {
+        page_textes_id: texte.page_textes_id,
+        width: texte.style.width,
+        height: texte.style.height,
+        top: texte.style.top,
+        sst_left: texte.style.left,
+        z_index: texte.style.zIndex,
+        border_style: texte.style.borderStyle,
+        border_color: texte.style.borderColor,
+        border_width: texte.style.borderWidth,
+        border_radius: texte.style.borderRadius,
+        box_shadow: texte.style.boxShadow,
+        background_color: texte.style.backgroundColor,
+        font_size: texte.style.fontSize,
+        font_style: texte.style.fontStyle,
+        font_weight: texte.style.fontWeight,
+        font_family: texte.style.fontFamily,
+        color: texte.style.color,
+        padding: texte.style.padding,
+        back_drop_filter: texte.style.backdropFilter,
+        text_decoration: texte.style.textDecoration,
+        text_align: texte.style.textAlign,
+      })
+
+      return null
+    })
+  }
+
+  // ----FIN SECTION--------------------------------------------------
+
   // --------------------------------
   // mise à jour des dimensions et position de maPage lorsque la taille de la fenêtre change
 
@@ -539,7 +605,7 @@ export default function Editor() {
 
       <section className="editor-bandeau-superieur">
         <div className="editor-bandeau-gauche">
-          <img src={saveDisquette} alt="save" />
+          <img src={saveDisquette} alt="save" onClick={handleSave} />
           <button
             type="button"
             onClick={handleClickNouveauScenario}

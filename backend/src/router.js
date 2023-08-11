@@ -13,6 +13,7 @@ const savedStylePageControllers = require("./controllers/savedStylePageControlle
 const auteursControllers = require("./controllers/auteursControllers")
 const campagnesControllers = require("./controllers/campagnesControllers")
 const pagesControllers = require("./controllers/pagesControllers")
+const textesControllers = require("./controllers/textesControllers")
 
 router.get("/scenarios", scenariosControllers.browse)
 router.get("/scenarios/:id", scenariosControllers.read)
@@ -49,6 +50,7 @@ router.get("/styleText", styleTextControllers.browse)
 router.get("/styleText/:id", styleTextControllers.read)
 router.post("/styleText", styleTextControllers.add)
 router.put("/styleText/:id", styleTextControllers.edit)
+router.put("/styleText/texte/:id", styleTextControllers.editStyleFromTexteID)
 router.delete("/styleText/:id", styleTextControllers.destroy)
 
 router.get("/saved_style_image", savedStyleImageControllers.browse)
@@ -87,5 +89,13 @@ router.post("/pages", pagesControllers.add)
 router.put("/pages/:id", pagesControllers.edit)
 router.delete("/pages/:id", pagesControllers.destroy)
 router.get("/pages/:id/textes", pagesControllers.readPageTexts)
+
+router.get("/textes", textesControllers.browse)
+router.get("/textes/:id", textesControllers.read)
+router.post("/textes", textesControllers.add)
+router.put("/textes/:id", textesControllers.edit)
+router.delete("/textes/:id", textesControllers.destroy)
+router.post("/pages/:id/newtexte", textesControllers.createNew)
+router.get("/lasttexte/", textesControllers.getLast) // renvoie le dernier texte de la table avec son style
 
 module.exports = router
