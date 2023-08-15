@@ -9,6 +9,7 @@ import redo from "../assets/images/redo.png"
 import iconSupprimer from "../assets/images/iconSupprimer.svg"
 import EditorTextStyle from "../components/EditorTextStyle"
 import SommaireEditor from "../components/SommaireEditor"
+import Navbar from "../components/Navbar"
 
 export default function Editor() {
   const [user, setUser] = useState({}) // à SUPPRIMER par la suite, à récupérer via un context
@@ -390,7 +391,41 @@ export default function Editor() {
       newState.push(newPageHistory)
       return newState
     })
-    setTextes((prevState) => prevState.filter((text) => !text.selected))
+
+    // On récupère l'id de l'élément sélectionné et le type (texte ou image) puis on le supprime de la base de donnée
+    // let typeSelected
+    let idSelected
+    const selectedText = textes.filter((texte) => texte.selected === true)[0]
+    const selectedImage = images.filter((image) => image.selected === true)[0]
+
+    if (selectedText) {
+      // typeSelected = "texte"
+      idSelected = selectedText.id
+      setTextes((prevState) => prevState.filter((text) => !text.selected))
+
+      axios
+        .delete(`http://localhost:4242/styleText/texte/${idSelected}`)
+        .then(() => {
+          axios
+            .delete(`http://localhost:4242/textes/${idSelected}`)
+            .catch((err) => {
+              console.error(err)
+            })
+        })
+        .catch((err) => {
+          console.error(
+            err,
+            `impossible de supprimer le style du texte d'ID ${idSelected}`
+          )
+        })
+    } else if (selectedImage) {
+      // typeSelected = "image"
+      idSelected = selectedImage.id
+      setImages((prevState) => prevState.filter((text) => !text.selected))
+
+      // AJOUTER AXIOS DELETE IMAGE
+    }
+
     // console.log("newPageHistory", newPageHistory);
   }
   // ----FIN SECTION--------------------------------------------------
@@ -412,6 +447,12 @@ export default function Editor() {
   }
 
   const handleClickOpenCampagne = (idCampagne) => {
+    // on sauvegarde la page (textes et images) avant de la quitter
+    handleSave()
+    // on efface l'historique car on ne veut pas pouvoir récupérer dans la nouvelle page les textes et images de la page précédante
+    setPageHistory([])
+    setPageFuture([])
+
     setShowMenuOpen(false)
     const newEditedCampagne = campagnesUtilisateur.filter(
       (campagne) => campagne.id === idCampagne
@@ -478,9 +519,6 @@ export default function Editor() {
       setPageFuture([{ textes, images }, ...pageFuture])
       setTextes(prevStates.textes)
       setImages(prevStates.images)
-    } else {
-      // setTextes([])
-      // setImages([])
     }
   }
 
@@ -503,10 +541,46 @@ export default function Editor() {
   // ---------------------------------------------------------------------------
   const handleSave = () => {
     textes.map((texte) => {
-      axios.put(`http://localhost:4242/textes/${texte.id}`, {
-        pages_id: texte.pages_id,
-        text: texte.text,
-      })
+      axios
+        .put(`http://localhost:4242/textes/${texte.id}`, {
+          pages_id: texte.pages_id,
+          text: texte.text,
+        })
+        .catch(() => {
+          // si l'id du texte n'existe pas dans la base de donnée c'est que le texte a d'abord été supprimé puis il est revenu par un undo
+          // dans ce cas il faut le recréer dans la base de donnée
+          const idPageSelected = pagesOfScenarioSelected.filter(
+            (item) => item.selected === true
+          )[0].id
+
+          axios.post(
+            `http://localhost:4242/pages/${idPageSelected}/ancientexte`,
+            {
+              page_textes_id: texte.page_textes_id,
+              data: texte.text,
+              width: texte.style.width,
+              height: texte.style.height,
+              top: texte.style.top,
+              sst_left: texte.style.left,
+              z_index: texte.style.zIndex,
+              border_style: texte.style.borderStyle,
+              border_color: texte.style.borderColor,
+              border_width: texte.style.borderWidth,
+              border_radius: texte.style.borderRadius,
+              box_shadow: texte.style.boxShadow,
+              background_color: texte.style.backgroundColor,
+              font_size: texte.style.fontSize,
+              font_style: texte.style.fontStyle,
+              font_weight: texte.style.fontWeight,
+              font_family: texte.style.fontFamily,
+              color: texte.style.color,
+              padding: texte.style.padding,
+              back_drop_filter: texte.style.backdropFilter,
+              text_decoration: texte.style.textDecoration,
+              text_align: texte.style.textAlign,
+            }
+          )
+        })
 
       axios.put(`http://localhost:4242/styleText/texte/${texte.id}`, {
         page_textes_id: texte.page_textes_id,
@@ -601,7 +675,8 @@ export default function Editor() {
 
   return (
     <>
-      <div className="fausse-navbar"></div>
+      {/* <div className="fausse-navbar"></div> */}
+      <Navbar />
 
       <section className="editor-bandeau-superieur">
         <div className="editor-bandeau-gauche">
@@ -783,6 +858,9 @@ export default function Editor() {
               pagesOfScenarioSelected={pagesOfScenarioSelected}
               setPagesOfScenarioSelected={setPagesOfScenarioSelected}
               setTextes={setTextes}
+              handleSave={handleSave}
+              setPageHistory={setPageHistory}
+              setPageFuture={setPageFuture}
               user={user} // a SUPPRIMER probablement
               author={author} // a SUPPRIMER éventuellement, a voir
             />
@@ -822,6 +900,7 @@ export default function Editor() {
             handleMouseDown={handleMouseDown}
             setPageHistory={setPageHistory}
             images={images}
+            editedCampagne={editedCampagne}
           />
         </div>
       </main>

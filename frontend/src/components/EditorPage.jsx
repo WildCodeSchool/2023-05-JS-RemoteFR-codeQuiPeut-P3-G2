@@ -14,6 +14,7 @@ export default function EditorPage(props) {
     handleDragStart,
     handleClickElement,
     handleMouseDown,
+    editedCampagne,
     // setPageHistory,
   } = props
 
@@ -39,30 +40,38 @@ export default function EditorPage(props) {
   // ----FIN SECTION--------------------------------------------------
 
   return (
-    <section
-      className="section-page"
-      onDragOver={handleDragOver}
-      onDrop={(event) => handleDrop(event, "idColumn1")}
-      onClick={handleClickDropNewText}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-    >
-      {textes.map((item) => (
-        <textarea
-          key={item.id}
-          style={item.style}
-          onChange={(e) => handleChangeTexte(item.id, e.target.value)}
-          value={item.text}
-          placeholder={item.placeHolder}
-          draggable
-          onDragStart={(e) => handleDragStart(e, item.id)}
-          onClick={(e) => handleClickElement(item.id)}
-          onMouseDown={(e) => handleMouseDown(e, item.id)}
-          //   onKeyDown={handleKeyDownDelete}
-        ></textarea>
-      ))}
+    <>
+      {editedCampagne.name ? (
+        <section
+          className="section-page"
+          onDragOver={handleDragOver}
+          onDrop={(event) => handleDrop(event, "idColumn1")}
+          onClick={handleClickDropNewText}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+        >
+          {textes.map((item) => (
+            <textarea
+              key={item.id}
+              style={item.style}
+              onChange={(e) => handleChangeTexte(item.id, e.target.value)}
+              value={item.text}
+              placeholder={item.placeHolder}
+              draggable
+              onDragStart={(e) => handleDragStart(e, item.id)}
+              onClick={(e) => handleClickElement(item.id)}
+              onMouseDown={(e) => handleMouseDown(e, item.id)}
+              //   onKeyDown={handleKeyDownDelete}
+            ></textarea>
+          ))}
 
-      {/* <button type='button' onClick={handleClickNewTextZone}>Nouvelle Zone de texte</button> */}
-    </section>
+          {/* <button type='button' onClick={handleClickNewTextZone}>Nouvelle Zone de texte</button> */}
+        </section>
+      ) : (
+        <section className="section-page">
+          <p>Veuillez ouvrir ou créer un nouveau projet pour commencer !</p>
+        </section>
+      )}
+    </>
   )
 }

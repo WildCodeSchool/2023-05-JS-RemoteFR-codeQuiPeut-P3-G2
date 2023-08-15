@@ -95,6 +95,20 @@ const createNew = (req, res) => {
     })
 }
 
+const recreatePrevious = (req, res) => {
+  const proprietes = req.body // contient les propriétés du texte aisi que ses styles
+
+  models.textes
+    .recreatePrevious(proprietes, req.params.id)
+    .then((result) => {
+      res.json(result)
+    })
+    .catch((err) => {
+      console.error(err)
+      res.sendStatus(500)
+    })
+}
+
 const getLast = (req, res) => {
   models.textes
     .getLast()
@@ -150,5 +164,6 @@ module.exports = {
   edit,
   destroy,
   createNew,
+  recreatePrevious,
   getLast,
 }
