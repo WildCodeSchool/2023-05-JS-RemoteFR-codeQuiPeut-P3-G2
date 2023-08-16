@@ -30,6 +30,47 @@ export default function SommaireEditor(props) {
 
   const handleClickButtonScript = () => {
     setShowButtons(false)
+
+    // on récupère l'id du scenario sélectionné
+    const scenarioID = scenariosOfEditedCampagne.filter(
+      (scenario) => scenario.selected === true
+    )[0].id
+
+    // on demande un nom pour la page
+    const pageName = prompt(
+      "Donnez un nom à votre page de type Script (Possibilité de le modifier à postériori)"
+    )
+
+    // on attribue un numéro de page (numéro de la dernière page + 1)
+    const pageNumber =
+      Math.max(...pagesOfScenarioSelected.map((page) => page.number)) + 1
+
+    // on post une nouvelle page dans la base de donnée (page_type_id = 1 car page script)
+    axios
+      .post(`http://localhost:4242/pages`, {
+        scenarios_id: scenarioID,
+        page_types_id: 1,
+        titre: pageName,
+        number: pageNumber,
+      })
+      .then(() => {
+        // on récupère la page de la base de donnée avec son id et on l'ajoute dans le state pagesOfScenarioSelected
+        axios
+          .get(`http://localhost:4242/scenarios/${scenarioID}/pages`)
+          .then(({ data }) => {
+            data[data.length - 1].selected = true // on se place sur la page créée en la sélectionnant
+            setPagesOfScenarioSelected(data)
+            setTextes([]) // il n'y a pas de texte dans la page créée
+            setPageHistory([]) // idem
+            setPageFuture([]) // idem
+          })
+          .catch((err) => {
+            console.error(err)
+          })
+      })
+      .catch((err) => {
+        console.error(err)
+      })
   }
 
   const handleClickButtonPersonnage = () => {
