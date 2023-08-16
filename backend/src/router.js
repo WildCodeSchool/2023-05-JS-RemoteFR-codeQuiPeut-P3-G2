@@ -52,6 +52,7 @@ router.post("/styleText", styleTextControllers.add)
 router.put("/styleText/:id", styleTextControllers.edit)
 router.put("/styleText/texte/:id", styleTextControllers.editStyleFromTexteID)
 router.delete("/styleText/:id", styleTextControllers.destroy)
+router.delete("/styleText/texte/:id", styleTextControllers.destroyFromTextID)
 
 router.get("/saved_style_image", savedStyleImageControllers.browse)
 router.get("/saved_style_image/:id", savedStyleImageControllers.read)
@@ -96,6 +97,7 @@ router.post("/textes", textesControllers.add)
 router.put("/textes/:id", textesControllers.edit)
 router.delete("/textes/:id", textesControllers.destroy)
 router.post("/pages/:id/newtexte", textesControllers.createNew)
+router.post("/pages/:id/ancientexte", textesControllers.recreatePrevious)
 router.get("/lasttexte/", textesControllers.getLast) // renvoie le dernier texte de la table avec son style
 
 module.exports = router

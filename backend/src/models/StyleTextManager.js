@@ -101,6 +101,22 @@ class StyleTextManager extends AbstractManager {
       ]
     )
   }
+
+  async destroyFromTextID(textID) {
+    // recherche du style correspondant à l'ID du texte
+    const [results] = await this.database.query(
+      `SELECT ${this.table}.id FROM ${this.table} INNER JOIN page_textes ON ${this.table}.page_textes_id = ?`,
+      [textID]
+    )
+
+    const styleID = results[0].id
+
+    return this.database.query(
+      `DELETE from ${this.table} where id = ?`,
+      [styleID],
+      [styleID]
+    )
+  }
 }
 
 module.exports = StyleTextManager

@@ -11,6 +11,9 @@ export default function SommaireEditor(props) {
     pagesOfScenarioSelected,
     setPagesOfScenarioSelected,
     setTextes,
+    handleSave,
+    setPageHistory,
+    setPageFuture,
   } = props
 
   //  console.log("scenariosOfEditedCampagne",scenariosOfEditedCampagne);
@@ -50,6 +53,12 @@ export default function SommaireEditor(props) {
   // ----FONCTIONS SECTION SCENARIOS-------------------
   // ------------------------------------------------------------------
   const handleClickSelectScenario = (scenarioID) => {
+    // on sauvegarde la page (textes et images) avant de la quitter
+    handleSave()
+    // on efface l'historique car on ne veut pas pouvoir récupérer dans la nouvelle page les textes et images de la page précédante
+    setPageHistory([])
+    setPageFuture([])
+
     setScenariosOfEditedCampagne((prevstate) =>
       prevstate.map((scenario) =>
         scenario.id === scenarioID
@@ -87,6 +96,12 @@ export default function SommaireEditor(props) {
   }
 
   const handleClickSelectpage = (pageID) => {
+    // on sauvegarde la page (textes et images) avant de la quitter
+    handleSave()
+    // on efface l'historique car on ne veut pas pouvoir récupérer dans la nouvelle page les textes et images de la page précédante
+    setPageHistory([])
+    setPageFuture([])
+
     const newPagesOfScenarioSelected = pagesOfScenarioSelected.map((page) =>
       page.id === pageID
         ? { ...page, selected: true }
@@ -116,33 +131,35 @@ export default function SommaireEditor(props) {
 
   return (
     <main className="main-sommaire-editor">
-      <section
-        className="section-boutons-nouvelle-page"
-        onMouseLeave={handleLeaveSectionButtons}
-      >
-        <img
-          src={nouvellePage}
-          alt="Ajouter une nouvelle page"
-          title="Ajouter une nouvelle page"
-          onClick={handleClickNouvellePage}
-        />
-        {showButtons && (
-          <div className="div-boutons-nouvelle-page">
-            <button type="button" onClick={handleClickButtonScript}>
-              Script
-            </button>
-            <button type="button" onClick={handleClickButtonPersonnage}>
-              Personnage
-            </button>
-            <button type="button" onClick={handleClickButtonObject}>
-              Objet
-            </button>
-            <button type="button" onClick={handleClickButtonLieu}>
-              Lieu
-            </button>
-          </div>
-        )}
-      </section>
+      {editedCampagne.name && (
+        <section
+          className="section-boutons-nouvelle-page"
+          onMouseLeave={handleLeaveSectionButtons}
+        >
+          <img
+            src={nouvellePage}
+            alt="Ajouter une nouvelle page"
+            title="Ajouter une nouvelle page"
+            onClick={handleClickNouvellePage}
+          />
+          {showButtons && (
+            <div className="div-boutons-nouvelle-page">
+              <button type="button" onClick={handleClickButtonScript}>
+                Script
+              </button>
+              <button type="button" onClick={handleClickButtonPersonnage}>
+                Personnage
+              </button>
+              <button type="button" onClick={handleClickButtonObject}>
+                Objet
+              </button>
+              <button type="button" onClick={handleClickButtonLieu}>
+                Lieu
+              </button>
+            </div>
+          )}
+        </section>
+      )}
 
       {scenariosOfEditedCampagne[1] && (
         <section className="section-campagne">

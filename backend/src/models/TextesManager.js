@@ -58,6 +58,45 @@ class TextesManager extends AbstractManager {
     return [newTextId, newStyleID]
   }
 
+  async recreatePrevious(proprietes, id) {
+    // on insere dans la table page_textes un nouveau texte
+    const [results] = await this.database.query(
+      `insert into ${this.table} (pages_id, data) values (?,?)`,
+      [id, proprietes.data]
+    )
+    const newTextId = results.insertId
+    // on insère dans la table text_style un nouveau style avec page_textes_id = newText.id
+    const [styleResult] = await this.database.query(
+      `INSERT INTO text_style (page_textes_id, width, height, top, sst_left, z_index, border_style, border_color, border_width, border_radius, box_shadow, background_color, font_size, font_style, font_weight, font_family, color, padding, back_drop_filter, text_decoration, text_align) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+      [
+        newTextId,
+        proprietes.width,
+        proprietes.height,
+        proprietes.top,
+        proprietes.sst_left,
+        proprietes.z_index,
+        proprietes.border_style,
+        proprietes.border_color,
+        proprietes.border_width,
+        proprietes.border_radius,
+        proprietes.box_shadow,
+        proprietes.background_color,
+        proprietes.font_size,
+        proprietes.font_style,
+        proprietes.font_weight,
+        proprietes.font_family,
+        proprietes.color,
+        proprietes.padding,
+        proprietes.back_drop_filter,
+        proprietes.text_decoration,
+        proprietes.text_align,
+      ]
+    )
+
+    const newStyleID = styleResult.insertId
+    return [newTextId, newStyleID]
+  }
+
   async getLast() {
     const [results] = await this.database.query(
       `SELECT MAX(id) AS lastID FROM ${this.table}`
