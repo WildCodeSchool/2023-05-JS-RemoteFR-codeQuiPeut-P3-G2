@@ -97,6 +97,10 @@ router.post("/textes", textesControllers.add)
 router.put("/textes/:id", textesControllers.edit)
 router.delete("/textes/:id", textesControllers.destroy)
 router.post("/pages/:id/newtexte", textesControllers.createNew)
+router.post(
+  "/pages/:id/newtexteAtPageCreation",
+  textesControllers.createNewSpecific
+)
 router.post("/pages/:id/ancientexte", textesControllers.recreatePrevious)
 router.get("/lasttexte/", textesControllers.getLast) // renvoie le dernier texte de la table avec son style
 

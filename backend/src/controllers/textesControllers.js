@@ -95,6 +95,20 @@ const createNew = (req, res) => {
     })
 }
 
+const createNewSpecific = (req, res) => {
+  const properties = req.body // doit contenir pageID, width, height, left, top, placeholder
+
+  models.textes
+    .createNewSpecific(properties, req.params.id)
+    .then((result) => {
+      res.json(result)
+    })
+    .catch((err) => {
+      console.error(err)
+      res.sendStatus(500)
+    })
+}
+
 const recreatePrevious = (req, res) => {
   const proprietes = req.body // contient les propriétés du texte aisi que ses styles
 
@@ -164,6 +178,7 @@ module.exports = {
   edit,
   destroy,
   createNew,
+  createNewSpecific,
   recreatePrevious,
   getLast,
 }

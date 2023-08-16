@@ -24,11 +24,76 @@ export default function SommaireEditor(props) {
   // ----------------------------------------------------------------------
   // ----FONCTIONS NOUVELLES PAGES-------------------
   // ------------------------------------------------------------------
+
+  // fonction permettant d'insérer facilement des textes avec des propriétés spécifiques
+  // const handleNewTextarea = (pageID, width, height, left, top, placeholder, fontSize, fontWeight, newTextes, pageName) => {
+  //   console.log("newTextesavantAxios",newTextes);
+
+  //   axios
+  //       .post(`http://localhost:4242/pages/${pageID}/newtexteAtPageCreation`, {
+  //         top: top,
+  //         left: left,
+  //         width:width,
+  //         height:height,
+  //         fontSize:fontSize,
+  //         fontWeight: fontWeight,
+  //       })
+  //       .then(() => {
+  //         axios
+  //           .get(`http://localhost:4242/lasttexte`) // on va chercher les textes de la page sélectionnée
+  //           .then(({ data }) => {
+  //             // on ajoute le placeholder au texte
+  //             data.placeHolder = placeholder
+  //             if(pageName) {data.text = pageName}
+  //             newTextes = [...newTextes, data]
+  //             console.log("newTextesaprèsAxios",newTextes);
+  //             // const newTextes = [...textes, data]
+  //             // setTextes(newTextes)
+  //           })
+  //       })
+
+  //       return newTextes
+  // }
+
+  const handleNewTextarea = async (
+    pageID,
+    width,
+    height,
+    left,
+    top,
+    placeholder,
+    fontSize,
+    fontWeight,
+    newTextes,
+    pageName
+  ) => {
+    await axios.post(
+      `http://localhost:4242/pages/${pageID}/newtexteAtPageCreation`,
+      {
+        top,
+        left,
+        width,
+        height,
+        fontSize,
+        fontWeight,
+      }
+    )
+
+    const { data } = await axios.get(`http://localhost:4242/lasttexte`)
+    data.placeHolder = placeholder
+    if (pageName) {
+      data.text = pageName
+    }
+    newTextes = [...newTextes, data]
+
+    return newTextes
+  }
+
   const handleClickNouvellePage = () => {
     setShowButtons(!showButtons)
   }
 
-  const handleClickButtonScript = () => {
+  const handleClickButtonScript = async () => {
     setShowButtons(false)
 
     // on récupère l'id du scenario sélectionné
@@ -57,12 +122,41 @@ export default function SommaireEditor(props) {
         // on récupère la page de la base de donnée avec son id et on l'ajoute dans le state pagesOfScenarioSelected
         axios
           .get(`http://localhost:4242/scenarios/${scenarioID}/pages`)
-          .then(({ data }) => {
+          .then(async ({ data }) => {
             data[data.length - 1].selected = true // on se place sur la page créée en la sélectionnant
             setPagesOfScenarioSelected(data)
-            setTextes([]) // il n'y a pas de texte dans la page créée
-            setPageHistory([]) // idem
-            setPageFuture([]) // idem
+
+            // on crée maintenant des textes prédéfinis pour la nouvelle page
+            const pageID = data[data.length - 1].id
+            const newTextes = []
+
+            const textareaTitre = await handleNewTextarea(
+              pageID,
+              "60%",
+              "4%",
+              "5%",
+              "5%",
+              "Entrez un titre",
+              "32px",
+              700,
+              newTextes,
+              pageName
+            )
+            const textareaParagraphe = await handleNewTextarea(
+              pageID,
+              "90%",
+              "15%",
+              "5%",
+              "10%",
+              "Tapez votre texte",
+              "20px",
+              400,
+              textareaTitre
+            )
+
+            setTextes(textareaParagraphe) // il n'y a pas de texte dans la page créée
+            setPageHistory(textareaParagraphe) // idem
+            setPageFuture(textareaParagraphe) // idem
           })
           .catch((err) => {
             console.error(err)
