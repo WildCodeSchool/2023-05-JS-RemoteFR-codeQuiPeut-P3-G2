@@ -42,7 +42,7 @@ class TextesManager extends AbstractManager {
         "0px",
         "0px 0px 0px 0px rgba(0,0,0,0)",
         "rgba(250,250,250,1)",
-        "20px",
+        "1.25rem",
         "normal",
         400,
         "cursive",
@@ -50,7 +50,46 @@ class TextesManager extends AbstractManager {
         "4px",
         "blur(0px)",
         "none",
-        "center",
+        "justify",
+      ]
+    )
+
+    const newStyleID = styleResult.insertId
+    return [newTextId, newStyleID]
+  }
+
+  async createNewSpecific(properties, id) {
+    // on insere dans la table page_textes un nouveau texte
+    const [results] = await this.database.query(
+      `insert into ${this.table} (pages_id, data) values (?,?)`,
+      [id, ""]
+    )
+    const newTextId = results.insertId
+    // on insère dans la table text_style un nouveau style avec page_textes_id = newText.id
+    const [styleResult] = await this.database.query(
+      `INSERT INTO text_style (page_textes_id, width, height, top, sst_left, z_index, border_style, border_color, border_width, border_radius, box_shadow, background_color, font_size, font_style, font_weight, font_family, color, padding, back_drop_filter, text_decoration, text_align) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+      [
+        newTextId,
+        properties.width,
+        properties.height,
+        properties.top,
+        properties.left,
+        0,
+        "none",
+        "rgba(200,200,200,1)",
+        "1px",
+        "0px",
+        "0px 0px 0px 0px rgba(0,0,0,0)",
+        "rgba(255,255,255,1)",
+        properties.fontSize,
+        "normal",
+        properties.fontWeight,
+        "cursive",
+        "rgba(0,0,0,1)",
+        "4px",
+        "blur(0px)",
+        "none",
+        properties.textAlign,
       ]
     )
 
@@ -101,7 +140,9 @@ class TextesManager extends AbstractManager {
     const [results] = await this.database.query(
       `SELECT MAX(id) AS lastID FROM ${this.table}`
     )
-    const lastID = results[0].lastID - 1
+    // const lastID = results[0].lastID - 1
+    const lastID = results[0].lastID
+
     // console.log("lastID", lastID);
 
     const [rows] = await this.database.query(
