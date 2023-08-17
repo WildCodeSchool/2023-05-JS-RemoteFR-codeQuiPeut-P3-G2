@@ -89,7 +89,7 @@ class TextesManager extends AbstractManager {
         "4px",
         "blur(0px)",
         "none",
-        "justify",
+        properties.textAlign,
       ]
     )
 

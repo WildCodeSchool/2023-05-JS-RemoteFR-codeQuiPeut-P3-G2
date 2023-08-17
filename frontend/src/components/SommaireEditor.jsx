@@ -26,34 +26,6 @@ export default function SommaireEditor(props) {
   // ------------------------------------------------------------------
 
   // fonction permettant d'insérer facilement des textes avec des propriétés spécifiques
-  // const handleNewTextarea = (pageID, width, height, left, top, placeholder, fontSize, fontWeight, newTextes, pageName) => {
-  //   console.log("newTextesavantAxios",newTextes);
-
-  //   axios
-  //       .post(`http://localhost:4242/pages/${pageID}/newtexteAtPageCreation`, {
-  //         top: top,
-  //         left: left,
-  //         width:width,
-  //         height:height,
-  //         fontSize:fontSize,
-  //         fontWeight: fontWeight,
-  //       })
-  //       .then(() => {
-  //         axios
-  //           .get(`http://localhost:4242/lasttexte`) // on va chercher les textes de la page sélectionnée
-  //           .then(({ data }) => {
-  //             // on ajoute le placeholder au texte
-  //             data.placeHolder = placeholder
-  //             if(pageName) {data.text = pageName}
-  //             newTextes = [...newTextes, data]
-  //             console.log("newTextesaprèsAxios",newTextes);
-  //             // const newTextes = [...textes, data]
-  //             // setTextes(newTextes)
-  //           })
-  //       })
-
-  //       return newTextes
-  // }
 
   const handleNewTextarea = async (
     pageID,
@@ -64,6 +36,7 @@ export default function SommaireEditor(props) {
     placeholder,
     fontSize,
     fontWeight,
+    textAlign,
     newTextes,
     pageName
   ) => {
@@ -76,6 +49,7 @@ export default function SommaireEditor(props) {
         height,
         fontSize,
         fontWeight,
+        textAlign,
       }
     )
 
@@ -95,6 +69,7 @@ export default function SommaireEditor(props) {
 
   const handleClickButtonScript = async () => {
     setShowButtons(false)
+    handleSave()
 
     // on récupère l'id du scenario sélectionné
     const scenarioID = scenariosOfEditedCampagne.filter(
@@ -103,7 +78,7 @@ export default function SommaireEditor(props) {
 
     // on demande un nom pour la page
     const pageName = prompt(
-      "Donnez un nom à votre page de type Script (Possibilité de le modifier à postériori)"
+      "Donnez un nom à votre page de type Script /n (Possibilité de le modifier à postériori)"
     )
 
     // on attribue un numéro de page (numéro de la dernière page + 1)
@@ -139,6 +114,7 @@ export default function SommaireEditor(props) {
               "Entrez un titre",
               "2rem",
               700,
+              "left",
               newTextes,
               pageName
             )
@@ -151,10 +127,11 @@ export default function SommaireEditor(props) {
               "Tapez votre texte",
               "1.25rem",
               400,
+              "justify",
               textareaTitre
             )
 
-            setTextes(textareaParagraphe) // il n'y a pas de texte dans la page créée
+            setTextes(textareaParagraphe) // textes du template
             setPageHistory(textareaParagraphe) // idem
             setPageFuture(textareaParagraphe) // idem
           })
@@ -169,14 +146,118 @@ export default function SommaireEditor(props) {
 
   const handleClickButtonPersonnage = () => {
     setShowButtons(false)
+    handleSave()
+
+    // on récupère l'id du scenario sélectionné
+    const scenarioID = scenariosOfEditedCampagne.filter(
+      (scenario) => scenario.selected === true
+    )[0].id
+
+    // on demande un nom pour la page
+    const pageName = prompt(
+      "Donnez un nom à votre page de type Personnage /n (Possibilité de le modifier à postériori)"
+    )
+
+    // on attribue un numéro de page (numéro de la dernière page personnage + 1)
+    const pagesPersonnages = pagesOfScenarioSelected.filter(
+      (page) => page.page_types_id === 2
+    )
+    let pageNumber
+    if (pagesPersonnages.length === 0) {
+      pageNumber = 1
+    } else {
+      pageNumber = Math.max(...pagesPersonnages.map((page) => page.number)) + 1
+    }
+
+    // on crée un nouveau tableai contenant toutes les pages du scénario mais dans lequel on incrémente de 1 le numéro de page des pages qui ne sont pas personnage
+
+    const newPagesOfScenarioSelected = pagesOfScenarioSelected.map((page) =>
+      page.page_types_id === 2 ? page : { ...page, number: page.number + 1 }
+    )
+
+    // on modifie toutes les pages du scénario existant déjà dans la base de donnée pour leur attribuer leur nouveau numéro de page
+
+    Promise.all(
+      // on utilise Promise.all pour s'assurer que le axios.post et la suite se feront uniquement après l'exécution des axios.put
+      newPagesOfScenarioSelected.map((page) =>
+        axios
+          .put(`http://localhost:4242/pages/${page.id}`, {
+            scenarios_id: page.scenarios_id,
+            page_types_id: page.page_types_id,
+            titre: page.titre,
+            number: page.number,
+          })
+          .catch((err) => console.error(err))
+      )
+    ).then(() => {
+      // on post une nouvelle page dans la base de donnée (page_type_id = 2 car page personnage)
+      axios
+        .post(`http://localhost:4242/pages`, {
+          scenarios_id: scenarioID,
+          page_types_id: 2,
+          titre: pageName,
+          number: pageNumber,
+        })
+        .then(() => {
+          // on récupère toutes les pages de la base de donnée pour le scenario sélectionné et on sélectionne la dernière page ajoutée à la BDD
+          axios
+            .get(`http://localhost:4242/scenarios/${scenarioID}/pages`)
+            .then(async ({ data }) => {
+              data[data.length - 1].selected = true // on se place sur la page créée en la sélectionnant
+              setPagesOfScenarioSelected(data)
+
+              // on crée maintenant des textes prédéfinis pour la nouvelle page
+              const pageID = data[data.length - 1].id
+              const newTextes = []
+
+              const textareaTitre = await handleNewTextarea(
+                pageID,
+                "60%",
+                "4%",
+                "20%",
+                "5%",
+                "Entrez un titre",
+                "2rem",
+                700,
+                "center",
+                newTextes,
+                pageName
+              )
+              const textareaParagraphe = await handleNewTextarea(
+                pageID,
+                "90%",
+                "15%",
+                "5%",
+                "10%",
+                "Tapez votre texte",
+                "1.25rem",
+                400,
+                "justify",
+                textareaTitre
+              )
+
+              setTextes(textareaParagraphe) // textes du template
+              setPageHistory(textareaParagraphe) // idem
+              setPageFuture(textareaParagraphe) // idem
+            })
+            .catch((err) => {
+              console.error(err)
+            })
+        })
+        .catch((err) => {
+          console.error(err)
+        })
+    })
   }
 
   const handleClickButtonObject = () => {
     setShowButtons(false)
+    handleSave()
   }
 
   const handleClickButtonLieu = () => {
     setShowButtons(false)
+    handleSave()
   }
 
   const handleLeaveSectionButtons = () => {
@@ -338,7 +419,7 @@ export default function SommaireEditor(props) {
 
             <section className="section-pages">
               <h1>Pages</h1>
-              {pagesOfScenarioSelected.map((page) => (
+              {/* {pagesOfScenarioSelected.map((page) => (
                 <div key={page.id}>
                   <p
                     onClick={() => handleClickSelectpage(page.id)}
@@ -351,7 +432,106 @@ export default function SommaireEditor(props) {
                     {page.titre}
                   </p>
                 </div>
-              ))}
+              ))} */}
+              {pagesOfScenarioSelected.filter(
+                (page) => page.page_types_id === 2
+              ).length > 0 && (
+                <>
+                  <h2>Personnages</h2>
+                  {pagesOfScenarioSelected
+                    .filter((page) => page.page_types_id === 2)
+                    .sort((a, b) => a.number - b.number)
+                    .map((page) => (
+                      <div key={page.id}>
+                        <p
+                          onClick={() => handleClickSelectpage(page.id)}
+                          style={
+                            page.selected
+                              ? { fontWeight: 900, textDecoration: "underline" }
+                              : { fontWeight: 400 }
+                          }
+                        >
+                          {page.titre}
+                        </p>
+                      </div>
+                    ))}
+                </>
+              )}
+
+              {pagesOfScenarioSelected.filter(
+                (page) => page.page_types_id === 3
+              ).length > 0 && (
+                <>
+                  <h2>Objets</h2>
+                  {pagesOfScenarioSelected
+                    .filter((page) => page.page_types_id === 3)
+                    .sort((a, b) => a.number - b.number)
+                    .map((page) => (
+                      <div key={page.id}>
+                        <p
+                          onClick={() => handleClickSelectpage(page.id)}
+                          style={
+                            page.selected
+                              ? { fontWeight: 900, textDecoration: "underline" }
+                              : { fontWeight: 400 }
+                          }
+                        >
+                          {page.titre}
+                        </p>
+                      </div>
+                    ))}
+                </>
+              )}
+
+              {pagesOfScenarioSelected.filter(
+                (page) => page.page_types_id === 4
+              ).length > 0 && (
+                <>
+                  <h2>Lieux</h2>
+                  {pagesOfScenarioSelected
+                    .filter((page) => page.page_types_id === 4)
+                    .sort((a, b) => a.number - b.number)
+                    .map((page) => (
+                      <div key={page.id}>
+                        <p
+                          onClick={() => handleClickSelectpage(page.id)}
+                          style={
+                            page.selected
+                              ? { fontWeight: 900, textDecoration: "underline" }
+                              : { fontWeight: 400 }
+                          }
+                        >
+                          {page.titre}
+                        </p>
+                      </div>
+                    ))}
+                </>
+              )}
+
+              {pagesOfScenarioSelected.filter(
+                (page) => page.page_types_id === 1
+              ).length > 0 && (
+                <>
+                  <h2>Script</h2>
+                  {pagesOfScenarioSelected
+                    .filter((page) => page.page_types_id === 1)
+                    .sort((a, b) => a.number - b.number)
+                    .map((page) => (
+                      <div key={page.id}>
+                        <p
+                          onClick={() => handleClickSelectpage(page.id)}
+                          style={
+                            page.selected
+                              ? { fontWeight: 900, textDecoration: "underline" }
+                              : { fontWeight: 400 }
+                          }
+                        >
+                          {page.titre}
+                        </p>
+                      </div>
+                    ))}
+                </>
+              )}
             </section>
           </>
         )}
