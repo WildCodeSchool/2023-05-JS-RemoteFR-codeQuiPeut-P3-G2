@@ -137,7 +137,7 @@ export default function SommaireEditor(props) {
               "5%",
               "5%",
               "Entrez un titre",
-              "32px",
+              "2rem",
               700,
               newTextes,
               pageName
@@ -149,7 +149,7 @@ export default function SommaireEditor(props) {
               "5%",
               "10%",
               "Tapez votre texte",
-              "20px",
+              "1.25rem",
               400,
               textareaTitre
             )
@@ -296,64 +296,66 @@ export default function SommaireEditor(props) {
         </section>
       )}
 
-      {scenariosOfEditedCampagne[1] && (
-        <section className="section-campagne">
-          <h1>Campagne</h1>
-          <div>
-            <p>{editedCampagne.name}</p>
-            <img
-              src={dotsCircle}
-              alt="Informations détaillées de la campagne"
-              title="Informations détaillées de la campagne"
-            />
-          </div>
-        </section>
-      )}
-
-      {scenariosOfEditedCampagne[0] && (
-        <>
-          <section className="section-scenarios">
-            <h1>Scénarios</h1>
-            {scenariosOfEditedCampagne.map((scenario) => (
-              <div key={scenario.id}>
-                <p
-                  onClick={() => handleClickSelectScenario(scenario.id)}
-                  style={
-                    scenario.selected
-                      ? { fontWeight: 900, textDecoration: "underline" }
-                      : { fontWeight: 400 }
-                  }
-                >
-                  {scenario.name}
-                </p>
-                <img
-                  src={dotsCircle}
-                  alt="Informations détaillées du scénario"
-                  title="Informations détaillées du scénario"
-                />
-              </div>
-            ))}
+      <section className="container-campagne-scenario-page">
+        {scenariosOfEditedCampagne[1] && (
+          <section className="section-campagne">
+            <h1>Campagne</h1>
+            <div>
+              <p>{editedCampagne.name}</p>
+              <img
+                src={dotsCircle}
+                alt="Informations détaillées de la campagne"
+                title="Informations détaillées de la campagne"
+              />
+            </div>
           </section>
+        )}
 
-          <section className="section-pages">
-            <h1>Pages</h1>
-            {pagesOfScenarioSelected.map((page) => (
-              <div key={page.id}>
-                <p
-                  onClick={() => handleClickSelectpage(page.id)}
-                  style={
-                    page.selected
-                      ? { fontWeight: 900, textDecoration: "underline" }
-                      : { fontWeight: 400 }
-                  }
-                >
-                  {page.titre}
-                </p>
-              </div>
-            ))}
-          </section>
-        </>
-      )}
+        {scenariosOfEditedCampagne[0] && (
+          <>
+            <section className="section-scenarios">
+              <h1>Scénarios</h1>
+              {scenariosOfEditedCampagne.map((scenario) => (
+                <div key={scenario.id}>
+                  <p
+                    onClick={() => handleClickSelectScenario(scenario.id)}
+                    style={
+                      scenario.selected
+                        ? { fontWeight: 900, textDecoration: "underline" }
+                        : { fontWeight: 400 }
+                    }
+                  >
+                    {scenario.name}
+                  </p>
+                  <img
+                    src={dotsCircle}
+                    alt="Informations détaillées du scénario"
+                    title="Informations détaillées du scénario"
+                  />
+                </div>
+              ))}
+            </section>
+
+            <section className="section-pages">
+              <h1>Pages</h1>
+              {pagesOfScenarioSelected.map((page) => (
+                <div key={page.id}>
+                  <p
+                    onClick={() => handleClickSelectpage(page.id)}
+                    style={
+                      page.selected
+                        ? { fontWeight: 900, textDecoration: "underline" }
+                        : { fontWeight: 400 }
+                    }
+                  >
+                    {page.titre}
+                  </p>
+                </div>
+              ))}
+            </section>
+          </>
+        )}
+      </section>
     </main>
   )
 }

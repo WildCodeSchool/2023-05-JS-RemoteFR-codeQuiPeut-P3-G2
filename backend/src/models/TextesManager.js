@@ -42,7 +42,7 @@ class TextesManager extends AbstractManager {
         "0px",
         "0px 0px 0px 0px rgba(0,0,0,0)",
         "rgba(250,250,250,1)",
-        "20px",
+        "1.25rem",
         "normal",
         400,
         "cursive",

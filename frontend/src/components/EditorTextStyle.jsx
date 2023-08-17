@@ -123,7 +123,7 @@ export default function EditorTextStyle({
 
         setFont(itemStyle.fontFamily)
 
-        setDivFontSize(parseInt(itemStyle.fontSize, 10))
+        setDivFontSize(parseFloat(itemStyle.fontSize, 10))
 
         setTextColor(itemStyle.color)
 
@@ -513,13 +513,14 @@ export default function EditorTextStyle({
 
   const handleClickFontSize = (e) => {
     setDivFontSize(e.target.value)
+    const newFontSize = e.target.value + "rem"
 
     setTextes((prevState) =>
       prevState.map((item) =>
         item.selected === true
           ? {
               ...item,
-              style: { ...item.style, fontSize: e.target.value + "px" },
+              style: { ...item.style, fontSize: newFontSize },
             }
           : item
       )
@@ -951,7 +952,7 @@ export default function EditorTextStyle({
       borderWidth: borderThickness,
       borderRadius: divBorderRadius,
       boxShadow: savedBoxShadow,
-      fontSize: `${divFontSize}px`,
+      fontSize: `${divFontSize}rem`,
       fontStyle: appliedFontStyle,
       textDecoration: appliedTextDecoration,
       fontWeight: appliedFontWeight,
@@ -1196,9 +1197,10 @@ export default function EditorTextStyle({
 
         <input
           type="number"
+          step={0.1}
           value={divFontSize}
-          min={2}
-          max={150}
+          min={0.1}
+          max={15}
           onChange={handleClickFontSize}
         />
 

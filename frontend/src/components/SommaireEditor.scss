@@ -60,52 +60,58 @@ $fontSizeTitre: 1.5rem;
     }
   }
 
-  .section-scenarios,
-  .section-pages {
-    p {
-      cursor: pointer;
-    }
-  }
+  .container-campagne-scenario-page {
+    height: 63vh;
+    overflow-y: auto;
+    // border: 1px solid yellow;
 
-  .section-campagne,
-  .section-scenarios,
-  .section-pages {
-    color: white;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 16px;
-    width: 80%;
-
-    h1 {
-      text-align: center;
-      margin: 0;
-      font-size: $fontSizeTitre;
-      color: $colorYellow;
-      margin-bottom: 8px;
-    }
-
-    div {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      gap: 16px;
-
+    .section-scenarios,
+    .section-pages {
       p {
-        color: white;
-        font-size: $fontSizeP;
+        cursor: pointer;
+      }
+    }
+
+    .section-campagne,
+    .section-scenarios,
+    .section-pages {
+      color: white;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 16px;
+      width: 80%;
+
+      h1 {
         text-align: center;
-        margin: 8px;
+        margin: 0;
+        font-size: $fontSizeTitre;
+        color: $colorYellow;
+        margin-bottom: 8px;
       }
 
-      img {
-        width: 25px;
-        height: 25px;
-        border-radius: 50%;
-        cursor: pointer;
+      div {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
 
-        &:hover {
-          box-shadow: 0px 0px 20px 3px $colorYellow;
+        p {
+          color: white;
+          font-size: $fontSizeP;
+          text-align: center;
+          margin: 8px;
+        }
+
+        img {
+          width: 25px;
+          height: 25px;
+          border-radius: 50%;
+          cursor: pointer;
+
+          &:hover {
+            box-shadow: 0px 0px 20px 3px $colorYellow;
+          }
         }
       }
     }
