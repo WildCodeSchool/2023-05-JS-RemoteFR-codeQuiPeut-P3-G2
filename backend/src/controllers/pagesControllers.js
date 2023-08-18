@@ -19,8 +19,8 @@ const add = (req, res) => {
 
   models.pages
     .insert(pages)
-    .then(([result]) => {
-      res.json(result.insertId)
+    .then((result) => {
+      res.json(result)
     })
     .catch((err) => {
       console.error(err)

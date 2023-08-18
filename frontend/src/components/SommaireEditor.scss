@@ -98,6 +98,7 @@ $fontSizeTitre: 1.5rem;
       }
 
       div {
+        position: relative;
         display: flex;
         flex-direction: row;
         justify-content: center;
@@ -109,6 +110,39 @@ $fontSizeTitre: 1.5rem;
           font-size: $fontSizeP;
           text-align: center;
           margin: 8px;
+        }
+
+        input {
+          background-color: $blueColor;
+          color: white;
+          font-size: $fontSizeP;
+          text-align: center;
+        }
+
+        .container-menu-EditorPage {
+          position: absolute;
+          z-index: 3;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          gap: 0;
+          background-color: #ffbd591c;
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+
+          button {
+            width: 50%;
+            background-color: $blueColor;
+            color: white;
+            font-size: $fontSizeP;
+
+            &:hover {
+              background-color: $colorYellow;
+              color: black;
+            }
+          }
         }
 
         img {
