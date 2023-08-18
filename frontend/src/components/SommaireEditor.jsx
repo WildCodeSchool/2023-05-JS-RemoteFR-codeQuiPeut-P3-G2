@@ -10,6 +10,7 @@ export default function SommaireEditor(props) {
     setScenariosOfEditedCampagne,
     pagesOfScenarioSelected,
     setPagesOfScenarioSelected,
+    textes,
     setTextes,
     handleSave,
     setPageHistory,
@@ -653,6 +654,113 @@ export default function SommaireEditor(props) {
     })
   }
 
+  const handleClickPageDelete = (pageID, pageNumber) => {
+    if (pagesOfScenarioSelected.length === 1) {
+      alert(
+        "Vous ne pouvez pas supprimer de page lorque le scénario n'en contient qu'une seule."
+      )
+      return
+    }
+
+    if (
+      confirm(
+        "Voulez vous vraiment supprimer cette page ? \n Vous ne pourrez pas revenir en arrière."
+      )
+    ) {
+      // on commence par supprimer tous les styles des textes de la page sélectionnée
+      // puis on supprime les textes eux mêmes
+      // on supprime ensuite le style de la page sélectionnée
+      // et enfin on supprime la page sélectionnée
+      // nécessite d'utiliser des fonctions asynchrones pour que celà se fasse dans le bon ordre
+
+      Promise.all(
+        textes.map((texte) =>
+          axios
+            .delete(`http://localhost:4242/styleText/texte/${texte.id}`)
+            .then(() => {
+              axios
+                .delete(`http://localhost:4242/textes/${texte.id}`)
+                .catch((err) => {
+                  console.error(err)
+                })
+            })
+            .catch((err) => {
+              console.error(err)
+            })
+        )
+      ).then(() => {
+        // suppression du style correspondant à pageID
+        axios
+          .delete(`http://localhost:4242/stylePage/page/${pageID}`)
+          .then(() => {
+            // suppression de la page
+            axios
+              .delete(`http://localhost:4242/pages/${pageID}`)
+              .catch((err) => {
+                console.error(err)
+              })
+          })
+          .then(() => {
+            // on récupère l'ensemble des pages du scénario et on les transfère dans le state pagesOfScenarioSelected
+            const scenarioID = scenariosOfEditedCampagne.filter(
+              (scenario) => scenario.selected === true
+            )[0].id
+
+            axios
+              .get(`http://localhost:4242/scenarios/${scenarioID}/pages`)
+              .then(({ data }) => {
+                data[data.length - 1].selected = true // on se place sur la page créée en la sélectionnant
+                setPagesOfScenarioSelected(data)
+                return data
+              })
+              .then((pages) => {
+                // on met à jour les textes de la page (A FAIRE : METTRE A JOUR EGALEMENT LES IMAGES)
+                const idPageSelected = pages.filter(
+                  (item) => item.selected === true
+                )[0].id
+
+                axios
+                  .get(`http://localhost:4242/pages/${idPageSelected}/textes`) // on va chercher les textes de la page sélectionnée
+                  .then(({ data }) => {
+                    setTextes(data)
+                  })
+                  .catch(() => {
+                    // .catch((error)
+                    // permet de jouer setTextes([]) s'il n'y a pas de données dans la BDD
+                    // console.log(error)
+                    setTextes([])
+                  })
+
+                // on met à jour les numéros de page sur la page web et dans la base de données
+                const newPagesOfScenarioSelected = pagesOfScenarioSelected.map(
+                  (page) =>
+                    page.number > pageNumber
+                      ? { ...page, number: page.number - 1 }
+                      : page
+                )
+
+                newPagesOfScenarioSelected.map((page) =>
+                  axios
+                    .put(`http://localhost:4242/pages/${page.id}`, {
+                      scenarios_id: page.scenarios_id,
+                      page_types_id: page.page_types_id,
+                      titre: page.titre,
+                      number: page.number,
+                    })
+                    .catch((err) => console.error(err))
+                )
+
+                setPagesOfScenarioSelected(newPagesOfScenarioSelected)
+              })
+              .catch((err) => console.error(err))
+          })
+          .catch((err) => {
+            console.error(err)
+          })
+      })
+    }
+  }
+
   // ----FIN SECTION-----------------------------------------------------
 
   return (
@@ -755,20 +863,59 @@ export default function SommaireEditor(props) {
                     .filter((page) => page.page_types_id === 2)
                     .sort((a, b) => a.number - b.number)
                     .map((page) => (
-                      <div key={page.id}>
-                        <p
-                          onClick={() => handleClickSelectpage(page.id)}
-                          style={
-                            page.selected
-                              ? {
-                                  fontWeight: 900,
-                                  boxShadow: "0px 4px 6px 0px #ffbd59",
-                                }
-                              : { fontWeight: 400 }
-                          }
-                        >
-                          {page.titre}
-                        </p>
+                      <div
+                        key={page.id}
+                        onMouseLeave={handleLeaveContextMenuPage}
+                      >
+                        {page.showRename ? (
+                          <input
+                            type="text"
+                            value={page.titre}
+                            onChange={(event) =>
+                              handleChangePageTitle(event, page.id)
+                            }
+                            onKeyDown={(event) =>
+                              handlePressEnterPageRename(event, page.id)
+                            }
+                          />
+                        ) : (
+                          <p
+                            onClick={() => handleClickSelectpage(page.id)}
+                            onContextMenu={(event) =>
+                              handleContextMenuPage(event, page.id)
+                            }
+                            onDoubleClick={() => handleClickPageRename(page.id)}
+                            style={
+                              page.selected
+                                ? {
+                                    fontWeight: 900,
+                                    boxShadow: "0px 4px 6px 0px #ffbd59",
+                                  }
+                                : { fontWeight: 400 }
+                            }
+                          >
+                            {page.titre}
+                          </p>
+                        )}
+
+                        {page.showMenu && (
+                          <div className="container-menu-EditorPage">
+                            <button
+                              type="button"
+                              onClick={() => handleClickPageRename(page.id)}
+                            >
+                              Renommer
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() =>
+                                handleClickPageDelete(page.id, page.number)
+                              }
+                            >
+                              Supprimer
+                            </button>
+                          </div>
+                        )}
                       </div>
                     ))}
                 </>
@@ -783,20 +930,59 @@ export default function SommaireEditor(props) {
                     .filter((page) => page.page_types_id === 3)
                     .sort((a, b) => a.number - b.number)
                     .map((page) => (
-                      <div key={page.id}>
-                        <p
-                          onClick={() => handleClickSelectpage(page.id)}
-                          style={
-                            page.selected
-                              ? {
-                                  fontWeight: 900,
-                                  boxShadow: "0px 4px 6px 0px #ffbd59",
-                                }
-                              : { fontWeight: 400 }
-                          }
-                        >
-                          {page.titre}
-                        </p>
+                      <div
+                        key={page.id}
+                        onMouseLeave={handleLeaveContextMenuPage}
+                      >
+                        {page.showRename ? (
+                          <input
+                            type="text"
+                            value={page.titre}
+                            onChange={(event) =>
+                              handleChangePageTitle(event, page.id)
+                            }
+                            onKeyDown={(event) =>
+                              handlePressEnterPageRename(event, page.id)
+                            }
+                          />
+                        ) : (
+                          <p
+                            onClick={() => handleClickSelectpage(page.id)}
+                            onContextMenu={(event) =>
+                              handleContextMenuPage(event, page.id)
+                            }
+                            onDoubleClick={() => handleClickPageRename(page.id)}
+                            style={
+                              page.selected
+                                ? {
+                                    fontWeight: 900,
+                                    boxShadow: "0px 4px 6px 0px #ffbd59",
+                                  }
+                                : { fontWeight: 400 }
+                            }
+                          >
+                            {page.titre}
+                          </p>
+                        )}
+
+                        {page.showMenu && (
+                          <div className="container-menu-EditorPage">
+                            <button
+                              type="button"
+                              onClick={() => handleClickPageRename(page.id)}
+                            >
+                              Renommer
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() =>
+                                handleClickPageDelete(page.id, page.number)
+                              }
+                            >
+                              Supprimer
+                            </button>
+                          </div>
+                        )}
                       </div>
                     ))}
                 </>
@@ -811,25 +997,59 @@ export default function SommaireEditor(props) {
                     .filter((page) => page.page_types_id === 4)
                     .sort((a, b) => a.number - b.number)
                     .map((page) => (
-                      <div key={page.id}>
-                        {/* {page.showRename ?
-                          <input type="text" value={page.titre} onChange={(event) => handleChangePageTitle(event, page.id)} />
-                          
-                          : */}
-                        <p
-                          onClick={() => handleClickSelectpage(page.id)}
-                          style={
-                            page.selected
-                              ? {
-                                  fontWeight: 900,
-                                  boxShadow: "0px 4px 6px 0px #ffbd59",
-                                }
-                              : { fontWeight: 400 }
-                          }
-                        >
-                          {page.titre}
-                        </p>
-                        {/* } */}
+                      <div
+                        key={page.id}
+                        onMouseLeave={handleLeaveContextMenuPage}
+                      >
+                        {page.showRename ? (
+                          <input
+                            type="text"
+                            value={page.titre}
+                            onChange={(event) =>
+                              handleChangePageTitle(event, page.id)
+                            }
+                            onKeyDown={(event) =>
+                              handlePressEnterPageRename(event, page.id)
+                            }
+                          />
+                        ) : (
+                          <p
+                            onClick={() => handleClickSelectpage(page.id)}
+                            onContextMenu={(event) =>
+                              handleContextMenuPage(event, page.id)
+                            }
+                            onDoubleClick={() => handleClickPageRename(page.id)}
+                            style={
+                              page.selected
+                                ? {
+                                    fontWeight: 900,
+                                    boxShadow: "0px 4px 6px 0px #ffbd59",
+                                  }
+                                : { fontWeight: 400 }
+                            }
+                          >
+                            {page.titre}
+                          </p>
+                        )}
+
+                        {page.showMenu && (
+                          <div className="container-menu-EditorPage">
+                            <button
+                              type="button"
+                              onClick={() => handleClickPageRename(page.id)}
+                            >
+                              Renommer
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() =>
+                                handleClickPageDelete(page.id, page.number)
+                              }
+                            >
+                              Supprimer
+                            </button>
+                          </div>
+                        )}
                       </div>
                     ))}
                 </>
@@ -887,7 +1107,14 @@ export default function SommaireEditor(props) {
                             >
                               Renommer
                             </button>
-                            <button type="button">Supprimer</button>
+                            <button
+                              type="button"
+                              onClick={() =>
+                                handleClickPageDelete(page.id, page.number)
+                              }
+                            >
+                              Supprimer
+                            </button>
                           </div>
                         )}
                       </div>

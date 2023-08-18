@@ -41,6 +41,7 @@ const CampagnesManager = require("./CampagnesManager")
 const PagesManager = require("./PagesManager")
 const StyleTextManager = require("./StyleTextManager")
 const TextesManager = require("./TextesManager")
+const StylePageManager = require("./StylePageManager")
 
 models.scenarios = new ScenariosManager()
 models.scenarios.setDatabase(pool)
@@ -77,6 +78,9 @@ models.styleText.setDatabase(pool)
 
 models.textes = new TextesManager()
 models.textes.setDatabase(pool)
+
+models.stylePage = new StylePageManager()
+models.stylePage.setDatabase(pool)
 
 // bonus: use a proxy to personalize error message,
 // when asking for a non existing model

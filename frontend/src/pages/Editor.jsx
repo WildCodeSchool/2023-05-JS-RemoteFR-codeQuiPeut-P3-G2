@@ -857,6 +857,7 @@ export default function Editor() {
               setScenariosOfEditedCampagne={setScenariosOfEditedCampagne}
               pagesOfScenarioSelected={pagesOfScenarioSelected}
               setPagesOfScenarioSelected={setPagesOfScenarioSelected}
+              textes={textes}
               setTextes={setTextes}
               handleSave={handleSave}
               setPageHistory={setPageHistory}
