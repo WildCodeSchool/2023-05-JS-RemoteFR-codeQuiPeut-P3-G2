@@ -15,6 +15,7 @@ export default function EditorPage(props) {
     handleClickElement,
     handleMouseDown,
     editedCampagne,
+    selectedPage,
     // setPageHistory,
   } = props
 
@@ -49,7 +50,7 @@ export default function EditorPage(props) {
           onClick={handleClickDropNewText}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
-          // style={{backgroundColor: "blue"}}
+          style={selectedPage ? selectedPage.style : null}
         >
           {textes.map((item) => (
             <textarea
