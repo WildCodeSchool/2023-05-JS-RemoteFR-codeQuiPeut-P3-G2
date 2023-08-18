@@ -739,18 +739,23 @@ export default function SommaireEditor(props) {
                       : page
                 )
 
-                newPagesOfScenarioSelected.map((page) =>
-                  axios
-                    .put(`http://localhost:4242/pages/${page.id}`, {
-                      scenarios_id: page.scenarios_id,
-                      page_types_id: page.page_types_id,
-                      titre: page.titre,
-                      number: page.number,
-                    })
-                    .catch((err) => console.error(err))
-                )
+                newPagesOfScenarioSelected
+                  .filter((page) => page.id !== pageID)
+                  .map((page) =>
+                    axios
+                      .put(`http://localhost:4242/pages/${page.id}`, {
+                        scenarios_id: page.scenarios_id,
+                        page_types_id: page.page_types_id,
+                        titre: page.titre,
+                        number: page.number,
+                      })
+                      .catch((err) => console.error(err))
+                  )
 
-                setPagesOfScenarioSelected(newPagesOfScenarioSelected)
+                const newPagesOfScenario = newPagesOfScenarioSelected.filter(
+                  (page) => page.id !== pageID
+                )
+                setPagesOfScenarioSelected(newPagesOfScenario)
               })
               .catch((err) => console.error(err))
           })

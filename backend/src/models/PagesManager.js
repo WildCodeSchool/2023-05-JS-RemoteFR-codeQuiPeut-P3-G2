@@ -17,7 +17,7 @@ class PagesManager extends AbstractManager {
     // on insère dans la table page_style un nouveau style avec pages_id = newPageId
     const [styleResult] = await this.database.query(
       `INSERT INTO page_style (pages_id, padding, background_color) VALUES (?,?,?)`,
-      [newPageId, "0px", "rgba(255,240,250,1)"]
+      [newPageId, "0px", "rgba(255,255,255,1)"]
     )
 
     const newStyleID = styleResult.insertId
