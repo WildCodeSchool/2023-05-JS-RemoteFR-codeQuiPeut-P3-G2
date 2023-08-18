@@ -49,6 +49,7 @@ export default function EditorPage(props) {
           onClick={handleClickDropNewText}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
+          // style={{backgroundColor: "blue"}}
         >
           {textes.map((item) => (
             <textarea
