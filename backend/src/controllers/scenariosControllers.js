@@ -89,7 +89,19 @@ const readPages = (req, res) => {
       if (rows[0] == null) {
         res.sendStatus(404)
       } else {
-        res.send(rows)
+        const data = rows.map((item) => ({
+          id: item.id,
+          scenarios_id: item.scenarios_id,
+          page_types_id: item.page_types_id,
+          img: item.img,
+          titre: item.titre,
+          number: item.number,
+          style: {
+            padding: item.padding,
+            backgroundColor: item.background_color,
+          },
+        }))
+        res.send(data)
       }
     })
     .catch((err) => {

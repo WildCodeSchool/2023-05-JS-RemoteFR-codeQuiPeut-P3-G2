@@ -5,11 +5,23 @@ class PagesManager extends AbstractManager {
     super({ table: "pages" })
   }
 
-  insert(pages) {
-    return this.database.query(
+  async insert(pages) {
+    // on insere dans la table pages une nouvelle page
+    const [results] = await this.database.query(
       `INSERT INTO ${this.table} (scenarios_id, page_types_id, titre, number) VALUES (?, ?, ?, ?)`,
       [pages.scenarios_id, pages.page_types_id, pages.titre, pages.number]
     )
+
+    const newPageId = results.insertId
+
+    // on insère dans la table page_style un nouveau style avec pages_id = newPageId
+    const [styleResult] = await this.database.query(
+      `INSERT INTO page_style (pages_id, padding, background_color) VALUES (?,?,?)`,
+      [newPageId, "0px", "rgba(255,240,250,1)"]
+    )
+
+    const newStyleID = styleResult.insertId
+    return [newPageId, newStyleID]
   }
 
   update(pages, id) {

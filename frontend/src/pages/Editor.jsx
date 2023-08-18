@@ -114,7 +114,7 @@ export default function Editor() {
     //     borderWidth: 1,
     //     borderRadius: 0,
     //     boxShadow: "0px 0px 0px 0px rgba(0,0,0,0)",
-    //     fontSize: "20px",
+    //     fontSize: "1.25rem",
     //     fontStyle: "normal",
     //     textDecoration: "none",
     //     fontWeight: 400,
@@ -901,6 +901,11 @@ export default function Editor() {
             setPageHistory={setPageHistory}
             images={images}
             editedCampagne={editedCampagne}
+            selectedPage={
+              pagesOfScenarioSelected.filter(
+                (page) => page.selected === true
+              )[0]
+            }
           />
         </div>
       </main>
