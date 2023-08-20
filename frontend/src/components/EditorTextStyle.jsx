@@ -68,6 +68,7 @@ export default function EditorTextStyle({
     setMounted(true)
   }, [])
 
+  // mise à jour des states de style lorsqu'on clique sur un textarea
   useEffect(() => {
     if (mounted && textes) {
       const item = textes.filter((texte) => texte.selected === true)[0]
@@ -86,39 +87,49 @@ export default function EditorTextStyle({
           setAlignCenterActived(false)
           setAlignRightActived(false)
           setAlignJustifyActived(false)
+          setappliedTextAlign("left")
         } else if (itemStyle.textAlign === "center") {
           setAlignLeftActived(false)
           setAlignCenterActived(true)
           setAlignRightActived(false)
           setAlignJustifyActived(false)
+          setappliedTextAlign("center")
         } else if (itemStyle.textAlign === "right") {
           setAlignLeftActived(false)
           setAlignCenterActived(false)
           setAlignRightActived(true)
           setAlignJustifyActived(false)
+          setappliedTextAlign("right")
         } else if (itemStyle.textAlign === "justify") {
           setAlignLeftActived(false)
           setAlignCenterActived(false)
           setAlignRightActived(false)
           setAlignJustifyActived(true)
+          setappliedTextAlign("justify")
         }
 
         if (itemStyle.fontWeight === 700) {
           setBoldActived(true)
+          setappliedFontWeight(700)
         } else {
           setBoldActived(false)
+          setappliedFontWeight(400)
         }
 
         if (itemStyle.fontStyle === "italic") {
           setItalicActived(true)
+          setappliedFontStyle("italic")
         } else {
           setItalicActived(false)
+          setappliedFontStyle("normal")
         }
 
         if (itemStyle.textDecoration === "underline") {
           setUnderlineActived(true)
+          setappliedTextDecoration("underline")
         } else {
           setUnderlineActived(false)
+          setappliedTextDecoration("none")
         }
 
         setFont(itemStyle.fontFamily)
@@ -149,8 +160,31 @@ export default function EditorTextStyle({
 
         if (itemStyle.borderStyle === "none") {
           setBorderActived(false)
-        } else {
+          setappliedBorderStyle("none")
+        } else if (itemStyle.borderStyle === "solid") {
           setBorderActived(true)
+          setappliedBorderStyle("solid")
+        } else if (itemStyle.borderStyle === "dotted") {
+          setBorderActived(true)
+          setappliedBorderStyle("dotted")
+        } else if (itemStyle.borderStyle === "dashed") {
+          setBorderActived(true)
+          setappliedBorderStyle("dashed")
+        } else if (itemStyle.borderStyle === "ridge") {
+          setBorderActived(true)
+          setappliedBorderStyle("ridge")
+        } else if (itemStyle.borderStyle === "outset") {
+          setBorderActived(true)
+          setappliedBorderStyle("outset")
+        } else if (itemStyle.borderStyle === "inset") {
+          setBorderActived(true)
+          setappliedBorderStyle("inset")
+        } else if (itemStyle.borderStyle === "double") {
+          setBorderActived(true)
+          setappliedBorderStyle("double")
+        } else if (itemStyle.borderStyle === "groove") {
+          setBorderActived(true)
+          setappliedBorderStyle("groove")
         }
 
         setBorderThickness(parseInt(itemStyle.borderWidth, 10))
@@ -949,8 +983,8 @@ export default function EditorTextStyle({
       zIndex: coordZ,
       borderStyle: appliedBorderStyle,
       borderColor,
-      borderWidth: borderThickness,
-      borderRadius: divBorderRadius,
+      borderWidth: `${borderThickness}px`,
+      borderRadius: `${divBorderRadius}px`,
       boxShadow: savedBoxShadow,
       fontSize: `${divFontSize}rem`,
       fontStyle: appliedFontStyle,
@@ -958,7 +992,7 @@ export default function EditorTextStyle({
       fontWeight: appliedFontWeight,
       fontFamily: font,
       color: textColor,
-      padding: divPadding,
+      padding: `${divPadding}px`,
       textAlign: appliedTextAlign,
       backdropFilter: `blur(${blur}px)`,
       WebkitBackdropFilter: `blur(${blur}px)`,
