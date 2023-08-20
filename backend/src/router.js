@@ -43,6 +43,10 @@ router.delete("/sujet_forum/:id", sujetForumControllers.destroy)
 
 router.get("/saved_style_text", savedStyleTextControllers.browse)
 router.get("/saved_style_text/:id", savedStyleTextControllers.read)
+router.get(
+  "/saved_style_text/utilisateur/:id",
+  savedStyleTextControllers.readFromUtilisateurID
+)
 router.post("/saved_style_text", savedStyleTextControllers.add)
 router.put("/saved_style_text/:id", savedStyleTextControllers.edit)
 router.delete("/saved_style_text/:id", savedStyleTextControllers.destroy)
