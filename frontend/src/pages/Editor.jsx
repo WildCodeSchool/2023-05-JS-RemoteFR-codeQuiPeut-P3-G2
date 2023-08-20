@@ -59,15 +59,13 @@ export default function Editor() {
           })
           .then((author) => {
             axios
-              .get(`http://localhost:4242/auteurs/${author.id}/campagnes`) // A MODIFIER - NE FONCTIONNE PAS
+              .get(`http://localhost:4242/auteurs/${author.id}/campagnes`) // A MODIFIER - NE FONCTIONNE PAS ?? (sur de ça ? a verifier)
               .then(({ data }) => setCampagnesUtilisateur(data))
-            // .catch((error) =>
-            //   console.log("error axios recup campagnesUtilisateur", error)
-            // )
+              .catch((err) => console.error(err))
           })
-        // .catch((error) => console.log("error axios recup auteur", error))
+          .catch((err) => console.error(err))
       })
-    // .catch((error) => console.log("error axios recup user", error))
+      .catch((err) => console.error(err))
   }, [])
 
   // --------------------------------------------------------------
@@ -221,6 +219,7 @@ export default function Editor() {
   // quand on clique sur un élément son state selected passe à true, le state des autres éléments passe à false
   // ceci permet de modifier le style ou la position uniquement de l'élément sélectionné
   const handleClickElement = (id) => {
+    // console.log(textes.filter(texte => texte.id = id)[0]);
     setTextes((prevState) =>
       prevState.map((item) =>
         item.id === id
@@ -371,7 +370,18 @@ export default function Editor() {
   }
 
   const handleDeleteStyleText = (index) => {
-    setSavedTextStyles((prevState) => prevState.filter((_, i) => i !== index))
+    const styleID = savedTextStyles[index].id
+
+    axios
+      .delete(`http://localhost:4242/saved_style_text/${styleID}`)
+      .then(() => {
+        axios
+          .get(`http://localhost:4242/saved_style_text/utilisateur/${user.id}`)
+          .then(({ data }) => setSavedTextStyles(data))
+          .catch((err) => console.error(err))
+      })
+      .catch((err) => console.error(err))
+    // setSavedTextStyles((prevState) => prevState.filter((_, i) => i !== index))
   }
 
   // ----FIN SECTION--------------------------------------------------
@@ -644,6 +654,16 @@ export default function Editor() {
     setMounted(true)
   }, [])
 
+  // récupérarion des styles enregistrés de l'utilisateur à l'ouverture de la page
+  useEffect(() => {
+    if (user.id) {
+      axios
+        .get(`http://localhost:4242/saved_style_text/utilisateur/${user.id}`)
+        .then(({ data }) => setSavedTextStyles(data))
+        .catch((err) => console.error(err))
+    }
+  }, [user])
+
   // ----------------------------------------------------------------------------
   // ------FONCTIONS POUR la GESTION DES RACCOURCIS CLAVIER----
   // ---------------------------------------------------------------------------
@@ -873,6 +893,7 @@ export default function Editor() {
               setTextes={setTextes}
               savedTextStyles={savedTextStyles}
               setSavedTextStyles={setSavedTextStyles}
+              user={user}
             />
 
             {/* {textes.length > 0 && (

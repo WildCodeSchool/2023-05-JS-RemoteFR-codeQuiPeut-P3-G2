@@ -335,7 +335,7 @@ CREATE TABLE `page_style` (
   PRIMARY KEY (`id`,`pages_id`),
   KEY `fk_page_style_pages1_idx` (`pages_id`),
   CONSTRAINT `fk_page_style_pages1` FOREIGN KEY (`pages_id`) REFERENCES `pages` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -344,6 +344,7 @@ CREATE TABLE `page_style` (
 
 LOCK TABLES `page_style` WRITE;
 /*!40000 ALTER TABLE `page_style` DISABLE KEYS */;
+INSERT INTO `page_style` VALUES (62,2,'0px','rgba(255,255,255,1)'),(64,4,'0px','rgba(255,255,255,1)'),(65,5,'0px','rgba(255,255,255,1)'),(67,8,'0px','rgba(255,255,255,1)'),(68,9,'0px','rgba(255,255,255,1)'),(69,10,'0px','rgba(255,255,255,1)'),(79,20,'0px','rgba(255,255,230,1)'),(80,21,'0px','rgba(255,255,230,1)'),(81,22,'0px','rgba(255,255,230,1)'),(84,25,'0px','rgba(255,255,230,1)'),(85,26,'0px','rgba(255,255,230,1)'),(86,27,'0px','rgba(255,255,230,1)'),(90,31,'0px','rgba(255,255,230,1)'),(91,32,'0px','rgba(255,255,230,1)'),(92,33,'0px','rgba(255,240,250,1)'),(94,35,'0px','rgba(255,240,250,1)'),(96,37,'0px','rgba(255,240,250,1)');
 /*!40000 ALTER TABLE `page_style` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -361,7 +362,7 @@ CREATE TABLE `page_textes` (
   PRIMARY KEY (`id`,`pages_id`),
   KEY `fk_textes_pages1_idx` (`pages_id`),
   CONSTRAINT `fk_textes_pages1` FOREIGN KEY (`pages_id`) REFERENCES `pages` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -370,7 +371,7 @@ CREATE TABLE `page_textes` (
 
 LOCK TABLES `page_textes` WRITE;
 /*!40000 ALTER TABLE `page_textes` DISABLE KEYS */;
-INSERT INTO `page_textes` VALUES (1,2,'Je vais vous raconter l\'histoire d\'un mec qui se baladait sur le pont de l\'alma...'),(2,2,'Il se baladait sur l\'avenue, le coeur ouvert à l\'inconu...');
+INSERT INTO `page_textes` VALUES (2,2,'Il se baladait sur l\'avenue, le coeur ouvert à l\'inconnu...'),(14,5,'mmmm'),(15,5,'Boulou'),(16,4,'On teste la réinsertion d\'un texte et d\'un style'),(28,9,''),(29,9,''),(30,10,'Commencement'),(31,10,'Il était une fois dans l\'ouest une vielle charue qui avait 7 roues dentées et un revêtement métallique !'),(50,20,''),(51,20,''),(52,21,''),(53,21,'Wazzzaaau vert'),(54,22,''),(55,22,'Bonjour'),(64,2,'Bonjour, je vais vous raconter'),(67,25,'Hugo le Putoi'),(68,25,''),(69,26,'Jacquouille le Pouilleux'),(70,26,''),(71,27,'Igor le Bourru'),(72,27,''),(79,31,'Paris de l\'an 3024'),(80,31,''),(81,32,'Le fond des enfers'),(82,32,''),(83,33,'Arthur le Roidec'),(84,33,''),(93,22,''),(94,22,''),(95,22,''),(98,35,'Adieu les poussins'),(99,35,'Les poussins du chef'),(102,37,'J\'ai envie de pisser'),(103,37,''),(108,2,'Je m\'baladais sur l\'avenue le coeur ouvert à l\'inconnu...'),(110,2,'On test ici si les styles sauvegardés fonctionnent');
 /*!40000 ALTER TABLE `page_textes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -417,7 +418,7 @@ CREATE TABLE `pages` (
   KEY `fk_pages_scenarios1_idx` (`scenarios_id`),
   CONSTRAINT `fk_pages_page_types1` FOREIGN KEY (`page_types_id`) REFERENCES `page_types` (`id`),
   CONSTRAINT `fk_pages_scenarios1` FOREIGN KEY (`scenarios_id`) REFERENCES `scenarios` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -426,7 +427,7 @@ CREATE TABLE `pages` (
 
 LOCK TABLES `pages` WRITE;
 /*!40000 ALTER TABLE `pages` DISABLE KEYS */;
-INSERT INTO `pages` VALUES (2,1,1,NULL,'Introduction',1),(3,1,1,NULL,'Le commencement',2),(4,3,1,NULL,'Wazzzaaaaa',1),(5,4,1,NULL,'Il était une fois',1);
+INSERT INTO `pages` VALUES (2,1,1,NULL,'Introduction',3),(4,3,1,NULL,'Wazzzaaaaa',1),(5,4,1,NULL,'Il était une fois',5),(8,3,1,NULL,'WazaQUOI ? WazaBI ?',2),(9,4,1,NULL,'Le charlatan',6),(10,3,1,NULL,'Commencement d\'un wazzzaaau',3),(20,4,1,NULL,'Et les 3 p\'tits chats',7),(21,4,1,NULL,'Le chapeau',8),(22,3,1,NULL,'Wazzzaaau vert',5),(25,4,2,NULL,'Hugo le Putoi',1),(26,4,2,NULL,'Jacqouille le Pouilleux',2),(27,4,2,NULL,'Igor le Bourru',3),(31,1,4,NULL,'Paris de l\'an 3024',2),(32,4,4,NULL,'Le fond des enfers',4),(33,1,2,NULL,'Arthur le Roidec',1),(35,1,1,NULL,'Adieu les poussins',10),(37,1,1,NULL,'J\'ai envie de pisser',11);
 /*!40000 ALTER TABLE `pages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -440,10 +441,7 @@ DROP TABLE IF EXISTS `saved_style_image`;
 CREATE TABLE `saved_style_image` (
   `id` int NOT NULL AUTO_INCREMENT,
   `utilisateurs_id` int NOT NULL,
-  `width` varchar(45) NOT NULL,
-  `height` varchar(45) NOT NULL,
-  `top` varchar(45) NOT NULL,
-  `ssi_left` varchar(45) NOT NULL,
+  `styleName` varchar(255) DEFAULT NULL,
   `z_index` int DEFAULT NULL,
   `border_style` varchar(45) DEFAULT NULL,
   `border_width` varchar(45) DEFAULT NULL,
@@ -479,6 +477,7 @@ CREATE TABLE `saved_style_page` (
   `utilisateurs_id` int NOT NULL,
   `padding` varchar(45) DEFAULT NULL,
   `background_color` varchar(155) DEFAULT NULL,
+  `styleName` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`,`utilisateurs_id`),
   KEY `fk_saved_style_page_utilisateurs1_idx` (`utilisateurs_id`),
   CONSTRAINT `fk_saved_style_page_utilisateurs1` FOREIGN KEY (`utilisateurs_id`) REFERENCES `utilisateurs` (`id`)
@@ -504,10 +503,7 @@ DROP TABLE IF EXISTS `saved_style_text`;
 CREATE TABLE `saved_style_text` (
   `id` int NOT NULL AUTO_INCREMENT,
   `utilisateurs_id` int NOT NULL,
-  `width` varchar(45) NOT NULL,
-  `height` varchar(45) NOT NULL,
-  `top` varchar(45) NOT NULL,
-  `sst_left` varchar(45) NOT NULL,
+  `styleName` varchar(255) DEFAULT NULL,
   `z_index` int DEFAULT NULL,
   `border_style` varchar(45) DEFAULT NULL,
   `border_color` varchar(45) DEFAULT NULL,
@@ -527,7 +523,7 @@ CREATE TABLE `saved_style_text` (
   PRIMARY KEY (`id`,`utilisateurs_id`),
   KEY `fk_saved_style_text_utilisateurs1_idx` (`utilisateurs_id`),
   CONSTRAINT `fk_saved_style_text_utilisateurs1` FOREIGN KEY (`utilisateurs_id`) REFERENCES `utilisateurs` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -536,6 +532,7 @@ CREATE TABLE `saved_style_text` (
 
 LOCK TABLES `saved_style_text` WRITE;
 /*!40000 ALTER TABLE `saved_style_text` DISABLE KEYS */;
+INSERT INTO `saved_style_text` VALUES (4,1,'Style1',0,'groove','rgba(65,117,5,1)','13px','35px','0px 5px 20px 0px rgba(248,231,28,1)','rgba(200,203,250,1)','1.7rem','italic','400','Cambria','rgba(208,2,27,1)','15px','blur(15px)','underline','left'),(10,1,'Style 2',0,'dashed','rgba(103,100,255,1)','5px','50px','15px 15px 15px 5px rgba(191,29,29,1)','rgba(250,200,200,0.57)','1.5rem','italic','700','cursive','rgba(74,144,226,1)','19px','blur(15px)','none','center');
 /*!40000 ALTER TABLE `saved_style_text` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -693,7 +690,7 @@ CREATE TABLE `text_style` (
   PRIMARY KEY (`id`,`page_textes_id`),
   KEY `fk_textStyle_pageTextes1_idx` (`page_textes_id`),
   CONSTRAINT `fk_textStyle_pageTextes1` FOREIGN KEY (`page_textes_id`) REFERENCES `page_textes` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -702,6 +699,7 @@ CREATE TABLE `text_style` (
 
 LOCK TABLES `text_style` WRITE;
 /*!40000 ALTER TABLE `text_style` DISABLE KEYS */;
+INSERT INTO `text_style` VALUES (2,2,'44%','11%','54.99999935160953%','25.98530190263339%',0,'groove','rgba(65,117,5,1)','13px','35px','0px 5px 20px 0px rgba(248,231,28,1)','rgba(200,203,250,1)','1.7rem','italic','400','Cambria','rgba(208,2,27,1)','15px','blur(15px)','underline','left'),(12,14,'50%','5%','40.633120357694565%','27.449009626535858%',0,'none','rgba(200,200,200,1)','1px','0px','0px 0px 0px 0px rgba(0,0,0,0)','rgba(250,250,250,1)','1.25rem','normal','400','cursive','rgba(189,16,224,1)','4px','blur(0px)','none','center'),(13,15,'50%','5%','14.26883970567472%','23.3%',0,'none','rgba(200,200,200,1)','1px','0px','0px 0px 0px 0px rgba(0,0,0,0)','rgba(250,250,250,1)','1.25rem','normal','400','cursive','rgba(0,0,0,1)','4px','blur(0px)','none','center'),(14,16,'50%','5%','28.654390826779114%','29.88643913804171%',0,'none','rgba(200,200,200,1)','1px','0px','15px 15px 15px 5px rgba(202,30,201,1)','rgba(250,250,250,1)','1.25rem','normal','700','Courier New','rgba(50,81,199,1)','4px','blur(0px)','none','left'),(26,28,'30%','5%','5%','10%',0,'none','rgba(200,200,200,1)','1px','0px','0px 0px 0px 0px rgba(0,0,0,0)','rgba(255,255,255,1)','2rem','normal','700','cursive','rgba(0,0,0,1)','4px','blur(0px)','none','center'),(27,29,'80%','15%','15%','10%',0,'none','rgba(200,200,200,1)','1px','0px','0px 0px 0px 0px rgba(0,0,0,0)','rgba(255,255,255,1)','1.25rem','normal','400','cursive','rgba(0,0,0,1)','4px','blur(0px)','none','center'),(28,30,'50%','4%','5%','5%',0,'none','rgba(200,200,200,1)','1px','0px','0px 0px 0px 0px rgba(0,0,0,0)','rgba(255,255,255,1)','2rem','normal','700','cursive','rgba(0,0,0,1)','4px','blur(0px)','none','left'),(29,31,'90%','13%','10%','5%',0,'none','rgba(200,200,200,1)','1px','0px','0px 0px 0px 0px rgba(0,0,0,0)','rgba(255,255,255,1)','1.25rem','normal','400','cursive','rgba(0,0,0,1)','4px','blur(0px)','none','justify'),(48,50,'60%','4%','5%','5%',0,'none','rgba(200,200,200,1)','1px','0px','0px 0px 0px 0px rgba(0,0,0,0)','rgba(255,255,255,1)','2rem','normal','700','cursive','rgba(0,0,0,1)','4px','blur(0px)','none','justify'),(49,51,'90%','15%','10%','5%',0,'none','rgba(200,200,200,1)','1px','0px','0px 0px 0px 0px rgba(0,0,0,0)','rgba(255,255,255,1)','1.25rem','normal','400','cursive','rgba(0,0,0,1)','4px','blur(0px)','none','justify'),(50,52,'60%','4%','5%','5%',0,'none','rgba(200,200,200,1)','1px','0px','0px 0px 0px 0px rgba(0,0,0,0)','rgba(255,255,255,1)','2rem','normal','700','cursive','rgba(0,0,0,1)','4px','blur(0px)','none','justify'),(51,53,'90%','15%','10%','5%',0,'none','rgba(200,200,200,1)','1px','0px','0px 0px 0px 0px rgba(0,0,0,0)','rgba(255,255,255,1)','1.25rem','normal','400','cursive','rgba(0,0,0,1)','4px','blur(0px)','none','justify'),(52,54,'60%','4%','5%','5%',0,'none','rgba(200,200,200,1)','1px','0px','0px 0px 0px 0px rgba(0,0,0,0)','rgba(255,255,255,1)','2rem','normal','700','cursive','rgba(0,0,0,1)','4px','blur(0px)','none','justify'),(53,55,'90%','15%','10%','5%',0,'none','rgba(200,200,200,1)','1px','0px','0px 0px 0px 0px rgba(0,0,0,0)','rgba(255,255,255,1)','1.25rem','normal','400','cursive','rgba(179,82,82,1)','4px','blur(0px)','none','justify'),(62,64,'52.989309918665455%','15%','69%','16.967265830489104%',0,'dashed','rgba(103,100,255,1)','5px','50px','15px 15px 15px 5px rgba(191,29,29,1)','rgba(250,200,200,0.57)','1.5rem','italic','700','cursive','rgba(74,144,226,1)','19px','blur(15px)','none','center'),(65,67,'60%','4%','5%','20%',0,'none','rgba(200,200,200,1)','1px','0px','0px 0px 0px 0px rgba(0,0,0,0)','rgba(255,255,255,1)','2rem','normal','700','cursive','rgba(0,0,0,1)','4px','blur(0px)','none','center'),(66,68,'90%','15%','10%','5%',0,'none','rgba(200,200,200,1)','1px','0px','0px 0px 0px 0px rgba(0,0,0,0)','rgba(255,255,255,1)','1.25rem','normal','400','cursive','rgba(0,0,0,1)','4px','blur(0px)','none','justify'),(67,69,'60%','4%','5%','20%',0,'none','rgba(200,200,200,1)','1px','0px','0px 0px 0px 0px rgba(0,0,0,0)','rgba(255,255,255,1)','2rem','normal','700','cursive','rgba(0,0,0,1)','4px','blur(0px)','none','center'),(68,70,'90%','15%','10%','5%',0,'none','rgba(200,200,200,1)','1px','0px','0px 0px 0px 0px rgba(0,0,0,0)','rgba(255,255,255,1)','1.25rem','normal','400','cursive','rgba(0,0,0,1)','4px','blur(0px)','none','justify'),(69,71,'60%','4%','5%','20%',0,'none','rgba(200,200,200,1)','1px','0px','0px 0px 0px 0px rgba(0,0,0,0)','rgba(255,255,255,1)','2rem','normal','700','cursive','rgba(0,0,0,1)','4px','blur(0px)','none','center'),(70,72,'90%','15%','10%','5%',0,'none','rgba(200,200,200,1)','1px','0px','0px 0px 0px 0px rgba(0,0,0,0)','rgba(255,255,255,1)','1.25rem','normal','400','cursive','rgba(0,0,0,1)','4px','blur(0px)','none','justify'),(77,79,'60%','4%','5%','20%',0,'none','rgba(200,200,200,1)','1px','0px','0px 0px 0px 0px rgba(0,0,0,0)','rgba(255,255,255,1)','2rem','normal','700','cursive','rgba(0,0,0,1)','4px','blur(0px)','none','center'),(78,80,'90%','15%','10%','5%',0,'none','rgba(200,200,200,1)','1px','0px','0px 0px 0px 0px rgba(0,0,0,0)','rgba(255,255,255,1)','1.25rem','normal','400','cursive','rgba(0,0,0,1)','4px','blur(0px)','none','justify'),(79,81,'60%','4%','5%','20%',0,'none','rgba(200,200,200,1)','1px','0px','0px 0px 0px 0px rgba(0,0,0,0)','rgba(255,255,255,1)','2rem','normal','700','cursive','rgba(0,0,0,1)','4px','blur(0px)','none','center'),(80,82,'90%','15%','10%','5%',0,'none','rgba(200,200,200,1)','1px','0px','0px 0px 0px 0px rgba(0,0,0,0)','rgba(255,255,255,1)','1.25rem','normal','400','cursive','rgba(0,0,0,1)','4px','blur(0px)','none','justify'),(81,83,'60%','4%','5%','20%',0,'none','rgba(200,200,200,1)','1px','0px','0px 0px 0px 0px rgba(0,0,0,0)','rgba(255,255,255,1)','2rem','normal','700','cursive','rgba(0,0,0,1)','4px','blur(0px)','none','center'),(82,84,'90%','15%','10%','5%',0,'none','rgba(200,200,200,1)','1px','0px','0px 0px 0px 0px rgba(0,0,0,0)','rgba(255,255,255,1)','1.25rem','normal','400','cursive','rgba(0,0,0,1)','4px','blur(0px)','none','justify'),(89,93,'60%','4%','5%','5%',0,'none','rgba(200,200,200,1)','1px','0px','0px 0px 0px 0px rgba(0,0,0,0)','rgba(255,255,255,1)','2rem','normal','700','cursive','rgba(0,0,0,1)','4px','blur(0px)','none','justify'),(90,94,'60%','4%','5%','5%',0,'none','rgba(200,200,200,1)','1px','0px','0px 0px 0px 0px rgba(0,0,0,0)','rgba(255,255,255,1)','2rem','normal','700','cursive','rgba(0,0,0,1)','4px','blur(0px)','none','justify'),(91,95,'90%','15%','10%','5%',0,'none','rgba(200,200,200,1)','1px','0px','0px 0px 0px 0px rgba(0,0,0,0)','rgba(255,255,255,1)','1.25rem','normal','400','cursive','rgba(0,0,0,1)','4px','blur(0px)','none','justify'),(94,98,'60%','4%','5%','5%',0,'none','rgba(200,200,200,1)','1px','0px','0px 0px 0px 0px rgba(0,0,0,0)','rgba(255,255,255,1)','2rem','normal','700','cursive','rgba(0,0,0,1)','4px','blur(0px)','none','left'),(95,99,'90%','15%','10%','5%',0,'dotted','rgba(103,100,255,1)','5','50','0px 0px 0px 0px rgba(0,0,0,0)','rgba(250,200,200,1)','1.25rem','normal','normal','cursive','rgba(0,0,0,1)','19','blur(0px)','none','center'),(98,102,'60%','4%','5%','5%',0,'none','rgba(200,200,200,1)','1px','0px','0px 0px 0px 0px rgba(0,0,0,0)','rgba(255,255,255,1)','2rem','normal','700','cursive','rgba(0,0,0,1)','4px','blur(0px)','none','left'),(99,103,'90%','15%','10%','5%',0,'none','rgba(200,200,200,1)','1px','0px','0px 0px 0px 0px rgba(0,0,0,0)','rgba(255,255,255,1)','1.25rem','normal','400','cursive','rgba(0,0,0,1)','4px','blur(0px)','none','justify'),(104,108,'50%','10%','22.776203317615195%','24.68269669221255%',0,'groove','rgba(65,117,5,1)','13px','35px','0px 5px 20px 0px rgba(248,231,28,1)','rgba(200,203,250,1)','1.7rem','italic','400','Cambria','rgba(208,2,27,1)','15px','blur(15px)','underline','left'),(106,110,'42.759992629394986%','9%','43%','38.6599951989749%',0,'dashed','rgba(103,100,255,1)','5px','50px','15px 15px 15px 5px rgba(191,29,29,1)','rgba(250,200,200,0.57)','1.5rem','italic','700','cursive','rgba(74,144,226,1)','19px','blur(15px)','none','center');
 /*!40000 ALTER TABLE `text_style` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -767,4 +765,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-08-10 15:30:07
+-- Dump completed on 2023-08-20 16:21:24
