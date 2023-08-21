@@ -7,20 +7,33 @@ class SavedStylePageManager extends AbstractManager {
 
   insert(saveStPg) {
     return this.database.query(
-      `INSERT INTO ${this.table} (utilisateurs_id, padding, background_color) VALUES (?,?,?)`,
-      [saveStPg.utilisateurs_id, saveStPg.padding, saveStPg.background_color]
+      `INSERT INTO ${this.table} (utilisateurs_id, padding, background_color, styleName) VALUES (?,?,?,?)`,
+      [
+        saveStPg.utilisateurs_id,
+        saveStPg.padding,
+        saveStPg.background_color,
+        saveStPg.styleName,
+      ]
     )
   }
 
   update(saveStPg) {
     return this.database.query(
-      `UPDATE ${this.table} SET utilisateurs_id = ?, padding = ?, background_color = ? WHERE id = ?`,
+      `UPDATE ${this.table} SET utilisateurs_id = ?, padding = ?, background_color = ?, styleName = ? WHERE id = ?`,
       [
         saveStPg.utilisateurs_id,
         saveStPg.padding,
         saveStPg.background_color,
+        saveStPg.styleName,
         saveStPg.id,
       ]
+    )
+  }
+
+  readFromUtilisateurID(userID) {
+    return this.database.query(
+      `SELECT * FROM ${this.table} WHERE utilisateurs_id = ?`,
+      [userID]
     )
   }
 }
