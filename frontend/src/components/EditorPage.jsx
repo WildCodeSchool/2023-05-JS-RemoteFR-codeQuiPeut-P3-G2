@@ -12,7 +12,7 @@ export default function EditorPage(props) {
     handleDrop,
     handleChangeTexte,
     handleDragStart,
-    handleClickElement,
+    handleClickElementTexte,
     handleMouseDown,
     editedCampagne,
     selectedPage,
@@ -61,7 +61,7 @@ export default function EditorPage(props) {
               placeholder={item.placeHolder}
               draggable
               onDragStart={(e) => handleDragStart(e, item.id)}
-              onClick={(e) => handleClickElement(item.id)}
+              onClick={(e) => handleClickElementTexte(item.id, e)}
               onMouseDown={(e) => handleMouseDown(e, item.id)}
               //   onKeyDown={handleKeyDownDelete}
             ></textarea>
