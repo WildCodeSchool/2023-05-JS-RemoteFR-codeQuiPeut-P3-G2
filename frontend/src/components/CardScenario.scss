@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Lustria&display=swap');
+
+
+.Scenario{
+
+font-family: 'Lustria', serif; 
+width:30vw;
+height:30vh ;
+	p{
+		color: white;
+	}
+  .containerimg{
+    width:12%;
+		img {
+			object-fit:contain;
+		}
+ 	}
+	img:hover{
+		transform:rotate(10deg);
+	}
+
+	.Card{
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	width: 35%;
+
+  	.title{
+			display:flex;
+			justify-content: flex-start;
+			gap: 10%;
+
+			h2{
+				font-size: medium;
+			}
+			img{
+				width: 6%;
+				object-fit: contain;
+			}
+			img:hover{
+				transform:none;
+			}
+		}
+
+		.viewer{
+			display: flex;
+			justify-content:baseline;
+			gap:10%;
+
+		}
+
+		.description{
+			font-size: smaller;
+		}
+		.theme{
+			display:flex;
+			align-items: baseline;
+			gap: 10%;
+			font-size: small;
+
+			.univers{
+				color: rgb(255,189,89);
+		
+			}
+			.genre{
+				color:rgb(76, 96, 174) ;
+			}
+		}
+		.auteur{
+			display:flex;
+			align-items: baseline;
+			gap: 10%;
+			font-size: small;
+
+			button{
+				border-radius:58px;
+				color: white;
+				background-color: rgb(76, 96, 174);
+				border:2px;
+			}
+
+			button:hover{
+				color: rgb(76, 96, 174);
+				background-color: white;
+		
+			}
+		}
+	}	
+}
