@@ -13,12 +13,14 @@ import soulignage from "../assets/images/soulignage.png"
 import marges from "../assets/images/marges.png"
 import { SketchPicker } from "react-color"
 import { React, useState, useEffect } from "react"
+import axios from "axios"
 
 export default function EditorTextStyle({
   textes,
   setTextes,
   savedTextStyles,
   setSavedTextStyles,
+  user,
 }) {
   const [mounted, setMounted] = useState(false)
   const [coordX, setCoordX] = useState(0)
@@ -68,6 +70,7 @@ export default function EditorTextStyle({
     setMounted(true)
   }, [])
 
+  // mise à jour des states de style lorsqu'on clique sur un textarea
   useEffect(() => {
     if (mounted && textes) {
       const item = textes.filter((texte) => texte.selected === true)[0]
@@ -86,44 +89,57 @@ export default function EditorTextStyle({
           setAlignCenterActived(false)
           setAlignRightActived(false)
           setAlignJustifyActived(false)
+          setappliedTextAlign("left")
         } else if (itemStyle.textAlign === "center") {
           setAlignLeftActived(false)
           setAlignCenterActived(true)
           setAlignRightActived(false)
           setAlignJustifyActived(false)
+          setappliedTextAlign("center")
         } else if (itemStyle.textAlign === "right") {
           setAlignLeftActived(false)
           setAlignCenterActived(false)
           setAlignRightActived(true)
           setAlignJustifyActived(false)
+          setappliedTextAlign("right")
         } else if (itemStyle.textAlign === "justify") {
           setAlignLeftActived(false)
           setAlignCenterActived(false)
           setAlignRightActived(false)
           setAlignJustifyActived(true)
+          setappliedTextAlign("justify")
         }
 
-        if (itemStyle.fontWeight === 700) {
+        if (Math.round(itemStyle.fontWeight) === 700) {
+          // console.log("bold 700",itemStyle.fontWeight);
           setBoldActived(true)
+          setappliedFontWeight(700)
         } else {
+          // console.log("bold 400",itemStyle.fontWeight);
+
           setBoldActived(false)
+          setappliedFontWeight(400)
         }
 
         if (itemStyle.fontStyle === "italic") {
           setItalicActived(true)
+          setappliedFontStyle("italic")
         } else {
           setItalicActived(false)
+          setappliedFontStyle("normal")
         }
 
         if (itemStyle.textDecoration === "underline") {
           setUnderlineActived(true)
+          setappliedTextDecoration("underline")
         } else {
           setUnderlineActived(false)
+          setappliedTextDecoration("none")
         }
 
         setFont(itemStyle.fontFamily)
 
-        setDivFontSize(parseInt(itemStyle.fontSize, 10))
+        setDivFontSize(parseFloat(itemStyle.fontSize, 10))
 
         setTextColor(itemStyle.color)
 
@@ -149,8 +165,31 @@ export default function EditorTextStyle({
 
         if (itemStyle.borderStyle === "none") {
           setBorderActived(false)
-        } else {
+          setappliedBorderStyle("none")
+        } else if (itemStyle.borderStyle === "solid") {
           setBorderActived(true)
+          setappliedBorderStyle("solid")
+        } else if (itemStyle.borderStyle === "dotted") {
+          setBorderActived(true)
+          setappliedBorderStyle("dotted")
+        } else if (itemStyle.borderStyle === "dashed") {
+          setBorderActived(true)
+          setappliedBorderStyle("dashed")
+        } else if (itemStyle.borderStyle === "ridge") {
+          setBorderActived(true)
+          setappliedBorderStyle("ridge")
+        } else if (itemStyle.borderStyle === "outset") {
+          setBorderActived(true)
+          setappliedBorderStyle("outset")
+        } else if (itemStyle.borderStyle === "inset") {
+          setBorderActived(true)
+          setappliedBorderStyle("inset")
+        } else if (itemStyle.borderStyle === "double") {
+          setBorderActived(true)
+          setappliedBorderStyle("double")
+        } else if (itemStyle.borderStyle === "groove") {
+          setBorderActived(true)
+          setappliedBorderStyle("groove")
         }
 
         setBorderThickness(parseInt(itemStyle.borderWidth, 10))
@@ -513,13 +552,14 @@ export default function EditorTextStyle({
 
   const handleClickFontSize = (e) => {
     setDivFontSize(e.target.value)
+    const newFontSize = e.target.value + "rem"
 
     setTextes((prevState) =>
       prevState.map((item) =>
         item.selected === true
           ? {
               ...item,
-              style: { ...item.style, fontSize: e.target.value + "px" },
+              style: { ...item.style, fontSize: newFontSize },
             }
           : item
       )
@@ -941,43 +981,43 @@ export default function EditorTextStyle({
   const handleClickSaveStyle = () => {
     const savedBoxShadow = `${ombreX}px ${ombreY}px ${ombreAlpha}px ${ombreBeta}px ${shadowColor}`
 
+    const newStyleName = prompt("Veuillez définir un nom pour ce style")
+
     const newStyleCss = {
+      utilisateurs_id: user.id,
+      textStyleName: newStyleName,
       backgroundColor: backColor,
       position: "absolute",
       boxSizing: "border-box",
       zIndex: coordZ,
       borderStyle: appliedBorderStyle,
       borderColor,
-      borderWidth: borderThickness,
-      borderRadius: divBorderRadius,
+      borderWidth: `${borderThickness}px`,
+      borderRadius: `${divBorderRadius}px`,
       boxShadow: savedBoxShadow,
-      fontSize: `${divFontSize}px`,
+      fontSize: `${divFontSize}rem`,
       fontStyle: appliedFontStyle,
       textDecoration: appliedTextDecoration,
       fontWeight: appliedFontWeight,
       fontFamily: font,
       color: textColor,
-      padding: divPadding,
+      padding: `${divPadding}px`,
       textAlign: appliedTextAlign,
       backdropFilter: `blur(${blur}px)`,
       WebkitBackdropFilter: `blur(${blur}px)`,
     }
 
-    const newStyleName = prompt("Veuillez définir un nom pour ce style")
+    // on peut maintenant poster ce nouveau style puis récupérer l'ensemble des styles de textes de l'utilisateur
 
-    const newStyleId =
-      savedTextStyles.length === 0
-        ? 1
-        : Math.max(...savedTextStyles.map((obj) => obj.id)) + 1
-
-    const newStyle = {
-      id: newStyleId,
-      styleName: newStyleName,
-      styleCss: newStyleCss,
-      showDelete: false,
-    }
-
-    setSavedTextStyles((prevState) => [...prevState, newStyle])
+    axios
+      .post(`http://localhost:4242/saved_style_text`, newStyleCss)
+      .then(() => {
+        axios
+          .get(`http://localhost:4242/saved_style_text/utilisateur/${user.id}`)
+          .then(({ data }) => setSavedTextStyles(data))
+          .catch((err) => console.error(err))
+      })
+      .catch((err) => console.error(err))
   }
 
   // ---FIN SECTION---------------------------------------------------------------------------
@@ -1196,9 +1236,10 @@ export default function EditorTextStyle({
 
         <input
           type="number"
+          step={0.1}
           value={divFontSize}
-          min={2}
-          max={150}
+          min={0.1}
+          max={15}
           onChange={handleClickFontSize}
         />
 

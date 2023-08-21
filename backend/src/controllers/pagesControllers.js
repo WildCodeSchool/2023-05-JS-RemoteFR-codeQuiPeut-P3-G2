@@ -1,7 +1,7 @@
 const models = require("../models")
 
 const browse = (req, res) => {
-  models.savStylTxt
+  models.pages
     .findAll()
     .then(([rows]) => {
       res.send(rows)
@@ -13,13 +13,14 @@ const browse = (req, res) => {
 }
 
 const add = (req, res) => {
-  const saveStTx = req.body
+  const pages = req.body
+
   // TODO validations (length, format...)
 
-  models.savStylTxt
-    .insert(saveStTx)
-    .then(([result]) => {
-      res.json(result.insertId)
+  models.pages
+    .insert(pages)
+    .then((result) => {
+      res.json(result)
     })
     .catch((err) => {
       console.error(err)
@@ -28,7 +29,7 @@ const add = (req, res) => {
 }
 
 const read = (req, res) => {
-  models.savStylTxt
+  models.pages
     .find(req.params.id)
     .then(([rows]) => {
       if (rows[0] == null) {
@@ -44,14 +45,12 @@ const read = (req, res) => {
 }
 
 const edit = (req, res) => {
-  const saveStTx = req.body
+  const pages = req.body
 
-  // TODO validations (length, format...)
+  const id = req.params.id
 
-  saveStTx.id = parseInt(req.params.id, 10)
-
-  models.savStylTxt
-    .update(saveStTx)
+  models.pages
+    .update(pages, id)
     .then(([result]) => {
       if (result.affectedRows === 0) {
         res.sendStatus(404)
@@ -66,7 +65,7 @@ const edit = (req, res) => {
 }
 
 const destroy = (req, res) => {
-  models.savStylTxt
+  models.pages
     .delete(req.params.id)
     .then(([result]) => {
       if (result.affectedRows === 0) {
@@ -81,40 +80,46 @@ const destroy = (req, res) => {
     })
 }
 
-const readFromUtilisateurID = (req, res) => {
-  models.savStylTxt
-    .readFromUtilisateurID(req.params.id)
+const readPageTexts = (req, res) => {
+  models.pages
+    .findPageTexts(req.params.id)
     .then(([rows]) => {
       if (rows[0] == null) {
         res.sendStatus(404)
       } else {
-        const userTextStyles = rows.map((style) => ({
-          id: style.id,
-          styleName: style.styleName,
-          showDelete: false,
-          styleCss: {
-            backgroundColor: style.background_color,
+        const data = rows.map((item) => ({
+          id: item.id,
+          pages_id: item.pages_id,
+          text: item.text,
+          placeHolder: "Tapez votre texte",
+          selected: false,
+          style: {
+            backgroundColor: item.backgroundColor,
             position: "absolute",
+            width: item.width,
+            height: item.height,
             boxSizing: "border-box",
-            zIndex: style.z_index,
-            borderStyle: style.border_style,
-            borderColor: style.border_color,
-            borderWidth: style.border_width,
-            borderRadius: style.border_radius,
-            boxShadow: style.box_shadow,
-            fontSize: style.font_size,
-            fontStyle: style.font_style,
-            textDecoration: style.text_decoration,
-            fontWeight: style.font_weight,
-            fontFamily: style.font_family,
-            color: style.color,
-            padding: style.padding,
-            textAlign: style.text_align,
-            backdropFilter: style.backdrop_filter,
-            WebkitBackdropFilter: style.backdrop_filter,
+            top: item.top,
+            left: item.left,
+            zIndex: item.zIndex,
+            borderStyle: item.borderStyle,
+            borderColor: item.borderColor,
+            borderWidth: item.borderWidth,
+            borderRadius: item.borderRadius,
+            boxShadow: item.boxShadow,
+            fontSize: item.fontSize,
+            fontStyle: item.fontStyle,
+            textDecoration: item.textDecoration,
+            fontWeight: item.fontWeight,
+            fontFamily: item.fontFamily,
+            color: item.color,
+            padding: item.padding,
+            textAlign: item.textAlign,
+            backdropFilter: item.backdropFilter,
+            WebkitBackdropFilter: item.backdropFilter,
           },
         }))
-        res.send(userTextStyles)
+        res.send(data)
       }
     })
     .catch((err) => {
@@ -129,5 +134,5 @@ module.exports = {
   read,
   edit,
   destroy,
-  readFromUtilisateurID,
+  readPageTexts,
 }

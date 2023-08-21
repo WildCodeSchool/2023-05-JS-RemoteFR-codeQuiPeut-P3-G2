@@ -1,7 +1,7 @@
 const models = require("../models")
 
 const browse = (req, res) => {
-  models.savStylTxt
+  models.styleText
     .findAll()
     .then(([rows]) => {
       res.send(rows)
@@ -14,9 +14,10 @@ const browse = (req, res) => {
 
 const add = (req, res) => {
   const saveStTx = req.body
+
   // TODO validations (length, format...)
 
-  models.savStylTxt
+  models.styleText
     .insert(saveStTx)
     .then(([result]) => {
       res.json(result.insertId)
@@ -28,7 +29,7 @@ const add = (req, res) => {
 }
 
 const read = (req, res) => {
-  models.savStylTxt
+  models.styleText
     .find(req.params.id)
     .then(([rows]) => {
       if (rows[0] == null) {
@@ -48,10 +49,10 @@ const edit = (req, res) => {
 
   // TODO validations (length, format...)
 
-  saveStTx.id = parseInt(req.params.id, 10)
+  const id = req.params.id
 
-  models.savStylTxt
-    .update(saveStTx)
+  models.styleText
+    .update(saveStTx, id)
     .then(([result]) => {
       if (result.affectedRows === 0) {
         res.sendStatus(404)
@@ -66,7 +67,7 @@ const edit = (req, res) => {
 }
 
 const destroy = (req, res) => {
-  models.savStylTxt
+  models.styleText
     .delete(req.params.id)
     .then(([result]) => {
       if (result.affectedRows === 0) {
@@ -81,40 +82,36 @@ const destroy = (req, res) => {
     })
 }
 
-const readFromUtilisateurID = (req, res) => {
-  models.savStylTxt
-    .readFromUtilisateurID(req.params.id)
-    .then(([rows]) => {
-      if (rows[0] == null) {
+const editStyleFromTexteID = (req, res) => {
+  const style = req.body
+
+  // TODO validations (length, format...)
+
+  const textID = req.params.id
+
+  models.styleText
+    .editStyleFromTexteID(style, textID)
+    .then(([result]) => {
+      if (result.affectedRows === 0) {
         res.sendStatus(404)
       } else {
-        const userTextStyles = rows.map((style) => ({
-          id: style.id,
-          styleName: style.styleName,
-          showDelete: false,
-          styleCss: {
-            backgroundColor: style.background_color,
-            position: "absolute",
-            boxSizing: "border-box",
-            zIndex: style.z_index,
-            borderStyle: style.border_style,
-            borderColor: style.border_color,
-            borderWidth: style.border_width,
-            borderRadius: style.border_radius,
-            boxShadow: style.box_shadow,
-            fontSize: style.font_size,
-            fontStyle: style.font_style,
-            textDecoration: style.text_decoration,
-            fontWeight: style.font_weight,
-            fontFamily: style.font_family,
-            color: style.color,
-            padding: style.padding,
-            textAlign: style.text_align,
-            backdropFilter: style.backdrop_filter,
-            WebkitBackdropFilter: style.backdrop_filter,
-          },
-        }))
-        res.send(userTextStyles)
+        res.sendStatus(204)
+      }
+    })
+    .catch((err) => {
+      console.error(err)
+      res.sendStatus(500)
+    })
+}
+
+const destroyFromTextID = (req, res) => {
+  models.styleText
+    .destroyFromTextID(req.params.id)
+    .then(([result]) => {
+      if (result.affectedRows === 0) {
+        res.sendStatus(404)
+      } else {
+        res.sendStatus(204)
       }
     })
     .catch((err) => {
@@ -129,5 +126,6 @@ module.exports = {
   read,
   edit,
   destroy,
-  readFromUtilisateurID,
+  editStyleFromTexteID,
+  destroyFromTextID,
 }

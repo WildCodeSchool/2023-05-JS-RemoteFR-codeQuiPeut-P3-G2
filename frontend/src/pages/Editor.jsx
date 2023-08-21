@@ -1,11 +1,26 @@
+import axios from "axios"
 import { useState, useEffect } from "react"
 import EditorPage from "../components/EditorPage"
 import saveDisquette from "../assets/images/saveDisquette.svg"
 import addText from "../assets/images/addText.svg"
 import addImg from "../assets/images/addImg.svg"
+import undo from "../assets/images/undo.png"
+import redo from "../assets/images/redo.png"
+import iconSupprimer from "../assets/images/iconSupprimer.svg"
 import EditorTextStyle from "../components/EditorTextStyle"
+import SommaireEditor from "../components/SommaireEditor"
+import Navbar from "../components/Navbar"
 
 export default function Editor() {
+  const [user, setUser] = useState({}) // à SUPPRIMER par la suite, à récupérer via un context
+  const [author, setAuthor] = useState({}) // (id, authorName)
+  const [campagnesUtilisateur, setCampagnesUtilisateur] = useState([]) // (id, campagneName)
+  const [editedCampagne, setEditedCampagne] = useState({})
+  const [scenariosOfEditedCampagne, setScenariosOfEditedCampagne] = useState([])
+  const [pagesOfScenarioSelected, setPagesOfScenarioSelected] = useState([])
+
+  const [showMenuOpen, setShowMenuOpen] = useState(false)
+
   const [mounted, setMounted] = useState(false)
   const [pageWidth, setPageWidth] = useState()
   const [pageHeight, setPageHeight] = useState()
@@ -13,6 +28,9 @@ export default function Editor() {
   const [pageOffsetY, setPageOffsetY] = useState()
   const [addNewText, setAddNewText] = useState(false)
   const [textes, setTextes] = useState([])
+  const [images, setImages] = useState([])
+  const [pageHistory, setPageHistory] = useState([]) // pour pouvoir faire un undo
+  const [pageFuture, setPageFuture] = useState([]) // pour pouvoir faire un redo
   const [savedTextStyles, setSavedTextStyles] = useState([])
   const [indexAfficheStyleText, setIndexAfficheStyleText] = useState({
     min: 0,
@@ -21,10 +39,40 @@ export default function Editor() {
 
   const maPage = document.querySelector(".section-page")
 
+  // récupération de l'utilisateur ... A SUPPRIMER PLUS TARD
+  // puis de l'auteur (pas à supprimer)
+  // puis de ses campagnes
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:4242/utilisateurs/1")
+      .then(({ data }) => {
+        setUser(data)
+        return data
+      })
+      .then((userData) => {
+        axios
+          .get(`http://localhost:4242/auteurs/user/${userData.id}`)
+          .then(({ data }) => {
+            setAuthor(data)
+            return data
+          })
+          .then((author) => {
+            axios
+              .get(`http://localhost:4242/auteurs/${author.id}/campagnes`) // A MODIFIER - NE FONCTIONNE PAS ?? (sur de ça ? a verifier)
+              .then(({ data }) => setCampagnesUtilisateur(data))
+              .catch((err) => console.error(err))
+          })
+          .catch((err) => console.error(err))
+      })
+      .catch((err) => console.error(err))
+  }, [])
+
   // --------------------------------------------------------------
   // --------AJOUT DE NOUVEAUX ELEMENTS DANS LA PAGE--------------
   // -----------------------------------------------------------
   const handleClickNewTextZone = () => {
+    // console.log("test");
     setAddNewText(true)
   }
 
@@ -32,51 +80,96 @@ export default function Editor() {
     const newTop = (100 * (e.pageY - pageOffsetY)) / pageHeight + "%"
 
     const newLeft = (100 * (e.pageX - pageOffsetX)) / pageWidth + "%"
-    let newID = null
 
-    if (textes.length === 0) {
-      newID = 1
-    } else {
-      newID = textes[textes.length - 1].id + 1
-    }
+    const idPageSelected = pagesOfScenarioSelected.filter(
+      (item) => item.selected === true
+    )[0].id
 
-    const newTextearea = {
-      id: newID,
-      text: "",
-      placeHolder: "Tapez votre texte",
-      style: {
-        backgroundColor: "rgba(250,250,250,1)",
-        position: "absolute",
-        width: "50%",
-        height: "5%",
-        boxSizing: "border-box",
-        top: newTop,
-        left: newLeft,
-        zIndex: 0,
-        borderStyle: "none",
-        borderColor: "rgba(200,200,200,1)",
-        borderWidth: 1,
-        borderRadius: 0,
-        boxShadow: "0px 0px 0px 0px rgba(0,0,0,0)",
-        fontSize: "20px",
-        fontStyle: "normal",
-        textDecoration: "none",
-        fontWeight: 400,
-        fontFamily: "cursive",
-        color: "rgba(0,0,0,1)",
-        padding: "4px",
-        textAlign: "left",
-        backdropFilter: "blur(0px)",
-        WebkitBackdropFilter: "blur(0px)",
-      },
-    }
+    // let newID = null
+
+    // if (textes.length === 0) {
+    //   newID = 1
+    // } else {
+    //   newID = textes[textes.length - 1].id + 1
+    // }
+
+    // const newTextearea = {
+    //   id: newID,
+    //   text: "",
+    //   placeHolder: "Tapez votre texte",
+    //   selected: true,
+    //   style: {
+    //     backgroundColor: "rgba(250,250,250,1)",
+    //     position: "absolute",
+    //     width: "50%",
+    //     height: "5%",
+    //     boxSizing: "border-box",
+    //     top: newTop,
+    //     left: newLeft,
+    //     zIndex: 0,
+    //     borderStyle: "none",
+    //     borderColor: "rgba(200,200,200,1)",
+    //     borderWidth: 1,
+    //     borderRadius: 0,
+    //     boxShadow: "0px 0px 0px 0px rgba(0,0,0,0)",
+    //     fontSize: "1.25rem",
+    //     fontStyle: "normal",
+    //     textDecoration: "none",
+    //     fontWeight: 400,
+    //     fontFamily: "cursive",
+    //     color: "rgba(0,0,0,1)",
+    //     padding: "4px",
+    //     textAlign: "left",
+    //     backdropFilter: "blur(0px)",
+    //     WebkitBackdropFilter: "blur(0px)",
+    //   },
+    // }
 
     if (addNewText === true) {
-      const newTextes = textes
-      newTextes.push(newTextearea)
-      //   console.log("newTextes", newTextes)
-      setTextes(newTextes)
+      // quand on ajoute un élément à la page on ne peux plus rétablir l'ancien état
+      setPageFuture([])
+      // Par contre on ajoute le nouvel élément à l'historique
+      setPageHistory((prevState) => {
+        const newTexteHistory = JSON.parse(JSON.stringify(textes)) // obligé sinon ça copie la référence de textes et du coup la suite ne fonctionne pas
+        newTexteHistory.pop() // textes étant mis à jour avec un nouvel élément, on enlève cet élément
+        const newState = [...prevState, { textes: newTexteHistory, images }]
+        return newState
+      })
+
+      // on crée un nouveau texte dans la base de donnée puis on le récupère pour l'injecter dans newtextarea
+
+      axios
+        .post(`http://localhost:4242/pages/${idPageSelected}/newtexte`, {
+          top: newTop,
+          left: newLeft,
+        })
+        .then(() => {
+          axios
+            .get(`http://localhost:4242/lasttexte`) // on va chercher les textes de la page sélectionnée
+            .then(({ data }) => {
+              // const newTextes = textes
+              // newTextes.push(data)
+              const newTextes = [...textes, data]
+              setTextes(newTextes)
+            })
+        })
+        .catch(function (error) {
+          console.error(error)
+        })
+
+      // const newTextes = textes
+      // newTextes.push(newTextearea)
+      // setTextes(newTextes)
       setAddNewText(false)
+
+      // le champ selected de tous les textes passe à false sauf celui qu'on vient de déposer
+      // setTextes((prevState) =>
+      //   prevState.map((item) =>
+      //     item.id === newID
+      //       ? { ...item, selected: true }
+      //       : { ...item, selected: false }
+      //   )
+      // )
     }
   }
   // ------------------------------------------------------------
@@ -126,6 +219,7 @@ export default function Editor() {
   // quand on clique sur un élément son state selected passe à true, le state des autres éléments passe à false
   // ceci permet de modifier le style ou la position uniquement de l'élément sélectionné
   const handleClickElement = (id) => {
+    // console.log(textes.filter(texte => texte.id = id)[0]);
     setTextes((prevState) =>
       prevState.map((item) =>
         item.id === id
@@ -276,7 +370,254 @@ export default function Editor() {
   }
 
   const handleDeleteStyleText = (index) => {
-    setSavedTextStyles((prevState) => prevState.filter((_, i) => i !== index))
+    const styleID = savedTextStyles[index].id
+
+    axios
+      .delete(`http://localhost:4242/saved_style_text/${styleID}`)
+      .then(() => {
+        axios
+          .get(`http://localhost:4242/saved_style_text/utilisateur/${user.id}`)
+          .then(({ data }) => setSavedTextStyles(data))
+          .catch((err) => console.error(err))
+      })
+      .catch((err) => console.error(err))
+    // setSavedTextStyles((prevState) => prevState.filter((_, i) => i !== index))
+  }
+
+  // ----FIN SECTION--------------------------------------------------
+
+  // ----------------------------------------------------------------------------
+  // ------FONCTIONS POUR SUPPRESSION DES ELEMENTS DE LA PAGE----
+  // ---------------------------------------------------------------------------
+
+  const handleClickDeleteElement = () => {
+    // A MODIFIER QUAND IL Y AURA DES IMAGES
+    const newPageHistory = {
+      textes,
+      images,
+    }
+    setPageHistory((prevState) => {
+      const newState = prevState
+      newState.push(newPageHistory)
+      return newState
+    })
+
+    // On récupère l'id de l'élément sélectionné et le type (texte ou image) puis on le supprime de la base de donnée
+    // let typeSelected
+    let idSelected
+    const selectedText = textes.filter((texte) => texte.selected === true)[0]
+    const selectedImage = images.filter((image) => image.selected === true)[0]
+
+    if (selectedText) {
+      // typeSelected = "texte"
+      idSelected = selectedText.id
+      setTextes((prevState) => prevState.filter((text) => !text.selected))
+
+      axios
+        .delete(`http://localhost:4242/styleText/texte/${idSelected}`)
+        .then(() => {
+          axios
+            .delete(`http://localhost:4242/textes/${idSelected}`)
+            .catch((err) => {
+              console.error(err)
+            })
+        })
+        .catch((err) => {
+          console.error(
+            err,
+            `impossible de supprimer le style du texte d'ID ${idSelected}`
+          )
+        })
+    } else if (selectedImage) {
+      // typeSelected = "image"
+      idSelected = selectedImage.id
+      setImages((prevState) => prevState.filter((text) => !text.selected))
+
+      // AJOUTER AXIOS DELETE IMAGE
+    }
+
+    // console.log("newPageHistory", newPageHistory);
+  }
+  // ----FIN SECTION--------------------------------------------------
+
+  // ----------------------------------------------------------------------------
+  // ------FONCTIONS POUR OUVRIR ou AJOUTER / CREER UN NOUVEAU SCENARIO----
+  // ---------------------------------------------------------------------------
+  const handleClickNouveauScenario = () => {
+    // const scenarioName = prompt("Entrez un nom pour votre scénario")
+  }
+
+  const handleClickOpen = () => {
+    setShowMenuOpen(!showMenuOpen)
+    // console.log("scenariosOfEditedCampagne", scenariosOfEditedCampagne);
+  }
+
+  const handleLeaveOpen = () => {
+    setShowMenuOpen(false)
+  }
+
+  const handleClickOpenCampagne = (idCampagne) => {
+    // on sauvegarde la page (textes et images) avant de la quitter
+    handleSave()
+    // on efface l'historique car on ne veut pas pouvoir récupérer dans la nouvelle page les textes et images de la page précédante
+    setPageHistory([])
+    setPageFuture([])
+
+    setShowMenuOpen(false)
+    const newEditedCampagne = campagnesUtilisateur.filter(
+      (campagne) => campagne.id === idCampagne
+    )[0]
+    setEditedCampagne(newEditedCampagne)
+
+    axios
+      .get(`http://localhost:4242/campagnes/${idCampagne}/scenarios`) // on va chercher les scénarios liés à la campagne et on se place sur le 1er
+      .then(({ data }) => {
+        data[0].selected = true // on ajoute un champ selected à true pour que le 1er scenario soit sélectionné par défaut
+        setScenariosOfEditedCampagne(data)
+        return data // on va s'en servir pour récupérer les pages associées au scenario sélectionné
+      })
+      .then((scenarios) => {
+        const idScenarioSelected = scenarios.filter(
+          (item) => item.selected === true
+        )[0].id
+
+        axios
+          .get(`http://localhost:4242/scenarios/${idScenarioSelected}/pages`) // on va chercher les pages du scénario sélectionné et on se place sur la première
+          .then(({ data }) => {
+            data[0].selected = true
+            setPagesOfScenarioSelected(data)
+            return data
+          })
+          .then((pages) => {
+            const idPageSelected = pages.filter(
+              (item) => item.selected === true
+            )[0].id
+
+            axios
+              .get(`http://localhost:4242/pages/${idPageSelected}/textes`) // on va chercher les textes de la page sélectionnée
+              .then(({ data }) => {
+                setTextes(data)
+              })
+          })
+        // .catch((error) =>
+        //   console.log(
+        //     "error axios recup pages du scénario sélectionné",
+        //     error
+        //   )
+        // )
+      })
+    // .catch((error) =>
+    //   console.log(
+    //     "error axios recup scenarios de la campagne sélectionnée",
+    //     error
+    //   )
+    // )
+  }
+
+  // ----FIN SECTION--------------------------------------------------
+
+  // ----------------------------------------------------------------------------
+  // ------FONCTIONS POUR GERER L'ANNULATION ET LE RETABLISSEMENT DES ACTIONS DANS LA PAGE----
+  // ---------------------------------------------------------------------------
+
+  // Fonction pour gérer l'annulation
+  const handleClickUndo = () => {
+    // console.log("pageHistory", pageHistory)
+    if (pageHistory.length > 0) {
+      const prevStates = pageHistory.pop()
+      setPageHistory(pageHistory)
+      setPageFuture([{ textes, images }, ...pageFuture])
+      setTextes(prevStates.textes)
+      setImages(prevStates.images)
+    }
+  }
+
+  // Fonction pour gérer le rétablissement
+  const handleClickRedo = () => {
+    // console.log("pageFuture", pageFuture)
+    if (pageFuture.length > 0) {
+      const nextStates = pageFuture.shift()
+      setPageFuture(pageFuture)
+      setPageHistory([...pageHistory, { textes, images }])
+      setTextes(nextStates.textes)
+      setImages(nextStates.images)
+    }
+  }
+
+  // ----FIN SECTION--------------------------------------------------
+
+  // ----------------------------------------------------------------------------
+  // ------FONCTIONS POUR SAUVEGARDER L'ETAT DES TEXTES ET DES STYLES DE LA PAGE----
+  // ---------------------------------------------------------------------------
+  const handleSave = () => {
+    textes.map((texte) => {
+      axios
+        .put(`http://localhost:4242/textes/${texte.id}`, {
+          pages_id: texte.pages_id,
+          text: texte.text,
+        })
+        .catch(() => {
+          // si l'id du texte n'existe pas dans la base de donnée c'est que le texte a d'abord été supprimé puis il est revenu par un undo
+          // dans ce cas il faut le recréer dans la base de donnée
+          const idPageSelected = pagesOfScenarioSelected.filter(
+            (item) => item.selected === true
+          )[0].id
+
+          axios.post(
+            `http://localhost:4242/pages/${idPageSelected}/ancientexte`,
+            {
+              page_textes_id: texte.page_textes_id,
+              data: texte.text,
+              width: texte.style.width,
+              height: texte.style.height,
+              top: texte.style.top,
+              sst_left: texte.style.left,
+              z_index: texte.style.zIndex,
+              border_style: texte.style.borderStyle,
+              border_color: texte.style.borderColor,
+              border_width: texte.style.borderWidth,
+              border_radius: texte.style.borderRadius,
+              box_shadow: texte.style.boxShadow,
+              background_color: texte.style.backgroundColor,
+              font_size: texte.style.fontSize,
+              font_style: texte.style.fontStyle,
+              font_weight: texte.style.fontWeight,
+              font_family: texte.style.fontFamily,
+              color: texte.style.color,
+              padding: texte.style.padding,
+              back_drop_filter: texte.style.backdropFilter,
+              text_decoration: texte.style.textDecoration,
+              text_align: texte.style.textAlign,
+            }
+          )
+        })
+
+      axios.put(`http://localhost:4242/styleText/texte/${texte.id}`, {
+        page_textes_id: texte.page_textes_id,
+        width: texte.style.width,
+        height: texte.style.height,
+        top: texte.style.top,
+        sst_left: texte.style.left,
+        z_index: texte.style.zIndex,
+        border_style: texte.style.borderStyle,
+        border_color: texte.style.borderColor,
+        border_width: texte.style.borderWidth,
+        border_radius: texte.style.borderRadius,
+        box_shadow: texte.style.boxShadow,
+        background_color: texte.style.backgroundColor,
+        font_size: texte.style.fontSize,
+        font_style: texte.style.fontStyle,
+        font_weight: texte.style.fontWeight,
+        font_family: texte.style.fontFamily,
+        color: texte.style.color,
+        padding: texte.style.padding,
+        back_drop_filter: texte.style.backdropFilter,
+        text_decoration: texte.style.textDecoration,
+        text_align: texte.style.textAlign,
+      })
+
+      return null
+    })
   }
 
   // ----FIN SECTION--------------------------------------------------
@@ -313,15 +654,93 @@ export default function Editor() {
     setMounted(true)
   }, [])
 
+  // récupérarion des styles enregistrés de l'utilisateur à l'ouverture de la page
+  useEffect(() => {
+    if (user.id) {
+      axios
+        .get(`http://localhost:4242/saved_style_text/utilisateur/${user.id}`)
+        .then(({ data }) => setSavedTextStyles(data))
+        .catch((err) => console.error(err))
+    }
+  }, [user])
+
+  // ----------------------------------------------------------------------------
+  // ------FONCTIONS POUR la GESTION DES RACCOURCIS CLAVIER----
+  // ---------------------------------------------------------------------------
+
+  useEffect(() => {
+    // annulation avec la combinaison de touche ctrl + z
+
+    const handleKeyDownEditor = (event) => {
+      if (event.ctrlKey && event.key === "z") {
+        // console.log("undo")
+        handleClickUndo() // non appelé... pourquoi ?
+      } else if (event.ctrlKey && event.key === "y") {
+        // console.log("redo")
+        handleClickRedo() // non appelé... pourquoi ?
+      } else if (event.ctrlKey && event.key === "Delete") {
+        // suppression avec la combinaison de touche ctrl + suppr
+        // car la touche suppr seule doit pouvoir servir à supprimer du texte dans ma textarea
+        handleClickDeleteElement()
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDownEditor)
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDownEditor)
+    }
+  }, [])
+  // ----FIN SECTION--------------------------------------------------
+
   return (
     <>
-      <div className="fausse-navbar"></div>
+      {/* <div className="fausse-navbar"></div> */}
+      <Navbar />
 
       <section className="editor-bandeau-superieur">
         <div className="editor-bandeau-gauche">
-          <img src={saveDisquette} alt="save" />
-          <button type="button">Nouveau</button>
-          <button type="button">Ouvrir</button>
+          <img src={saveDisquette} alt="save" onClick={handleSave} />
+          <button
+            type="button"
+            onClick={handleClickNouveauScenario}
+            className="button-editor-bandeau-gauche"
+          >
+            Nouveau
+          </button>
+          <div className="div-menu-open">
+            <button
+              type="button"
+              className="button-editor-bandeau-gauche"
+              onClick={handleClickOpen}
+            >
+              Ouvrir
+            </button>
+            <div className="menu-open" onMouseLeave={handleLeaveOpen}>
+              {showMenuOpen &&
+                campagnesUtilisateur.map((item) => (
+                  <button
+                    type="button"
+                    key={item.id}
+                    onClick={() => handleClickOpenCampagne(item.id)}
+                  >
+                    {item.name}
+                  </button>
+                ))}
+            </div>
+          </div>
+          <img
+            src={undo}
+            alt="annuler"
+            onClick={handleClickUndo}
+            title="Annuler suppression d'élément (ctrl + z)"
+          />
+          <img
+            src={redo}
+            alt="Rétablir"
+            onClick={handleClickRedo}
+            title="Rétablir suppression d'élément (ctrl + y)"
+          />
         </div>
 
         <div className="editor-bandeau-centre">
@@ -330,8 +749,20 @@ export default function Editor() {
               src={addText}
               alt="new textarea"
               onClick={handleClickNewTextZone}
+              title="Ajouter une zone de texte"
             />
-            <img src={addImg} alt="new image" onClick={() => {}} />
+            <img
+              src={addImg}
+              alt="new image"
+              onClick={() => {}}
+              title="Importer une image"
+            />
+            <img
+              src={iconSupprimer}
+              alt="supprimer élément"
+              onClick={handleClickDeleteElement}
+              title="Supprimer l'élement sélectionné (ctrl + suppr)"
+            />
           </div>
 
           <section className="container-saved-styles-text">
@@ -438,7 +869,23 @@ export default function Editor() {
 
       <main className="editor-main">
         <section className="sommaire-editeur">
-          <div className="section-sommaire"></div>
+          <div className="section-sommaire">
+            <SommaireEditor
+              editedCampagne={editedCampagne}
+              setEditedCampagne={setEditedCampagne}
+              scenariosOfEditedCampagne={scenariosOfEditedCampagne}
+              setScenariosOfEditedCampagne={setScenariosOfEditedCampagne}
+              pagesOfScenarioSelected={pagesOfScenarioSelected}
+              setPagesOfScenarioSelected={setPagesOfScenarioSelected}
+              textes={textes}
+              setTextes={setTextes}
+              handleSave={handleSave}
+              setPageHistory={setPageHistory}
+              setPageFuture={setPageFuture}
+              user={user} // a SUPPRIMER probablement
+              author={author} // a SUPPRIMER éventuellement, a voir
+            />
+          </div>
 
           <div className="configurator">
             <EditorTextStyle
@@ -446,6 +893,7 @@ export default function Editor() {
               setTextes={setTextes}
               savedTextStyles={savedTextStyles}
               setSavedTextStyles={setSavedTextStyles}
+              user={user}
             />
 
             {/* {textes.length > 0 && (
@@ -462,6 +910,7 @@ export default function Editor() {
         <div className="editor-page-container">
           <EditorPage
             textes={textes}
+            setTextes={setTextes}
             handleClickDropNewText={handleClickDropNewText}
             handleMouseMove={handleMouseMove}
             handleMouseUp={handleMouseUp}
@@ -471,6 +920,14 @@ export default function Editor() {
             handleDragStart={handleDragStart}
             handleClickElement={handleClickElement}
             handleMouseDown={handleMouseDown}
+            setPageHistory={setPageHistory}
+            images={images}
+            editedCampagne={editedCampagne}
+            selectedPage={
+              pagesOfScenarioSelected.filter(
+                (page) => page.selected === true
+              )[0]
+            }
           />
         </div>
       </main>

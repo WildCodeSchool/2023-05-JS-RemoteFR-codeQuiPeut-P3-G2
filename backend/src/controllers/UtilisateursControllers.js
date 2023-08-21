@@ -27,6 +27,7 @@ const add = (req, res) => {
       res.sendStatus(500)
     })
 }
+
 const read = (req, res) => {
   models.utilisateurs
     .find(req.params.id)
@@ -48,10 +49,10 @@ const edit = (req, res) => {
 
   // TODO validations (length, format...)
 
-  utilisateurs.id = parseInt(req.params.id, 10)
+  const id = req.params.id
 
   models.utilisateurs
-    .update(utilisateurs)
+    .update(utilisateurs, id)
     .then(([result]) => {
       if (result.affectedRows === 0) {
         res.sendStatus(404)
