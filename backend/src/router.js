@@ -2,6 +2,9 @@ const express = require("express")
 
 const router = express.Router()
 
+const { validateUtilisateurs } = require("./validation/validateUtilisateurs")
+const { validateSujetForum } = require("./validation/validateSujetForum")
+
 const scenariosControllers = require("./controllers/scenariosControllers")
 const utilisateursControllers = require("./controllers/utilisateursControllers")
 const forumCommControllers = require("./controllers/forumCommControllers")
@@ -18,8 +21,12 @@ router.delete("/scenarios/:id", scenariosControllers.destroy)
 
 router.get("/utilisateurs", utilisateursControllers.browse)
 router.get("/utilisateurs/:id", utilisateursControllers.read)
-router.post("/utilisateurs", utilisateursControllers.add)
-router.put("/utilisateurs/:id", utilisateursControllers.edit)
+router.post("/utilisateurs", validateUtilisateurs, utilisateursControllers.add)
+router.put(
+  "/utilisateurs/:id",
+  validateUtilisateurs,
+  utilisateursControllers.edit
+)
 router.delete("/utilisateurs/:id", utilisateursControllers.destroy)
 
 router.get("/commentaires_forum", forumCommControllers.browse)
@@ -30,8 +37,8 @@ router.delete("/commentaires_forum/:id", forumCommControllers.destroy)
 
 router.get("/sujet_forum", sujetForumControllers.browse)
 router.get("/sujet_forum/:id", sujetForumControllers.read)
-router.post("/sujet_forum", sujetForumControllers.add)
-router.put("/sujet_forum/:id", sujetForumControllers.edit)
+router.post("/sujet_forum", validateSujetForum, sujetForumControllers.add)
+router.put("/sujet_forum/:id", validateSujetForum, sujetForumControllers.edit)
 router.delete("/sujet_forum/:id", sujetForumControllers.destroy)
 
 router.get("/saved_style_text", savedStyleTextControllers.browse)
