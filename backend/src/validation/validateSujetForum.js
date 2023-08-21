@@ -6,10 +6,10 @@ const validateSujetForumSchema = Joi.object({
 })
 
 const validateSujetForum = (req, res, next) => {
-  const { sujet, open_date } = req.body
+  // const { sujet, open_date } = req.body  // A corriger au bon moment
 
   const { error } = validateSujetForumSchema.validate(
-    { sujet, open_date },
+    //  { sujet, open_date }, // A corriger au bon moment
     { abortEarly: false }
   )
 

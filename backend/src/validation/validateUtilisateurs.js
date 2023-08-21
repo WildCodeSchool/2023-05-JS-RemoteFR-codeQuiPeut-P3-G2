@@ -1,5 +1,7 @@
 const validateUtilisateurs = (req, res, next) => {
-  const { lastname, firstname, login, email, password, img, inscription_date } =
+  // const { lastname, firstname, login, email, password, img, inscription_date } =   // A corriger au bon moment le "inscription_date"
+  //   req.body
+  const { lastname, firstname, login, email, password, img, inscriptionDate } =
     req.body
   const emailRegex = /[a-z0-9._]+@[a-z0-9-]+\.[a-z]{2,3}/
   const errors = []
@@ -58,8 +60,11 @@ const validateUtilisateurs = (req, res, next) => {
         "The field is too long, it should contain less than 1000 characters",
     })
   }
-  if (inscription_date == null) {
-    errors.push({ field: "inscription_date", message: "The field is required" })
+  // if (inscription_date == null) {
+  //   errors.push({ field: "inscription_date", message: "The field is required" }) // => bonne version, l'autre est pour le commit ...
+  // }
+  if (inscriptionDate == null) {
+    errors.push({ field: "inscriptionDate", message: "The field is required" })
   }
 
   if (errors.length) {
