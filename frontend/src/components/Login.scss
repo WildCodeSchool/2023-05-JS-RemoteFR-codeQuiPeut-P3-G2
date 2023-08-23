@@ -1,0 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=Lustria&display=swap");
+$colorYellow: #ffbd59;
+$colorDark: #070a09;
+$blueColor: #4c60ae;
+$colorWhite: #ffffff;
+$fontSizeP: 1.2rem;
+$fontSizeBouton: 1.3rem;
+$fontSizeTitre: 1.5rem;
+
+.popUp {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  .signUp {
+    width: 50vw;
+    height: 50vh;
+    box-sizing: border-box;
+    box-shadow: 0 0 20px 3px $blueColor;
+    background-color: $colorDark;
+    color: $colorWhite;
+  }
+}
