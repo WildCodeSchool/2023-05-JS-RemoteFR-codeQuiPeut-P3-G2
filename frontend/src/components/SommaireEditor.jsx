@@ -565,6 +565,7 @@ export default function SommaireEditor(props) {
   const handleClickSelectpage = (pageID) => {
     // on sauvegarde la page (textes et images) avant de la quitter
     handleSave()
+
     // on efface l'historique car on ne veut pas pouvoir récupérer dans la nouvelle page les textes et images de la page précédante
     setPageHistory([])
     setPageFuture([])
@@ -725,18 +726,15 @@ export default function SommaireEditor(props) {
                     setTextes(data)
                   })
                   .catch(() => {
-                    // .catch((error)
                     // permet de jouer setTextes([]) s'il n'y a pas de données dans la BDD
-                    // console.log(error)
                     setTextes([])
                   })
 
                 // on met à jour les numéros de page sur la page web et dans la base de données
-                const newPagesOfScenarioSelected = pagesOfScenarioSelected.map(
-                  (page) =>
-                    page.number > pageNumber
-                      ? { ...page, number: page.number - 1 }
-                      : page
+                const newPagesOfScenarioSelected = pages.map((page) =>
+                  page.number > pageNumber
+                    ? { ...page, number: page.number - 1 }
+                    : page
                 )
 
                 newPagesOfScenarioSelected
@@ -755,6 +753,7 @@ export default function SommaireEditor(props) {
                 const newPagesOfScenario = newPagesOfScenarioSelected.filter(
                   (page) => page.id !== pageID
                 )
+
                 setPagesOfScenarioSelected(newPagesOfScenario)
               })
               .catch((err) => console.error(err))

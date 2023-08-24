@@ -81,6 +81,10 @@ router.delete("/saved_style_image/:id", savedStyleImageControllers.destroy)
 
 router.get("/saved_style_page", savedStylePageControllers.browse)
 router.get("/saved_style_page/:id", savedStylePageControllers.read)
+router.get(
+  "/saved_style_page/utilisateur/:id",
+  savedStylePageControllers.readFromUtilisateurID
+)
 router.put("/saved_style_page/:id", savedStylePageControllers.edit)
 router.post("/saved_style_page", savedStylePageControllers.add)
 router.delete("/saved_style_page/:id", savedStylePageControllers.destroy)
