@@ -1,6 +1,7 @@
 import { SketchPicker } from "react-color"
 import { React, useState, useEffect } from "react"
 import axios from "axios"
+import marges from "../assets/images/marges.png"
 
 export default function EditorPageStyle(props) {
   const {
@@ -14,6 +15,7 @@ export default function EditorPageStyle(props) {
   const [pickerBackColor, setPickerBackColor] = useState("rgba(255,255,255,1)")
   const [backColor, setBackColor] = useState("rgba(255,255,255,1)")
   const [backColorVisible, setBackColorVisible] = useState(false)
+  const [divPaddingPage, setDivPaddingPage] = useState(0)
 
   const handleClickDivBackColor = () => {
     setBackColorVisible(true)
@@ -44,6 +46,19 @@ export default function EditorPageStyle(props) {
     )
   }
 
+  const handleChangeDivPaddingPage = (e) => {
+    setDivPaddingPage(e.target.value)
+    const newPaddingPage = e.target.value + "px"
+
+    setPagesOfScenarioSelected((prevState) =>
+      prevState.map((item) =>
+        item.selected === true
+          ? { ...item, style: { ...item.style, padding: newPaddingPage } }
+          : item
+      )
+    )
+  }
+
   // ---------------------------------------------------------------------------------------------
   // ----SAUVEGARDE DE STYLES----------------------------------------------------
   // ------------------------------------------------------------------------------
@@ -53,7 +68,7 @@ export default function EditorPageStyle(props) {
     const newStyleCss = {
       utilisateurs_id: user.id,
       background_color: backColor,
-      padding: `0px`,
+      padding: `${divPaddingPage}px`,
       styleName: newStyleName,
     }
 
@@ -104,6 +119,8 @@ export default function EditorPageStyle(props) {
         b: backColorB,
         a: backColorA,
       })
+
+      setDivPaddingPage(parseInt(itemStyle.padding, 10))
     }
   }, [pagesOfScenarioSelected])
 
@@ -131,6 +148,23 @@ export default function EditorPageStyle(props) {
             />
           </div>
         )}
+      </div>
+
+      <p>Largeur des marges</p>
+
+      <div className="div-marges">
+        <img
+          src={marges}
+          alt="marges intérieures"
+          title="Entrez à côté une valeur pour les marges intérieures"
+        />
+        <input
+          type="number"
+          min={0}
+          max={500}
+          value={divPaddingPage}
+          onChange={handleChangeDivPaddingPage}
+        />
       </div>
 
       <button type="button" onClick={handleClickSaveStyle}>
