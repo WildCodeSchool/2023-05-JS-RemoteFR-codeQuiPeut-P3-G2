@@ -18,7 +18,7 @@ import axios from "axios"
 export default function EditorTextStyle({
   textes,
   setTextes,
-  savedTextStyles,
+  pagesOfScenarioSelected,
   setSavedTextStyles,
   user,
 }) {
@@ -292,10 +292,16 @@ export default function EditorTextStyle({
   // -----FONCTIONS SECTION - POSITION DU COMPOSANT---------------------
   // ------------------------------------------------------------------
   const handleClickTextareaOnLeft = () => {
+    const marge = parseInt(
+      pagesOfScenarioSelected.filter((page) => page.selected === true)[0].style
+        .padding,
+      10
+    )
+
     setTextes((prevState) =>
       prevState.map((item) =>
         item.selected === true
-          ? { ...item, style: { ...item.style, left: 0 } }
+          ? { ...item, style: { ...item.style, left: `${marge}%` } }
           : item
       )
     )
@@ -319,10 +325,16 @@ export default function EditorTextStyle({
   }
 
   const handleClickTextareaOnRight = () => {
+    const marge = parseInt(
+      pagesOfScenarioSelected.filter((page) => page.selected === true)[0].style
+        .padding,
+      10
+    )
+
     const item = textes.filter((texte) => texte.selected === true)[0]
     const itemWidth = parseInt(item.style.width, 10)
     // console.log("pageWidth",pageWidth,"itemWidth",itemWidth);
-    const newLeft = 100 - itemWidth + "%"
+    const newLeft = 100 - itemWidth - marge + "%"
 
     setTextes((prevState) =>
       prevState.map((item) =>
