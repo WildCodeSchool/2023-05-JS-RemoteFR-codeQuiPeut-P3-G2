@@ -86,7 +86,6 @@ export default function Editor() {
     const newTop = (100 * (e.pageY - pageOffsetY)) / pageHeight + "%"
 
     const newLeft = (100 * (e.pageX - pageOffsetX)) / pageWidth + "%"
-
     const idPageSelected = pagesOfScenarioSelected.filter(
       (item) => item.selected === true
     )[0].id
@@ -226,7 +225,6 @@ export default function Editor() {
 
   // enregistrement du texte des textearea lors de leur modification
   const handleChangeTexte = (id, newText) => {
-    // console.log("id",id);
     setTextes((prevState) =>
       prevState.map((item) =>
         item.id === id ? { ...item, text: newText } : item
@@ -683,7 +681,7 @@ export default function Editor() {
 
       axios.put(`http://localhost:4242/stylePage/page/${pageID}`, {
         pages_id: pageID,
-        paddind: "0px",
+        padding: pageStyle.padding,
         background_color: pageStyle.backgroundColor,
       })
     }
@@ -999,12 +997,12 @@ export default function Editor() {
                 savedTextStyles={savedTextStyles}
                 setSavedTextStyles={setSavedTextStyles}
                 user={user}
+                pagesOfScenarioSelected={pagesOfScenarioSelected}
               />
             ) : selectedElementType === "page" ? (
               <EditorPageStyle
                 pagesOfScenarioSelected={pagesOfScenarioSelected}
                 setPagesOfScenarioSelected={setPagesOfScenarioSelected}
-                // savedTextStyles={savedTextStyles}
                 setSavedPageStyles={setSavedPageStyles}
                 user={user}
               />
