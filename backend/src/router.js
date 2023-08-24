@@ -28,6 +28,12 @@ router.get("/utilisateurs/:id", utilisateursControllers.read)
 router.post("/utilisateurs", utilisateursControllers.add)
 router.put("/utilisateurs/:id", utilisateursControllers.edit)
 router.delete("/utilisateurs/:id", utilisateursControllers.destroy)
+router.post(
+  "/login",
+  utilisateursControllers.readUserByEmail,
+  utilisateursControllers.verifyPassword,
+  utilisateursControllers.sendUserWhoHasGoodEmailAndPassword
+)
 
 router.get("/commentaires_forum", forumCommControllers.browse)
 router.get("/commentaires_forum/:id", forumCommControllers.read)

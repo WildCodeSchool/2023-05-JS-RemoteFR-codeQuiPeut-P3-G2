@@ -14,10 +14,47 @@ $fontSizeTitre: 1.5rem;
   justify-content: center;
   .signUp {
     width: 50vw;
-    height: 50vh;
+    height: 45vh;
     box-sizing: border-box;
     box-shadow: 0 0 20px 3px $blueColor;
     background-color: $colorDark;
     color: $colorWhite;
+    font-family: Lustria;
+    font-size: $fontSizeP;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .conteneurSVG {
+      display: flex;
+      justify-content: center;
+      object-fit: cover;
+      width: 30%;
+      svg {
+        width: 100%;
+        height: 5px;
+        stroke: #ffffff;
+      }
+    }
+    .login {
+      display: flex;
+      flex-direction: column;
+      margin-top: 16px;
+      gap: 16px;
+      div {
+        display: flex;
+        flex-direction: column;
+      }
+
+      button {
+        width: 250px;
+        height: 50px;
+        border-radius: 42px;
+        background-color: #ffffff;
+        color: $colorDark;
+        font-size: $fontSizeBouton;
+        margin-top: 32px;
+      }
+    }
   }
 }
