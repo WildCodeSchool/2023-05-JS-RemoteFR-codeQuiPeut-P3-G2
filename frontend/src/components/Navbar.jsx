@@ -1,7 +1,25 @@
+import { useEffect, useState } from "react"
+// import MyContext from "./MyContext"
 import "../components/Navbar.scss"
 import ScripLogo from "../assets/ScripLogo.png"
+import Login from "./Login"
 
 const Navbar = () => {
+  // const { user, setUser } = useContext(MyContext)
+  const [openForm, setOpenForm] = useState(false)
+  const [logoLogin, setlogoLogin] = useState(false)
+  const HandleClickOpenLog = () => {
+    setOpenForm(true)
+  }
+
+  useEffect(() => {
+    if (openForm) {
+      document.querySelector("nav").classList.add("nav-no-scroll")
+    } else {
+      document.querySelector("nav").classList.remove("nav-no-scroll")
+    }
+  }, [openForm])
+
   return (
     <>
       <nav className="ContainNav" alt="Navigation">
@@ -23,9 +41,15 @@ const Navbar = () => {
           </li>
         </ul>
         <div className="PushContain">
-          <button className="push" type="button">
-            LOG IN
-          </button>
+          {logoLogin === true ? (
+            <button className="push" type="button" onClick={HandleClickOpenLog}>
+              LOG IN
+            </button>
+          ) : (
+            <button className="push" type="button">
+              Bonjour toi!
+            </button>
+          )}
           <button className="push" type="button">
             SIGN UP
           </button>
@@ -34,6 +58,9 @@ const Navbar = () => {
           <div className="BurgerIcon"></div>
         </div>
       </nav>
+      {openForm && (
+        <Login setlogoLogin={setlogoLogin} setOpenForm={setOpenForm} />
+      )}
     </>
   )
 }

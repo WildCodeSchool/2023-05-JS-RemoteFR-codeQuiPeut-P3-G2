@@ -3,7 +3,7 @@ import MyContext from "./MyContext"
 import "./Login.scss"
 import axios from "axios"
 
-export default function Login() {
+export default function Login({ setOpenForm }) {
   const { user, setUser } = useContext(MyContext)
   const [email, setEmail] = useState("")
   const [passWord, setPassWord] = useState("")
@@ -17,8 +17,9 @@ export default function Login() {
         password: passWord,
       })
       .then(({ data }) => setUser(data))
+      .then(() => setOpenForm(false))
       .catch(() => {
-        setWrongEmailOrPassword(true)
+        setWrongEmailOrPassword(setWrongEmailOrPassword(true))
       })
   }
 
