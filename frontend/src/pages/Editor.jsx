@@ -681,7 +681,7 @@ export default function Editor() {
 
       axios.put(`http://localhost:4242/stylePage/page/${pageID}`, {
         pages_id: pageID,
-        paddind: "0px",
+        padding: pageStyle.padding,
         background_color: pageStyle.backgroundColor,
       })
     }
@@ -997,12 +997,12 @@ export default function Editor() {
                 savedTextStyles={savedTextStyles}
                 setSavedTextStyles={setSavedTextStyles}
                 user={user}
+                pagesOfScenarioSelected={pagesOfScenarioSelected}
               />
             ) : selectedElementType === "page" ? (
               <EditorPageStyle
                 pagesOfScenarioSelected={pagesOfScenarioSelected}
                 setPagesOfScenarioSelected={setPagesOfScenarioSelected}
-                // savedTextStyles={savedTextStyles}
                 setSavedPageStyles={setSavedPageStyles}
                 user={user}
               />
