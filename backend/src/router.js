@@ -15,6 +15,7 @@ const auteursControllers = require("./controllers/auteursControllers")
 const campagnesControllers = require("./controllers/campagnesControllers")
 const pagesControllers = require("./controllers/pagesControllers")
 const textesControllers = require("./controllers/textesControllers")
+const rolegamesControllers = require("./controllers/rolegamesControllers")
 
 router.get("/scenarios", scenariosControllers.browse)
 router.get("/scenarios/:id", scenariosControllers.read)
@@ -120,5 +121,11 @@ router.post(
 )
 router.post("/pages/:id/ancientexte", textesControllers.recreatePrevious)
 router.get("/lasttexte/", textesControllers.getLast) // renvoie le dernier texte de la table avec son style
+
+router.get("/rolegames", rolegamesControllers.browse)
+router.get("/rolegames/:id", rolegamesControllers.read)
+router.post("/rolegames", rolegamesControllers.add)
+router.put("/rolegames/:id", rolegamesControllers.edit)
+router.delete("/rolegames/:id", rolegamesControllers.destroy)
 
 module.exports = router

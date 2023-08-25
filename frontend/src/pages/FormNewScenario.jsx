@@ -1,85 +1,86 @@
-import "./FormNewScenario.scss"
-// import { useState, useEffect } from "react"
-import { useState } from "react"
+import axios from "axios"
+import { useState, useEffect } from "react"
 
-const universRoleGame = [
-  {
-    id: 1,
-    name: "Alien",
-  },
-  {
-    id: 2,
-    name: "Battlestar Galactica",
-  },
-  {
-    id: 3,
-    name: "Buffy the Vampire Slayer",
-  },
-  {
-    id: 4,
-    name: "Cadillacs & Dinosaurs",
-  },
-  {
-    id: 5,
-    name: "Cyberpunk 2077",
-  },
-  {
-    id: 6,
-    name: "Dungeons and Dragons",
-  },
-  {
-    id: 7,
-    name: "EverQuest",
-  },
-  {
-    id: 8,
-    name: "James Bond 007",
-  },
-  {
-    id: 9,
-    name: "L'Appel de Cthulhu",
-  },
-  {
-    id: 10,
-    name: "Les Trois Mousquetaires",
-  },
-  {
-    id: 11,
-    name: "Lanfeust de Troy",
-  },
-  {
-    id: 12,
-    name: "Légendes de la Table ronde",
-  },
-  {
-    id: 13,
-    name: "Lord of the Ring",
-  },
-  {
-    id: 14,
-    name: "Mass Effect",
-  },
-  {
-    id: 15,
-    name: "Men in Black",
-  },
-  {
-    id: 16,
-    name: "Prédateurs",
-  },
-  {
-    id: 17,
-    name: "Star Wars",
-  },
-  {
-    id: 18,
-    name: "Warhammer",
-  },
-  {
-    id: 19,
-    name: "Yggdrasill",
-  },
-]
+import "./FormNewScenario.scss"
+
+// const universRoleGame = [
+//   {
+//     id: 1,
+//     name: "Alien",
+//   },
+//   {
+//     id: 2,
+//     name: "Battlestar Galactica",
+//   },
+//   {
+//     id: 3,
+//     name: "Buffy the Vampire Slayer",
+//   },
+//   {
+//     id: 4,
+//     name: "Cadillacs & Dinosaurs",
+//   },
+//   {
+//     id: 5,
+//     name: "Cyberpunk 2077",
+//   },
+//   {
+//     id: 6,
+//     name: "Dungeons and Dragons",
+//   },
+//   {
+//     id: 7,
+//     name: "EverQuest",
+//   },
+//   {
+//     id: 8,
+//     name: "James Bond 007",
+//   },
+//   {
+//     id: 9,
+//     name: "L'Appel de Cthulhu",
+//   },
+//   {
+//     id: 10,
+//     name: "Les Trois Mousquetaires",
+//   },
+//   {
+//     id: 11,
+//     name: "Lanfeust de Troy",
+//   },
+//   {
+//     id: 12,
+//     name: "Légendes de la Table ronde",
+//   },
+//   {
+//     id: 13,
+//     name: "Lord of the Ring",
+//   },
+//   {
+//     id: 14,
+//     name: "Mass Effect",
+//   },
+//   {
+//     id: 15,
+//     name: "Men in Black",
+//   },
+//   {
+//     id: 16,
+//     name: "Prédateurs",
+//   },
+//   {
+//     id: 17,
+//     name: "Star Wars",
+//   },
+//   {
+//     id: 18,
+//     name: "Warhammer",
+//   },
+//   {
+//     id: 19,
+//     name: "Yggdrasill",
+//   },
+// ]
 
 const numberPlayers = [
   {
@@ -152,23 +153,40 @@ const difficulty = [
 ]
 
 export default function FormNewScenario() {
-  // const [author, setAuthor] = useState("default")
-  const [roleGame, setRoleGame] = useState("default")
-  // const [campagneId, setCampagneId] = useState("default")
-  const [title, setTitle] = useState("default")
+  // const [author, setAuthor] = useState("Undefined")
+  const [roleGame, setRoleGame] = useState([])
+  // const [campagneId, setCampagneId] = useState("Undefined")
+  const [title, setTitle] = useState("Undefined")
   const [playerNumberMin, setPlayerNumberMin] = useState(2)
   const [playerNumberMax, setPlayerNumberMax] = useState(2)
-  const [type, setType] = useState("default")
-  const [level, setLevel] = useState("Normal")
+  const [type, setType] = useState("Undefined")
+  const [level, setLevel] = useState("Undefined")
   // const [writingDateStart, setWritingDateStart] = useState(Date())
-  // const [publicationDate, setPublicationDate] = useState("2099-31-12")
+  // const [publicationDate, setPublicationDate] = useState("3000-01-01")
   const [picture, setPicture] = useState(null)
-  const [description, setDescription] = useState("default")
-  // const [model, setModel] = useState("default")
+  const [description, setDescription] = useState("Undefined")
   const [pdfFile, setPdfFile] = useState(null)
+  // const [monted, setMonted] = useState(false)
+
+  // const handleClickOtionRoleGame = (id) => {
+  //   console.log("test")
+  //   setRoleGame((prevState) =>
+  //     prevState.map((game) =>
+  //       game.id === id
+  //         ? { ...game, selected: true }
+  //         : { ...game, selected: false }
+  //     )
+  //   )
+  // }
 
   const handleChangeRoleGame = (e) => {
-    setRoleGame(e.target.value)
+    setRoleGame((prevState) =>
+      prevState.map((game) =>
+        game.name === e.target.value
+          ? { ...game, selected: true }
+          : { ...game, selected: false }
+      )
+    )
   }
 
   const handleChangeTitle = (e) => {
@@ -204,7 +222,15 @@ export default function FormNewScenario() {
   }
 
   const handleSubmit = (e) => {
-    // faire fonction pour envoyer au backend
+    const roleGameID = roleGame.filter((game) => game.selected === true)[0].id
+    console.info("roleGameID", roleGameID)
+    console.info(title)
+    axios.post("http://localhost:4242/scenarios", {
+      authorID: 1,
+      jeuxDeRole: roleGameID,
+      // campagnID: 1,
+      // name: title,
+    })
   }
 
   // Ne pas oublier l'envoi de :
@@ -213,18 +239,30 @@ export default function FormNewScenario() {
   // writingDateStart => recup lors de l'envoie du formulaire à la bdd,
   // publicationDate => recup lors de la publication du ScenariosManager,
 
+  useEffect(() => {
+    axios
+      .get("http://localhost:4242/rolegames")
+      .then(({ data }) => setRoleGame(data))
+      .catch((err) => console.error(err))
+  }, [])
+
+  // useEffect(() => {
+  //   setMonted(true)
+  // }, [])
+
   return (
     <>
-      <main>
+      <main className="mainFormNewScenario">
         <div className="titleh2">
           <h2>Scenario Script</h2>
         </div>
         <div className="formGlobal">
           <div className="param">
-            <p>Role Game or univers : {roleGame}</p>
+            <p>Role Game or univers :</p>
             <select id="selectRoleGame" onChange={handleChangeRoleGame}>
               <option>---</option>
-              {universRoleGame.map((univer) => (
+              {/* (roleGame[0] && monted) ?? */}
+              {roleGame.map((univer) => (
                 <option value={univer.name} key={univer.id}>
                   {univer.name}
                 </option>
@@ -313,15 +351,12 @@ export default function FormNewScenario() {
             <textarea onChange={handleChangeDescription} />
           </div>
           <div className="param">
-            <p>model</p>
-          </div>
-          <div className="param">
             <p>Do you have a pdf file of your scenario ? {pdfFile}</p>
             <input type="file" accept=".pdf" onChange={handleChangepdfFile} />
           </div>
         </div>
         <div className="submit">
-          <input type="submit" onChange={handleSubmit} />
+          <input type="submit" onClick={handleSubmit} />
         </div>
       </main>
     </>
