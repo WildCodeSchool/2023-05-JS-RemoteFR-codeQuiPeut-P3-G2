@@ -13,6 +13,10 @@
   }
 }
 
+.nav-no-scroll {
+  overflow: hidden;
+}
+
 .ContainLink {
   display: flex;
   width: 100%;
@@ -43,6 +47,32 @@
   margin: 10px;
   height: 100%;
   width: 930px;
+
+  .userConnect {
+    width: 300px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-color: #4c60ae;
+    background-color: #070a09;
+    border-radius: 10px;
+    margin-right: 10px;
+    margin-left: 50px;
+    margin-top: 15px;
+    font-family: Julius Sans One;
+    font-size: 1.5rem;
+    color: #4c60ae;
+    cursor: pointer;
+    &:hover {
+      background-color: #4c60ae;
+      color: #ffffff;
+    }
+  }
+
+  .hidden {
+    display: none;
+  }
 
   .push {
     width: 160px;
