@@ -1,15 +1,20 @@
-import { useEffect, useState } from "react"
-// import MyContext from "./MyContext"
+import { useEffect, useState, useContext } from "react"
+import MyContext from "./MyContext"
 import "../components/Navbar.scss"
 import ScripLogo from "../assets/ScripLogo.png"
 import Login from "./Login"
+import logout from "../assets/images/Logout.svg"
 
 const Navbar = () => {
-  // const { user, setUser } = useContext(MyContext)
+  const { user, setUser } = useContext(MyContext)
   const [openForm, setOpenForm] = useState(false)
-  const [logoLogin, setlogoLogin] = useState(false)
+
   const HandleClickOpenLog = () => {
     setOpenForm(true)
+  }
+
+  const HandleClickLogout = () => {
+    setUser(null)
   }
 
   useEffect(() => {
@@ -41,16 +46,17 @@ const Navbar = () => {
           </li>
         </ul>
         <div className="PushContain">
-          {logoLogin === true ? (
+          {user === null ? (
             <button className="push" type="button" onClick={HandleClickOpenLog}>
               LOG IN
             </button>
           ) : (
-            <button className="push" type="button">
-              Bonjour toi!
+            <button className="userConnect" type="button">
+              <p>{user.login}</p>
+              <img src={logout} alt="logout" onClick={HandleClickLogout} />
             </button>
           )}
-          <button className="push" type="button">
+          <button className={user === null ? "push" : "hidden"} type="button">
             SIGN UP
           </button>
         </div>
@@ -58,9 +64,7 @@ const Navbar = () => {
           <div className="BurgerIcon"></div>
         </div>
       </nav>
-      {openForm && (
-        <Login setlogoLogin={setlogoLogin} setOpenForm={setOpenForm} />
-      )}
+      {openForm && <Login setOpenForm={setOpenForm} />}
     </>
   )
 }
