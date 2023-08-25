@@ -67,6 +67,7 @@ export default function EditorPage(props) {
             ></textarea>
           ))}
 
+          <img src="http://localhost:4242/src/images/asus.jpg1692945871000.jpg" />
           {/* <button type='button' onClick={handleClickNewTextZone}>Nouvelle Zone de texte</button> */}
         </section>
       ) : (

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react"
 import EditorPage from "../components/EditorPage"
 import saveDisquette from "../assets/images/saveDisquette.svg"
 import addText from "../assets/images/addText.svg"
-import addImg from "../assets/images/addImg.svg"
+// import addImg from "../assets/images/addImg.svg"
 import undo from "../assets/images/undo.png"
 import redo from "../assets/images/redo.png"
 import iconSupprimer from "../assets/images/iconSupprimer.svg"
@@ -689,6 +689,38 @@ export default function Editor() {
 
   // ----FIN SECTION--------------------------------------------------
 
+  // -------------------------------------------------------------------------------------
+  // ------------FONCTIONS LIEES A L'IMPORTATION DES IMAGES-------------------------
+  // ---------------------------------------------------------------------------
+
+  const handleChangeFileImage = (event) => {
+    const idPageSelected = pagesOfScenarioSelected.filter(
+      (item) => item.selected === true
+    )[0].id
+
+    // console.log(idPageSelected)
+
+    const file = event.target.files[0]
+    const formData = new FormData()
+    formData.append("image", file)
+
+    axios
+      .post(`http://localhost:4242/pages/${idPageSelected}/newImage`, formData)
+      .then((response) => {
+        // console.log(response.data)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+
+    // fetch("/upload-image", {
+    //   method: "POST",
+    //   body: formData,
+    // });
+  }
+
+  // ----FIN SECTION--------------------------------------------------
+
   // --------------------------------
   // mise à jour des dimensions et position de maPage lorsque la taille de la fenêtre change
 
@@ -823,12 +855,22 @@ export default function Editor() {
               onClick={handleClickNewTextZone}
               title="Ajouter une zone de texte"
             />
-            <img
+
+            <input
+              type="file"
+              id="file-input"
+              className="button-import-image"
+              onChange={handleChangeFileImage}
+            />
+            <label htmlFor="file-input" className="button-import-image-label">
+              {" "}
+            </label>
+            {/* <img
               src={addImg}
               alt="new image"
               onClick={() => {}}
               title="Importer une image"
-            />
+            /> */}
             <img
               src={iconSupprimer}
               alt="supprimer élément"
