@@ -8,7 +8,8 @@ $fontSizeBouton: 1.3rem;
 $fontSizeTitre: 1.5rem;
 
 .GlobalWelcContain {
-  background-color: #070a09;
+  background-color: $colorDark;
+  position: relative;
   .TitleContain {
     margin-top: 150px;
     width: 100vw;
@@ -27,7 +28,7 @@ $fontSizeTitre: 1.5rem;
       .SubTitCon {
         display: flex;
         font-family: Lustria;
-        font-size: 1.3rem;
+        font-size: $fontSizeP;
         color: #ffffff;
       }
     }
