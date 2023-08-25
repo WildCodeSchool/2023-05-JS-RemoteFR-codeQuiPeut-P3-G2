@@ -1,6 +1,60 @@
-.Filter{
-    display:flex;
-    flex-direction: column;
-    align-items: flex-start;
+$blueColor: #4c60ae;
+$colorYellow: #ffbd59;
 
+.Title{
+  margin-top: 100px;
+  color:$blueColor;
+
+    h1{
+      font-size: 6rem;
+
+			animation: Scroll 20s linear infinite;
+
+    }
+
+		@keyframes Scroll{
+			0%{
+				transform: translateX(-100%);
+			}
+
+		}
+}
+.container{
+  .Type{
+    display: flex;
+    justify-content: baseline;
+    gap:20px;
+  }
+    p{
+    	color: white;
+  }
+ .conseiller{
+    p{
+      color: #4c60ae; 
+      font-size: larger; 
+    }
+    } 
+
+  .univers{
+		p{
+		color: #ffbd59;
+		}
+	}	
+	.auteur{
+		p{
+			color: #4c60ae;
+		}
+	}
+
+	.Difficultes{
+		p{
+			color: #4c60ae;
+		}
+	}
+
+	.nombre{
+		p{
+			color: #4c60ae;
+		}
+	}
 }
