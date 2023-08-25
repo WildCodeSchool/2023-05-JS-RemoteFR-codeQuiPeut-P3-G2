@@ -34,7 +34,7 @@ app.use(express.static(path.join(__dirname, "../public")))
 
 // route pour récupérer mes images sur mon serveur
 // app.use("/src/images", express.static(path.join(__dirname, "../src/images")))
-app.use("/images", express.static(path.join(__dirname, "/src/images")))
+app.use("/src/images", express.static(path.join(__dirname, "/src/images")))
 
 // serve REACT APP
 
