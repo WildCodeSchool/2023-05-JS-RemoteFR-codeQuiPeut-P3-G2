@@ -1,5 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=IM+Fell+Great+Primer+SC&family=Julius+Sans+One&family=Kablammo&family=MedievalSharp&display=swap");
 
+a {
+  text-decoration: none;
+}
+
 .ContainNav {
   display: flex;
   height: 100px;
@@ -27,12 +31,14 @@
     display: flex;
     height: 100%;
     align-items: center;
+    text-decoration: none;
     font-family: Julius Sans One;
     font-size: 2rem;
     color: white;
     padding: 5px 60px;
     border-left: 2px solid #4c60ae;
     height: 70%;
+
     cursor: pointer;
     &:last-child {
       border-right: 2px solid #4c60ae;

@@ -1,4 +1,5 @@
 import { useEffect, useState, useContext } from "react"
+import { Link } from "react-router-dom"
 import MyContext from "./MyContext"
 import "../components/Navbar.scss"
 import ScripLogo from "../assets/ScripLogo.png"
@@ -38,9 +39,11 @@ const Navbar = () => {
           <li className="link" alt="Scripts">
             SCRIPTS
           </li>
-          <li className="link" alt="Create">
-            CREATE
-          </li>
+          <Link to="/editor" className="">
+            <li className="link" alt="Create">
+              CREATE
+            </li>
+          </Link>
           <li className="link" alt="Forum">
             FORUM
           </li>
