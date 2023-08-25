@@ -706,8 +706,9 @@ export default function Editor() {
 
     axios
       .post(`http://localhost:4242/pages/${idPageSelected}/newImage`, formData)
-      .then((response) => {
-        // console.log(response.data)
+      .then(({ data }) => {
+        const newImages = [...images, data]
+        setImages(newImages)
       })
       .catch((error) => {
         console.error(error)

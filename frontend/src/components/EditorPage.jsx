@@ -4,7 +4,7 @@ export default function EditorPage(props) {
   const {
     textes,
     // setTextes,
-    // images,
+    images,
     handleClickDropNewText,
     handleMouseMove,
     handleMouseUp,
@@ -67,8 +67,14 @@ export default function EditorPage(props) {
             ></textarea>
           ))}
 
-          <img src="http://localhost:4242/src/images/asus.jpg1692945871000.jpg" />
-          {/* <button type='button' onClick={handleClickNewTextZone}>Nouvelle Zone de texte</button> */}
+          {images.map((item) => (
+            <img
+              src={item.img_src}
+              alt="image"
+              style={item.style}
+              key={item.id}
+            />
+          ))}
         </section>
       ) : (
         <section className="section-page">

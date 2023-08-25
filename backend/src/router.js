@@ -123,7 +123,12 @@ router.post(
 router.post("/pages/:id/ancientexte", textesControllers.recreatePrevious)
 router.get("/lasttexte/", textesControllers.getLast) // renvoie le dernier texte de la table avec son style
 
-router.post("/pages/:id/newImage", multer, imagesControllers.add)
+router.post(
+  "/pages/:id/newImage",
+  multer,
+  imagesControllers.createNew,
+  imagesControllers.getLast
+)
 
 router.get("/src/images/:filename", imagesControllers.readImageFromUrl)
 
