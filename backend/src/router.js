@@ -8,6 +8,7 @@ const forumCommControllers = require("./controllers/forumCommControllers")
 const sujetForumControllers = require("./controllers/sujetForumControllers")
 const savedStyleTextControllers = require("./controllers/savedStyleTextControllers")
 const styleTextControllers = require("./controllers/styleTextControllers")
+const styleImageControllers = require("./controllers/styleImageControllers")
 const stylePageControllers = require("./controllers/stylePageControllers")
 const savedStyleImageControllers = require("./controllers/savedStyleImageControllers")
 const savedStylePageControllers = require("./controllers/savedStylePageControllers")
@@ -17,6 +18,10 @@ const pagesControllers = require("./controllers/pagesControllers")
 const textesControllers = require("./controllers/textesControllers")
 const imagesControllers = require("./controllers/imagesControllers")
 const multer = require("./middleware/multer-config")
+const {
+  deleteImage,
+  destroyStyleFromImageID,
+} = require("./middleware/deleteImage")
 
 router.get("/scenarios", scenariosControllers.browse)
 router.get("/scenarios/:id", scenariosControllers.read)
@@ -60,6 +65,11 @@ router.put("/styleText/:id", styleTextControllers.edit)
 router.put("/styleText/texte/:id", styleTextControllers.editStyleFromTexteID)
 router.delete("/styleText/:id", styleTextControllers.destroy)
 router.delete("/styleText/texte/:id", styleTextControllers.destroyFromTextID)
+
+router.get("/styleImage", styleImageControllers.browse)
+router.get("/styleImage/:id", styleImageControllers.read)
+router.put("/styleImage/image/:id", styleImageControllers.editStyleFromImageID)
+router.delete("/styleImage/image/:id", styleImageControllers.destroyFromImageID)
 
 router.get("/stylePage", stylePageControllers.browse)
 router.get("/stylePage/:id", stylePageControllers.read)
@@ -109,6 +119,17 @@ router.post("/pages", pagesControllers.add)
 router.put("/pages/:id", pagesControllers.edit)
 router.delete("/pages/:id", pagesControllers.destroy)
 router.get("/pages/:id/textes", pagesControllers.readPageTexts)
+router.get("/pages/:id/images", pagesControllers.readPageImages)
+
+router.get("/images", imagesControllers.browse)
+router.get("/images/:id", imagesControllers.read)
+router.post("/images", imagesControllers.add)
+router.delete(
+  "/images/:id",
+  deleteImage,
+  destroyStyleFromImageID,
+  imagesControllers.destroy
+)
 
 router.get("/textes", textesControllers.browse)
 router.get("/textes/:id", textesControllers.read)
@@ -129,7 +150,5 @@ router.post(
   imagesControllers.createNew,
   imagesControllers.getLast
 )
-
-router.get("/src/images/:filename", imagesControllers.readImageFromUrl)
 
 module.exports = router

@@ -13,6 +13,7 @@ export default function EditorPage(props) {
     handleChangeTexte,
     handleDragStart,
     handleClickElementTexte,
+    handleClickElementImage,
     handleMouseDown,
     editedCampagne,
     selectedPage,
@@ -72,6 +73,7 @@ export default function EditorPage(props) {
               src={item.img_src}
               alt="image"
               style={item.style}
+              onClick={(e) => handleClickElementImage(item.id, e)}
               key={item.id}
             />
           ))}

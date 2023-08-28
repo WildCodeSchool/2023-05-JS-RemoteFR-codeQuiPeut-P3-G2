@@ -40,6 +40,7 @@ const AuteursManager = require("./AuteursManager")
 const CampagnesManager = require("./CampagnesManager")
 const PagesManager = require("./PagesManager")
 const StyleTextManager = require("./StyleTextManager")
+const StyleImageManager = require("./StyleImageManager")
 const TextesManager = require("./TextesManager")
 const ImagesManager = require("./ImagesManager")
 const StylePageManager = require("./StylePageManager")
@@ -76,6 +77,9 @@ models.pages.setDatabase(pool)
 
 models.styleText = new StyleTextManager()
 models.styleText.setDatabase(pool)
+
+models.styleImage = new StyleImageManager()
+models.styleImage.setDatabase(pool)
 
 models.textes = new TextesManager()
 models.textes.setDatabase(pool)

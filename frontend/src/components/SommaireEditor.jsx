@@ -12,6 +12,8 @@ export default function SommaireEditor(props) {
     setPagesOfScenarioSelected,
     textes,
     setTextes,
+    // images,
+    setImages,
     handleSave,
     setPageHistory,
     setPageFuture,
@@ -551,15 +553,20 @@ export default function SommaireEditor(props) {
             setTextes(data)
           })
           .catch(() => {
-            // .catch((error)
             // permet de jouer setTextes([]) s'il n'y a pas de données dans la BDD
-            // console.log(error)
             setTextes([])
           })
+
+        axios
+          .get(`http://localhost:4242/pages/${idPageSelected}/images`) // on va chercher les images de la page sélectionnée
+          .then(({ data }) => {
+            setImages(data)
+          })
+          .catch(() => {
+            // permet de jouer setImages([]) s'il n'y a pas de données dans la BDD
+            setImages([])
+          })
       })
-    // .catch((error) =>
-    //   console.log("error axios recup pages du scénario sélectionné", error)
-    // )
   }
 
   const handleClickSelectpage = (pageID) => {
@@ -588,10 +595,18 @@ export default function SommaireEditor(props) {
         setTextes(data)
       })
       .catch(() => {
-        // .catch((error)
         // permet de jouer setTextes([]) s'il n'y a pas de données dans la BDD
-        // console.log(error)
         setTextes([])
+      })
+
+    axios
+      .get(`http://localhost:4242/pages/${idPageSelected}/images`) // on va chercher les images de la page sélectionnée
+      .then(({ data }) => {
+        setImages(data)
+      })
+      .catch(() => {
+        // permet de jouer setImages([]) s'il n'y a pas de données dans la BDD
+        setImages([])
       })
   }
 
@@ -728,6 +743,16 @@ export default function SommaireEditor(props) {
                   .catch(() => {
                     // permet de jouer setTextes([]) s'il n'y a pas de données dans la BDD
                     setTextes([])
+                  })
+
+                axios
+                  .get(`http://localhost:4242/pages/${idPageSelected}/images`) // on va chercher les images de la page sélectionnée
+                  .then(({ data }) => {
+                    setImages(data)
+                  })
+                  .catch(() => {
+                    // permet de jouer setImages([]) s'il n'y a pas de données dans la BDD
+                    setImages([])
                   })
 
                 // on met à jour les numéros de page sur la page web et dans la base de données

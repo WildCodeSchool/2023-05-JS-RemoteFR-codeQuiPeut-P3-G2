@@ -44,27 +44,6 @@ const read = (req, res) => {
     })
 }
 
-const edit = (req, res) => {
-  const textes = req.body
-
-  // TODO validations (length, format...)
-
-  const id = req.params.id
-
-  models.images
-    .update(textes, id)
-    .then(([result]) => {
-      if (result.affectedRows === 0) {
-        res.sendStatus(404)
-      } else {
-        res.sendStatus(204)
-      }
-    })
-    .catch((err) => {
-      console.error(err)
-      res.sendStatus(500)
-    })
-}
 const destroy = (req, res) => {
   models.images
     .delete(req.params.id)
@@ -82,7 +61,10 @@ const destroy = (req, res) => {
 }
 
 const createNew = (req, res, next) => {
-  const imageUrl = `${req.protocol}://${req.get("host")}/src/images/${
+  //   const imageUrl = `${req.protocol}://${req.get("host")}/src/images/${
+  //     req.file.filename
+  //   }`
+  const imageUrl = `${req.protocol}://${req.get("host")}/public/assets/images/${
     req.file.filename
   }`
 
@@ -165,15 +147,11 @@ const getLast = (req, res) => {
     })
 }
 
-const readImageFromUrl = (req, res) => {}
-
 module.exports = {
   browse,
   add,
   read,
-  edit,
   destroy,
-  readImageFromUrl,
   createNew,
   //   createNewSpecific,
   //   recreatePrevious,

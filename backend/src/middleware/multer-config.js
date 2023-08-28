@@ -10,7 +10,8 @@ const MIME_TYPES = {
 const storage = multer.diskStorage({
   // la fonction destination indique à multer d'enregistrer les fichiers dans le dossier images
   destination: (req, file, callback) => {
-    callback(null, "src/images")
+    // callback(null, "src/images")
+    callback(null, "public/assets/images")
   },
   // la fonction filename indique à multer d'utiliser le nom d'origine, de remplacer les espaces par des underscores et d'ajouter un timestamp Date.now() comme nom de fichier. Elle utilise ensuite la constante dictionnaire de type MIME pour résoudre l'extension de fichier appropriée
   filename: (req, file, callback) => {

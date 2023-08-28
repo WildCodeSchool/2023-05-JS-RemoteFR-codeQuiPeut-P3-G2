@@ -200,6 +200,29 @@ export default function Editor() {
     )
   }
 
+  const handleClickElementImage = (id, e) => {
+    // quand on clique sur un texte
+    e.stopPropagation() // permet de ne pas lancer les évenements au click de l'élément parent (page) qui a aussi un evenement onClick qui lui est propre
+
+    setSelectedElementType("image")
+
+    setImages((prevState) =>
+      prevState.map((item) =>
+        item.id === id
+          ? { ...item, selected: true }
+          : { ...item, selected: false }
+      )
+    )
+
+    setPagesOfScenarioSelected((prevStates) =>
+      prevStates.map((item) => ({ ...item, styleSelected: false }))
+    )
+
+    setTextes((prevState) =>
+      prevState.map((item) => ({ ...item, selected: false }))
+    )
+  }
+
   const handleClickElementPage = (id) => {
     // quand on clique sur une page
     setSelectedElementType("page")
@@ -494,9 +517,15 @@ export default function Editor() {
     } else if (selectedImage) {
       // typeSelected = "image"
       idSelected = selectedImage.id
+      const selectedImgSrc = selectedImage.img_src
       setImages((prevState) => prevState.filter((text) => !text.selected))
 
       // AJOUTER AXIOS DELETE IMAGE
+      axios.delete(`http://localhost:4242/images/${idSelected}`, {
+        data: {
+          img_src: selectedImgSrc,
+        },
+      })
     }
 
     // console.log("newPageHistory", newPageHistory);
@@ -1024,6 +1053,8 @@ export default function Editor() {
               setPagesOfScenarioSelected={setPagesOfScenarioSelected}
               textes={textes}
               setTextes={setTextes}
+              images={images}
+              setImages={setImages}
               handleSave={handleSave}
               setPageHistory={setPageHistory}
               setPageFuture={setPageFuture}
@@ -1065,9 +1096,11 @@ export default function Editor() {
             handleChangeTexte={handleChangeTexte}
             handleDragStart={handleDragStart}
             handleClickElementTexte={handleClickElementTexte}
+            handleClickElementImage={handleClickElementImage}
             handleMouseDown={handleMouseDown}
             setPageHistory={setPageHistory}
             images={images}
+            setImages={setImages}
             editedCampagne={editedCampagne}
             selectedPage={
               pagesOfScenarioSelected.filter(
