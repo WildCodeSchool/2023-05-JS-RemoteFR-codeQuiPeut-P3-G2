@@ -7,19 +7,16 @@ class SavedStyleImageManager extends AbstractManager {
 
   insert(saveStIm) {
     return this.database.query(
-      `INSERT INTO ${this.table} (utilisateurs_id, width, height, top, ssi_left, z_index, border_style, border_width, border_radius, border_color, box_shadow, opacity, padding) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO ${this.table} (utilisateurs_id, styleName, z_index, border_style, border_width, border_radius, border_color, box_shadow, opacity, padding) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         saveStIm.utilisateurs_id,
-        saveStIm.width,
-        saveStIm.height,
-        saveStIm.top,
-        saveStIm.ssi_left,
-        saveStIm.z_index,
-        saveStIm.border_style,
-        saveStIm.border_width,
-        saveStIm.border_radius,
-        saveStIm.border_color,
-        saveStIm.box_shadow,
+        saveStIm.textStyleName,
+        saveStIm.zIndex,
+        saveStIm.borderStyle,
+        saveStIm.borderWidth,
+        saveStIm.borderRadius,
+        saveStIm.borderColor,
+        saveStIm.boxShadow,
         saveStIm.opacity,
         saveStIm.padding,
       ]
@@ -45,6 +42,13 @@ class SavedStyleImageManager extends AbstractManager {
         saveStIm.padding,
         saveStIm.id,
       ]
+    )
+  }
+
+  readFromUtilisateurID(userID) {
+    return this.database.query(
+      `SELECT * FROM ${this.table} WHERE utilisateurs_id = ?`,
+      [userID]
     )
   }
 }

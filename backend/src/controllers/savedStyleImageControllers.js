@@ -82,10 +82,44 @@ const destroy = (req, res) => {
     })
 }
 
+const readFromUtilisateurID = (req, res) => {
+  models.savStylTxt
+    .readFromUtilisateurID(req.params.id)
+    .then(([rows]) => {
+      if (rows[0] == null) {
+        res.sendStatus(404)
+      } else {
+        const userTextStyles = rows.map((style) => ({
+          id: style.id,
+          styleName: style.styleName,
+          showDelete: false,
+          styleCss: {
+            position: "absolute",
+            boxSizing: "border-box",
+            zIndex: style.z_index,
+            borderStyle: style.border_style,
+            borderColor: style.border_color,
+            borderWidth: style.border_width,
+            borderRadius: style.border_radius,
+            boxShadow: style.box_shadow,
+            padding: style.padding,
+            opacity: style.opacity,
+          },
+        }))
+        res.send(userTextStyles)
+      }
+    })
+    .catch((err) => {
+      console.error(err)
+      res.sendStatus(500)
+    })
+}
+
 module.exports = {
   browse,
   add,
   read,
   edit,
   destroy,
+  readFromUtilisateurID,
 }

@@ -9,6 +9,7 @@ import redo from "../assets/images/redo.png"
 import iconSupprimer from "../assets/images/iconSupprimer.svg"
 import EditorTextStyle from "../components/EditorTextStyle"
 import EditorPageStyle from "../components/EditorPageStyle"
+import EditorImageStyle from "../components/EditorImageStyle"
 import SommaireEditor from "../components/SommaireEditor"
 import Navbar from "../components/Navbar"
 
@@ -33,6 +34,7 @@ export default function Editor() {
   const [pageHistory, setPageHistory] = useState([]) // pour pouvoir faire un undo
   const [pageFuture, setPageFuture] = useState([]) // pour pouvoir faire un redo
   const [savedTextStyles, setSavedTextStyles] = useState([])
+  const [savedImageStyles, setSavedImageStyles] = useState([])
   const [savedPageStyles, setSavedPageStyles] = useState([])
   const [indexAfficheStyleText, setIndexAfficheStyleText] = useState({
     min: 0,
@@ -1110,6 +1112,7 @@ export default function Editor() {
               handleSave={handleSave}
               setPageHistory={setPageHistory}
               setPageFuture={setPageFuture}
+              setSelectedElementType={setSelectedElementType}
               user={user} // a SUPPRIMER probablement
               author={author} // a SUPPRIMER éventuellement, a voir
             />
@@ -1131,6 +1134,15 @@ export default function Editor() {
                 setPagesOfScenarioSelected={setPagesOfScenarioSelected}
                 setSavedPageStyles={setSavedPageStyles}
                 user={user}
+              />
+            ) : selectedElementType === "image" ? (
+              <EditorImageStyle
+                images={images}
+                setImages={setImages}
+                savedImageStyles={savedImageStyles}
+                setSavedImageStyles={setSavedImageStyles}
+                user={user}
+                pagesOfScenarioSelected={pagesOfScenarioSelected}
               />
             ) : null}
           </div>
