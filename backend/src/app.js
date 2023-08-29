@@ -32,6 +32,13 @@ app.use(router)
 
 app.use(express.static(path.join(__dirname, "../public")))
 
+// route pour récupérer mes images sur mon serveur
+// app.use("/src/images", express.static(path.join(__dirname, "./images")))
+app.use(
+  "/public/assets/images",
+  express.static(path.join(__dirname, "../public/assets/images"))
+)
+
 // serve REACT APP
 
 const reactIndexFile = path.join(
@@ -51,7 +58,11 @@ if (fs.existsSync(reactIndexFile)) {
   // redirect all requests to the REACT index file
 
   app.get("*", (req, res) => {
-    res.sendFile(reactIndexFile)
+    if (req.path.includes("images")) {
+      res.sendFile(path.join(__dirname, "..", "..", req.path))
+    } else {
+      res.sendFile(reactIndexFile)
+    }
   })
 }
 
