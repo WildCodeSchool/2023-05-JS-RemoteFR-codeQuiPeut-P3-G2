@@ -305,6 +305,7 @@ export default function Editor() {
   }
 
   const handleMouseMove = (e) => {
+    // console.log(textes[0]);
     const scrollY = window.pageYOffset
     // Si le redimensionnement est activé
     if (resizing !== null) {
@@ -996,8 +997,9 @@ export default function Editor() {
 
   return (
     <>
-      {/* <div className="fausse-navbar"></div> */}
-      <Navbar />
+      <div className="fausse-navbar">
+        <Navbar />
+      </div>
 
       <section className="editor-bandeau-superieur">
         <div className="editor-bandeau-gauche">
