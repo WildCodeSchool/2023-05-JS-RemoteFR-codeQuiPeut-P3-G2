@@ -44,6 +44,10 @@ export default function Editor() {
     min: 0,
     max: 1,
   })
+  const [indexAfficheStyleImage, setIndexAfficheStyleImage] = useState({
+    min: 0,
+    max: 1,
+  })
 
   const maPage = document.querySelector(".section-page")
 
@@ -333,6 +337,26 @@ export default function Editor() {
     )
   }
 
+  // application d'un style sauvegardé à l'image sélectionnée
+  const handleClickApplyImageStyle = (styleToApply) => {
+    setImages((prevState) =>
+      prevState.map((item) =>
+        item.selected === true
+          ? {
+              ...item,
+              style: {
+                ...styleToApply,
+                width: item.style.width,
+                height: item.style.height,
+                left: item.style.left,
+                top: item.style.top,
+              },
+            }
+          : item
+      )
+    )
+  }
+
   // application d'un style sauvegardé à la page sélectionnée
   const handleClickApplyPageStyle = (styleToApply) => {
     setPagesOfScenarioSelected((prevState) =>
@@ -362,6 +386,15 @@ export default function Editor() {
   const handleClickNextStylesPage = () => {
     if (indexAfficheStylePage.max < savedPageStyles.length - 1) {
       setIndexAfficheStylePage((prevState) => ({
+        min: prevState.min + 2,
+        max: prevState.max + 2,
+      }))
+    }
+  }
+
+  const handleClickNextStylesImage = () => {
+    if (indexAfficheStyleImage.max < savedImageStyles.length - 1) {
+      setIndexAfficheStyleImage((prevState) => ({
         min: prevState.min + 2,
         max: prevState.max + 2,
       }))
@@ -400,6 +433,22 @@ export default function Editor() {
     }
   }
 
+  const handleClickPreviousStylesImage = () => {
+    if (indexAfficheStyleImage.min > 0) {
+      if (indexAfficheStyleImage.min - 2 < 0) {
+        setIndexAfficheStyleImage((prevState) => ({
+          min: 0,
+          max: 1,
+        }))
+      } else {
+        setIndexAfficheStyleImage((prevState) => ({
+          min: prevState.min - 2,
+          max: prevState.max - 2,
+        }))
+      }
+    }
+  }
+
   // ----FIN SECTION--------------------------------------------------
 
   // ----------------------------------------------------------------------------
@@ -418,6 +467,19 @@ export default function Editor() {
     )
   }
 
+  const handleContextMenuStyleImage = (event, index) => {
+    event.preventDefault()
+    setSavedImageStyles((prevState) => {
+      const newState = [...prevState]
+      newState[index] = { ...newState[index], showDelete: true }
+      return newState
+    })
+
+    setImages((prevState) =>
+      prevState.map((item) => ({ ...item, selected: false }))
+    )
+  }
+
   const handleContextMenuStylePage = (event, index) => {
     event.preventDefault()
     setSavedPageStyles((prevState) => {
@@ -429,6 +491,14 @@ export default function Editor() {
 
   const handleLeaveContextMenuStyleText = (index) => {
     setSavedTextStyles((prevState) => {
+      const newState = [...prevState]
+      newState[index] = { ...newState[index], showDelete: false }
+      return newState
+    })
+  }
+
+  const handleLeaveContextMenuStyleImage = (index) => {
+    setSavedImageStyles((prevState) => {
       const newState = [...prevState]
       newState[index] = { ...newState[index], showDelete: false }
       return newState
@@ -452,6 +522,21 @@ export default function Editor() {
         axios
           .get(`http://localhost:4242/saved_style_text/utilisateur/${user.id}`)
           .then(({ data }) => setSavedTextStyles(data))
+          .catch((err) => console.error(err))
+      })
+      .catch((err) => console.error(err))
+    // setSavedTextStyles((prevState) => prevState.filter((_, i) => i !== index))
+  }
+
+  const handleDeleteStyleImage = (index) => {
+    const styleID = savedImageStyles[index].id
+
+    axios
+      .delete(`http://localhost:4242/saved_style_image/${styleID}`)
+      .then(() => {
+        axios
+          .get(`http://localhost:4242/saved_style_image/utilisateur/${user.id}`)
+          .then(({ data }) => setSavedImageStyles(data))
           .catch((err) => console.error(err))
       })
       .catch((err) => console.error(err))
@@ -845,6 +930,11 @@ export default function Editor() {
         .catch((err) => console.error(err))
 
       axios
+        .get(`http://localhost:4242/saved_style_image/utilisateur/${user.id}`)
+        .then(({ data }) => setSavedImageStyles(data))
+        .catch((err) => console.error(err))
+
+      axios
         .get(`http://localhost:4242/saved_style_page/utilisateur/${user.id}`)
         .then(({ data }) => setSavedPageStyles(data))
         .catch((err) => console.error(err))
@@ -1020,20 +1110,56 @@ export default function Editor() {
             <div className="saved-styles-images">
               <p>Styles des images</p>
               <div className="saved-styles-container">
-                <div className="saved-style">
-                  <p>Style 1</p>
-                </div>
-                <div className="saved-style">
-                  <p>Style 2</p>
-                </div>
+                {/*  */}
+
+                {savedImageStyles
+                  .filter(
+                    (item, index) =>
+                      index >= indexAfficheStyleImage.min &&
+                      index <= indexAfficheStyleImage.max
+                  )
+                  .map((item, index) => (
+                    <button
+                      className="saved-style"
+                      onClick={() => handleClickApplyImageStyle(item.styleCss)}
+                      onContextMenu={(event) =>
+                        handleContextMenuStyleImage(event, index)
+                      }
+                      onMouseLeave={() =>
+                        handleLeaveContextMenuStyleImage(index)
+                      }
+                      key={item.id}
+                    >
+                      {item.styleName}
+                      {savedImageStyles[index].showDelete && (
+                        <input
+                          type="button"
+                          className="button-suppression-style"
+                          onClick={() => handleDeleteStyleImage(index)}
+                          onMouseLeave={() =>
+                            handleLeaveContextMenuStyleImage(index)
+                          }
+                          value="Supprimer"
+                        />
+                      )}
+                    </button>
+                  ))}
+
+                {/*  */}
               </div>
             </div>
 
             <div className="arrowButton-container">
-              <button className="arrowButton">
+              <button
+                className="arrowButton"
+                onClick={handleClickPreviousStylesImage}
+              >
                 <div className="arrowButtonPrevious"></div>{" "}
               </button>
-              <button className="arrowButton">
+              <button
+                className="arrowButton"
+                onClick={handleClickNextStylesImage}
+              >
                 <div className="arrowButtonNext"></div>{" "}
               </button>
             </div>

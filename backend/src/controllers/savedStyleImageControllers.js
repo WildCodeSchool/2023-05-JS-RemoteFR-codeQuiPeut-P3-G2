@@ -83,7 +83,7 @@ const destroy = (req, res) => {
 }
 
 const readFromUtilisateurID = (req, res) => {
-  models.savStylTxt
+  models.savStylImg
     .readFromUtilisateurID(req.params.id)
     .then(([rows]) => {
       if (rows[0] == null) {
