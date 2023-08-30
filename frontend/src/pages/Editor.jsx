@@ -3,7 +3,7 @@ import { useState, useEffect } from "react"
 import EditorPage from "../components/EditorPage"
 import saveDisquette from "../assets/images/saveDisquette.svg"
 import addText from "../assets/images/addText.svg"
-import addImg from "../assets/images/addImg.svg"
+// import addImg from "../assets/images/addImg.svg"
 import undo from "../assets/images/undo.png"
 import redo from "../assets/images/redo.png"
 import iconSupprimer from "../assets/images/iconSupprimer.svg"
@@ -21,7 +21,7 @@ export default function Editor() {
   const [pagesOfScenarioSelected, setPagesOfScenarioSelected] = useState([])
   const [selectedElementType, setSelectedElementType] = useState("none")
   const [showMenuOpen, setShowMenuOpen] = useState(false)
-
+  const [deletedImages, setDeletedImages] = useState([])
   const [mounted, setMounted] = useState(false)
   const [pageWidth, setPageWidth] = useState()
   const [pageHeight, setPageHeight] = useState()
@@ -196,6 +196,29 @@ export default function Editor() {
     )
 
     setImages((prevState) =>
+      prevState.map((item) => ({ ...item, selected: false }))
+    )
+  }
+
+  const handleClickElementImage = (id, e) => {
+    // quand on clique sur un texte
+    e.stopPropagation() // permet de ne pas lancer les évenements au click de l'élément parent (page) qui a aussi un evenement onClick qui lui est propre
+
+    setSelectedElementType("image")
+
+    setImages((prevState) =>
+      prevState.map((item) =>
+        item.id === id
+          ? { ...item, selected: true }
+          : { ...item, selected: false }
+      )
+    )
+
+    setPagesOfScenarioSelected((prevStates) =>
+      prevStates.map((item) => ({ ...item, styleSelected: false }))
+    )
+
+    setTextes((prevState) =>
       prevState.map((item) => ({ ...item, selected: false }))
     )
   }
@@ -496,10 +519,14 @@ export default function Editor() {
       idSelected = selectedImage.id
       setImages((prevState) => prevState.filter((text) => !text.selected))
 
-      // AJOUTER AXIOS DELETE IMAGE
+      setDeletedImages((prevState) => {
+        const newState = [...prevState]
+        newState.push(selectedImage)
+        return newState
+      })
+      // AJOUTER AXIOS DELETE IMAGE -->
+      // --> NON : on supprime de la BDD à la sauvegarde car il y a l'image qui doit rester enregistree dans le serveur
     }
-
-    // console.log("newPageHistory", newPageHistory);
   }
   // ----FIN SECTION--------------------------------------------------
 
@@ -580,6 +607,14 @@ export default function Editor() {
       setPageFuture([{ textes, images }, ...pageFuture])
       setTextes(prevStates.textes)
       setImages(prevStates.images)
+      setDeletedImages((previousState) => {
+        // deletedImages ne doit contenir aucune des images présentes dans images
+        const newState = previousState.filter(
+          (image) =>
+            !prevStates.images.some((prevImage) => prevImage.id === image.id)
+        )
+        return newState
+      })
     }
   }
 
@@ -592,6 +627,22 @@ export default function Editor() {
       setPageHistory([...pageHistory, { textes, images }])
       setTextes(nextStates.textes)
       setImages(nextStates.images)
+      const newPageHistory = [...pageHistory, { textes, images }]
+      setDeletedImages((previousState) => {
+        // deletedImages ne doit contenir aucune des images présentes dans images
+        if (nextStates.images[0]) {
+          const intermediaireState = [
+            ...newPageHistory[newPageHistory.length - 1].images,
+          ]
+          const newState = [
+            ...previousState,
+            intermediaireState[intermediaireState.length - 1],
+          ]
+          return newState
+        } else {
+          return previousState
+        }
+      })
     }
   }
 
@@ -601,6 +652,7 @@ export default function Editor() {
   // ------FONCTIONS POUR SAUVEGARDER L'ETAT DES TEXTES ET DES STYLES DE LA PAGE----
   // ---------------------------------------------------------------------------
   const handleSave = () => {
+    // sauvegarde des modifications des textes
     textes.map((texte) => {
       axios
         .put(`http://localhost:4242/textes/${texte.id}`, {
@@ -643,6 +695,7 @@ export default function Editor() {
           )
         })
 
+      // sauvegarde des styles de textes dans la bdd
       axios.put(`http://localhost:4242/styleText/texte/${texte.id}`, {
         page_textes_id: texte.page_textes_id,
         width: texte.style.width,
@@ -670,6 +723,33 @@ export default function Editor() {
       return null
     })
 
+    // suppression dans la bdd des images qui ont été supprimées
+    deletedImages.map((image) =>
+      axios.delete(`http://localhost:4242/images/${image.id}`, {
+        data: {
+          img_src: image.img_src,
+        },
+      })
+    )
+
+    // sauvegarde des styles des images
+    images.map((image) =>
+      axios.put(`http://localhost:4242/styleImage/image/${image.id}`, {
+        width: image.style.width,
+        height: image.style.height,
+        top: image.style.top,
+        ssi_left: image.style.left,
+        zIndex: image.style.zIndex,
+        border_style: image.style.borderStyle,
+        border_color: image.style.borderColor,
+        border_width: image.style.borderWidth,
+        border_radius: image.style.borderRadius,
+        box_shadow: image.style.boxShadow,
+        opacity: image.style.opacity,
+        padding: image.style.padding,
+      })
+    )
+
     // on sauvegarde aussi le style de la page sélectionnée
     if (pagesOfScenarioSelected[0]) {
       const pageID = pagesOfScenarioSelected.filter(
@@ -685,6 +765,39 @@ export default function Editor() {
         background_color: pageStyle.backgroundColor,
       })
     }
+  }
+
+  // ----FIN SECTION--------------------------------------------------
+
+  // -------------------------------------------------------------------------------------
+  // ------------FONCTIONS LIEES A L'IMPORTATION DES IMAGES-------------------------
+  // ---------------------------------------------------------------------------
+
+  const handleChangeFileImage = (event) => {
+    const idPageSelected = pagesOfScenarioSelected.filter(
+      (item) => item.selected === true
+    )[0].id
+
+    // console.log(idPageSelected)
+
+    const file = event.target.files[0]
+    const formData = new FormData()
+    formData.append("image", file)
+
+    axios
+      .post(`http://localhost:4242/pages/${idPageSelected}/newImage`, formData)
+      .then(({ data }) => {
+        const newImages = [...images, data]
+        setImages(newImages)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+
+    // fetch("/upload-image", {
+    //   method: "POST",
+    //   body: formData,
+    // });
   }
 
   // ----FIN SECTION--------------------------------------------------
@@ -823,12 +936,22 @@ export default function Editor() {
               onClick={handleClickNewTextZone}
               title="Ajouter une zone de texte"
             />
-            <img
+
+            <input
+              type="file"
+              id="file-input"
+              className="button-import-image"
+              onChange={handleChangeFileImage}
+            />
+            <label htmlFor="file-input" className="button-import-image-label">
+              {" "}
+            </label>
+            {/* <img
               src={addImg}
               alt="new image"
               onClick={() => {}}
               title="Importer une image"
-            />
+            /> */}
             <img
               src={iconSupprimer}
               alt="supprimer élément"
@@ -981,6 +1104,9 @@ export default function Editor() {
               setPagesOfScenarioSelected={setPagesOfScenarioSelected}
               textes={textes}
               setTextes={setTextes}
+              images={images}
+              setImages={setImages}
+              setDeletedImages={setDeletedImages}
               handleSave={handleSave}
               setPageHistory={setPageHistory}
               setPageFuture={setPageFuture}
@@ -1022,9 +1148,11 @@ export default function Editor() {
             handleChangeTexte={handleChangeTexte}
             handleDragStart={handleDragStart}
             handleClickElementTexte={handleClickElementTexte}
+            handleClickElementImage={handleClickElementImage}
             handleMouseDown={handleMouseDown}
             setPageHistory={setPageHistory}
             images={images}
+            setImages={setImages}
             editedCampagne={editedCampagne}
             selectedPage={
               pagesOfScenarioSelected.filter(
