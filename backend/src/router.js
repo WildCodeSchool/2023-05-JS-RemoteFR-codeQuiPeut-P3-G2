@@ -34,6 +34,12 @@ router.post(
   utilisateursControllers.verifyPassword,
   utilisateursControllers.sendUserWhoHasGoodEmailAndPassword
 )
+router.post(
+  "/signup",
+  utilisateursControllers.verifyEmail,
+  utilisateursControllers.verifyLogin,
+  utilisateursControllers.add
+)
 
 router.get("/commentaires_forum", forumCommControllers.browse)
 router.get("/commentaires_forum/:id", forumCommControllers.read)

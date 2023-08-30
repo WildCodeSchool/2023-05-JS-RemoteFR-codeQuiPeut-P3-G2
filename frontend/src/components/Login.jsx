@@ -16,10 +16,15 @@ export default function Login({ setOpenForm }) {
         email,
         password: passWord,
       })
-      .then(({ data }) => setUser(data))
+      .then(({ data }) => {
+        setUser(data)
+
+        // Sauvegarde des informations de l'utilisateur dans le localStorage
+        localStorage.setItem("user", JSON.stringify(data))
+      })
       .then(() => setOpenForm(false))
       .catch(() => {
-        setWrongEmailOrPassword(setWrongEmailOrPassword(true))
+        setWrongEmailOrPassword(true)
       })
   }
 
@@ -33,15 +38,15 @@ export default function Login({ setOpenForm }) {
 
   return (
     <div className="popUp">
-      <form className="signUp">
+      <form className="logIn">
         <h2>Connectez vous</h2>
         <div className="conteneurSVG">
           <svg>
             <line x1="0" x2="200" y1="0" y2="0" />
           </svg>
         </div>
-        <div className="login">
-          <div>
+        <div className="EmailPassword">
+          <div className="labelInput">
             <label htmlFor="email">Adresse email</label>
             <input
               id="email"
@@ -52,7 +57,7 @@ export default function Login({ setOpenForm }) {
             />
           </div>
 
-          <div>
+          <div className="labelInput">
             <label htmlFor="passWord">Mot de passe</label>
             <input
               id="passWord"
@@ -63,7 +68,7 @@ export default function Login({ setOpenForm }) {
             />
           </div>
 
-          {wrongEmailOrPassword ?? (
+          {wrongEmailOrPassword && (
             <p className="wrongLogin">Wrong Email or PassWord</p>
           )}
 

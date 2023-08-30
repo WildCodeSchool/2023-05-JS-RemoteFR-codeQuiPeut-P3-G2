@@ -1,0 +1,92 @@
+@import url("https://fonts.googleapis.com/css2?family=Lustria&display=swap");
+$colorYellow: #ffbd59;
+$colorDark: #070a09;
+$blueColor: #4c60ae;
+$colorWhite: #ffffff;
+$fontSizeP: 1.2rem;
+$fontSizeBouton: 1.3rem;
+$fontSizeTitre: 1.5rem;
+
+.popUpSignUp {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+  .signUp {
+    width: 50vw;
+    height: 50vh;
+    box-sizing: border-box;
+    box-shadow: 0 0 20px 3px $blueColor;
+    background-color: $colorDark;
+    color: $colorWhite;
+    font-family: Lustria;
+    font-size: $fontSizeP;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .imgcontainer {
+      display: flex;
+      justify-content: flex-end;
+      width: 100%;
+      margin-right: 32px;
+      margin-top: 32px;
+    }
+    .containerForm {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      .conteneurSVG {
+        display: flex;
+        justify-content: center;
+        object-fit: cover;
+        width: 20%;
+        svg {
+          width: 100%;
+          height: 5px;
+          stroke: #ffffff;
+        }
+      }
+      .containInformation {
+        display: flex;
+        flex-direction: column;
+        margin-top: 16px;
+        margin-bottom: 16px;
+        justify-content: center;
+
+        .LastnameFirstname {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          gap: 16px;
+        }
+        .labelInput {
+          display: flex;
+          flex-direction: column;
+          margin-bottom: 16px;
+          label {
+            display: flex;
+            justify-content: center;
+          }
+          input {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+          }
+        }
+      }
+      button {
+        width: 250px;
+        height: 50px;
+        border-radius: 42px;
+        background-color: #ffffff;
+        color: $colorDark;
+        font-size: $fontSizeBouton;
+      }
+    }
+  }
+}

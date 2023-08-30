@@ -5,10 +5,12 @@ import "../components/Navbar.scss"
 import ScripLogo from "../assets/ScripLogo.png"
 import Login from "./Login"
 import logout from "../assets/images/Logout.svg"
+import SignUp from "./Signup"
 
 const Navbar = () => {
   const { user, setUser } = useContext(MyContext)
   const [openForm, setOpenForm] = useState(false)
+  const [openFormSignUp, setOpenFormSignUp] = useState(false)
 
   const HandleClickOpenLog = () => {
     setOpenForm(true)
@@ -16,6 +18,10 @@ const Navbar = () => {
 
   const HandleClickLogout = () => {
     setUser(null)
+  }
+
+  const HandleClickOpenLogSignUp = () => {
+    setOpenFormSignUp(true)
   }
 
   useEffect(() => {
@@ -59,7 +65,11 @@ const Navbar = () => {
               <img src={logout} alt="logout" onClick={HandleClickLogout} />
             </button>
           )}
-          <button className={user === null ? "push" : "hidden"} type="button">
+          <button
+            className={user === null ? "push" : "hidden"}
+            type="button"
+            onClick={HandleClickOpenLogSignUp}
+          >
             SIGN UP
           </button>
         </div>
@@ -68,6 +78,7 @@ const Navbar = () => {
         </div>
       </nav>
       {openForm && <Login setOpenForm={setOpenForm} />}
+      {openFormSignUp && <SignUp setOpenFormSignUp={setOpenFormSignUp} />}
     </>
   )
 }

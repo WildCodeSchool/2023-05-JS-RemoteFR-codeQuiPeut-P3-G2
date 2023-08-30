@@ -741,7 +741,7 @@ CREATE TABLE `utilisateurs` (
   `email` varchar(255) NOT NULL,
   `password` varchar(45) NOT NULL,
   `img` varchar(1000) DEFAULT NULL,
-  `inscription_date` date NOT NULL,
+  `inscription_date` DATE DEFAULT (DATE_FORMAT(NOW(), '%Y-%m-%d')) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;

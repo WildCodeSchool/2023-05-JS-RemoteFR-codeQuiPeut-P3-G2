@@ -15,7 +15,7 @@ $fontSizeTitre: 1.5rem;
   justify-content: center;
   align-items: center;
   z-index: 5;
-  .signUp {
+  .logIn {
     width: 50vw;
     height: 50vh;
     box-sizing: border-box;
@@ -39,12 +39,12 @@ $fontSizeTitre: 1.5rem;
         stroke: #ffffff;
       }
     }
-    .login {
+    .EmailPassword {
       display: flex;
       flex-direction: column;
       margin-top: 16px;
       gap: 16px;
-      div {
+      .labelInput {
         display: flex;
         flex-direction: column;
       }
