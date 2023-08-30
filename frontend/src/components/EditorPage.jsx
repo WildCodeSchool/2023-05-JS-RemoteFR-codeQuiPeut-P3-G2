@@ -12,6 +12,7 @@ export default function EditorPage(props) {
     handleDrop,
     handleChangeTexte,
     handleDragStart,
+    handleDragStartImage,
     handleClickElementTexte,
     handleClickElementImage,
     handleMouseDown,
@@ -73,7 +74,9 @@ export default function EditorPage(props) {
               src={item.img_src}
               alt="image"
               style={item.style}
+              draggable
               onClick={(e) => handleClickElementImage(item.id, e)}
+              onDragStart={(e) => handleDragStartImage(e, item.id)}
               key={item.id}
             />
           ))}

@@ -144,16 +144,25 @@ export default function Editor() {
   // ----DRAG & DROP : DEPLACEMENT DES TEXTAREA ET DES IMAGES
   // -----------------------------------------------------------
   const handleDragStart = (event, id) => {
-    setTextes((prevState) =>
-      prevState.map((item) =>
-        item.id === id
-          ? { ...item, selected: true }
-          : { ...item, selected: false }
-      )
-    )
-    // event.dataTransfer.setData(
-    //   "application/json",
-    //   JSON.stringify(event.target.value)
+    handleClickElementTexte(id, event)
+    // setTextes((prevState) =>
+    //   prevState.map((item) =>
+    //     item.id === id
+    //       ? { ...item, selected: true }
+    //       : { ...item, selected: false }
+    //   )
+    // )
+  }
+
+  const handleDragStartImage = (event, id) => {
+    handleClickElementImage(id, event)
+
+    // setImages((prevState) =>
+    //   prevState.map((item) =>
+    //     item.id === id
+    //       ? { ...item, selected: true }
+    //       : { ...item, selected: false }
+    //   )
     // )
   }
 
@@ -170,14 +179,29 @@ export default function Editor() {
     // const newLeft = event.pageX;
     const newLeft = 100 * ((event.pageX - pageOffsetX) / pageWidth) + "%"
     // console.log("newTop", newTop, "newLeft", newLeft)
-    setTextes((prevState) =>
-      prevState.map((item) =>
-        item.selected === true
-          ? { ...item, style: { ...item.style, top: newTop, left: newLeft } }
-          : item
+
+    const selectedText = textes.filter((texte) => texte.selected === true)[0]
+    const selectedImage = images.filter((image) => image.selected === true)[0]
+
+    if (selectedText) {
+      setTextes((prevState) =>
+        prevState.map((item) =>
+          item.selected === true
+            ? { ...item, style: { ...item.style, top: newTop, left: newLeft } }
+            : item
+        )
       )
-    )
+    } else if (selectedImage) {
+      setImages((prevState) =>
+        prevState.map((item) =>
+          item.selected === true
+            ? { ...item, style: { ...item.style, top: newTop, left: newLeft } }
+            : item
+        )
+      )
+    }
   }
+
   // ------------------------------------------------------------------------
   // --------------------------------------------------------------------------
 
@@ -1285,6 +1309,7 @@ export default function Editor() {
             handleDrop={handleDrop}
             handleChangeTexte={handleChangeTexte}
             handleDragStart={handleDragStart}
+            handleDragStartImage={handleDragStartImage}
             handleClickElementTexte={handleClickElementTexte}
             handleClickElementImage={handleClickElementImage}
             handleMouseDown={handleMouseDown}
