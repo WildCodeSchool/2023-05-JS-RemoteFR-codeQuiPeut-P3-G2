@@ -16,6 +16,7 @@ export default function EditorPage(props) {
     handleClickElementTexte,
     handleClickElementImage,
     handleMouseDown,
+    handleMouseDownImage,
     editedCampagne,
     selectedPage,
     // setPageHistory,
@@ -77,6 +78,7 @@ export default function EditorPage(props) {
               draggable
               onClick={(e) => handleClickElementImage(item.id, e)}
               onDragStart={(e) => handleDragStartImage(e, item.id)}
+              onMouseDown={(e) => handleMouseDownImage(e, item.id)}
               key={item.id}
             />
           ))}

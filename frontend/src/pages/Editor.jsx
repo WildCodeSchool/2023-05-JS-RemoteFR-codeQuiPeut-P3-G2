@@ -304,32 +304,68 @@ export default function Editor() {
     }
   }
 
+  const handleMouseDownImage = (e, id) => {
+    // Détecter si l'utilisateur a cliqué sur le coin inférieur droit de l'image
+    if (
+      e.target === e.currentTarget &&
+      e.nativeEvent.offsetX > e.target.clientWidth - 100 &&
+      e.nativeEvent.offsetY > e.target.clientHeight - 100
+    ) {
+      // Si oui, activer le redimensionnement
+      setResizing(id)
+
+      handleClickElementImage()
+    }
+  }
+
   const handleMouseMove = (e) => {
     const scrollY = window.pageYOffset
     // Si le redimensionnement est activé
     if (resizing !== null) {
-      // Mettre à jour les champs width et height de l'objet style dans l'état textes
-      setTextes((prevState) =>
-        prevState.map((item) =>
-          item.id === resizing
-            ? {
-                ...item,
-                style: {
-                  ...item.style,
-                  width: `${
-                    100 * ((e.pageX - pageOffsetX) / pageWidth) -
-                    parseInt(item.style.left, 10)
-                  }%`,
-                  height: `${
-                    100 * ((e.pageY + scrollY - pageOffsetY) / pageHeight) -
-                    parseInt(item.style.top, 10)
-                  }%`,
-                },
-              }
-            : item
+      const selectedText = textes.filter((texte) => texte.selected === true)[0]
+      const selectedImage = images.filter((image) => image.selected === true)[0]
+
+      if (selectedText) {
+        // Mettre à jour les champs width et height de l'objet style dans l'état textes
+        setTextes((prevState) =>
+          prevState.map((item) =>
+            item.id === resizing
+              ? {
+                  ...item,
+                  style: {
+                    ...item.style,
+                    width: `${
+                      100 * ((e.pageX - pageOffsetX) / pageWidth) -
+                      parseInt(item.style.left, 10)
+                    }%`,
+                    height: `${
+                      100 * ((e.pageY + scrollY - pageOffsetY) / pageHeight) -
+                      parseInt(item.style.top, 10)
+                    }%`,
+                  },
+                }
+              : item
+          )
         )
-      )
-      // console.log("newWidth", `${e.pageX - parseInt(textes[resizing].style.left,10)}px`);
+      } else if (selectedImage) {
+        // Mettre à jour les champs width et height de l'objet style dans l'état images
+        setImages((prevState) =>
+          prevState.map((item) =>
+            item.id === resizing
+              ? {
+                  ...item,
+                  style: {
+                    ...item.style,
+                    width: `${
+                      100 * ((e.pageX - pageOffsetX) / pageWidth) -
+                      parseInt(item.style.left, 10)
+                    }%`,
+                  },
+                }
+              : item
+          )
+        )
+      }
     }
   }
 
@@ -1313,6 +1349,7 @@ export default function Editor() {
             handleClickElementTexte={handleClickElementTexte}
             handleClickElementImage={handleClickElementImage}
             handleMouseDown={handleMouseDown}
+            handleMouseDownImage={handleMouseDownImage}
             setPageHistory={setPageHistory}
             images={images}
             setImages={setImages}
