@@ -3,6 +3,8 @@ import { useState, useEffect } from "react"
 
 import "./FormNewScenario.scss"
 
+import imgDefaultScenario from "../assets/images/auberge-banner.jpg"
+
 // const universRoleGame = [
 //   {
 //     id: 1,
@@ -156,16 +158,15 @@ export default function FormNewScenario() {
   // const [author, setAuthor] = useState("Undefined")
   const [roleGame, setRoleGame] = useState([])
   // const [campagneId, setCampagneId] = useState("Undefined")
-  const [title, setTitle] = useState("Undefined")
-  const [playerNumberMin, setPlayerNumberMin] = useState(2)
-  const [playerNumberMax, setPlayerNumberMax] = useState(2)
-  const [type, setType] = useState("Undefined")
-  const [level, setLevel] = useState("Undefined")
-  // const [writingDateStart, setWritingDateStart] = useState(Date())
-  // const [publicationDate, setPublicationDate] = useState("3000-01-01")
-  const [picture, setPicture] = useState(null)
-  const [description, setDescription] = useState("Undefined")
-  const [pdfFile, setPdfFile] = useState(null)
+  const [titleScenario, setTitleScenario] = useState("Undefined")
+  const [playerNumberMin, setPlayerNumberMin] = useState("Undefined")
+  const [playerNumberMax, setPlayerNumberMax] = useState("Undefined")
+  // const [typeScenario, setTypeScenario] = useState("Undefined")
+  const [levelScenario, setLevelScenario] = useState("Undefined")
+  const [writingDateStart, setWritingDateStart] = useState(Date())
+  const [publicationDate, setPublicationDate] = useState("3000-01-01")
+  const [pictureScenario, setPictureScenario] = useState(null)
+  const [descriptionScenario, setDescriptionScenario] = useState("Undefined")
   // const [monted, setMonted] = useState(false)
 
   // const handleClickOtionRoleGame = (id) => {
@@ -190,7 +191,7 @@ export default function FormNewScenario() {
   }
 
   const handleChangeTitle = (e) => {
-    setTitle(e.target.value)
+    setTitleScenario(e.target.value)
   }
 
   const handleChangeNbPlayerMin = (e) => {
@@ -202,34 +203,58 @@ export default function FormNewScenario() {
   }
 
   const handleChangeLevel = (e) => {
-    setLevel(e.target.value)
+    setLevelScenario(e.target.value)
   }
 
   const handleChangePicture = (e) => {
-    setPicture(e.target.value)
+    setPictureScenario(e.target.value)
   }
 
   const handleChangeDescription = (e) => {
-    setDescription(e.target.value)
+    setDescriptionScenario(e.target.value)
   }
 
-  const handleChangeType = (e) => {
-    setType(e.target.value)
-  }
+  // const handleChangeType = (e) => {
+  //   setTypeScenario(e.target.value)
+  // }
 
-  const handleChangepdfFile = (e) => {
-    setPdfFile(e.target.value)
+  const getDateOfDay = () => {
+    const today = new Date()
+    const year = today.getFullYear()
+    const month = String(today.getMonth() + 1).padStart(2, "0")
+    const day = String(today.getDate()).padStart(2, "0")
+    return `${year}-${month}-${day}`
   }
 
   const handleSubmit = (e) => {
     const roleGameID = roleGame.filter((game) => game.selected === true)[0].id
     console.info("roleGameID", roleGameID)
-    console.info(title)
+    console.info("title", titleScenario)
+    console.info("playerNumberMin", playerNumberMin)
+    console.info("playerNumberMax", playerNumberMax)
+    console.info("level", levelScenario)
+    console.info("picture", pictureScenario)
+    console.info("description", descriptionScenario)
+    console.info("writingDateStart", writingDateStart)
+    console.info("publicationDate", publicationDate)
+
     axios.post("http://localhost:4242/scenarios", {
-      authorID: 1,
-      jeuxDeRole: roleGameID,
+      // authorID: 1,
+      // jeuxDeRoleID: roleGameID,
       // campagnID: 1,
       // name: title,
+
+      auteurs_id: 1, // author
+      jeux_de_role_id: roleGameID,
+      campagnes_id: 1, // A faire plus tard => campagneId
+      name: titleScenario,
+      nb_player_min: playerNumberMin,
+      nb_player_max: playerNumberMax,
+      level: levelScenario,
+      start_writing_date: writingDateStart,
+      publication_date: publicationDate,
+      img: pictureScenario,
+      description: descriptionScenario,
     })
   }
 
@@ -250,113 +275,108 @@ export default function FormNewScenario() {
   //   setMonted(true)
   // }, [])
 
+  useEffect(() => {
+    setWritingDateStart(getDateOfDay())
+    setPublicationDate("3000-01-01") // Inutile mais pour eviter une erreur => A supprimer !
+  }, [])
+
   return (
     <>
       <main className="mainFormNewScenario">
-        <div className="titleh2">
-          <h2>Scenario Script</h2>
-        </div>
         <div className="formGlobal">
-          <div className="param">
-            <p>Role Game or univers :</p>
-            <select id="selectRoleGame" onChange={handleChangeRoleGame}>
-              <option>---</option>
-              {/* (roleGame[0] && monted) ?? */}
-              {roleGame.map((univer) => (
-                <option value={univer.name} key={univer.id}>
-                  {univer.name}
-                </option>
-              ))}
-            </select>
+          <div className="titleh2">
+            <h2>Form for creating new scenario :</h2>
           </div>
-          <div className="param">
-            <p>Title : {title}</p>
-            <input
-              type="text"
-              placeholder="Titre de la campagne"
-              onChange={handleChangeTitle}
-            />
-          </div>
-          <div className="param">
-            <p>Minimum number of player(s) : {playerNumberMin}</p>
-            <select id="NumberPlayerMin" onChange={handleChangeNbPlayerMin}>
-              <option>---</option>
-              {numberPlayers.map((number) => (
-                <option value={number.rank} key={number.id}>
-                  {number.rank}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="param">
-            <p>maximum number of players : {playerNumberMax}</p>
-            <select id="NumberPlayerMax" onChange={handleChangeNbPlayerMax}>
-              <option>---</option>
-              {numberPlayers.map((number) => (
-                <option value={number.rank} key={number.id}>
-                  {number.rank}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="param">
-            <p>Type of scenarios : {type}</p>
-            <fieldset>
-              <legend> Choose the type of scenario </legend>
+          <div className="params">
+            <div className="param">
+              <p>Role Game or univers :</p>
+              <select className="inputSelect" onChange={handleChangeRoleGame}>
+                <option>---</option>
+                {roleGame.map((univer) => (
+                  <option value={univer.name} key={univer.id}>
+                    {univer.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="param">
+              <p>Title : {titleScenario}</p>
+              <input
+                className="inputText"
+                type="text"
+                placeholder="Titre de la campagne"
+                onChange={handleChangeTitle}
+              />
+            </div>
+            <div className="param_playerScenar">
+              <p>Number of player(s) :</p>
               <div>
-                <input
-                  type="radio"
-                  id="One Scenario only"
-                  name="typeOfScenario"
-                  value="Scenario one shot"
-                  onChange={handleChangeType}
-                />
-                <label htmlFor="Scenario one shot">Scenario one shot</label>
+                <div>
+                  <p>Minimum : {playerNumberMin}</p>
+                  <select
+                    className="NumberPlayer"
+                    onChange={handleChangeNbPlayerMin}
+                  >
+                    <option>---</option>
+                    {numberPlayers.map((number) => (
+                      <option value={number.rank} key={number.id}>
+                        {number.rank}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="param_playerScenar">
+                  <p>Maximum : {playerNumberMax}</p>
+                  <select
+                    className="NumberPlayer"
+                    onChange={handleChangeNbPlayerMax}
+                  >
+                    <option>---</option>
+                    {numberPlayers.map((number) => (
+                      <option value={number.rank} key={number.id}>
+                        {number.rank}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
-              <div>
-                <input
-                  type="radio"
-                  id="scenario in a campaign"
-                  name="typeOfScenario"
-                  value="Scenario in a campaign"
-                  onChange={handleChangeType}
-                />
-                <label htmlFor="Scenario in a campaign">
-                  Scenario in a campaign
-                </label>
-              </div>
-            </fieldset>
+            </div>
+            <div className="param">
+              <p>Level : {levelScenario} </p>
+              <select className="inputSelect" onChange={handleChangeLevel}>
+                <option>---</option>
+                {difficulty.map((grade) => (
+                  <option value={grade.nameDiff} key={grade.id}>
+                    {grade.nameDiff}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="param">
+              <p>Picture :</p>
+              {pictureScenario === null ? (
+                <img src={imgDefaultScenario} alt="Picture of Scenario" />
+              ) : (
+                <img src={imgDefaultScenario} alt="Picture of Scenario" /> // A modifier la src !!!
+              )}
+              <input
+                type="file"
+                accept="image/jpeg, image/png"
+                onChange={handleChangePicture}
+              />
+            </div>
+            <div className="param">
+              <p>Scenario synopsys : {descriptionScenario}</p>
+              <textarea
+                placeholder="Resume here"
+                maxLength="1000"
+                onChange={handleChangeDescription}
+              />
+            </div>
           </div>
-          <div className="param">
-            <p>Level : {level} </p>
-            <select id="ScenarLevel" onChange={handleChangeLevel}>
-              <option>---</option>
-              {difficulty.map((grade) => (
-                <option value={grade.nameDiff} key={grade.id}>
-                  {grade.nameDiff}
-                </option>
-              ))}
-            </select>
+          <div className="submitScenar">
+            <input type="submit" onClick={handleSubmit} />
           </div>
-          <div className="param">
-            <p>Picture : {picture}</p>
-            <input
-              type="file"
-              accept="image/jpeg, image/png"
-              onChange={handleChangePicture}
-            />
-          </div>
-          <div className="param">
-            <p>Scenario synopsys : {description}</p>
-            <textarea onChange={handleChangeDescription} />
-          </div>
-          <div className="param">
-            <p>Do you have a pdf file of your scenario ? {pdfFile}</p>
-            <input type="file" accept=".pdf" onChange={handleChangepdfFile} />
-          </div>
-        </div>
-        <div className="submit">
-          <input type="submit" onClick={handleSubmit} />
         </div>
       </main>
     </>
