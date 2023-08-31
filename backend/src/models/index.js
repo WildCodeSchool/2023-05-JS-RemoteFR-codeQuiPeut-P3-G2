@@ -44,6 +44,7 @@ const StyleImageManager = require("./StyleImageManager")
 const TextesManager = require("./TextesManager")
 const ImagesManager = require("./ImagesManager")
 const StylePageManager = require("./StylePageManager")
+const RoleGamesManager = require("./RoleGamesManager")
 
 models.scenarios = new ScenariosManager()
 models.scenarios.setDatabase(pool)
@@ -86,6 +87,9 @@ models.textes.setDatabase(pool)
 
 models.stylePage = new StylePageManager()
 models.stylePage.setDatabase(pool)
+
+models.roleGames = new RoleGamesManager()
+models.roleGames.setDatabase(pool)
 
 models.images = new ImagesManager()
 models.images.setDatabase(pool)

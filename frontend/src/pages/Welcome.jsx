@@ -3,6 +3,7 @@ import TitreAccueil from "../assets/TitreAccueil.png"
 import LivreAccueil from "../assets/LivreAccueil.png"
 import mokeUp from "../assets/ordi.png"
 import Navbar from "../components/Navbar"
+
 // import { useState, useEffect } from 'react'
 
 const Welcome = () => {

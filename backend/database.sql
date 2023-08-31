@@ -260,7 +260,7 @@ CREATE TABLE `jeux_de_role` (
 
 LOCK TABLES `jeux_de_role` WRITE;
 /*!40000 ALTER TABLE `jeux_de_role` DISABLE KEYS */;
-INSERT INTO `jeux_de_role` VALUES (1,'scripter');
+INSERT INTO `jeux_de_role` VALUES (1,'Alien'),(2,"Assassin's Creed"),(3,'Battlestar Galactica'),(4,'Buffy the Vampire Slayer'),(5,'Cadillacs & Dinosaurs'),(6,'Cyberpunk 2077'),(7,'Dungeons & Dragons'),(8,'EverQuest'),(9,'James Bond 007'),(10,"L'Appel de Cthulhu"),(11,'Les Trois Mousquetaires'),(12,'Lanfeust de Troy'),(13,'Légendes des chevaliers de la Table ronde'),(14,'The Lord of the Ring'),(15,'Mass Effect'),(16,'Men in Black'),(17,'Prédators'),(18,'Star Wars'),(19,'The Witcher'),(20,'Warhammer'),(21,'Yggdrasill');
 /*!40000 ALTER TABLE `jeux_de_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
