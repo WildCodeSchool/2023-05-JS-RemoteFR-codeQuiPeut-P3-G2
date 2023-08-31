@@ -3,7 +3,7 @@ import { useState, useEffect } from "react"
 
 import "./FormNewScenario.scss"
 
-import imgDefaultScenario from "../assets/images/auberge-banner.jpg"
+import imgDefaultScenario from "../assets/images/defoscenario.png"
 
 // const universRoleGame = [
 //   {
@@ -165,7 +165,7 @@ export default function FormNewScenario() {
   const [levelScenario, setLevelScenario] = useState("Undefined")
   const [writingDateStart, setWritingDateStart] = useState(Date())
   const [publicationDate, setPublicationDate] = useState("3000-01-01")
-  const [pictureScenario, setPictureScenario] = useState(null)
+  const [pictureScenario, setPictureScenario] = useState("none")
   const [descriptionScenario, setDescriptionScenario] = useState("Undefined")
   // const [monted, setMonted] = useState(false)
 
@@ -207,7 +207,23 @@ export default function FormNewScenario() {
   }
 
   const handleChangePicture = (e) => {
-    setPictureScenario(e.target.value)
+    const file = e.target.files[0]
+    const formData = new FormData()
+    formData.append("image", file)
+    if (pictureScenario === "none") {
+      axios
+        .post("http://localhost:4242/tmpImage", formData)
+        .then(({ data }) => console.info(data) || setPictureScenario(data))
+    } else {
+      axios.delete("http://localhost:4242/deleteTmpImage", {
+        data: {
+          img_src: pictureScenario,
+        },
+      })
+      axios
+        .post("http://localhost:4242/tmpImage", formData)
+        .then(({ data }) => console.info(data) || setPictureScenario(data))
+    }
   }
 
   const handleChangeDescription = (e) => {
@@ -311,8 +327,8 @@ export default function FormNewScenario() {
             <div className="param_playerScenar">
               <p>Number of player(s) :</p>
               <div>
-                <div>
-                  <p>Minimum : {playerNumberMin}</p>
+                <div className="param">
+                  <p>Minimum</p>
                   <select
                     className="NumberPlayer"
                     onChange={handleChangeNbPlayerMin}
@@ -325,8 +341,8 @@ export default function FormNewScenario() {
                     ))}
                   </select>
                 </div>
-                <div className="param_playerScenar">
-                  <p>Maximum : {playerNumberMax}</p>
+                <div className="param">
+                  <p>Maximum</p>
                   <select
                     className="NumberPlayer"
                     onChange={handleChangeNbPlayerMax}
@@ -352,16 +368,16 @@ export default function FormNewScenario() {
                 ))}
               </select>
             </div>
-            <div className="param">
+            <div className="param pictureScenar">
               <p>Picture :</p>
-              {pictureScenario === null ? (
+              {pictureScenario === "none" ? (
                 <img src={imgDefaultScenario} alt="Picture of Scenario" />
               ) : (
-                <img src={imgDefaultScenario} alt="Picture of Scenario" /> // A modifier la src !!!
+                <img src={pictureScenario} alt="Picture of Scenario" /> // A modifier la src !!!
               )}
               <input
                 type="file"
-                accept="image/jpeg, image/png"
+                accept="image/jpeg, image/jpg, image/png"
                 onChange={handleChangePicture}
               />
             </div>
@@ -369,13 +385,15 @@ export default function FormNewScenario() {
               <p>Scenario synopsys : {descriptionScenario}</p>
               <textarea
                 placeholder="Resume here"
-                maxLength="1000"
+                maxLength="2000"
                 onChange={handleChangeDescription}
               />
             </div>
           </div>
           <div className="submitScenar">
-            <input type="submit" onClick={handleSubmit} />
+            <button type="button" onClick={handleSubmit}>
+              Send
+            </button>
           </div>
         </div>
       </main>
