@@ -77,8 +77,18 @@ const Navbar = () => {
           <div className="BurgerIcon"></div>
         </div>
       </nav>
-      {openForm && <Login setOpenForm={setOpenForm} />}
-      {openFormSignUp && <SignUp setOpenFormSignUp={setOpenFormSignUp} />}
+      {openForm && (
+        <Login
+          setOpenForm={setOpenForm}
+          setOpenFormSignUp={setOpenFormSignUp}
+        />
+      )}
+      {openFormSignUp && (
+        <SignUp
+          setOpenFormSignUp={setOpenFormSignUp}
+          setOpenForm={setOpenForm}
+        />
+      )}
     </>
   )
 }

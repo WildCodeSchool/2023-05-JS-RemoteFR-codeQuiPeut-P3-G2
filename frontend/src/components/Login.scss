@@ -16,8 +16,8 @@ $fontSizeTitre: 1.5rem;
   align-items: center;
   z-index: 5;
   .logIn {
-    width: 50vw;
-    height: 50vh;
+    width: 45vw;
+    height: 40vh;
     box-sizing: border-box;
     box-shadow: 0 0 20px 3px $blueColor;
     background-color: $colorDark;
@@ -26,27 +26,61 @@ $fontSizeTitre: 1.5rem;
     font-size: $fontSizeP;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    .conteneurSVG {
+    .imgcontainer {
       display: flex;
-      justify-content: center;
-      object-fit: cover;
-      width: 20%;
-      svg {
-        width: 100%;
-        height: 5px;
-        stroke: #ffffff;
-      }
+      justify-content: flex-end;
+      width: 100%;
+      margin-right: 32px;
+      margin-top: 16px;
     }
-    .EmailPassword {
+    .containerForm {
       display: flex;
       flex-direction: column;
-      margin-top: 16px;
-      gap: 16px;
-      .labelInput {
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      span {
+        color: $colorYellow;
+        cursor: pointer;
+      }
+      .conteneurSVG {
+        display: flex;
+        justify-content: center;
+        object-fit: cover;
+        width: 20%;
+        svg {
+          width: 100%;
+          height: 5px;
+          stroke: #ffffff;
+        }
+      }
+      .EmailPassword {
         display: flex;
         flex-direction: column;
+        margin-top: 16px;
+        margin-bottom: 16px;
+        justify-content: center;
+        .labelInput {
+          display: flex;
+          flex-direction: column;
+          margin-bottom: 16px;
+          label {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 8px;
+          }
+          input {
+            font-size: $fontSizeP;
+            width: 100%;
+            height: 30px;
+            border-color: $blueColor;
+            display: flex;
+            justify-content: center;
+            background-color: $colorDark;
+            color: $colorWhite;
+          }
+        }
       }
 
       button {
@@ -56,6 +90,11 @@ $fontSizeTitre: 1.5rem;
         background-color: #ffffff;
         color: $colorDark;
         font-size: $fontSizeBouton;
+
+        &:hover {
+          background-color: $blueColor;
+          color: $colorWhite;
+        }
       }
     }
   }

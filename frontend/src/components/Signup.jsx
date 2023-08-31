@@ -3,7 +3,7 @@ import "./SignUp.scss"
 import axios from "axios"
 import croix from "../assets/images/Close.svg"
 
-export default function SignUp({ setOpenFormSignUp }) {
+export default function SignUp({ setOpenFormSignUp, setOpenForm }) {
   // const [inscription, setInscription] = useState(false)
   const [lastname, setLastname] = useState("")
   const [firstname, setFirstname] = useState("")
@@ -40,6 +40,11 @@ export default function SignUp({ setOpenFormSignUp }) {
           console.error("Une erreur s'est produite : ", err.message)
         }
       })
+  }
+
+  const HandleCloseFormSignOpenLog = () => {
+    setOpenFormSignUp(false)
+    setOpenForm(true)
   }
 
   const HandleclosFormSignUp = () => {
@@ -119,7 +124,7 @@ export default function SignUp({ setOpenFormSignUp }) {
                 value={login}
                 onChange={HandleChangeLogin}
               />
-              {loginAlreadyUsed ?? <p>Login déjà utilisé</p>}
+              {loginAlreadyUsed && <p>Login déjà utilisé</p>}
             </div>
             <div className="labelInput">
               <label htmlFor="email">Votre mail</label>
@@ -130,7 +135,7 @@ export default function SignUp({ setOpenFormSignUp }) {
                 value={email}
                 onChange={HandleChangeEmail}
               />
-              {emailAlreadyUsed ?? <p>Email déjà utilisé</p>}
+              {emailAlreadyUsed && <p>Email déjà utilisé</p>}
             </div>
             <div className="labelInput">
               <label htmlFor="passWord">Choisissez un mot de passe</label>
@@ -157,7 +162,10 @@ export default function SignUp({ setOpenFormSignUp }) {
           <button type="button" onClick={HandleSubmitSignUp}>
             Confirmer l'inscription
           </button>
-          <p>Si vous avez déjà un compte, connectez vous ici</p>
+          <p>
+            Si vous avez déjà un compte,{" "}
+            <span onClick={HandleCloseFormSignOpenLog}>connectez vous ici</span>
+          </p>
         </div>
       </form>
     </div>
