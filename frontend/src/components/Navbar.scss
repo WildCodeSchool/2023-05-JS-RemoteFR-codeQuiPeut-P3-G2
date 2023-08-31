@@ -1,7 +1,18 @@
 @import url("https://fonts.googleapis.com/css2?family=IM+Fell+Great+Primer+SC&family=Julius+Sans+One&family=Kablammo&family=MedievalSharp&display=swap");
+$colorYellow: #ffbd59;
+$colorDark: #070a09;
+$blueColor: #4c60ae;
+$colorWhite: #ffffff;
+$fontSizeP: 1.2rem;
+$fontSizeBouton: 1.3rem;
+$fontSizeTitre: 1.5rem;
 
 a {
   text-decoration: none;
+}
+
+a:visited{
+  color:white;
 }
 
 .ContainNav {
@@ -9,6 +20,7 @@ a {
   height: 100px;
   width: 100%;
   background-color: #070a09;
+  font-family: Julius Sans One;
 
   .FeatherBox {
     display: flex;
@@ -54,27 +66,50 @@ a {
   height: 100%;
   width: 930px;
 
-  .userConnect {
-    width: 300px;
-    height: 60px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-color: #4c60ae;
-    background-color: #070a09;
-    border-radius: 10px;
-    margin-right: 10px;
-    margin-left: 50px;
-    margin-top: 15px;
-    font-family: Julius Sans One;
-    font-size: 1.5rem;
-    color: #4c60ae;
-    cursor: pointer;
-    &:hover {
-      background-color: #4c60ae;
-      color: #ffffff;
+  .loginContainer{
+    width:400px;
+    height:300px;
+    .userConnect {
+      width: 300px;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-color: #4c60ae;
+      background-color: #070a09;
+      border-radius: 10px;
+      margin-right: 10px;
+      margin-left: 50px;
+      margin-top: 15px;
+      font-family: Julius Sans One;
+      font-size: 1.5rem;
+      color: #4c60ae;
+      cursor: pointer;
+      &:hover {
+        background-color: #4c60ae;
+        color: #ffffff;
+      }
     }
-  }
+      .scrollingMenu{
+        position:relative;
+        z-index:3;
+        background-color:$colorDark ;
+        color:white;
+        font-size: 2rem;
+
+        li{
+          height:70px;
+          display:flex;
+          justify-content: center;
+          align-items: center;
+          text-decoration: none;
+          border-bottom: 2px solid $blueColor;
+        }
+      }
+      .displayNone{
+          display:none;
+        }
+    }
 
   .hidden {
     display: none;
