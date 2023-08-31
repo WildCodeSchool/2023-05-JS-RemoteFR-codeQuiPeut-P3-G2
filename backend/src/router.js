@@ -23,6 +23,10 @@ const {
   deleteImage,
   destroyStyleFromImageID,
 } = require("./middleware/deleteImage")
+const {
+  imageURLProvider,
+  deleteImageForm,
+} = require("./middleware/imageURLProvider")
 
 router.get("/scenarios", scenariosControllers.browse)
 router.get("/scenarios/:id", scenariosControllers.read)
@@ -163,5 +167,8 @@ router.post(
   imagesControllers.createNew,
   imagesControllers.getLast
 )
+
+router.post("/tmpImage", multer, imageURLProvider)
+router.delete("/deleteTmpImage", deleteImageForm)
 
 module.exports = router

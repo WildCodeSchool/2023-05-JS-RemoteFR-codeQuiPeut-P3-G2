@@ -5,78 +5,168 @@ $fontSizeP: 1.2rem;
 $fontSizeBouton: 1.3rem;
 $fontSizeTitre: 1.5rem;
 
-// .mainFormNewScenario {
-//   width: 100%;
-//   height: 100%;
-//   display: flex;
-//   justify-content: center;
-//   font-family: Lustria;
-//   margin-bottom: 20px; // Inutile mais c'est pour que l'on voit le fond du container !
-//   // position: absolute;  // Ne marche pas, fait nimp !
+.mainFormNewScenario {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  font-family: Lustria;
+  margin: 20px 0; // Inutile mais c'est pour que l'on voit le fond du container !
+  // position: absolute;  // Ne marche pas, fait nimp !
 
-//   h2 {
-//     margin: 30px 0 10px 0;
-//     font-size: $fontSizeTitre;
-//   }
+  h2 {
+    margin: 30px 0 10px 0;
+    font-size: $fontSizeTitre;
+  }
 
-//   .formGlobal {
-//     box-sizing: border-box;
-//     width: 50%;
-//     height: 100%;
-//     display: flex;
-//     flex-direction: column;
-//     align-items: center;
-//     color: $blueColor;
-//     font-size: $fontSizeP;
-//     // background-color: $colorDark; // Utile ? marche si desactivé ...
-//     // box-shadow: 0px 0px 20px 5px $blueColor;  // Bonne valeur !!
-//     box-shadow: 0px 0px 20px 5px $colorYellow;  // Pour test
-//     border-radius: 50px;
+  .formGlobal {
+    box-sizing: border-box;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: $blueColor;
+    font-size: $fontSizeP;
+    // background-color: $colorDark; // Utile ? marche si desactivé ...
+    // box-shadow: 0px 0px 20px 5px $blueColor;  // Bonne valeur !!
+    box-shadow: 0px 0px 20px 5px $colorYellow;  // Pour test
+    border-radius: 50px;
 
-//     .params {
-//       width: 75%;
-//       height: 100%;
-//       display: flex;
-//       flex-direction: column;
-//       // align-items: center;
+    .params {
+      width: 75%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 
-//       .param {
-//         width: 75%;
-//         height: 100%;
-//         display: flex;
-//         // flex-direction: column;
-//         border: 3px solid $colorYellow;
-//         border-radius: 5px;
-//         margin: 5px 0;
-//         padding: 10px;
-  
-//         p {
-//           margin: 10px 0;
-//         }
+      // &:nth-child(even) {
+      //   align-items: flex-start;
+      // }
+
+      // &:nth-child(odd) {
+      //   align-items: flex-end;
+      // }
+
+      .inputSelect {
+        margin-left: 35px;
+        width: 100px;
+        height: 25px;
+      }
+
+      .param_playerScenar {
+        color: red;
+        width: 100%;
+        height: 100%;
         
-//         input {
-//           width: 50%;
-//           height: 100%;
-//           background-color: green;
-//         }
-  
-//         .legendScenar {
-//           width: 75%;
-//           height: 100%;
-//           background-color: yellow;
-//         }
-//       }
-//     }
+        div {
+          width: 100%;
+          height: auto;
+          color: yellow;
 
-//     .submitScenar {
-//       margin: 20px 0;
+          div {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            // border: 3px solid $colorYellow;
+            border-radius: 10px;
+            margin: 5px 2px;
+            padding: 10px;
+            // color: green;
+          }
+        }
+
+        p {
+          margin: 5px 0;
+          margin-left: 15px;
+
+        }
+      }
+
+      .param {
+        width: 80%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border: 3px solid $colorYellow;
+        border-radius: 10px;
+        margin: 5px 0;
+        padding: 10px;
+  
+        p {
+          margin: 5px 0;
+          align-items: flex-start;
+        }
+
+        textarea {
+          width: 350px;
+          height: 150px;
+        }
+
+        .inputText {
+          margin-left: 35px;
+          width: 300px;
+          height: 25px;
+        }
+      }
+
+      .pictureScenar {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        
+        p {
+          align-items: flex-start;
+          color: purple;
+        }
+        
+        img {
+          width: 200px;       // A adapter pour la demo !!
+          height: 100px;      // A adapter pour la demo !!
+          margin-bottom: 5px;
+          align-items: center;
+        }
+      }
+
+      .param_playerScenar {
+        width: 75%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        border: 3px solid $colorYellow;
+        border-radius: 5px;
+        margin: 5px 0;
+        padding: 10px;
+
+        div {
+          display: flex;
+          flex-direction: row;
+        }
+
+        .NumberPlayer {
+          width: 75px;
+          height: 25px;
+        }
+
+        p {
+          margin: 0;
+          margin-left: 0;
+        }
+      }
+    }
+
+    .submitScenar {
+      margin: 20px 0;
       
-//       input {
-//         width: 250px;
-//         height: 75px;
-//         font-size: $fontSizeBouton;
-//         border-radius: 10px;
-//       }
-//     }
-//   }    
-// }
+      button {
+        width: 250px;
+        height: 75px;
+        font-size: $fontSizeBouton;
+        border-radius: 10px;
+      }
+    }
+  }    
+}
