@@ -1,15 +1,25 @@
 $blueColor: #4c60ae;
 $colorYellow: #ffbd59;
 
+.all{
+	width:40vw;
+	display:flex;
+	justify-content: space-between;
+	align-items: flex-start;
+
+	.try{
+		font-size: xx-large;
+
+	}
+}
+
 .Title{
   margin-top: 100px;
   color:$blueColor;
 
     h1{
       font-size: 6rem;
-
-			animation: Scroll 20s linear infinite;
-
+			// animation: Scroll 20s linear infinite;
     }
 
 		@keyframes Scroll{
@@ -18,8 +28,10 @@ $colorYellow: #ffbd59;
 			}
 
 		}
+	
 }
 .container{
+
   .Type{
     display: flex;
     justify-content: baseline;
@@ -29,9 +41,20 @@ $colorYellow: #ffbd59;
     	color: white;
   }
  .conseiller{
-    p{
+
+	margin-top: 25px;
+	margin-bottom: 25px;
+	gap:10px;
+	width:18vw;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+
+    button{
       color: #4c60ae; 
-      font-size: larger; 
+      font-size: larger;
+			border: none;
+			background-color:#070a09;
     }
     } 
 
@@ -58,3 +81,54 @@ $colorYellow: #ffbd59;
 		}
 	}
 }
+
+
+/* The switch - the box around the slider */
+.switch {
+	font-size: 1rem;
+	position: relative;
+	display: inline-block;
+	width: 4em;
+	height: 2em;
+ }
+ 
+ /* Hide default HTML checkbox */
+ .switch input {
+	opacity: 0;
+	width: 0;
+	height: 0;
+ }
+ 
+ /* The slider */
+ .slider {
+	position: absolute;
+	cursor: pointer;
+	inset: 0;
+	background-color: #eee;
+	transition: 0.4s;
+	border-radius: 0.5em;
+	box-shadow: 0 0.2em #dfd9d9;
+ }
+ 
+ .slider:before {
+	position: absolute;
+	content: "";
+	height: 1.5em;
+	width: 1.4em;
+	border-radius: 0.3em;
+	left: 0.3em;
+	bottom: 0.7em;
+	background-color: rgb(255, 189, 89);
+	transition: 0.4s;
+	box-shadow: 0 0.4em #bcb4b4;
+ }
+ 
+ .slider:hover::before {
+	box-shadow: 0 0.2em #bcb4b4;
+	bottom: 0.5em;
+ }
+ 
+ input:checked+.slider:before {
+	transform: translateX(2em);
+	background:rgb(255, 189, 89);
+ }
