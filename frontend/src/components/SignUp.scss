@@ -7,7 +7,7 @@ $fontSizeP: 1.2rem;
 $fontSizeBouton: 1.3rem;
 $fontSizeTitre: 1.5rem;
 
-.popUp {
+.popUpSignUp {
   width: 100vw;
   height: 100vh;
   position: absolute;
@@ -15,9 +15,9 @@ $fontSizeTitre: 1.5rem;
   justify-content: center;
   align-items: center;
   z-index: 5;
-  .logIn {
-    width: 45vw;
-    height: 40vh;
+  .signUp {
+    width: 50vw;
+    height: 60vh;
     box-sizing: border-box;
     box-shadow: 0 0 20px 3px $blueColor;
     background-color: $colorDark;
@@ -26,6 +26,7 @@ $fontSizeTitre: 1.5rem;
     font-size: $fontSizeP;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     .imgcontainer {
       display: flex;
@@ -39,7 +40,6 @@ $fontSizeTitre: 1.5rem;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      width: 100%;
       span {
         color: $colorYellow;
         cursor: pointer;
@@ -55,12 +55,19 @@ $fontSizeTitre: 1.5rem;
           stroke: #ffffff;
         }
       }
-      .EmailPassword {
+      .containInformation {
         display: flex;
         flex-direction: column;
         margin-top: 16px;
         margin-bottom: 16px;
         justify-content: center;
+
+        .LastnameFirstname {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          gap: 16px;
+        }
         .labelInput {
           display: flex;
           flex-direction: column;
@@ -82,7 +89,6 @@ $fontSizeTitre: 1.5rem;
           }
         }
       }
-
       button {
         width: 250px;
         height: 50px;
