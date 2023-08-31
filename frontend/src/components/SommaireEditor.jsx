@@ -12,6 +12,10 @@ export default function SommaireEditor(props) {
     setPagesOfScenarioSelected,
     textes,
     setTextes,
+    setDeletedImages,
+    images,
+    setImages,
+    setSelectedElementType,
     handleSave,
     setPageHistory,
     setPageFuture,
@@ -525,6 +529,10 @@ export default function SommaireEditor(props) {
     // on efface l'historique car on ne veut pas pouvoir récupérer dans la nouvelle page les textes et images de la page précédante
     setPageHistory([])
     setPageFuture([])
+    // on remet à 0 deletedImages
+    setDeletedImages([])
+    // on n'affiche rien dans la partie d'édition de style
+    setSelectedElementType("none")
 
     setScenariosOfEditedCampagne((prevstate) =>
       prevstate.map((scenario) =>
@@ -551,15 +559,20 @@ export default function SommaireEditor(props) {
             setTextes(data)
           })
           .catch(() => {
-            // .catch((error)
             // permet de jouer setTextes([]) s'il n'y a pas de données dans la BDD
-            // console.log(error)
             setTextes([])
           })
+
+        axios
+          .get(`http://localhost:4242/pages/${idPageSelected}/images`) // on va chercher les images de la page sélectionnée
+          .then(({ data }) => {
+            setImages(data)
+          })
+          .catch(() => {
+            // permet de jouer setImages([]) s'il n'y a pas de données dans la BDD
+            setImages([])
+          })
       })
-    // .catch((error) =>
-    //   console.log("error axios recup pages du scénario sélectionné", error)
-    // )
   }
 
   const handleClickSelectpage = (pageID) => {
@@ -569,6 +582,10 @@ export default function SommaireEditor(props) {
     // on efface l'historique car on ne veut pas pouvoir récupérer dans la nouvelle page les textes et images de la page précédante
     setPageHistory([])
     setPageFuture([])
+    // on remet à 0 deletedImages
+    setDeletedImages([])
+    // on n'affiche rien dans la partie d'édition de style
+    setSelectedElementType("none")
 
     const newPagesOfScenarioSelected = pagesOfScenarioSelected.map((page) =>
       page.id === pageID
@@ -588,10 +605,18 @@ export default function SommaireEditor(props) {
         setTextes(data)
       })
       .catch(() => {
-        // .catch((error)
         // permet de jouer setTextes([]) s'il n'y a pas de données dans la BDD
-        // console.log(error)
         setTextes([])
+      })
+
+    axios
+      .get(`http://localhost:4242/pages/${idPageSelected}/images`) // on va chercher les images de la page sélectionnée
+      .then(({ data }) => {
+        setImages(data)
+      })
+      .catch(() => {
+        // permet de jouer setImages([]) s'il n'y a pas de données dans la BDD
+        setImages([])
       })
   }
 
@@ -673,95 +698,111 @@ export default function SommaireEditor(props) {
       // on supprime ensuite le style de la page sélectionnée
       // et enfin on supprime la page sélectionnée
       // nécessite d'utiliser des fonctions asynchrones pour que celà se fasse dans le bon ordre
-
       Promise.all(
-        textes.map((texte) =>
-          axios
-            .delete(`http://localhost:4242/styleText/texte/${texte.id}`)
-            .then(() => {
+        images.map((image) =>
+          axios.delete(`http://localhost:4242/images/${image.id}`, {
+            data: {
+              img_src: image.img_src,
+            },
+          })
+        )
+      )
+        .then(() => {
+          return Promise.all(
+            textes.map((texte) =>
               axios
-                .delete(`http://localhost:4242/textes/${texte.id}`)
+                .delete(`http://localhost:4242/styleText/texte/${texte.id}`)
+                .then(() => {
+                  return axios.delete(
+                    `http://localhost:4242/textes/${texte.id}`
+                  )
+                })
+            )
+          )
+        })
+        .then(() => {
+          // suppression du style correspondant à pageID
+          axios
+            .delete(`http://localhost:4242/stylePage/page/${pageID}`)
+            .then(() => {
+              // suppression de la page
+              axios
+                .delete(`http://localhost:4242/pages/${pageID}`)
                 .catch((err) => {
                   console.error(err)
                 })
             })
+            .then(() => {
+              // on récupère l'ensemble des pages du scénario et on les transfère dans le state pagesOfScenarioSelected
+              const scenarioID = scenariosOfEditedCampagne.filter(
+                (scenario) => scenario.selected === true
+              )[0].id
+
+              axios
+                .get(`http://localhost:4242/scenarios/${scenarioID}/pages`)
+                .then(({ data }) => {
+                  data[data.length - 1].selected = true // on se place sur la page créée en la sélectionnant
+                  setPagesOfScenarioSelected(data)
+                  return data
+                })
+                .then((pages) => {
+                  // on met à jour les textes de la page (A FAIRE : METTRE A JOUR EGALEMENT LES IMAGES)
+                  const idPageSelected = pages.filter(
+                    (item) => item.selected === true
+                  )[0].id
+
+                  axios
+                    .get(`http://localhost:4242/pages/${idPageSelected}/textes`) // on va chercher les textes de la page sélectionnée
+                    .then(({ data }) => {
+                      setTextes(data)
+                    })
+                    .catch(() => {
+                      // permet de jouer setTextes([]) s'il n'y a pas de données dans la BDD
+                      setTextes([])
+                    })
+
+                  axios
+                    .get(`http://localhost:4242/pages/${idPageSelected}/images`) // on va chercher les images de la page sélectionnée
+                    .then(({ data }) => {
+                      setImages(data)
+                    })
+                    .catch(() => {
+                      // permet de jouer setImages([]) s'il n'y a pas de données dans la BDD
+                      setImages([])
+                    })
+
+                  // on met à jour les numéros de page sur la page web et dans la base de données
+                  const newPagesOfScenarioSelected = pages.map((page) =>
+                    page.number > pageNumber
+                      ? { ...page, number: page.number - 1 }
+                      : page
+                  )
+
+                  newPagesOfScenarioSelected
+                    .filter((page) => page.id !== pageID)
+                    .map((page) =>
+                      axios
+                        .put(`http://localhost:4242/pages/${page.id}`, {
+                          scenarios_id: page.scenarios_id,
+                          page_types_id: page.page_types_id,
+                          titre: page.titre,
+                          number: page.number,
+                        })
+                        .catch((err) => console.error(err))
+                    )
+
+                  const newPagesOfScenario = newPagesOfScenarioSelected.filter(
+                    (page) => page.id !== pageID
+                  )
+
+                  setPagesOfScenarioSelected(newPagesOfScenario)
+                })
+                .catch((err) => console.error(err))
+            })
             .catch((err) => {
               console.error(err)
             })
-        )
-      ).then(() => {
-        // suppression du style correspondant à pageID
-        axios
-          .delete(`http://localhost:4242/stylePage/page/${pageID}`)
-          .then(() => {
-            // suppression de la page
-            axios
-              .delete(`http://localhost:4242/pages/${pageID}`)
-              .catch((err) => {
-                console.error(err)
-              })
-          })
-          .then(() => {
-            // on récupère l'ensemble des pages du scénario et on les transfère dans le state pagesOfScenarioSelected
-            const scenarioID = scenariosOfEditedCampagne.filter(
-              (scenario) => scenario.selected === true
-            )[0].id
-
-            axios
-              .get(`http://localhost:4242/scenarios/${scenarioID}/pages`)
-              .then(({ data }) => {
-                data[data.length - 1].selected = true // on se place sur la page créée en la sélectionnant
-                setPagesOfScenarioSelected(data)
-                return data
-              })
-              .then((pages) => {
-                // on met à jour les textes de la page (A FAIRE : METTRE A JOUR EGALEMENT LES IMAGES)
-                const idPageSelected = pages.filter(
-                  (item) => item.selected === true
-                )[0].id
-
-                axios
-                  .get(`http://localhost:4242/pages/${idPageSelected}/textes`) // on va chercher les textes de la page sélectionnée
-                  .then(({ data }) => {
-                    setTextes(data)
-                  })
-                  .catch(() => {
-                    // permet de jouer setTextes([]) s'il n'y a pas de données dans la BDD
-                    setTextes([])
-                  })
-
-                // on met à jour les numéros de page sur la page web et dans la base de données
-                const newPagesOfScenarioSelected = pages.map((page) =>
-                  page.number > pageNumber
-                    ? { ...page, number: page.number - 1 }
-                    : page
-                )
-
-                newPagesOfScenarioSelected
-                  .filter((page) => page.id !== pageID)
-                  .map((page) =>
-                    axios
-                      .put(`http://localhost:4242/pages/${page.id}`, {
-                        scenarios_id: page.scenarios_id,
-                        page_types_id: page.page_types_id,
-                        titre: page.titre,
-                        number: page.number,
-                      })
-                      .catch((err) => console.error(err))
-                  )
-
-                const newPagesOfScenario = newPagesOfScenarioSelected.filter(
-                  (page) => page.id !== pageID
-                )
-
-                setPagesOfScenarioSelected(newPagesOfScenario)
-              })
-              .catch((err) => console.error(err))
-          })
-          .catch((err) => {
-            console.error(err)
-          })
-      })
+        })
     }
   }
 

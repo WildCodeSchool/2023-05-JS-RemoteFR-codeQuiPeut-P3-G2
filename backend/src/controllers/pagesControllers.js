@@ -128,6 +128,45 @@ const readPageTexts = (req, res) => {
     })
 }
 
+const readPageImages = (req, res) => {
+  models.pages
+    .readPageImages(req.params.id)
+    .then(([rows]) => {
+      if (rows[0] == null) {
+        res.sendStatus(404)
+      } else {
+        const data = rows.map((item) => ({
+          id: item.id,
+          pages_id: item.pages_id,
+          style_id: item.style_id,
+          img_src: item.img_src,
+          selected: false,
+          style: {
+            position: "absolute",
+            width: item.width,
+            height: item.height,
+            boxSizing: "border-box",
+            top: item.top,
+            left: item.ssi_left,
+            zIndex: item.z_index,
+            borderStyle: item.border_style,
+            borderColor: item.border_color,
+            borderWidth: item.border_width,
+            borderRadius: item.border_radius,
+            boxShadow: item.box_shadow,
+            opacity: item.opacity,
+            padding: item.padding,
+          },
+        }))
+        res.send(data)
+      }
+    })
+    .catch((err) => {
+      console.error(err)
+      res.sendStatus(500)
+    })
+}
+
 module.exports = {
   browse,
   add,
@@ -135,4 +174,5 @@ module.exports = {
   edit,
   destroy,
   readPageTexts,
+  readPageImages,
 }
