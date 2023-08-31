@@ -15,6 +15,7 @@ export default function SommaireEditor(props) {
     setDeletedImages,
     images,
     setImages,
+    setSelectedElementType,
     handleSave,
     setPageHistory,
     setPageFuture,
@@ -530,6 +531,8 @@ export default function SommaireEditor(props) {
     setPageFuture([])
     // on remet à 0 deletedImages
     setDeletedImages([])
+    // on n'affiche rien dans la partie d'édition de style
+    setSelectedElementType("none")
 
     setScenariosOfEditedCampagne((prevstate) =>
       prevstate.map((scenario) =>
@@ -581,6 +584,8 @@ export default function SommaireEditor(props) {
     setPageFuture([])
     // on remet à 0 deletedImages
     setDeletedImages([])
+    // on n'affiche rien dans la partie d'édition de style
+    setSelectedElementType("none")
 
     const newPagesOfScenarioSelected = pagesOfScenarioSelected.map((page) =>
       page.id === pageID

@@ -535,4 +535,27 @@ $fontSizeTitre: 1.5rem;
       border: 5px inset #a98f67;
     }
   }
+
+  .section-opacity {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 50px;
+    width: 80%;
+
+    input {
+      display: block;
+      background-color: $colorDark;
+      color: white;
+      width: 50px;
+      height: 40px;
+      font-size: $fontSizeP;
+      margin-left: auto;
+      margin-right: auto;
+
+      &:hover,
+      &:focus {
+        background-color: $blueColor;
+      }
+    }
+  }
 }

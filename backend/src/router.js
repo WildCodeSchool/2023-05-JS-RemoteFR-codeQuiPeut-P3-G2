@@ -95,6 +95,10 @@ router.get("/saved_style_image/:id", savedStyleImageControllers.read)
 router.put("/saved_style_image/:id", savedStyleImageControllers.edit)
 router.post("/saved_style_image", savedStyleImageControllers.add)
 router.delete("/saved_style_image/:id", savedStyleImageControllers.destroy)
+router.get(
+  "/saved_style_image/utilisateur/:id",
+  savedStyleImageControllers.readFromUtilisateurID
+)
 
 router.get("/saved_style_page", savedStylePageControllers.browse)
 router.get("/saved_style_page/:id", savedStylePageControllers.read)

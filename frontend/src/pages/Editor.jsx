@@ -9,6 +9,7 @@ import redo from "../assets/images/redo.png"
 import iconSupprimer from "../assets/images/iconSupprimer.svg"
 import EditorTextStyle from "../components/EditorTextStyle"
 import EditorPageStyle from "../components/EditorPageStyle"
+import EditorImageStyle from "../components/EditorImageStyle"
 import SommaireEditor from "../components/SommaireEditor"
 import Navbar from "../components/Navbar"
 
@@ -33,12 +34,17 @@ export default function Editor() {
   const [pageHistory, setPageHistory] = useState([]) // pour pouvoir faire un undo
   const [pageFuture, setPageFuture] = useState([]) // pour pouvoir faire un redo
   const [savedTextStyles, setSavedTextStyles] = useState([])
+  const [savedImageStyles, setSavedImageStyles] = useState([])
   const [savedPageStyles, setSavedPageStyles] = useState([])
   const [indexAfficheStyleText, setIndexAfficheStyleText] = useState({
     min: 0,
     max: 2,
   })
   const [indexAfficheStylePage, setIndexAfficheStylePage] = useState({
+    min: 0,
+    max: 1,
+  })
+  const [indexAfficheStyleImage, setIndexAfficheStyleImage] = useState({
     min: 0,
     max: 1,
   })
@@ -138,16 +144,25 @@ export default function Editor() {
   // ----DRAG & DROP : DEPLACEMENT DES TEXTAREA ET DES IMAGES
   // -----------------------------------------------------------
   const handleDragStart = (event, id) => {
-    setTextes((prevState) =>
-      prevState.map((item) =>
-        item.id === id
-          ? { ...item, selected: true }
-          : { ...item, selected: false }
-      )
-    )
-    // event.dataTransfer.setData(
-    //   "application/json",
-    //   JSON.stringify(event.target.value)
+    handleClickElementTexte(id, event)
+    // setTextes((prevState) =>
+    //   prevState.map((item) =>
+    //     item.id === id
+    //       ? { ...item, selected: true }
+    //       : { ...item, selected: false }
+    //   )
+    // )
+  }
+
+  const handleDragStartImage = (event, id) => {
+    handleClickElementImage(id, event)
+
+    // setImages((prevState) =>
+    //   prevState.map((item) =>
+    //     item.id === id
+    //       ? { ...item, selected: true }
+    //       : { ...item, selected: false }
+    //   )
     // )
   }
 
@@ -164,14 +179,29 @@ export default function Editor() {
     // const newLeft = event.pageX;
     const newLeft = 100 * ((event.pageX - pageOffsetX) / pageWidth) + "%"
     // console.log("newTop", newTop, "newLeft", newLeft)
-    setTextes((prevState) =>
-      prevState.map((item) =>
-        item.selected === true
-          ? { ...item, style: { ...item.style, top: newTop, left: newLeft } }
-          : item
+
+    const selectedText = textes.filter((texte) => texte.selected === true)[0]
+    const selectedImage = images.filter((image) => image.selected === true)[0]
+
+    if (selectedText) {
+      setTextes((prevState) =>
+        prevState.map((item) =>
+          item.selected === true
+            ? { ...item, style: { ...item.style, top: newTop, left: newLeft } }
+            : item
+        )
       )
-    )
+    } else if (selectedImage) {
+      setImages((prevState) =>
+        prevState.map((item) =>
+          item.selected === true
+            ? { ...item, style: { ...item.style, top: newTop, left: newLeft } }
+            : item
+        )
+      )
+    }
   }
+
   // ------------------------------------------------------------------------
   // --------------------------------------------------------------------------
 
@@ -275,6 +305,7 @@ export default function Editor() {
   }
 
   const handleMouseMove = (e) => {
+    // console.log(textes[0]);
     const scrollY = window.pageYOffset
     // Si le redimensionnement est activé
     if (resizing !== null) {
@@ -331,6 +362,26 @@ export default function Editor() {
     )
   }
 
+  // application d'un style sauvegardé à l'image sélectionnée
+  const handleClickApplyImageStyle = (styleToApply) => {
+    setImages((prevState) =>
+      prevState.map((item) =>
+        item.selected === true
+          ? {
+              ...item,
+              style: {
+                ...styleToApply,
+                width: item.style.width,
+                height: item.style.height,
+                left: item.style.left,
+                top: item.style.top,
+              },
+            }
+          : item
+      )
+    )
+  }
+
   // application d'un style sauvegardé à la page sélectionnée
   const handleClickApplyPageStyle = (styleToApply) => {
     setPagesOfScenarioSelected((prevState) =>
@@ -360,6 +411,15 @@ export default function Editor() {
   const handleClickNextStylesPage = () => {
     if (indexAfficheStylePage.max < savedPageStyles.length - 1) {
       setIndexAfficheStylePage((prevState) => ({
+        min: prevState.min + 2,
+        max: prevState.max + 2,
+      }))
+    }
+  }
+
+  const handleClickNextStylesImage = () => {
+    if (indexAfficheStyleImage.max < savedImageStyles.length - 1) {
+      setIndexAfficheStyleImage((prevState) => ({
         min: prevState.min + 2,
         max: prevState.max + 2,
       }))
@@ -398,6 +458,22 @@ export default function Editor() {
     }
   }
 
+  const handleClickPreviousStylesImage = () => {
+    if (indexAfficheStyleImage.min > 0) {
+      if (indexAfficheStyleImage.min - 2 < 0) {
+        setIndexAfficheStyleImage((prevState) => ({
+          min: 0,
+          max: 1,
+        }))
+      } else {
+        setIndexAfficheStyleImage((prevState) => ({
+          min: prevState.min - 2,
+          max: prevState.max - 2,
+        }))
+      }
+    }
+  }
+
   // ----FIN SECTION--------------------------------------------------
 
   // ----------------------------------------------------------------------------
@@ -416,6 +492,19 @@ export default function Editor() {
     )
   }
 
+  const handleContextMenuStyleImage = (event, index) => {
+    event.preventDefault()
+    setSavedImageStyles((prevState) => {
+      const newState = [...prevState]
+      newState[index] = { ...newState[index], showDelete: true }
+      return newState
+    })
+
+    setImages((prevState) =>
+      prevState.map((item) => ({ ...item, selected: false }))
+    )
+  }
+
   const handleContextMenuStylePage = (event, index) => {
     event.preventDefault()
     setSavedPageStyles((prevState) => {
@@ -427,6 +516,14 @@ export default function Editor() {
 
   const handleLeaveContextMenuStyleText = (index) => {
     setSavedTextStyles((prevState) => {
+      const newState = [...prevState]
+      newState[index] = { ...newState[index], showDelete: false }
+      return newState
+    })
+  }
+
+  const handleLeaveContextMenuStyleImage = (index) => {
+    setSavedImageStyles((prevState) => {
       const newState = [...prevState]
       newState[index] = { ...newState[index], showDelete: false }
       return newState
@@ -450,6 +547,21 @@ export default function Editor() {
         axios
           .get(`http://localhost:4242/saved_style_text/utilisateur/${user.id}`)
           .then(({ data }) => setSavedTextStyles(data))
+          .catch((err) => console.error(err))
+      })
+      .catch((err) => console.error(err))
+    // setSavedTextStyles((prevState) => prevState.filter((_, i) => i !== index))
+  }
+
+  const handleDeleteStyleImage = (index) => {
+    const styleID = savedImageStyles[index].id
+
+    axios
+      .delete(`http://localhost:4242/saved_style_image/${styleID}`)
+      .then(() => {
+        axios
+          .get(`http://localhost:4242/saved_style_image/utilisateur/${user.id}`)
+          .then(({ data }) => setSavedImageStyles(data))
           .catch((err) => console.error(err))
       })
       .catch((err) => console.error(err))
@@ -843,6 +955,11 @@ export default function Editor() {
         .catch((err) => console.error(err))
 
       axios
+        .get(`http://localhost:4242/saved_style_image/utilisateur/${user.id}`)
+        .then(({ data }) => setSavedImageStyles(data))
+        .catch((err) => console.error(err))
+
+      axios
         .get(`http://localhost:4242/saved_style_page/utilisateur/${user.id}`)
         .then(({ data }) => setSavedPageStyles(data))
         .catch((err) => console.error(err))
@@ -880,8 +997,9 @@ export default function Editor() {
 
   return (
     <>
-      {/* <div className="fausse-navbar"></div> */}
-      <Navbar />
+      <div className="fausse-navbar">
+        <Navbar />
+      </div>
 
       <section className="editor-bandeau-superieur">
         <div className="editor-bandeau-gauche">
@@ -1018,20 +1136,56 @@ export default function Editor() {
             <div className="saved-styles-images">
               <p>Styles des images</p>
               <div className="saved-styles-container">
-                <div className="saved-style">
-                  <p>Style 1</p>
-                </div>
-                <div className="saved-style">
-                  <p>Style 2</p>
-                </div>
+                {/*  */}
+
+                {savedImageStyles
+                  .filter(
+                    (item, index) =>
+                      index >= indexAfficheStyleImage.min &&
+                      index <= indexAfficheStyleImage.max
+                  )
+                  .map((item, index) => (
+                    <button
+                      className="saved-style"
+                      onClick={() => handleClickApplyImageStyle(item.styleCss)}
+                      onContextMenu={(event) =>
+                        handleContextMenuStyleImage(event, index)
+                      }
+                      onMouseLeave={() =>
+                        handleLeaveContextMenuStyleImage(index)
+                      }
+                      key={item.id}
+                    >
+                      {item.styleName}
+                      {savedImageStyles[index].showDelete && (
+                        <input
+                          type="button"
+                          className="button-suppression-style"
+                          onClick={() => handleDeleteStyleImage(index)}
+                          onMouseLeave={() =>
+                            handleLeaveContextMenuStyleImage(index)
+                          }
+                          value="Supprimer"
+                        />
+                      )}
+                    </button>
+                  ))}
+
+                {/*  */}
               </div>
             </div>
 
             <div className="arrowButton-container">
-              <button className="arrowButton">
+              <button
+                className="arrowButton"
+                onClick={handleClickPreviousStylesImage}
+              >
                 <div className="arrowButtonPrevious"></div>{" "}
               </button>
-              <button className="arrowButton">
+              <button
+                className="arrowButton"
+                onClick={handleClickNextStylesImage}
+              >
                 <div className="arrowButtonNext"></div>{" "}
               </button>
             </div>
@@ -1110,6 +1264,7 @@ export default function Editor() {
               handleSave={handleSave}
               setPageHistory={setPageHistory}
               setPageFuture={setPageFuture}
+              setSelectedElementType={setSelectedElementType}
               user={user} // a SUPPRIMER probablement
               author={author} // a SUPPRIMER éventuellement, a voir
             />
@@ -1132,6 +1287,15 @@ export default function Editor() {
                 setSavedPageStyles={setSavedPageStyles}
                 user={user}
               />
+            ) : selectedElementType === "image" ? (
+              <EditorImageStyle
+                images={images}
+                setImages={setImages}
+                savedImageStyles={savedImageStyles}
+                setSavedImageStyles={setSavedImageStyles}
+                user={user}
+                pagesOfScenarioSelected={pagesOfScenarioSelected}
+              />
             ) : null}
           </div>
         </section>
@@ -1147,6 +1311,7 @@ export default function Editor() {
             handleDrop={handleDrop}
             handleChangeTexte={handleChangeTexte}
             handleDragStart={handleDragStart}
+            handleDragStartImage={handleDragStartImage}
             handleClickElementTexte={handleClickElementTexte}
             handleClickElementImage={handleClickElementImage}
             handleMouseDown={handleMouseDown}
