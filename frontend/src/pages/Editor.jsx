@@ -12,6 +12,7 @@ import EditorPageStyle from "../components/EditorPageStyle"
 import EditorImageStyle from "../components/EditorImageStyle"
 import SommaireEditor from "../components/SommaireEditor"
 import Navbar from "../components/Navbar"
+import FormNewScenario from "./FormNewScenario"
 
 export default function Editor() {
   const [user, setUser] = useState({}) // à SUPPRIMER par la suite, à récupérer via un context
@@ -36,6 +37,7 @@ export default function Editor() {
   const [savedTextStyles, setSavedTextStyles] = useState([])
   const [savedImageStyles, setSavedImageStyles] = useState([])
   const [savedPageStyles, setSavedPageStyles] = useState([])
+  const [showNewScenario, setShowNewScenario] = useState(false)
   const [indexAfficheStyleText, setIndexAfficheStyleText] = useState({
     min: 0,
     max: 2,
@@ -646,6 +648,7 @@ export default function Editor() {
   // ------FONCTIONS POUR OUVRIR ou AJOUTER / CREER UN NOUVEAU SCENARIO----
   // ---------------------------------------------------------------------------
   const handleClickNouveauScenario = () => {
+    setShowNewScenario(!showNewScenario)
     // const scenarioName = prompt("Entrez un nom pour votre scénario")
   }
 
@@ -1327,6 +1330,21 @@ export default function Editor() {
           />
         </div>
       </main>
+
+      {showNewScenario && (
+        <FormNewScenario
+          campaignID={editedCampagne.id}
+          authorID={author.id}
+          setScenariosOfEditedCampagne={setScenariosOfEditedCampagne}
+          scenariosOfEditedCampagne={scenariosOfEditedCampagne}
+          setPagesOfScenarioSelected={setPagesOfScenarioSelected}
+          setImages={setImages}
+          setPageFuture={setPageFuture}
+          setPageHistory={setPageHistory}
+          setTextes={setTextes}
+          setShowNewScenario={setShowNewScenario}
+        />
+      )}
     </>
   )
 }
