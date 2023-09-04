@@ -81,10 +81,109 @@ const destroy = (req, res) => {
     })
 }
 
+const readUserByEmail = (req, res, next) => {
+  models.utilisateurs
+    .readUserByEmail(req.body.email)
+    .then(([rows]) => {
+      if (rows[0] == null) {
+        res.sendStatus(404)
+      } else {
+        // res.send(rows[0])
+        req.user = rows[0]
+        next()
+      }
+    })
+    .catch((err) => {
+      console.error(err)
+      res.sendStatus(500)
+    })
+}
+
+const readUserByLogin = (req, res, next) => {
+  models.utilisateurs
+    .readUserByEmail(req.body.login)
+    .then(([rows]) => {
+      if (rows[0] == null) {
+        res.sendStatus(404)
+      } else {
+        // res.send(rows[0])
+        req.user = rows[0]
+        next()
+      }
+    })
+    .catch((err) => {
+      console.error(err)
+      res.sendStatus(500)
+    })
+}
+
+const verifyEmail = (req, res, next) => {
+  models.utilisateurs
+    .readUserByEmail(req.body.email)
+    .then(([rows]) => {
+      if (rows[0] == null) {
+        next()
+      } else {
+        res.sendStatus(404)
+      }
+    })
+    .catch((err) => {
+      console.error(err)
+      res.status(500).send({ errorMessage: "Mail déjà existant" })
+    })
+}
+
+const verifyLogin = (req, res, next) => {
+  models.utilisateurs
+    .readUserByLogin(req.body.login)
+    .then(([rows]) => {
+      if (rows[0] == null) {
+        next()
+      } else {
+        // res.send(rows[0])
+        res.sendStatus(404)
+      }
+    })
+    .catch((err) => {
+      console.error(err)
+      res.status(500).send({ errorMessage: "Login déjà existant" })
+    })
+}
+
+const verifyPassword = (req, res, next) => {
+  if (req.body.password === req.user.password) {
+    next()
+  } else {
+    res.sendStatus(404)
+  }
+}
+
+const sendUserWhoHasGoodEmailAndPassword = (req, res) => {
+  models.utilisateurs
+    .sendUserWhoHasGoodEmailAndPassword(req.body.email)
+    .then(([rows]) => {
+      if (rows[0] == null) {
+        res.sendStatus(404)
+      } else {
+        res.send(rows[0])
+      }
+    })
+    .catch((err) => {
+      console.error(err)
+      res.sendStatus(500)
+    })
+}
+
 module.exports = {
   browse,
   add,
   read,
   edit,
   destroy,
+  readUserByEmail,
+  readUserByLogin,
+  verifyPassword,
+  verifyEmail,
+  verifyLogin,
+  sendUserWhoHasGoodEmailAndPassword,
 }

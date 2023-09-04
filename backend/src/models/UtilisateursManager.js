@@ -7,7 +7,7 @@ class UtilisateursManager extends AbstractManager {
 
   insert(utilisateurs) {
     return this.database.query(
-      `insert into ${this.table} (lastname, firstname, login, email, password, img, inscription_date) values (?,?,?,?,?,?,?)`,
+      `insert into ${this.table} (lastname, firstname, login, email, password, img) values (?,?,?,?,?,?)`,
       [
         utilisateurs.lastname,
         utilisateurs.firstname,
@@ -15,14 +15,13 @@ class UtilisateursManager extends AbstractManager {
         utilisateurs.email,
         utilisateurs.password,
         utilisateurs.img,
-        utilisateurs.inscription_date,
       ]
     )
   }
 
   update(utilisateurs, id) {
     return this.database.query(
-      `update ${this.table} set lastname = ?, firstname = ?, login = ?, email = ?, password = ?, img = ?, inscription_date = ? WHERE id = ?`,
+      `update ${this.table} set lastname = ?, firstname = ?, login = ?, email = ?, password = ?, img = ? WHERE id = ?`,
       [
         utilisateurs.lastname,
         utilisateurs.firstname,
@@ -30,9 +29,27 @@ class UtilisateursManager extends AbstractManager {
         utilisateurs.email,
         utilisateurs.password,
         utilisateurs.img,
-        utilisateurs.inscription_date,
         id,
       ]
+    )
+  }
+
+  readUserByEmail(email) {
+    return this.database.query(`select * from  ${this.table} where email = ?`, [
+      email,
+    ])
+  }
+
+  readUserByLogin(login) {
+    return this.database.query(`select * from  ${this.table} where login = ?`, [
+      login,
+    ])
+  }
+
+  sendUserWhoHasGoodEmailAndPassword(email) {
+    return this.database.query(
+      `select id, lastname, firstname, login, email, img, inscription_date from  ${this.table} where email = ?`,
+      [email]
     )
   }
 }

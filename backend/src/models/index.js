@@ -40,8 +40,11 @@ const AuteursManager = require("./AuteursManager")
 const CampagnesManager = require("./CampagnesManager")
 const PagesManager = require("./PagesManager")
 const StyleTextManager = require("./StyleTextManager")
+const StyleImageManager = require("./StyleImageManager")
 const TextesManager = require("./TextesManager")
+const ImagesManager = require("./ImagesManager")
 const StylePageManager = require("./StylePageManager")
+const RoleGamesManager = require("./RoleGamesManager")
 
 models.scenarios = new ScenariosManager()
 models.scenarios.setDatabase(pool)
@@ -76,11 +79,20 @@ models.pages.setDatabase(pool)
 models.styleText = new StyleTextManager()
 models.styleText.setDatabase(pool)
 
+models.styleImage = new StyleImageManager()
+models.styleImage.setDatabase(pool)
+
 models.textes = new TextesManager()
 models.textes.setDatabase(pool)
 
 models.stylePage = new StylePageManager()
 models.stylePage.setDatabase(pool)
+
+models.roleGames = new RoleGamesManager()
+models.roleGames.setDatabase(pool)
+
+models.images = new ImagesManager()
+models.images.setDatabase(pool)
 
 // bonus: use a proxy to personalize error message,
 // when asking for a non existing model
