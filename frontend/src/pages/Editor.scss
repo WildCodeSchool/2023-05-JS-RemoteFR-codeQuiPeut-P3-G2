@@ -93,6 +93,15 @@ $fontSizeTitre: 1.5rem;
             color: $blueColor;
           }
         }
+
+        .button-new-scenario {
+          height: 60px;
+
+          span {
+            font-size: 0.9rem;
+            font-style: italic;
+          }
+        }
       }
     }
   }

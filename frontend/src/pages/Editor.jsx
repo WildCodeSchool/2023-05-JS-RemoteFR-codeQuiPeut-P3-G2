@@ -1,5 +1,6 @@
 import axios from "axios"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
+import MyContext from "../components/MyContext"
 import EditorPage from "../components/EditorPage"
 import saveDisquette from "../assets/images/saveDisquette.svg"
 import addText from "../assets/images/addText.svg"
@@ -16,7 +17,9 @@ import FormNewScenario from "./FormNewScenario"
 import FormEditScenario from "./FormEditScenario"
 
 export default function Editor() {
-  const [user, setUser] = useState({}) // à SUPPRIMER par la suite, à récupérer via un context
+  // const [user, setUser] = useState({}) // à SUPPRIMER par la suite, à récupérer via un context
+  const { user } = useContext(MyContext)
+
   const [author, setAuthor] = useState({}) // (id, authorName)
   const [campagnesUtilisateur, setCampagnesUtilisateur] = useState([]) // (id, campagneName)
   const [editedCampagne, setEditedCampagne] = useState({})
@@ -40,7 +43,9 @@ export default function Editor() {
   const [savedImageStyles, setSavedImageStyles] = useState([])
   const [savedPageStyles, setSavedPageStyles] = useState([])
   const [showNewScenario, setShowNewScenario] = useState(false)
+  const [showNewCampaign, setShowNewCampaign] = useState(false)
   const [showEditScenario, setShowEditScenario] = useState(false)
+  const [showMenuButtonNew, setShowMenuButtonNew] = useState(false)
   const [indexAfficheStyleText, setIndexAfficheStyleText] = useState({
     min: 0,
     max: 2,
@@ -62,24 +67,15 @@ export default function Editor() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4242/utilisateurs/1")
+      .get(`http://localhost:4242/auteurs/user/${user.id}`)
       .then(({ data }) => {
-        setUser(data)
+        setAuthor(data)
         return data
       })
-      .then((userData) => {
+      .then((author) => {
         axios
-          .get(`http://localhost:4242/auteurs/user/${userData.id}`)
-          .then(({ data }) => {
-            setAuthor(data)
-            return data
-          })
-          .then((author) => {
-            axios
-              .get(`http://localhost:4242/auteurs/${author.id}/campagnes`) // A MODIFIER - NE FONCTIONNE PAS ?? (sur de ça ? a verifier)
-              .then(({ data }) => setCampagnesUtilisateur(data))
-              .catch((err) => console.error(err))
-          })
+          .get(`http://localhost:4242/auteurs/${author.id}/campagnes`) // A MODIFIER - NE FONCTIONNE PAS ?? (sur de ça ? a verifier)
+          .then(({ data }) => setCampagnesUtilisateur(data))
           .catch((err) => console.error(err))
       })
       .catch((err) => console.error(err))
@@ -650,9 +646,21 @@ export default function Editor() {
   // ----------------------------------------------------------------------------
   // ------FONCTIONS POUR OUVRIR ou AJOUTER / CREER UN NOUVEAU SCENARIO----
   // ---------------------------------------------------------------------------
+  const handleClickMenuNew = () => {
+    setShowMenuButtonNew(!showMenuButtonNew)
+  }
+
   const handleClickNouveauScenario = () => {
     setShowNewScenario(!showNewScenario)
     // const scenarioName = prompt("Entrez un nom pour votre scénario")
+  }
+
+  const handleClickNewCampaign = () => {
+    setShowNewCampaign(!showNewCampaign)
+  }
+
+  const handleLeaveButtonNew = () => {
+    setShowMenuButtonNew(false)
   }
 
   const handleClickOpen = () => {
@@ -1010,20 +1018,42 @@ export default function Editor() {
       <section className="editor-bandeau-superieur">
         <div className="editor-bandeau-gauche">
           <img src={saveDisquette} alt="save" onClick={handleSave} />
-          <button
-            type="button"
-            onClick={handleClickNouveauScenario}
-            className="button-editor-bandeau-gauche"
-          >
-            Nouveau
-          </button>
+
+          <div className="div-menu-open">
+            <button
+              type="button"
+              onClick={handleClickMenuNew}
+              className="button-editor-bandeau-gauche"
+            >
+              New
+            </button>
+
+            {showMenuButtonNew && (
+              <div className="menu-open" onMouseLeave={handleLeaveButtonNew}>
+                {editedCampagne.id && (
+                  <button
+                    type="button"
+                    onClick={handleClickNouveauScenario}
+                    className="button-new-scenario"
+                  >
+                    New scenario <br /> <span>(in current campaign)</span>
+                  </button>
+                )}
+
+                <button type="button" onClick={handleClickNewCampaign}>
+                  New campaign
+                </button>
+              </div>
+            )}
+          </div>
+
           <div className="div-menu-open">
             <button
               type="button"
               className="button-editor-bandeau-gauche"
               onClick={handleClickOpen}
             >
-              Ouvrir
+              Open
             </button>
             <div className="menu-open" onMouseLeave={handleLeaveOpen}>
               {showMenuOpen &&
@@ -1086,7 +1116,7 @@ export default function Editor() {
 
           <section className="container-saved-styles-text">
             <div className="saved-styles-text">
-              <p>Styles des textes</p>
+              <p>Text styles</p>
               <div className="saved-styles-container">
                 {savedTextStyles
                   .filter(
@@ -1140,7 +1170,7 @@ export default function Editor() {
 
           <section className="container-saved-styles-image">
             <div className="saved-styles-images">
-              <p>Styles des images</p>
+              <p>Image styles</p>
               <div className="saved-styles-container">
                 {/*  */}
 
@@ -1200,7 +1230,7 @@ export default function Editor() {
 
         <div className="editor-bandeau-droite">
           <section className="container-pages-saved-styles">
-            <p>Styles des pages</p>
+            <p>Page styles</p>
             <div className="saved-styles-container">
               {/* ////////////////////////////// */}
               {savedPageStyles
