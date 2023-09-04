@@ -17,6 +17,8 @@ const campagnesControllers = require("./controllers/campagnesControllers")
 const pagesControllers = require("./controllers/pagesControllers")
 const textesControllers = require("./controllers/textesControllers")
 const rolegamesControllers = require("./controllers/rolegamesControllers")
+const themesControllers = require("./controllers/themesControllers")
+const scenarioThemesControllers = require("./controllers/scenarioThemesControllers")
 const imagesControllers = require("./controllers/imagesControllers")
 const multer = require("./middleware/multer-config")
 const {
@@ -29,11 +31,17 @@ const {
 } = require("./middleware/imageURLProvider")
 
 router.get("/scenarios", scenariosControllers.browse)
-router.get("/scenarios/:id", scenariosControllers.read)
+// router.get("/scenarios/:id", scenariosControllers.read)
+router.get("/scenarios/:id", scenariosControllers.readWithTheme)
 router.put("/scenarios/:id", scenariosControllers.edit)
 router.post("/scenarios", scenariosControllers.add)
 router.delete("/scenarios/:id", scenariosControllers.destroy)
 router.get("/scenarios/:id/pages", scenariosControllers.readPages)
+
+router.get("/themesScenarios", scenarioThemesControllers.browse)
+router.put("/themesScenarios/:id", scenarioThemesControllers.edit)
+router.post("/themesScenarios", scenarioThemesControllers.add)
+router.delete("/themesScenarios/:id", scenarioThemesControllers.destroy)
 
 router.get("/utilisateurs", utilisateursControllers.browse)
 router.get("/utilisateurs/:id", utilisateursControllers.read)
@@ -170,6 +178,12 @@ router.get("/rolegames/:id", rolegamesControllers.read)
 router.post("/rolegames", rolegamesControllers.add)
 router.put("/rolegames/:id", rolegamesControllers.edit)
 router.delete("/rolegames/:id", rolegamesControllers.destroy)
+
+router.get("/themes", themesControllers.browse)
+router.get("/themes/:id", themesControllers.read)
+router.post("/themes", themesControllers.add)
+router.put("/themes/:id", themesControllers.edit)
+router.delete("/themes/:id", themesControllers.destroy)
 
 router.post(
   "/pages/:id/newImage",
