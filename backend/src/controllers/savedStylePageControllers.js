@@ -82,10 +82,36 @@ const destroy = (req, res) => {
     })
 }
 
+const readFromUtilisateurID = (req, res) => {
+  models.savStylPag
+    .readFromUtilisateurID(req.params.id)
+    .then(([rows]) => {
+      if (rows[0] == null) {
+        res.sendStatus(404)
+      } else {
+        const userPageStyles = rows.map((style) => ({
+          id: style.id,
+          styleName: style.styleName,
+          showDelete: false,
+          styleCss: {
+            backgroundColor: style.background_color,
+            padding: style.padding,
+          },
+        }))
+        res.send(userPageStyles)
+      }
+    })
+    .catch((err) => {
+      console.error(err)
+      res.sendStatus(500)
+    })
+}
+
 module.exports = {
   browse,
   add,
   read,
   edit,
   destroy,
+  readFromUtilisateurID,
 }

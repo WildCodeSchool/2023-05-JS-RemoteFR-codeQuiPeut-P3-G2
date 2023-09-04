@@ -111,11 +111,9 @@ class StyleTextManager extends AbstractManager {
 
     const styleID = results[0].id
 
-    return this.database.query(
-      `DELETE from ${this.table} where id = ?`,
-      [styleID],
-      [styleID]
-    )
+    return this.database.query(`DELETE from ${this.table} where id = ?`, [
+      styleID,
+    ])
   }
 }
 

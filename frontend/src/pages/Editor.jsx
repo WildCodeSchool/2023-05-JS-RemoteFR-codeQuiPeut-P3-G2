@@ -3,11 +3,13 @@ import { useState, useEffect } from "react"
 import EditorPage from "../components/EditorPage"
 import saveDisquette from "../assets/images/saveDisquette.svg"
 import addText from "../assets/images/addText.svg"
-import addImg from "../assets/images/addImg.svg"
+// import addImg from "../assets/images/addImg.svg"
 import undo from "../assets/images/undo.png"
 import redo from "../assets/images/redo.png"
 import iconSupprimer from "../assets/images/iconSupprimer.svg"
 import EditorTextStyle from "../components/EditorTextStyle"
+import EditorPageStyle from "../components/EditorPageStyle"
+import EditorImageStyle from "../components/EditorImageStyle"
 import SommaireEditor from "../components/SommaireEditor"
 import Navbar from "../components/Navbar"
 
@@ -18,9 +20,9 @@ export default function Editor() {
   const [editedCampagne, setEditedCampagne] = useState({})
   const [scenariosOfEditedCampagne, setScenariosOfEditedCampagne] = useState([])
   const [pagesOfScenarioSelected, setPagesOfScenarioSelected] = useState([])
-
+  const [selectedElementType, setSelectedElementType] = useState("none")
   const [showMenuOpen, setShowMenuOpen] = useState(false)
-
+  const [deletedImages, setDeletedImages] = useState([])
   const [mounted, setMounted] = useState(false)
   const [pageWidth, setPageWidth] = useState()
   const [pageHeight, setPageHeight] = useState()
@@ -32,9 +34,19 @@ export default function Editor() {
   const [pageHistory, setPageHistory] = useState([]) // pour pouvoir faire un undo
   const [pageFuture, setPageFuture] = useState([]) // pour pouvoir faire un redo
   const [savedTextStyles, setSavedTextStyles] = useState([])
+  const [savedImageStyles, setSavedImageStyles] = useState([])
+  const [savedPageStyles, setSavedPageStyles] = useState([])
   const [indexAfficheStyleText, setIndexAfficheStyleText] = useState({
     min: 0,
     max: 2,
+  })
+  const [indexAfficheStylePage, setIndexAfficheStylePage] = useState({
+    min: 0,
+    max: 1,
+  })
+  const [indexAfficheStyleImage, setIndexAfficheStyleImage] = useState({
+    min: 0,
+    max: 1,
   })
 
   const maPage = document.querySelector(".section-page")
@@ -80,50 +92,9 @@ export default function Editor() {
     const newTop = (100 * (e.pageY - pageOffsetY)) / pageHeight + "%"
 
     const newLeft = (100 * (e.pageX - pageOffsetX)) / pageWidth + "%"
-
     const idPageSelected = pagesOfScenarioSelected.filter(
       (item) => item.selected === true
     )[0].id
-
-    // let newID = null
-
-    // if (textes.length === 0) {
-    //   newID = 1
-    // } else {
-    //   newID = textes[textes.length - 1].id + 1
-    // }
-
-    // const newTextearea = {
-    //   id: newID,
-    //   text: "",
-    //   placeHolder: "Tapez votre texte",
-    //   selected: true,
-    //   style: {
-    //     backgroundColor: "rgba(250,250,250,1)",
-    //     position: "absolute",
-    //     width: "50%",
-    //     height: "5%",
-    //     boxSizing: "border-box",
-    //     top: newTop,
-    //     left: newLeft,
-    //     zIndex: 0,
-    //     borderStyle: "none",
-    //     borderColor: "rgba(200,200,200,1)",
-    //     borderWidth: 1,
-    //     borderRadius: 0,
-    //     boxShadow: "0px 0px 0px 0px rgba(0,0,0,0)",
-    //     fontSize: "1.25rem",
-    //     fontStyle: "normal",
-    //     textDecoration: "none",
-    //     fontWeight: 400,
-    //     fontFamily: "cursive",
-    //     color: "rgba(0,0,0,1)",
-    //     padding: "4px",
-    //     textAlign: "left",
-    //     backdropFilter: "blur(0px)",
-    //     WebkitBackdropFilter: "blur(0px)",
-    //   },
-    // }
 
     if (addNewText === true) {
       // quand on ajoute un élément à la page on ne peux plus rétablir l'ancien état
@@ -157,19 +128,13 @@ export default function Editor() {
           console.error(error)
         })
 
-      // const newTextes = textes
-      // newTextes.push(newTextearea)
-      // setTextes(newTextes)
       setAddNewText(false)
-
-      // le champ selected de tous les textes passe à false sauf celui qu'on vient de déposer
-      // setTextes((prevState) =>
-      //   prevState.map((item) =>
-      //     item.id === newID
-      //       ? { ...item, selected: true }
-      //       : { ...item, selected: false }
-      //   )
-      // )
+    } else {
+      // si on n'est pas en train d'ajouter un élément dans la page alors on affiche l'éditeur de style de la page
+      const pageID = pagesOfScenarioSelected.filter(
+        (page) => page.selected === true
+      )[0].id
+      handleClickElementPage(pageID)
     }
   }
   // ------------------------------------------------------------
@@ -179,16 +144,25 @@ export default function Editor() {
   // ----DRAG & DROP : DEPLACEMENT DES TEXTAREA ET DES IMAGES
   // -----------------------------------------------------------
   const handleDragStart = (event, id) => {
-    setTextes((prevState) =>
-      prevState.map((item) =>
-        item.id === id
-          ? { ...item, selected: true }
-          : { ...item, selected: false }
-      )
-    )
-    // event.dataTransfer.setData(
-    //   "application/json",
-    //   JSON.stringify(event.target.value)
+    handleClickElementTexte(id, event)
+    // setTextes((prevState) =>
+    //   prevState.map((item) =>
+    //     item.id === id
+    //       ? { ...item, selected: true }
+    //       : { ...item, selected: false }
+    //   )
+    // )
+  }
+
+  const handleDragStartImage = (event, id) => {
+    handleClickElementImage(id, event)
+
+    // setImages((prevState) =>
+    //   prevState.map((item) =>
+    //     item.id === id
+    //       ? { ...item, selected: true }
+    //       : { ...item, selected: false }
+    //   )
     // )
   }
 
@@ -205,21 +179,40 @@ export default function Editor() {
     // const newLeft = event.pageX;
     const newLeft = 100 * ((event.pageX - pageOffsetX) / pageWidth) + "%"
     // console.log("newTop", newTop, "newLeft", newLeft)
-    setTextes((prevState) =>
-      prevState.map((item) =>
-        item.selected === true
-          ? { ...item, style: { ...item.style, top: newTop, left: newLeft } }
-          : item
+
+    const selectedText = textes.filter((texte) => texte.selected === true)[0]
+    const selectedImage = images.filter((image) => image.selected === true)[0]
+
+    if (selectedText) {
+      setTextes((prevState) =>
+        prevState.map((item) =>
+          item.selected === true
+            ? { ...item, style: { ...item.style, top: newTop, left: newLeft } }
+            : item
+        )
       )
-    )
+    } else if (selectedImage) {
+      setImages((prevState) =>
+        prevState.map((item) =>
+          item.selected === true
+            ? { ...item, style: { ...item.style, top: newTop, left: newLeft } }
+            : item
+        )
+      )
+    }
   }
+
   // ------------------------------------------------------------------------
   // --------------------------------------------------------------------------
 
   // quand on clique sur un élément son state selected passe à true, le state des autres éléments passe à false
   // ceci permet de modifier le style ou la position uniquement de l'élément sélectionné
-  const handleClickElement = (id) => {
-    // console.log(textes.filter(texte => texte.id = id)[0]);
+  const handleClickElementTexte = (id, e) => {
+    // quand on clique sur un texte
+    e.stopPropagation() // permet de ne pas lancer les évenements au click de l'élément parent (page) qui a aussi un evenement onClick qui lui est propre
+
+    setSelectedElementType("texte")
+
     setTextes((prevState) =>
       prevState.map((item) =>
         item.id === id
@@ -227,11 +220,64 @@ export default function Editor() {
           : { ...item, selected: false }
       )
     )
+
+    setPagesOfScenarioSelected((prevStates) =>
+      prevStates.map((item) => ({ ...item, styleSelected: false }))
+    )
+
+    setImages((prevState) =>
+      prevState.map((item) => ({ ...item, selected: false }))
+    )
+  }
+
+  const handleClickElementImage = (id, e) => {
+    // quand on clique sur un texte
+    e.stopPropagation() // permet de ne pas lancer les évenements au click de l'élément parent (page) qui a aussi un evenement onClick qui lui est propre
+
+    setSelectedElementType("image")
+
+    setImages((prevState) =>
+      prevState.map((item) =>
+        item.id === id
+          ? { ...item, selected: true }
+          : { ...item, selected: false }
+      )
+    )
+
+    setPagesOfScenarioSelected((prevStates) =>
+      prevStates.map((item) => ({ ...item, styleSelected: false }))
+    )
+
+    setTextes((prevState) =>
+      prevState.map((item) => ({ ...item, selected: false }))
+    )
+  }
+
+  const handleClickElementPage = (id) => {
+    // quand on clique sur une page
+    setSelectedElementType("page")
+
+    if (selectedElementType === "page") {
+      setTextes((prevState) =>
+        prevState.map((item) => ({ ...item, selected: false }))
+      )
+
+      setPagesOfScenarioSelected((prevState) =>
+        prevState.map((item) =>
+          item.id === id
+            ? { ...item, styleSelected: true }
+            : { ...item, styleSelected: false }
+        )
+      )
+
+      setImages((prevState) =>
+        prevState.map((item) => ({ ...item, selected: false }))
+      )
+    }
   }
 
   // enregistrement du texte des textearea lors de leur modification
   const handleChangeTexte = (id, newText) => {
-    // console.log("id",id);
     setTextes((prevState) =>
       prevState.map((item) =>
         item.id === id ? { ...item, text: newText } : item
@@ -254,11 +300,12 @@ export default function Editor() {
       // Si oui, activer le redimensionnement
       setResizing(id)
 
-      handleClickElement()
+      handleClickElementTexte()
     }
   }
 
   const handleMouseMove = (e) => {
+    // console.log(textes[0]);
     const scrollY = window.pageYOffset
     // Si le redimensionnement est activé
     if (resizing !== null) {
@@ -315,6 +362,40 @@ export default function Editor() {
     )
   }
 
+  // application d'un style sauvegardé à l'image sélectionnée
+  const handleClickApplyImageStyle = (styleToApply) => {
+    setImages((prevState) =>
+      prevState.map((item) =>
+        item.selected === true
+          ? {
+              ...item,
+              style: {
+                ...styleToApply,
+                width: item.style.width,
+                height: item.style.height,
+                left: item.style.left,
+                top: item.style.top,
+              },
+            }
+          : item
+      )
+    )
+  }
+
+  // application d'un style sauvegardé à la page sélectionnée
+  const handleClickApplyPageStyle = (styleToApply) => {
+    setPagesOfScenarioSelected((prevState) =>
+      prevState.map((item) =>
+        item.selected === true
+          ? {
+              ...item,
+              style: styleToApply,
+            }
+          : item
+      )
+    )
+  }
+
   // ----------------------------------------------------------------------------
   // ------FONCTIONS CLICK SUR FLECHES PERMETTANT LE CHANGEMENT D'AFFICHAGE DES STYLES SAUVEGARDES----
   // ---------------------------------------------------------------------------
@@ -323,6 +404,24 @@ export default function Editor() {
       setIndexAfficheStyleText((prevState) => ({
         min: prevState.min + 3,
         max: prevState.max + 3,
+      }))
+    }
+  }
+
+  const handleClickNextStylesPage = () => {
+    if (indexAfficheStylePage.max < savedPageStyles.length - 1) {
+      setIndexAfficheStylePage((prevState) => ({
+        min: prevState.min + 2,
+        max: prevState.max + 2,
+      }))
+    }
+  }
+
+  const handleClickNextStylesImage = () => {
+    if (indexAfficheStyleImage.max < savedImageStyles.length - 1) {
+      setIndexAfficheStyleImage((prevState) => ({
+        min: prevState.min + 2,
+        max: prevState.max + 2,
       }))
     }
   }
@@ -338,6 +437,38 @@ export default function Editor() {
         setIndexAfficheStyleText((prevState) => ({
           min: prevState.min - 3,
           max: prevState.max - 3,
+        }))
+      }
+    }
+  }
+
+  const handleClickPreviousStylesPage = () => {
+    if (indexAfficheStylePage.min > 0) {
+      if (indexAfficheStylePage.min - 2 < 0) {
+        setIndexAfficheStylePage((prevState) => ({
+          min: 0,
+          max: 1,
+        }))
+      } else {
+        setIndexAfficheStylePage((prevState) => ({
+          min: prevState.min - 2,
+          max: prevState.max - 2,
+        }))
+      }
+    }
+  }
+
+  const handleClickPreviousStylesImage = () => {
+    if (indexAfficheStyleImage.min > 0) {
+      if (indexAfficheStyleImage.min - 2 < 0) {
+        setIndexAfficheStyleImage((prevState) => ({
+          min: 0,
+          max: 1,
+        }))
+      } else {
+        setIndexAfficheStyleImage((prevState) => ({
+          min: prevState.min - 2,
+          max: prevState.max - 2,
         }))
       }
     }
@@ -361,8 +492,46 @@ export default function Editor() {
     )
   }
 
+  const handleContextMenuStyleImage = (event, index) => {
+    event.preventDefault()
+    setSavedImageStyles((prevState) => {
+      const newState = [...prevState]
+      newState[index] = { ...newState[index], showDelete: true }
+      return newState
+    })
+
+    setImages((prevState) =>
+      prevState.map((item) => ({ ...item, selected: false }))
+    )
+  }
+
+  const handleContextMenuStylePage = (event, index) => {
+    event.preventDefault()
+    setSavedPageStyles((prevState) => {
+      const newState = [...prevState]
+      newState[index] = { ...newState[index], showDelete: true }
+      return newState
+    })
+  }
+
   const handleLeaveContextMenuStyleText = (index) => {
     setSavedTextStyles((prevState) => {
+      const newState = [...prevState]
+      newState[index] = { ...newState[index], showDelete: false }
+      return newState
+    })
+  }
+
+  const handleLeaveContextMenuStyleImage = (index) => {
+    setSavedImageStyles((prevState) => {
+      const newState = [...prevState]
+      newState[index] = { ...newState[index], showDelete: false }
+      return newState
+    })
+  }
+
+  const handleLeaveContextMenuStylePage = (index) => {
+    setSavedPageStyles((prevState) => {
       const newState = [...prevState]
       newState[index] = { ...newState[index], showDelete: false }
       return newState
@@ -382,6 +551,35 @@ export default function Editor() {
       })
       .catch((err) => console.error(err))
     // setSavedTextStyles((prevState) => prevState.filter((_, i) => i !== index))
+  }
+
+  const handleDeleteStyleImage = (index) => {
+    const styleID = savedImageStyles[index].id
+
+    axios
+      .delete(`http://localhost:4242/saved_style_image/${styleID}`)
+      .then(() => {
+        axios
+          .get(`http://localhost:4242/saved_style_image/utilisateur/${user.id}`)
+          .then(({ data }) => setSavedImageStyles(data))
+          .catch((err) => console.error(err))
+      })
+      .catch((err) => console.error(err))
+    // setSavedTextStyles((prevState) => prevState.filter((_, i) => i !== index))
+  }
+
+  const handleDeleteStylePage = (index) => {
+    const styleID = savedPageStyles[index].id
+
+    axios
+      .delete(`http://localhost:4242/saved_style_page/${styleID}`)
+      .then(() => {
+        axios
+          .get(`http://localhost:4242/saved_style_page/utilisateur/${user.id}`)
+          .then(({ data }) => setSavedPageStyles(data))
+          .catch((err) => console.error(err))
+      })
+      .catch((err) => console.error(err))
   }
 
   // ----FIN SECTION--------------------------------------------------
@@ -433,10 +631,14 @@ export default function Editor() {
       idSelected = selectedImage.id
       setImages((prevState) => prevState.filter((text) => !text.selected))
 
-      // AJOUTER AXIOS DELETE IMAGE
+      setDeletedImages((prevState) => {
+        const newState = [...prevState]
+        newState.push(selectedImage)
+        return newState
+      })
+      // AJOUTER AXIOS DELETE IMAGE -->
+      // --> NON : on supprime de la BDD à la sauvegarde car il y a l'image qui doit rester enregistree dans le serveur
     }
-
-    // console.log("newPageHistory", newPageHistory);
   }
   // ----FIN SECTION--------------------------------------------------
 
@@ -499,19 +701,7 @@ export default function Editor() {
                 setTextes(data)
               })
           })
-        // .catch((error) =>
-        //   console.log(
-        //     "error axios recup pages du scénario sélectionné",
-        //     error
-        //   )
-        // )
       })
-    // .catch((error) =>
-    //   console.log(
-    //     "error axios recup scenarios de la campagne sélectionnée",
-    //     error
-    //   )
-    // )
   }
 
   // ----FIN SECTION--------------------------------------------------
@@ -529,6 +719,14 @@ export default function Editor() {
       setPageFuture([{ textes, images }, ...pageFuture])
       setTextes(prevStates.textes)
       setImages(prevStates.images)
+      setDeletedImages((previousState) => {
+        // deletedImages ne doit contenir aucune des images présentes dans images
+        const newState = previousState.filter(
+          (image) =>
+            !prevStates.images.some((prevImage) => prevImage.id === image.id)
+        )
+        return newState
+      })
     }
   }
 
@@ -541,6 +739,22 @@ export default function Editor() {
       setPageHistory([...pageHistory, { textes, images }])
       setTextes(nextStates.textes)
       setImages(nextStates.images)
+      const newPageHistory = [...pageHistory, { textes, images }]
+      setDeletedImages((previousState) => {
+        // deletedImages ne doit contenir aucune des images présentes dans images
+        if (nextStates.images[0]) {
+          const intermediaireState = [
+            ...newPageHistory[newPageHistory.length - 1].images,
+          ]
+          const newState = [
+            ...previousState,
+            intermediaireState[intermediaireState.length - 1],
+          ]
+          return newState
+        } else {
+          return previousState
+        }
+      })
     }
   }
 
@@ -550,6 +764,7 @@ export default function Editor() {
   // ------FONCTIONS POUR SAUVEGARDER L'ETAT DES TEXTES ET DES STYLES DE LA PAGE----
   // ---------------------------------------------------------------------------
   const handleSave = () => {
+    // sauvegarde des modifications des textes
     textes.map((texte) => {
       axios
         .put(`http://localhost:4242/textes/${texte.id}`, {
@@ -592,6 +807,7 @@ export default function Editor() {
           )
         })
 
+      // sauvegarde des styles de textes dans la bdd
       axios.put(`http://localhost:4242/styleText/texte/${texte.id}`, {
         page_textes_id: texte.page_textes_id,
         width: texte.style.width,
@@ -618,6 +834,82 @@ export default function Editor() {
 
       return null
     })
+
+    // suppression dans la bdd des images qui ont été supprimées
+    deletedImages.map((image) =>
+      axios.delete(`http://localhost:4242/images/${image.id}`, {
+        data: {
+          img_src: image.img_src,
+        },
+      })
+    )
+
+    // sauvegarde des styles des images
+    images.map((image) =>
+      axios.put(`http://localhost:4242/styleImage/image/${image.id}`, {
+        width: image.style.width,
+        height: image.style.height,
+        top: image.style.top,
+        ssi_left: image.style.left,
+        zIndex: image.style.zIndex,
+        border_style: image.style.borderStyle,
+        border_color: image.style.borderColor,
+        border_width: image.style.borderWidth,
+        border_radius: image.style.borderRadius,
+        box_shadow: image.style.boxShadow,
+        opacity: image.style.opacity,
+        padding: image.style.padding,
+      })
+    )
+
+    // on sauvegarde aussi le style de la page sélectionnée
+    if (pagesOfScenarioSelected[0]) {
+      const pageID = pagesOfScenarioSelected.filter(
+        (page) => page.selected === true
+      )[0].id
+      const pageStyle = pagesOfScenarioSelected.filter(
+        (page) => page.selected === true
+      )[0].style
+
+      axios.put(`http://localhost:4242/stylePage/page/${pageID}`, {
+        pages_id: pageID,
+        padding: pageStyle.padding,
+        background_color: pageStyle.backgroundColor,
+      })
+    }
+  }
+
+  // ----FIN SECTION--------------------------------------------------
+
+  // -------------------------------------------------------------------------------------
+  // ------------FONCTIONS LIEES A L'IMPORTATION DES IMAGES-------------------------
+  // ---------------------------------------------------------------------------
+
+  const handleChangeFileImage = (event) => {
+    const idPageSelected = pagesOfScenarioSelected.filter(
+      (item) => item.selected === true
+    )[0].id
+
+    // console.log(idPageSelected)
+
+    const file = event.target.files[0]
+    const formData = new FormData()
+    formData.append("image", file)
+
+    axios
+      .post(`http://localhost:4242/pages/${idPageSelected}/newImage`, formData)
+      .then(({ data }) => {
+        const newImages = [...images, data]
+        setImages(newImages)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+
+    // fetch("/upload-image", {
+    //   method: "POST",
+    //   body: formData,
+    // });
   }
 
   // ----FIN SECTION--------------------------------------------------
@@ -661,6 +953,16 @@ export default function Editor() {
         .get(`http://localhost:4242/saved_style_text/utilisateur/${user.id}`)
         .then(({ data }) => setSavedTextStyles(data))
         .catch((err) => console.error(err))
+
+      axios
+        .get(`http://localhost:4242/saved_style_image/utilisateur/${user.id}`)
+        .then(({ data }) => setSavedImageStyles(data))
+        .catch((err) => console.error(err))
+
+      axios
+        .get(`http://localhost:4242/saved_style_page/utilisateur/${user.id}`)
+        .then(({ data }) => setSavedPageStyles(data))
+        .catch((err) => console.error(err))
     }
   }, [user])
 
@@ -695,8 +997,9 @@ export default function Editor() {
 
   return (
     <>
-      {/* <div className="fausse-navbar"></div> */}
-      <Navbar />
+      <div className="fausse-navbar">
+        <Navbar />
+      </div>
 
       <section className="editor-bandeau-superieur">
         <div className="editor-bandeau-gauche">
@@ -751,12 +1054,22 @@ export default function Editor() {
               onClick={handleClickNewTextZone}
               title="Ajouter une zone de texte"
             />
-            <img
+
+            <input
+              type="file"
+              id="file-input"
+              className="button-import-image"
+              onChange={handleChangeFileImage}
+            />
+            <label htmlFor="file-input" className="button-import-image-label">
+              {" "}
+            </label>
+            {/* <img
               src={addImg}
               alt="new image"
               onClick={() => {}}
               title="Importer une image"
-            />
+            /> */}
             <img
               src={iconSupprimer}
               alt="supprimer élément"
@@ -823,20 +1136,56 @@ export default function Editor() {
             <div className="saved-styles-images">
               <p>Styles des images</p>
               <div className="saved-styles-container">
-                <div className="saved-style">
-                  <p>Style 1</p>
-                </div>
-                <div className="saved-style">
-                  <p>Style 2</p>
-                </div>
+                {/*  */}
+
+                {savedImageStyles
+                  .filter(
+                    (item, index) =>
+                      index >= indexAfficheStyleImage.min &&
+                      index <= indexAfficheStyleImage.max
+                  )
+                  .map((item, index) => (
+                    <button
+                      className="saved-style"
+                      onClick={() => handleClickApplyImageStyle(item.styleCss)}
+                      onContextMenu={(event) =>
+                        handleContextMenuStyleImage(event, index)
+                      }
+                      onMouseLeave={() =>
+                        handleLeaveContextMenuStyleImage(index)
+                      }
+                      key={item.id}
+                    >
+                      {item.styleName}
+                      {savedImageStyles[index].showDelete && (
+                        <input
+                          type="button"
+                          className="button-suppression-style"
+                          onClick={() => handleDeleteStyleImage(index)}
+                          onMouseLeave={() =>
+                            handleLeaveContextMenuStyleImage(index)
+                          }
+                          value="Supprimer"
+                        />
+                      )}
+                    </button>
+                  ))}
+
+                {/*  */}
               </div>
             </div>
 
             <div className="arrowButton-container">
-              <button className="arrowButton">
+              <button
+                className="arrowButton"
+                onClick={handleClickPreviousStylesImage}
+              >
                 <div className="arrowButtonPrevious"></div>{" "}
               </button>
-              <button className="arrowButton">
+              <button
+                className="arrowButton"
+                onClick={handleClickNextStylesImage}
+              >
                 <div className="arrowButtonNext"></div>{" "}
               </button>
             </div>
@@ -847,20 +1196,50 @@ export default function Editor() {
           <section className="container-pages-saved-styles">
             <p>Styles des pages</p>
             <div className="saved-styles-container">
-              <div className="saved-style">
-                <p>Style 1</p>
-              </div>
-              <div className="saved-style">
-                <p>Style 2</p>
-              </div>
+              {/* ////////////////////////////// */}
+              {savedPageStyles
+                .filter(
+                  (item, index) =>
+                    index >= indexAfficheStylePage.min &&
+                    index <= indexAfficheStylePage.max
+                )
+                .map((item, index) => (
+                  <button
+                    className="saved-style"
+                    onClick={() => handleClickApplyPageStyle(item.styleCss)}
+                    onContextMenu={(event) =>
+                      handleContextMenuStylePage(event, index)
+                    }
+                    onMouseLeave={() => handleLeaveContextMenuStylePage(index)}
+                    key={item.id}
+                  >
+                    {item.styleName}
+                    {savedPageStyles[index].showDelete && (
+                      <input
+                        type="button"
+                        className="button-suppression-style"
+                        onClick={() => handleDeleteStylePage(index)}
+                        onMouseLeave={() =>
+                          handleLeaveContextMenuStylePage(index)
+                        }
+                        value="Supprimer"
+                      />
+                    )}
+                  </button>
+                ))}
+
+              {/* //////////////////////////////////// */}
             </div>
           </section>
 
           <div className="arrowButton-container">
-            <button className="arrowButton">
+            <button
+              className="arrowButton"
+              onClick={handleClickPreviousStylesPage}
+            >
               <div className="arrowButtonPrevious"></div>{" "}
             </button>
-            <button className="arrowButton">
+            <button className="arrowButton" onClick={handleClickNextStylesPage}>
               <div className="arrowButtonNext"></div>{" "}
             </button>
           </div>
@@ -879,31 +1258,45 @@ export default function Editor() {
               setPagesOfScenarioSelected={setPagesOfScenarioSelected}
               textes={textes}
               setTextes={setTextes}
+              images={images}
+              setImages={setImages}
+              setDeletedImages={setDeletedImages}
               handleSave={handleSave}
               setPageHistory={setPageHistory}
               setPageFuture={setPageFuture}
+              setSelectedElementType={setSelectedElementType}
               user={user} // a SUPPRIMER probablement
               author={author} // a SUPPRIMER éventuellement, a voir
             />
           </div>
 
           <div className="configurator">
-            <EditorTextStyle
-              textes={textes}
-              setTextes={setTextes}
-              savedTextStyles={savedTextStyles}
-              setSavedTextStyles={setSavedTextStyles}
-              user={user}
-            />
-
-            {/* {textes.length > 0 && (
-              <div>
-                <h1>{`width : ${textes[0].style.width}`}</h1>
-                <h1>{`height : ${textes[0].style.height}`}</h1>
-                <h1>{`top : ${textes[0].style.top}`}</h1>
-                <h1>{`left : ${textes[0].style.left}`}</h1>
-              </div>
-            )} */}
+            {selectedElementType === "texte" ? (
+              <EditorTextStyle
+                textes={textes}
+                setTextes={setTextes}
+                savedTextStyles={savedTextStyles}
+                setSavedTextStyles={setSavedTextStyles}
+                user={user}
+                pagesOfScenarioSelected={pagesOfScenarioSelected}
+              />
+            ) : selectedElementType === "page" ? (
+              <EditorPageStyle
+                pagesOfScenarioSelected={pagesOfScenarioSelected}
+                setPagesOfScenarioSelected={setPagesOfScenarioSelected}
+                setSavedPageStyles={setSavedPageStyles}
+                user={user}
+              />
+            ) : selectedElementType === "image" ? (
+              <EditorImageStyle
+                images={images}
+                setImages={setImages}
+                savedImageStyles={savedImageStyles}
+                setSavedImageStyles={setSavedImageStyles}
+                user={user}
+                pagesOfScenarioSelected={pagesOfScenarioSelected}
+              />
+            ) : null}
           </div>
         </section>
 
@@ -918,10 +1311,13 @@ export default function Editor() {
             handleDrop={handleDrop}
             handleChangeTexte={handleChangeTexte}
             handleDragStart={handleDragStart}
-            handleClickElement={handleClickElement}
+            handleDragStartImage={handleDragStartImage}
+            handleClickElementTexte={handleClickElementTexte}
+            handleClickElementImage={handleClickElementImage}
             handleMouseDown={handleMouseDown}
             setPageHistory={setPageHistory}
             images={images}
+            setImages={setImages}
             editedCampagne={editedCampagne}
             selectedPage={
               pagesOfScenarioSelected.filter(

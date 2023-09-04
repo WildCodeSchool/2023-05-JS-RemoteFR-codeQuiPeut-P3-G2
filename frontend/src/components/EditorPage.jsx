@@ -4,7 +4,7 @@ export default function EditorPage(props) {
   const {
     textes,
     // setTextes,
-    // images,
+    images,
     handleClickDropNewText,
     handleMouseMove,
     handleMouseUp,
@@ -12,7 +12,9 @@ export default function EditorPage(props) {
     handleDrop,
     handleChangeTexte,
     handleDragStart,
-    handleClickElement,
+    handleDragStartImage,
+    handleClickElementTexte,
+    handleClickElementImage,
     handleMouseDown,
     editedCampagne,
     selectedPage,
@@ -61,13 +63,23 @@ export default function EditorPage(props) {
               placeholder={item.placeHolder}
               draggable
               onDragStart={(e) => handleDragStart(e, item.id)}
-              onClick={(e) => handleClickElement(item.id)}
+              onClick={(e) => handleClickElementTexte(item.id, e)}
               onMouseDown={(e) => handleMouseDown(e, item.id)}
               //   onKeyDown={handleKeyDownDelete}
             ></textarea>
           ))}
 
-          {/* <button type='button' onClick={handleClickNewTextZone}>Nouvelle Zone de texte</button> */}
+          {images.map((item) => (
+            <img
+              src={item.img_src}
+              alt="image"
+              style={item.style}
+              draggable
+              onClick={(e) => handleClickElementImage(item.id, e)}
+              onDragStart={(e) => handleDragStartImage(e, item.id)}
+              key={item.id}
+            />
+          ))}
         </section>
       ) : (
         <section className="section-page">

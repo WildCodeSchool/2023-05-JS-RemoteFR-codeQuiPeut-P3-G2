@@ -1,25 +1,21 @@
 import positionGauche from "../assets/images/positionGauche.png"
 import positionCentre from "../assets/images/positionCentre.png"
 import positionDroite from "../assets/images/positionDroite.png"
-import positionJustify from "../assets/images/positionJustify.png"
 import ombre from "../assets/images/ombre.png"
 import ombreOff from "../assets/images/ombreOff.png"
 import bordureRadius from "../assets/images/bordureRadius.png"
 import bordureOn from "../assets/images/bordureOn.png"
 import bordureOff from "../assets/images/bordureOff.png"
-import miseEnGras from "../assets/images/miseEnGras.png"
-import miseEnItalic from "../assets/images/miseEnItalic.png"
-import soulignage from "../assets/images/soulignage.png"
 import marges from "../assets/images/marges.png"
 import { SketchPicker } from "react-color"
 import { React, useState, useEffect } from "react"
 import axios from "axios"
 
 export default function EditorTextStyle({
-  textes,
-  setTextes,
+  images,
+  setImages,
   pagesOfScenarioSelected,
-  setSavedTextStyles,
+  setSavedImageStyles,
   user,
 }) {
   const [mounted, setMounted] = useState(false)
@@ -27,23 +23,7 @@ export default function EditorTextStyle({
   const [coordY, setCoordY] = useState(0)
   const [coordZ, setCoordZ] = useState(0)
   const [itemWidth, setItemWidth] = useState(0)
-  const [itemHeight, setItemHeight] = useState(0)
-  const [alignLeftActived, setAlignLeftActived] = useState(false)
-  const [alignCenterActived, setAlignCenterActived] = useState(false)
-  const [alignRightActived, setAlignRightActived] = useState(false)
-  const [alignJustifyActived, setAlignJustifyActived] = useState(false)
-  const [appliedTextAlign, setappliedTextAlign] = useState("normal")
-  const [boldActived, setBoldActived] = useState(false)
-  const [appliedFontWeight, setappliedFontWeight] = useState("normal")
-  const [italicActived, setItalicActived] = useState(false)
-  const [appliedFontStyle, setappliedFontStyle] = useState("normal")
-  const [underlineActived, setUnderlineActived] = useState(false)
-  const [appliedTextDecoration, setappliedTextDecoration] = useState("none")
-  const [font, setFont] = useState("Serif")
-  const [divFontSize, setDivFontSize] = useState(20)
-  const [pickerTextColor, setPickerTextColor] = useState("#000000")
-  const [textColor, setTextColor] = useState("#000000")
-  const [textColorVisible, setTextColorVisible] = useState(false)
+  const [opacity, setOpacity] = useState(1)
   const [borderActived, setBorderActived] = useState(false)
   const [appliedBorderStyle, setappliedBorderStyle] = useState("none")
   const [borderThickness, setBorderThickness] = useState(1)
@@ -60,10 +40,6 @@ export default function EditorTextStyle({
   const [pickerShadowColor, setPickerShadowColor] = useState("#000000")
   const [shadowColor, setShadowColor] = useState("#000000")
   const [shadowColorVisible, setShadowColorVisible] = useState(false)
-  const [blur, setBlur] = useState(0)
-  const [pickerBackColor, setPickerBackColor] = useState("#000000")
-  const [backColor, setBackColor] = useState("#000000")
-  const [backColorVisible, setBackColorVisible] = useState(false)
 
   // passage de l'état mounted à true une fois que la page est montée
   useEffect(() => {
@@ -72,8 +48,8 @@ export default function EditorTextStyle({
 
   // mise à jour des states de style lorsqu'on clique sur un textarea
   useEffect(() => {
-    if (mounted && textes) {
-      const item = textes.filter((texte) => texte.selected === true)[0]
+    if (mounted && images) {
+      const item = images.filter((texte) => texte.selected === true)[0]
 
       if (item) {
         const itemStyle = item.style
@@ -82,86 +58,6 @@ export default function EditorTextStyle({
         setCoordY(parseInt(itemStyle.top, 10))
         setCoordZ(itemStyle.zIndex)
         setItemWidth(parseInt(itemStyle.width, 10))
-        setItemHeight(parseInt(itemStyle.height, 10))
-
-        if (itemStyle.textAlign === "left") {
-          setAlignLeftActived(true)
-          setAlignCenterActived(false)
-          setAlignRightActived(false)
-          setAlignJustifyActived(false)
-          setappliedTextAlign("left")
-        } else if (itemStyle.textAlign === "center") {
-          setAlignLeftActived(false)
-          setAlignCenterActived(true)
-          setAlignRightActived(false)
-          setAlignJustifyActived(false)
-          setappliedTextAlign("center")
-        } else if (itemStyle.textAlign === "right") {
-          setAlignLeftActived(false)
-          setAlignCenterActived(false)
-          setAlignRightActived(true)
-          setAlignJustifyActived(false)
-          setappliedTextAlign("right")
-        } else if (itemStyle.textAlign === "justify") {
-          setAlignLeftActived(false)
-          setAlignCenterActived(false)
-          setAlignRightActived(false)
-          setAlignJustifyActived(true)
-          setappliedTextAlign("justify")
-        }
-
-        if (Math.round(itemStyle.fontWeight) === 700) {
-          // console.log("bold 700",itemStyle.fontWeight);
-          setBoldActived(true)
-          setappliedFontWeight(700)
-        } else {
-          // console.log("bold 400",itemStyle.fontWeight);
-
-          setBoldActived(false)
-          setappliedFontWeight(400)
-        }
-
-        if (itemStyle.fontStyle === "italic") {
-          setItalicActived(true)
-          setappliedFontStyle("italic")
-        } else {
-          setItalicActived(false)
-          setappliedFontStyle("normal")
-        }
-
-        if (itemStyle.textDecoration === "underline") {
-          setUnderlineActived(true)
-          setappliedTextDecoration("underline")
-        } else {
-          setUnderlineActived(false)
-          setappliedTextDecoration("none")
-        }
-
-        setFont(itemStyle.fontFamily)
-
-        setDivFontSize(parseFloat(itemStyle.fontSize, 10))
-
-        setTextColor(itemStyle.color)
-
-        const textColorR = itemStyle.color
-          .slice(5, itemStyle.color.length - 1)
-          .split(",")[0]
-        const textColorG = itemStyle.color
-          .slice(5, itemStyle.color.length - 1)
-          .split(",")[1]
-        const textColorB = itemStyle.color
-          .slice(5, itemStyle.color.length - 1)
-          .split(",")[2]
-        const textColorA = itemStyle.color
-          .slice(5, itemStyle.color.length - 1)
-          .split(",")[3]
-
-        setPickerTextColor({
-          r: textColorR,
-          g: textColorG,
-          b: textColorB,
-          a: textColorA,
-        })
 
         if (itemStyle.borderStyle === "none") {
           setBorderActived(false)
@@ -253,40 +149,10 @@ export default function EditorTextStyle({
         setOmbreAlpha(parseInt(itemStyle.boxShadow.split(" ")[2], 10))
         setOmbreBeta(parseInt(itemStyle.boxShadow.split(" ")[3], 10))
 
-        setBlur(
-          parseInt(
-            itemStyle.backdropFilter.slice(
-              5,
-              itemStyle.backdropFilter.length - 1
-            ),
-            10
-          )
-        )
-
-        setBackColor(itemStyle.backgroundColor)
-
-        const backColorR = itemStyle.backgroundColor
-          .slice(5, itemStyle.backgroundColor.length - 1)
-          .split(",")[0]
-        const backColorG = itemStyle.backgroundColor
-          .slice(5, itemStyle.backgroundColor.length - 1)
-          .split(",")[1]
-        const backColorB = itemStyle.backgroundColor
-          .slice(5, itemStyle.backgroundColor.length - 1)
-          .split(",")[2]
-        const backColorA = itemStyle.backgroundColor
-          .slice(5, itemStyle.backgroundColor.length - 1)
-          .split(",")[3]
-
-        setPickerBackColor({
-          r: backColorR,
-          g: backColorG,
-          b: backColorB,
-          a: backColorA,
-        })
+        setOpacity(itemStyle.opacity)
       }
     }
-  }, [textes])
+  }, [images])
 
   // --------------------------------------------------------------------
   // -----FONCTIONS SECTION - POSITION DU COMPOSANT---------------------
@@ -298,7 +164,7 @@ export default function EditorTextStyle({
       10
     )
 
-    setTextes((prevState) =>
+    setImages((prevState) =>
       prevState.map((item) =>
         item.selected === true
           ? { ...item, style: { ...item.style, left: `${marge}%` } }
@@ -308,14 +174,14 @@ export default function EditorTextStyle({
   }
 
   const handleClickTextareaOnCenter = () => {
-    const item = textes.filter((texte) => texte.selected === true)[0]
+    const item = images.filter((texte) => texte.selected === true)[0]
     // const itemWidth = parseInt(item.style.width.slice(0, item.style.width.length - 2) )
     const itemWidth = parseInt(item.style.width, 10)
     const newLeft = (100 - itemWidth) / 2 + "%"
 
     // const newLeft = (pageWidth -itemWidth)/2 +"px";
 
-    setTextes((prevState) =>
+    setImages((prevState) =>
       prevState.map((item) =>
         item.selected === true
           ? { ...item, style: { ...item.style, left: newLeft } }
@@ -331,12 +197,12 @@ export default function EditorTextStyle({
       10
     )
 
-    const item = textes.filter((texte) => texte.selected === true)[0]
+    const item = images.filter((texte) => texte.selected === true)[0]
     const itemWidth = parseInt(item.style.width, 10)
     // console.log("pageWidth",pageWidth,"itemWidth",itemWidth);
     const newLeft = 100 - itemWidth - marge + "%"
 
-    setTextes((prevState) =>
+    setImages((prevState) =>
       prevState.map((item) =>
         item.selected === true
           ? { ...item, style: { ...item.style, left: newLeft } }
@@ -350,7 +216,7 @@ export default function EditorTextStyle({
 
     const newLeft = e.target.value + "%"
 
-    setTextes((prevState) =>
+    setImages((prevState) =>
       prevState.map((item) =>
         item.selected === true
           ? { ...item, style: { ...item.style, left: newLeft } }
@@ -364,7 +230,7 @@ export default function EditorTextStyle({
 
     const newTop = e.target.value + "%"
 
-    setTextes((prevState) =>
+    setImages((prevState) =>
       prevState.map((item) =>
         item.selected === true
           ? { ...item, style: { ...item.style, top: newTop } }
@@ -378,7 +244,7 @@ export default function EditorTextStyle({
 
     const newZindex = e.target.value
 
-    setTextes((prevState) =>
+    setImages((prevState) =>
       prevState.map((item) =>
         item.selected === true
           ? { ...item, style: { ...item.style, zIndex: newZindex } }
@@ -392,7 +258,7 @@ export default function EditorTextStyle({
 
     const newWidth = e.target.value + "%"
 
-    setTextes((prevState) =>
+    setImages((prevState) =>
       prevState.map((item) =>
         item.selected === true
           ? { ...item, style: { ...item.style, width: newWidth } }
@@ -401,206 +267,16 @@ export default function EditorTextStyle({
     )
   }
 
-  const handleChangeItemHeight = (e) => {
-    setItemHeight(e.target.value)
+  const handleChangeOpacity = (e) => {
+    setOpacity(e.target.value)
 
-    const newHeight = e.target.value + "%"
-
-    setTextes((prevState) =>
+    setImages((prevState) =>
       prevState.map((item) =>
         item.selected === true
-          ? { ...item, style: { ...item.style, height: newHeight } }
+          ? { ...item, style: { ...item.style, opacity: e.target.value } }
           : item
       )
     )
-  }
-
-  // ---FIN SECTION---------------------------------------------------------------------------
-
-  // --------------------------------------------------------------------
-  // -----FONCTIONS SECTION - TEXTE---------------------
-  // ------------------------------------------------------------------
-  const handleClickAlignLeft = () => {
-    setTextes((prevState) =>
-      prevState.map((item) =>
-        item.selected === true
-          ? { ...item, style: { ...item.style, textAlign: "left" } }
-          : item
-      )
-    )
-
-    setappliedTextAlign("left")
-  }
-
-  const handleClickAlignCenter = () => {
-    setTextes((prevState) =>
-      prevState.map((item) =>
-        item.selected === true
-          ? { ...item, style: { ...item.style, textAlign: "center" } }
-          : item
-      )
-    )
-
-    setappliedTextAlign("center")
-  }
-
-  const handleClickAlignRight = () => {
-    setTextes((prevState) =>
-      prevState.map((item) =>
-        item.selected === true
-          ? { ...item, style: { ...item.style, textAlign: "right" } }
-          : item
-      )
-    )
-
-    setappliedTextAlign("right")
-  }
-
-  const handleClickAlignJustify = () => {
-    setTextes((prevState) =>
-      prevState.map((item) =>
-        item.selected === true
-          ? { ...item, style: { ...item.style, textAlign: "justify" } }
-          : item
-      )
-    )
-
-    setappliedTextAlign("justify")
-  }
-
-  const handleClickBold = () => {
-    const item = textes.filter((texte) => texte.selected === true)[0]
-
-    if (item.style.fontWeight === 700) {
-      setTextes((prevState) =>
-        prevState.map((item) =>
-          item.selected === true
-            ? { ...item, style: { ...item.style, fontWeight: 400 } }
-            : item
-        )
-      )
-
-      setappliedFontWeight(400)
-    } else {
-      setTextes((prevState) =>
-        prevState.map((item) =>
-          item.selected === true
-            ? { ...item, style: { ...item.style, fontWeight: 700 } }
-            : item
-        )
-      )
-
-      setappliedFontWeight(700)
-    }
-  }
-
-  const handleClickItalic = () => {
-    const item = textes.filter((texte) => texte.selected === true)[0]
-
-    if (item.style.fontStyle === "normal") {
-      setTextes((prevState) =>
-        prevState.map((item) =>
-          item.selected === true
-            ? { ...item, style: { ...item.style, fontStyle: "italic" } }
-            : item
-        )
-      )
-
-      setappliedFontStyle("italic")
-    } else {
-      setTextes((prevState) =>
-        prevState.map((item) =>
-          item.selected === true
-            ? { ...item, style: { ...item.style, fontStyle: "normal" } }
-            : item
-        )
-      )
-
-      setappliedFontStyle("normal")
-    }
-  }
-
-  const handleClickUnderline = () => {
-    const item = textes.filter((texte) => texte.selected === true)[0]
-
-    if (item.style.textDecoration === "none") {
-      setTextes((prevState) =>
-        prevState.map((item) =>
-          item.selected === true
-            ? { ...item, style: { ...item.style, textDecoration: "underline" } }
-            : item
-        )
-      )
-
-      setappliedTextDecoration("underline")
-    } else {
-      setTextes((prevState) =>
-        prevState.map((item) =>
-          item.selected === true
-            ? { ...item, style: { ...item.style, textDecoration: "none" } }
-            : item
-        )
-      )
-
-      setappliedTextDecoration("none")
-    }
-  }
-
-  const handleChangeFont = (e) => {
-    setFont(e.target.value)
-
-    setTextes((prevState) =>
-      prevState.map((item) =>
-        item.selected === true
-          ? { ...item, style: { ...item.style, fontFamily: e.target.value } }
-          : item
-      )
-    )
-  }
-
-  const handleClickDivTextColor = () => {
-    setTextColorVisible(true)
-  }
-
-  const handleClickFontSize = (e) => {
-    setDivFontSize(e.target.value)
-    const newFontSize = e.target.value + "rem"
-
-    setTextes((prevState) =>
-      prevState.map((item) =>
-        item.selected === true
-          ? {
-              ...item,
-              style: { ...item.style, fontSize: newFontSize },
-            }
-          : item
-      )
-    )
-  }
-
-  const handleChangeColorText = (color) => {
-    setPickerTextColor(color.rgb)
-    setTextColor(
-      `rgba(${color.rgb.r},${color.rgb.g},${color.rgb.b},${color.rgb.a})`
-    )
-
-    setTextes((prevState) =>
-      prevState.map((item) =>
-        item.selected === true
-          ? {
-              ...item,
-              style: {
-                ...item.style,
-                color: `rgba(${color.rgb.r},${color.rgb.g},${color.rgb.b},${color.rgb.a})`,
-              },
-            }
-          : item
-      )
-    )
-  }
-
-  const handleLeaveTextColor = () => {
-    setTextColorVisible(false)
   }
 
   // ---FIN SECTION---------------------------------------------------------------------------
@@ -609,10 +285,10 @@ export default function EditorTextStyle({
   // -----FONCTIONS SECTION - BORDURES---------------------
   // ------------------------------------------------------------------
   const handleClickAjoutBordure = () => {
-    const item = textes.filter((texte) => texte.selected === true)[0]
+    const item = images.filter((texte) => texte.selected === true)[0]
 
     if (item.style.borderStyle === "none") {
-      setTextes((prevState) =>
+      setImages((prevState) =>
         prevState.map((item) =>
           item.selected === true
             ? { ...item, style: { ...item.style, borderStyle: "solid" } }
@@ -622,7 +298,7 @@ export default function EditorTextStyle({
 
       setappliedBorderStyle("solid")
     } else if (item.style.borderStyle === "solid") {
-      setTextes((prevState) =>
+      setImages((prevState) =>
         prevState.map((item) =>
           item.selected === true
             ? { ...item, style: { ...item.style, borderStyle: "dotted" } }
@@ -632,7 +308,7 @@ export default function EditorTextStyle({
 
       setappliedBorderStyle("dotted")
     } else if (item.style.borderStyle === "dotted") {
-      setTextes((prevState) =>
+      setImages((prevState) =>
         prevState.map((item) =>
           item.selected === true
             ? { ...item, style: { ...item.style, borderStyle: "dashed" } }
@@ -642,7 +318,7 @@ export default function EditorTextStyle({
 
       setappliedBorderStyle("dashed")
     } else if (item.style.borderStyle === "dashed") {
-      setTextes((prevState) =>
+      setImages((prevState) =>
         prevState.map((item) =>
           item.selected === true
             ? { ...item, style: { ...item.style, borderStyle: "double" } }
@@ -652,7 +328,7 @@ export default function EditorTextStyle({
 
       setappliedBorderStyle("double")
     } else if (item.style.borderStyle === "double") {
-      setTextes((prevState) =>
+      setImages((prevState) =>
         prevState.map((item) =>
           item.selected === true
             ? { ...item, style: { ...item.style, borderStyle: "groove" } }
@@ -662,7 +338,7 @@ export default function EditorTextStyle({
 
       setappliedBorderStyle("groove")
     } else if (item.style.borderStyle === "groove") {
-      setTextes((prevState) =>
+      setImages((prevState) =>
         prevState.map((item) =>
           item.selected === true
             ? { ...item, style: { ...item.style, borderStyle: "ridge" } }
@@ -672,7 +348,7 @@ export default function EditorTextStyle({
 
       setappliedBorderStyle("ridge")
     } else if (item.style.borderStyle === "ridge") {
-      setTextes((prevState) =>
+      setImages((prevState) =>
         prevState.map((item) =>
           item.selected === true
             ? { ...item, style: { ...item.style, borderStyle: "outset" } }
@@ -682,7 +358,7 @@ export default function EditorTextStyle({
 
       setappliedBorderStyle("outset")
     } else if (item.style.borderStyle === "outset") {
-      setTextes((prevState) =>
+      setImages((prevState) =>
         prevState.map((item) =>
           item.selected === true
             ? { ...item, style: { ...item.style, borderStyle: "inset" } }
@@ -692,7 +368,7 @@ export default function EditorTextStyle({
 
       setappliedBorderStyle("inset")
     } else if (item.style.borderStyle === "inset") {
-      setTextes((prevState) =>
+      setImages((prevState) =>
         prevState.map((item) =>
           item.selected === true
             ? { ...item, style: { ...item.style, borderStyle: "solid" } }
@@ -705,7 +381,7 @@ export default function EditorTextStyle({
   }
 
   const handleClickBorderOff = () => {
-    setTextes((prevState) =>
+    setImages((prevState) =>
       prevState.map((item) =>
         item.selected === true
           ? { ...item, style: { ...item.style, borderStyle: "none" } }
@@ -721,7 +397,7 @@ export default function EditorTextStyle({
 
     const newBorderWidth = e.target.value + "px"
 
-    setTextes((prevState) =>
+    setImages((prevState) =>
       prevState.map((item) =>
         item.selected === true
           ? { ...item, style: { ...item.style, borderWidth: newBorderWidth } }
@@ -740,7 +416,7 @@ export default function EditorTextStyle({
       `rgba(${color.rgb.r},${color.rgb.g},${color.rgb.b},${color.rgb.a})`
     )
 
-    setTextes((prevState) =>
+    setImages((prevState) =>
       prevState.map((item) =>
         item.selected === true
           ? {
@@ -764,7 +440,7 @@ export default function EditorTextStyle({
 
     const newBorderRadius = e.target.value + "px"
 
-    setTextes((prevState) =>
+    setImages((prevState) =>
       prevState.map((item) =>
         item.selected === true
           ? { ...item, style: { ...item.style, borderRadius: newBorderRadius } }
@@ -778,7 +454,7 @@ export default function EditorTextStyle({
 
     const newPadding = e.target.value + "px"
 
-    setTextes((prevState) =>
+    setImages((prevState) =>
       prevState.map((item) =>
         item.selected === true
           ? { ...item, style: { ...item.style, padding: newPadding } }
@@ -793,7 +469,7 @@ export default function EditorTextStyle({
   // -----FONCTIONS SECTION - OMBRE---------------------
   // ------------------------------------------------------------------
   const handleClickShadowOn = () => {
-    setTextes((prevState) =>
+    setImages((prevState) =>
       prevState.map((item) =>
         item.selected === true
           ? {
@@ -809,7 +485,7 @@ export default function EditorTextStyle({
   }
 
   const handleClickShadowOff = () => {
-    setTextes((prevState) =>
+    setImages((prevState) =>
       prevState.map((item) =>
         item.selected === true
           ? {
@@ -827,14 +503,14 @@ export default function EditorTextStyle({
   const handleChangeOmbreX = (e) => {
     setOmbreX(e.target.value)
 
-    const item = textes.filter((texte) => texte.selected === true)[0]
+    const item = images.filter((texte) => texte.selected === true)[0]
 
     const tabShadow = item.style.boxShadow.split(" ")
     tabShadow[0] = e.target.value + "px"
 
     const newBoxShadow = tabShadow.join(" ")
 
-    setTextes((prevState) =>
+    setImages((prevState) =>
       prevState.map((item) =>
         item.selected === true
           ? { ...item, style: { ...item.style, boxShadow: newBoxShadow } }
@@ -846,14 +522,14 @@ export default function EditorTextStyle({
   const handleChangeOmbreY = (e) => {
     setOmbreY(e.target.value)
 
-    const item = textes.filter((texte) => texte.selected === true)[0]
+    const item = images.filter((texte) => texte.selected === true)[0]
 
     const tabShadow = item.style.boxShadow.split(" ")
     tabShadow[1] = e.target.value + "px"
 
     const newBoxShadow = tabShadow.join(" ")
 
-    setTextes((prevState) =>
+    setImages((prevState) =>
       prevState.map((item) =>
         item.selected === true
           ? { ...item, style: { ...item.style, boxShadow: newBoxShadow } }
@@ -865,14 +541,14 @@ export default function EditorTextStyle({
   const handleChangeOmbreAlpha = (e) => {
     setOmbreAlpha(e.target.value)
 
-    const item = textes.filter((texte) => texte.selected === true)[0]
+    const item = images.filter((texte) => texte.selected === true)[0]
 
     const tabShadow = item.style.boxShadow.split(" ")
     tabShadow[2] = e.target.value + "px"
 
     const newBoxShadow = tabShadow.join(" ")
 
-    setTextes((prevState) =>
+    setImages((prevState) =>
       prevState.map((item) =>
         item.selected === true
           ? { ...item, style: { ...item.style, boxShadow: newBoxShadow } }
@@ -884,14 +560,14 @@ export default function EditorTextStyle({
   const handleChangeOmbreBeta = (e) => {
     setOmbreBeta(e.target.value)
 
-    const item = textes.filter((texte) => texte.selected === true)[0]
+    const item = images.filter((texte) => texte.selected === true)[0]
 
     const tabShadow = item.style.boxShadow.split(" ")
     tabShadow[3] = e.target.value + "px"
 
     const newBoxShadow = tabShadow.join(" ")
 
-    setTextes((prevState) =>
+    setImages((prevState) =>
       prevState.map((item) =>
         item.selected === true
           ? { ...item, style: { ...item.style, boxShadow: newBoxShadow } }
@@ -910,14 +586,14 @@ export default function EditorTextStyle({
       `rgba(${color.rgb.r},${color.rgb.g},${color.rgb.b},${color.rgb.a})`
     )
 
-    const item = textes.filter((texte) => texte.selected === true)[0]
+    const item = images.filter((texte) => texte.selected === true)[0]
 
     const tabShadow = item.style.boxShadow.split(" ")
     tabShadow[4] = `rgba(${color.rgb.r},${color.rgb.g},${color.rgb.b},${color.rgb.a})`
 
     const newBoxShadow = tabShadow.join(" ")
 
-    setTextes((prevState) =>
+    setImages((prevState) =>
       prevState.map((item) =>
         item.selected === true
           ? { ...item, style: { ...item.style, boxShadow: newBoxShadow } }
@@ -932,61 +608,6 @@ export default function EditorTextStyle({
 
   // ---FIN SECTION---------------------------------------------------------------------------
 
-  // --------------------------------------------------------------------
-  // -----FONCTIONS SECTION - ARRIERE PLAN---------------------
-  // ------------------------------------------------------------------
-
-  const handleChangeBlur = (e) => {
-    setBlur(e.target.value)
-
-    const newBlur = `blur(${e.target.value + "px"})`
-
-    setTextes((prevState) =>
-      prevState.map((item) =>
-        item.selected === true
-          ? {
-              ...item,
-              style: {
-                ...item.style,
-                backdropFilter: newBlur,
-                WebkitBackdropFilter: newBlur,
-              },
-            }
-          : item
-      )
-    )
-  }
-
-  const handleClickDivBackColor = () => {
-    setBackColorVisible(true)
-  }
-
-  const handleChangeColorBack = (color) => {
-    setPickerBackColor(color.rgb)
-    setBackColor(
-      `rgba(${color.rgb.r},${color.rgb.g},${color.rgb.b},${color.rgb.a})`
-    )
-
-    setTextes((prevState) =>
-      prevState.map((item) =>
-        item.selected === true
-          ? {
-              ...item,
-              style: {
-                ...item.style,
-                backgroundColor: `rgba(${color.rgb.r},${color.rgb.g},${color.rgb.b},${color.rgb.a})`,
-              },
-            }
-          : item
-      )
-    )
-  }
-
-  const handleLeaveBackColor = () => {
-    setBackColorVisible(false)
-  }
-  // ---FIN SECTION---------------------------------------------------------------------------
-
   // ---------------------------------------------------------------------------------------------
   // ----SAUVEGARDE DE STYLES----------------------------------------------------
   // ------------------------------------------------------------------------------
@@ -998,7 +619,6 @@ export default function EditorTextStyle({
     const newStyleCss = {
       utilisateurs_id: user.id,
       textStyleName: newStyleName,
-      backgroundColor: backColor,
       position: "absolute",
       boxSizing: "border-box",
       zIndex: coordZ,
@@ -1007,26 +627,18 @@ export default function EditorTextStyle({
       borderWidth: `${borderThickness}px`,
       borderRadius: `${divBorderRadius}px`,
       boxShadow: savedBoxShadow,
-      fontSize: `${divFontSize}rem`,
-      fontStyle: appliedFontStyle,
-      textDecoration: appliedTextDecoration,
-      fontWeight: appliedFontWeight,
-      fontFamily: font,
-      color: textColor,
       padding: `${divPadding}px`,
-      textAlign: appliedTextAlign,
-      backdropFilter: `blur(${blur}px)`,
-      WebkitBackdropFilter: `blur(${blur}px)`,
+      opacity,
     }
 
-    // on peut maintenant poster ce nouveau style puis récupérer l'ensemble des styles de textes de l'utilisateur
+    // on peut maintenant poster ce nouveau style puis récupérer l'ensemble des styles de images de l'utilisateur
 
     axios
-      .post(`http://localhost:4242/saved_style_text`, newStyleCss)
+      .post(`http://localhost:4242/saved_style_image`, newStyleCss)
       .then(() => {
         axios
-          .get(`http://localhost:4242/saved_style_text/utilisateur/${user.id}`)
-          .then(({ data }) => setSavedTextStyles(data))
+          .get(`http://localhost:4242/saved_style_image/utilisateur/${user.id}`)
+          .then(({ data }) => setSavedImageStyles(data))
           .catch((err) => console.error(err))
       })
       .catch((err) => console.error(err))
@@ -1036,7 +648,7 @@ export default function EditorTextStyle({
 
   return (
     <main className="main-editorTextStyle">
-      <p>Position du composant</p>
+      <p>Image position & width</p>
       <div className="positions-composant">
         <img
           src={positionGauche}
@@ -1102,181 +714,10 @@ export default function EditorTextStyle({
               onChange={handleChangeItemWidth}
             />
           </div>
-          <div className="dimensionH">
-            <p>H :</p>
-            <input
-              type="number"
-              min={0}
-              max={100}
-              value={itemHeight}
-              onChange={handleChangeItemHeight}
-            />
-          </div>
         </div>
       </section>
 
-      <p>Texte</p>
-      <div className="positions-composant">
-        <img
-          src={positionGauche}
-          alt="alignement gauche"
-          title="Aligner le texte à gauche"
-          onClick={handleClickAlignLeft}
-          style={
-            alignLeftActived ? { boxShadow: "0px 0px 20px 5px #ffbd59" } : {}
-          }
-        />
-        <img
-          src={positionCentre}
-          alt="alignement centre"
-          title="Centrer le texte"
-          onClick={handleClickAlignCenter}
-          style={
-            alignCenterActived ? { boxShadow: "0px 0px 20px 5px #ffbd59" } : {}
-          }
-        />
-        <img
-          src={positionDroite}
-          alt="alignement droite"
-          title="Aligner le texte à droite"
-          onClick={handleClickAlignRight}
-          style={
-            alignRightActived ? { boxShadow: "0px 0px 20px 5px #ffbd59" } : {}
-          }
-        />
-        <img
-          src={positionJustify}
-          alt="alignement justifié"
-          title="Justifier le texte"
-          onClick={handleClickAlignJustify}
-          style={
-            alignJustifyActived ? { boxShadow: "0px 0px 20px 5px #ffbd59" } : {}
-          }
-        />
-      </div>
-
-      <section className="style-texte">
-        <img
-          src={miseEnGras}
-          alt="Mettre en gras"
-          title="Mettre en gras"
-          onClick={handleClickBold}
-          style={boldActived ? { boxShadow: "0px 0px 20px 5px #ffbd59" } : {}}
-        />
-        <img
-          src={miseEnItalic}
-          alt="Mettre en italique"
-          title="Mettre en italique"
-          onClick={handleClickItalic}
-          style={italicActived ? { boxShadow: "0px 0px 20px 5px #ffbd59" } : {}}
-        />
-        <img
-          src={soulignage}
-          alt="Souligner"
-          title="Souligner"
-          onClick={handleClickUnderline}
-          style={
-            underlineActived ? { boxShadow: "0px 0px 20px 5px #ffbd59" } : {}
-          }
-        />
-      </section>
-
-      <section className="police-couleur-texte">
-        <select
-          value={font}
-          onChange={handleChangeFont}
-          style={{ fontFamily: font }}
-        >
-          <option value="Arial" style={{ fontFamily: "Arial" }}>
-            Arial
-          </option>
-          <option value="Cambria" style={{ fontFamily: "Cambria" }}>
-            Cambria
-          </option>
-          <option value="cursive" style={{ fontFamily: "cursive" }}>
-            Cursive
-          </option>
-          <option value="Courier New" style={{ fontFamily: "Courier New" }}>
-            Courier New
-          </option>
-          <option value="fantasy" style={{ fontFamily: "fantasy" }}>
-            Fantasy
-          </option>
-          <option
-            value="Franklin Gothic Medium"
-            style={{ fontFamily: "Franklin Gothic Medium" }}
-          >
-            Franklin Gothic Medium
-          </option>
-          <option value="Georgia" style={{ fontFamily: "Georgia" }}>
-            Georgia
-          </option>
-          <option value="Gill Sans MT" style={{ fontFamily: "Gill Sans MT" }}>
-            Gill Sans MT
-          </option>
-          <option value="Impact" style={{ fontFamily: "Impact" }}>
-            Impact
-          </option>
-          <option value="Lucida Sans" style={{ fontFamily: "Lucida Sans" }}>
-            Lucida Sans
-          </option>
-          <option value="monospace" style={{ fontFamily: "monospace" }}>
-            Monospace
-          </option>
-          <option value="sans-serif" style={{ fontFamily: "sans-serif" }}>
-            Sans-serif
-          </option>
-          <option value="serif" style={{ fontFamily: "serif" }}>
-            Serif
-          </option>
-          <option value="Segoe UI" style={{ fontFamily: "Segoe UI" }}>
-            Segoe UI
-          </option>
-          <option
-            value="Times New Roman"
-            style={{ fontFamily: "Times New Roman" }}
-          >
-            Times New Roman
-          </option>
-          <option value="Trebuchet MS" style={{ fontFamily: "Trebuchet MS" }}>
-            Trebuchet MS
-          </option>
-          <option value="Verdana" style={{ fontFamily: "Verdana" }}>
-            Verdana
-          </option>
-        </select>
-
-        <input
-          type="number"
-          step={0.1}
-          value={divFontSize}
-          min={0.1}
-          max={15}
-          onChange={handleClickFontSize}
-        />
-
-        <div className="text-color" onClick={handleClickDivTextColor}>
-          <div className="choix-color">
-            <p>A</p>
-            <div style={{ backgroundColor: textColor }}></div>
-          </div>
-          <div className="choice-arrow"></div>
-          {textColorVisible && (
-            <div
-              className="textColorPicker-container"
-              onMouseLeave={handleLeaveTextColor}
-            >
-              <SketchPicker
-                color={pickerTextColor}
-                onChangeComplete={handleChangeColorText}
-                width="300px"
-              />
-            </div>
-          )}
-        </div>
-      </section>
-
-      <p>Bordures</p>
+      <p>Borders</p>
       <section className="section-bordures">
         <div className="section-bordures-ligne1">
           <img
@@ -1360,7 +801,7 @@ export default function EditorTextStyle({
         </div>
       </section>
 
-      <p>Ombre</p>
+      <p>Shadows</p>
       <section className="section-ombre">
         <div className="choix-ombre">
           <div className="images-ombre">
@@ -1447,42 +888,16 @@ export default function EditorTextStyle({
         </div>
       </section>
 
-      <p>Arrière plan</p>
-      <section className="section-background">
-        <div className="div-blur">
-          <label htmlFor="blur">Flou :</label>
-          <input
-            type="number"
-            id="blur"
-            min={0}
-            max={100}
-            value={blur}
-            onChange={handleChangeBlur}
-            title="Mettre de la transparence à l'arrière plan pour en observer l'effet"
-          />
-        </div>
-
-        <div className="text-color" onClick={handleClickDivBackColor}>
-          <div
-            className="choix-color"
-            style={{ backgroundColor: backColor }}
-          ></div>
-
-          <div className="choice-arrow"></div>
-
-          {backColorVisible && (
-            <div
-              className="textColorPicker-container"
-              onMouseLeave={handleLeaveBackColor}
-            >
-              <SketchPicker
-                color={pickerBackColor}
-                onChangeComplete={handleChangeColorBack}
-                width="300px"
-              />
-            </div>
-          )}
-        </div>
+      <p>Transparency</p>
+      <section className="section-opacity">
+        <input
+          type="number"
+          max={1}
+          min={0}
+          step={0.05}
+          value={opacity}
+          onChange={handleChangeOpacity}
+        />
       </section>
 
       <button type="button" onClick={handleClickSaveStyle}>
