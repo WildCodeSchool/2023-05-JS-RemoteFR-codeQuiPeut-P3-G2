@@ -75,62 +75,48 @@ const difficulty = [
   },
 ]
 
-export default function FormNewScenario({
-  campaignID,
-  authorID,
+export default function FormEditScenario({
+  //   campaignID,
+  //   authorID,
   setScenariosOfEditedCampagne,
-  scenariosOfEditedCampagne,
-  setPagesOfScenarioSelected,
-  setTextes,
-  setPageFuture,
-  setPageHistory,
-  setImages,
-  setShowNewScenario,
+  //   scenariosOfEditedCampagne,
+  //   setPagesOfScenarioSelected,
+  //   setTextes,
+  //   setPageFuture,
+  //   setPageHistory,
+  //   setImages,
+  scenarioForInfoEdit,
+  setShowEditScenario,
 }) {
   // const [author, setAuthor] = useState("Undefined")
   const [roleGame, setRoleGame] = useState([])
+  const [valueRoleGame, setValueRoleGame] = useState()
   const [themes, setThemes] = useState([])
+  const [valueTheme, setValueTheme] = useState(scenarioForInfoEdit.theme_name)
   // const [campagneId, setCampagneId] = useState("Undefined")
-  const [titleScenario, setTitleScenario] = useState("Undefined")
-  const [playerNumberMin, setPlayerNumberMin] = useState("Undefined")
-  const [playerNumberMax, setPlayerNumberMax] = useState("Undefined")
+  const [titleScenario, setTitleScenario] = useState(scenarioForInfoEdit.name)
+  const [playerNumberMin, setPlayerNumberMin] = useState(
+    scenarioForInfoEdit.nb_player_min
+  )
+  const [playerNumberMax, setPlayerNumberMax] = useState(
+    scenarioForInfoEdit.nb_player_max
+  )
   // const [typeScenario, setTypeScenario] = useState("Undefined")
-  const [levelScenario, setLevelScenario] = useState("Undefined")
-  const [writingDateStart, setWritingDateStart] = useState(Date())
-  const [publicationDate, setPublicationDate] = useState("3000-01-01")
-  const [pictureScenario, setPictureScenario] = useState("none")
-  const [descriptionScenario, setDescriptionScenario] = useState("Undefined")
-  // const [monted, setMonted] = useState(false)
+  const [levelScenario, setLevelScenario] = useState(scenarioForInfoEdit.level)
 
-  // const handleClickOtionRoleGame = (id) => {
-  //   console.log("test")
-  //   setRoleGame((prevState) =>
-  //     prevState.map((game) =>
-  //       game.id === id
-  //         ? { ...game, selected: true }
-  //         : { ...game, selected: false }
-  //     )
-  //   )
-  // }
+  const [pictureScenario, setPictureScenario] = useState(
+    scenarioForInfoEdit.img
+  )
+  const [descriptionScenario, setDescriptionScenario] = useState(
+    scenarioForInfoEdit.description
+  )
 
   const handleChangeRoleGame = (e) => {
-    setRoleGame((prevState) =>
-      prevState.map((game) =>
-        game.name === e.target.value
-          ? { ...game, selected: true }
-          : { ...game, selected: false }
-      )
-    )
+    setValueRoleGame(e.target.value)
   }
 
   const handleChangeTheme = (e) => {
-    setThemes((prevState) =>
-      prevState.map((game) =>
-        game.name === e.target.value
-          ? { ...game, selected: true }
-          : { ...game, selected: false }
-      )
-    )
+    setValueTheme(e.target.value)
   }
 
   const handleChangeTitle = (e) => {
@@ -173,201 +159,67 @@ export default function FormNewScenario({
     setDescriptionScenario(e.target.value)
   }
 
-  // const handleChangeType = (e) => {
-  //   setTypeScenario(e.target.value)
-  // }
-
-  const getDateOfDay = () => {
-    const today = new Date()
-    const year = today.getFullYear()
-    const month = String(today.getMonth() + 1).padStart(2, "0")
-    const day = String(today.getDate()).padStart(2, "0")
-    return `${year}-${month}-${day}`
-  }
-
   const handleSubmit = (e) => {
-    const roleGameID = roleGame.filter((game) => game.selected === true)[0].id
-    const themeID = themes.filter((theme) => theme.selected === true)[0].id
+    const roleGameID = roleGame.filter((game) => game.name === valueRoleGame)[0]
+      .id
+    const themeID = themes.filter((theme) => theme.name === valueTheme)[0].id
+    const startWritingdate = scenarioForInfoEdit.start_writing_date.slice(0, 10)
+    const publicationDate = scenarioForInfoEdit.publication_date.slice(0, 10)
 
     axios
-      .post("http://localhost:4242/scenarios", {
-        auteurs_id: authorID, // author
+      .put(`http://localhost:4242/scenarios/${scenarioForInfoEdit.id}`, {
+        auteurs_id: scenarioForInfoEdit.auteurs_id, // author
         jeux_de_role_id: roleGameID,
-        campagnes_id: campaignID, // A faire plus tard => campagneId
+        campagnes_id: scenarioForInfoEdit.campagnes_id, // A faire plus tard => campagneId
         name: titleScenario,
         nb_player_min: playerNumberMin,
         nb_player_max: playerNumberMax,
         level: levelScenario,
-        start_writing_date: writingDateStart,
+        start_writing_date: startWritingdate,
         publication_date: publicationDate,
         img: pictureScenario,
-        type: "campagne",
+        type: scenarioForInfoEdit.type,
         description: descriptionScenario,
         model: 1, // a supprimer si table modifiée avec suppression de cette colonne
       })
-      .then(async ({ data }) => {
-        // post du theme du scenario
-        await axios.post(`http://localhost:4242/themesScenarios/`, {
-          scenarios_id: data,
-          themes_id: themeID,
-        })
-
-        // récupération du scénario avec son ID
-        axios
-          .get(`http://localhost:4242/scenarios/${data}`)
-          .then(({ data }) => {
-            let newScenariosOfEditedCampagne = scenariosOfEditedCampagne.map(
-              (scenario) => ({ ...scenario, selected: false })
-            )
-            data.selected = true
-            newScenariosOfEditedCampagne = [
-              ...newScenariosOfEditedCampagne,
-              data,
-            ]
-            setScenariosOfEditedCampagne(newScenariosOfEditedCampagne)
-
-            return newScenariosOfEditedCampagne
-          })
-          .then((newScenariosOfEditedCampagne) => {
-            handleClickButtonScript(newScenariosOfEditedCampagne)
-          })
-      })
-
-    setShowNewScenario(false)
-  }
-
-  // ------------------------------------------------------------------
-  // fonction pour ajouter une nouvelle page dans un scenario
-  // ------------------------------------------------------------
-  const handleClickButtonScript = async (newScenariosOfEditedCampagne) => {
-    // on récupère l'id du scenario sélectionné
-    const scenarioID = newScenariosOfEditedCampagne.filter(
-      (scenario) => scenario.selected === true
-    )[0].id
-
-    // on demande un nom pour la page
-    const pageName = "Rename me"
-
-    // on attribue un numéro de page (numéro de la dernière page + 1)
-    const pageNumber = 1
-
-    // on post une nouvelle page dans la base de donnée (page_type_id = 1 car page script)
-    axios
-      .post(`http://localhost:4242/pages`, {
-        scenarios_id: scenarioID,
-        page_types_id: 1,
-        titre: pageName,
-        number: pageNumber,
-      })
       .then(() => {
-        // on récupère la page de la base de donnée avec son id et on l'ajoute dans le state pagesOfScenarioSelected
         axios
-          .get(`http://localhost:4242/scenarios/${scenarioID}/pages`)
-          .then(async ({ data }) => {
-            data[data.length - 1].selected = true // on se place sur la page créée en la sélectionnant
-            setPagesOfScenarioSelected(data)
-
-            // on crée maintenant des textes prédéfinis pour la nouvelle page
-            const pageID = data[data.length - 1].id
-            const newTextes = []
-
-            const textareaTitre = await handleNewTextarea(
-              pageID,
-              "60%",
-              "4%",
-              "5%",
-              "5%",
-              "Entrez un titre",
-              "2rem",
-              700,
-              "left",
-              newTextes,
-              pageName
-            )
-            const textareaParagraphe = await handleNewTextarea(
-              pageID,
-              "90%",
-              "15%",
-              "5%",
-              "10%",
-              "Tapez votre texte",
-              "1.25rem",
-              400,
-              "justify",
-              textareaTitre
-            )
-
-            setTextes(textareaParagraphe) // textes du template
-            setPageHistory(textareaParagraphe) // idem
-            setPageFuture(textareaParagraphe) // idem
-            setImages([])
-          })
-          .catch((err) => {
-            console.error(err)
-          })
+          .get(
+            `http://localhost:4242/campagnes/${scenarioForInfoEdit.campagnes_id}/scenarios`
+          )
+          .then(({ data }) => setScenariosOfEditedCampagne(data))
+          .catch((err) => console.error(err))
       })
-      .catch((err) => {
-        console.error(err)
-      })
-  }
+      .catch((err) => console.error(err))
 
-  const handleNewTextarea = async (
-    pageID,
-    width,
-    height,
-    left,
-    top,
-    placeholder,
-    fontSize,
-    fontWeight,
-    textAlign,
-    newTextes,
-    pageName
-  ) => {
-    await axios.post(
-      `http://localhost:4242/pages/${pageID}/newtexteAtPageCreation`,
+    axios.put(
+      `http://localhost:4242/themesScenarios/${scenarioForInfoEdit.id}`,
       {
-        top,
-        left,
-        width,
-        height,
-        fontSize,
-        fontWeight,
-        textAlign,
+        scenarios_id: scenarioForInfoEdit.id,
+        themes_id: themeID,
       }
     )
 
-    const { data } = await axios.get(`http://localhost:4242/lasttexte`)
-    data.placeHolder = placeholder
-    if (pageName) {
-      data.text = pageName
-    }
-    newTextes = [...newTextes, data]
-
-    return newTextes
+    setShowEditScenario(false)
   }
-
-  // ----FIN SECTION-------------------------------------
 
   useEffect(() => {
     axios
       .get("http://localhost:4242/rolegames")
-      .then(({ data }) => setRoleGame(data))
+      .then(({ data }) => {
+        setRoleGame(data)
+        setValueRoleGame(
+          data.filter(
+            (game) => game.id === scenarioForInfoEdit.jeux_de_role_id
+          )[0].name
+        )
+      })
       .catch((err) => console.error(err))
 
     axios
       .get("http://localhost:4242/themes")
       .then(({ data }) => setThemes(data))
       .catch((err) => console.error(err))
-  }, [])
-
-  // useEffect(() => {
-  //   setMonted(true)
-  // }, [])
-
-  useEffect(() => {
-    setWritingDateStart(getDateOfDay())
-    setPublicationDate("3000-01-01") // Inutile mais pour eviter une erreur => A supprimer !
   }, [])
 
   return (
@@ -381,7 +233,11 @@ export default function FormNewScenario({
             <div className="form-flexRow">
               <div className="form-flexColumn">
                 <p>Role Game / universe :</p>
-                <select className="inputSelect" onChange={handleChangeRoleGame}>
+                <select
+                  className="inputSelect"
+                  onChange={handleChangeRoleGame}
+                  value={valueRoleGame}
+                >
                   <option>---</option>
                   {roleGame.map((univer) => (
                     <option value={univer.name} key={univer.id}>
@@ -393,7 +249,11 @@ export default function FormNewScenario({
 
               <div className="form-flexColumn">
                 <p>Theme :</p>
-                <select className="inputSelect" onChange={handleChangeTheme}>
+                <select
+                  className="inputSelect"
+                  onChange={handleChangeTheme}
+                  value={valueTheme}
+                >
                   <option>---</option>
                   {themes.map((theme) => (
                     <option value={theme.name} key={theme.id}>
@@ -411,13 +271,18 @@ export default function FormNewScenario({
                   className="inputText"
                   type="text"
                   placeholder="Titre de la campagne"
+                  value={titleScenario}
                   onChange={handleChangeTitle}
                 />
               </div>
 
               <div className="form-flexColumn">
                 <p>Difficulty :</p>
-                <select className="inputSelect" onChange={handleChangeLevel}>
+                <select
+                  className="inputSelect"
+                  onChange={handleChangeLevel}
+                  value={levelScenario}
+                >
                   <option>---</option>
                   {difficulty.map((grade) => (
                     <option value={grade.nameDiff} key={grade.id}>
@@ -436,6 +301,7 @@ export default function FormNewScenario({
                   <select
                     className="NumberPlayer"
                     onChange={handleChangeNbPlayerMin}
+                    value={playerNumberMin}
                   >
                     <option>---</option>
                     {numberPlayers.map((number) => (
@@ -450,6 +316,7 @@ export default function FormNewScenario({
                   <select
                     className="NumberPlayer"
                     onChange={handleChangeNbPlayerMax}
+                    value={playerNumberMax}
                   >
                     <option>---</option>
                     {numberPlayers.map((number) => (
@@ -488,6 +355,7 @@ export default function FormNewScenario({
                 placeholder="Resume here"
                 maxLength="2000"
                 onChange={handleChangeDescription}
+                value={descriptionScenario}
               />
             </div>
           </div>

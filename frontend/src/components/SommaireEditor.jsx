@@ -19,6 +19,8 @@ export default function SommaireEditor(props) {
     handleSave,
     setPageHistory,
     setPageFuture,
+    setShowEditScenario,
+    setScenarioForInfoEdit,
   } = props
 
   //  console.log("scenariosOfEditedCampagne",scenariosOfEditedCampagne);
@@ -523,6 +525,14 @@ export default function SommaireEditor(props) {
   // ----------------------------------------------------------------------
   // ----FONCTIONS SECTION SCENARIOS-------------------
   // ------------------------------------------------------------------
+
+  const handleClickButtonEditInfoScenario = (scenarioID) => {
+    axios
+      .get(`http://localhost:4242/scenarios/${scenarioID}`)
+      .then(({ data }) => setScenarioForInfoEdit(data))
+      .then(() => setShowEditScenario((prevstate) => !prevstate))
+  }
+
   const handleClickSelectScenario = (scenarioID) => {
     // on sauvegarde la page (textes et images) avant de la quitter
     handleSave()
@@ -878,6 +888,9 @@ export default function SommaireEditor(props) {
                     src={dotsCircle}
                     alt="Informations détaillées du scénario"
                     title="Informations détaillées du scénario"
+                    onClick={() =>
+                      handleClickButtonEditInfoScenario(scenario.id)
+                    }
                   />
                 </div>
               ))}
