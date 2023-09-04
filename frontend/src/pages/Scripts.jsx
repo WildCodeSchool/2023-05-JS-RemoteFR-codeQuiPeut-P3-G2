@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar"
 // import Switch from "../components/Switch"
 
 import "./Scripts.scss"
+// import axios from "axios"
 
 function Scripts() {
   const examples = [
@@ -23,6 +24,13 @@ function Scripts() {
       vue: "80",
     },
   ]
+
+  // useEffect(() => {
+  //   axios.get("http://localhost:4242/scenario").then(({ data }) => {
+  //     return console.info({ data })
+  //   })
+  // }, [])
+
   const [selectedId, setSelectedId] = useState(1)
   const [selectedGenre, setSelectedGenre] = useState("")
   const [sortedExamples, setSortedExamples] = useState([...examples])
@@ -105,7 +113,6 @@ function Scripts() {
           <p>{selectedGenre && `${selectedGenre}`}</p>
           <p>{selectedDate && selectedDate.date}</p>
           <p>{sortedVue && mostViewed.vue}</p>
-          <p></p>
         </div>
       </div>
     </div>

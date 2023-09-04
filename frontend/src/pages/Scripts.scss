@@ -7,9 +7,14 @@ $colorYellow: #ffbd59;
 	justify-content: space-between;
 	align-items: flex-start;
 
-	.try{
-		font-size: xx-large;
+		.Filter{
+			width: 30vw;
+			box-shadow: 7px 0px 4px -4px $blueColor;
+		}
 
+		.try{
+			width:70vw;
+			font-size: xx-large;
 	}
 }
 
