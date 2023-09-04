@@ -19,6 +19,8 @@ export default function SommaireEditor(props) {
     handleSave,
     setPageHistory,
     setPageFuture,
+    setShowEditScenario,
+    setScenarioForInfoEdit,
   } = props
 
   //  console.log("scenariosOfEditedCampagne",scenariosOfEditedCampagne);
@@ -523,6 +525,14 @@ export default function SommaireEditor(props) {
   // ----------------------------------------------------------------------
   // ----FONCTIONS SECTION SCENARIOS-------------------
   // ------------------------------------------------------------------
+
+  const handleClickButtonEditInfoScenario = (scenarioID) => {
+    axios
+      .get(`http://localhost:4242/scenarios/${scenarioID}`)
+      .then(({ data }) => setScenarioForInfoEdit(data))
+      .then(() => setShowEditScenario((prevstate) => !prevstate))
+  }
+
   const handleClickSelectScenario = (scenarioID) => {
     // on sauvegarde la page (textes et images) avant de la quitter
     handleSave()
@@ -843,7 +853,7 @@ export default function SommaireEditor(props) {
       <section className="container-campagne-scenario-page">
         {scenariosOfEditedCampagne[1] && (
           <section className="section-campagne">
-            <h1>Campagne</h1>
+            <h1>Campaign</h1>
             <div>
               <p>{editedCampagne.name}</p>
               <img
@@ -858,7 +868,7 @@ export default function SommaireEditor(props) {
         {scenariosOfEditedCampagne[0] && (
           <>
             <section className="section-scenarios">
-              <h1>Scénarios</h1>
+              <h1>Scenarios</h1>
               {scenariosOfEditedCampagne.map((scenario) => (
                 <div key={scenario.id}>
                   <p
@@ -878,6 +888,9 @@ export default function SommaireEditor(props) {
                     src={dotsCircle}
                     alt="Informations détaillées du scénario"
                     title="Informations détaillées du scénario"
+                    onClick={() =>
+                      handleClickButtonEditInfoScenario(scenario.id)
+                    }
                   />
                 </div>
               ))}
@@ -903,7 +916,7 @@ export default function SommaireEditor(props) {
                 (page) => page.page_types_id === 2
               ).length > 0 && (
                 <>
-                  <h2>Personnages</h2>
+                  <h2>Characters</h2>
                   {pagesOfScenarioSelected
                     .filter((page) => page.page_types_id === 2)
                     .sort((a, b) => a.number - b.number)
@@ -949,7 +962,7 @@ export default function SommaireEditor(props) {
                               type="button"
                               onClick={() => handleClickPageRename(page.id)}
                             >
-                              Renommer
+                              Rename
                             </button>
                             <button
                               type="button"
@@ -957,7 +970,7 @@ export default function SommaireEditor(props) {
                                 handleClickPageDelete(page.id, page.number)
                               }
                             >
-                              Supprimer
+                              Delete
                             </button>
                           </div>
                         )}
@@ -970,7 +983,7 @@ export default function SommaireEditor(props) {
                 (page) => page.page_types_id === 3
               ).length > 0 && (
                 <>
-                  <h2>Objets</h2>
+                  <h2>Objects</h2>
                   {pagesOfScenarioSelected
                     .filter((page) => page.page_types_id === 3)
                     .sort((a, b) => a.number - b.number)
@@ -1016,7 +1029,7 @@ export default function SommaireEditor(props) {
                               type="button"
                               onClick={() => handleClickPageRename(page.id)}
                             >
-                              Renommer
+                              Rename
                             </button>
                             <button
                               type="button"
@@ -1024,7 +1037,7 @@ export default function SommaireEditor(props) {
                                 handleClickPageDelete(page.id, page.number)
                               }
                             >
-                              Supprimer
+                              Delete
                             </button>
                           </div>
                         )}
@@ -1037,7 +1050,7 @@ export default function SommaireEditor(props) {
                 (page) => page.page_types_id === 4
               ).length > 0 && (
                 <>
-                  <h2>Lieux</h2>
+                  <h2>Locations</h2>
                   {pagesOfScenarioSelected
                     .filter((page) => page.page_types_id === 4)
                     .sort((a, b) => a.number - b.number)
@@ -1083,7 +1096,7 @@ export default function SommaireEditor(props) {
                               type="button"
                               onClick={() => handleClickPageRename(page.id)}
                             >
-                              Renommer
+                              Rename
                             </button>
                             <button
                               type="button"
@@ -1091,7 +1104,7 @@ export default function SommaireEditor(props) {
                                 handleClickPageDelete(page.id, page.number)
                               }
                             >
-                              Supprimer
+                              Delete
                             </button>
                           </div>
                         )}
@@ -1150,7 +1163,7 @@ export default function SommaireEditor(props) {
                               type="button"
                               onClick={() => handleClickPageRename(page.id)}
                             >
-                              Renommer
+                              Rename
                             </button>
                             <button
                               type="button"
@@ -1158,7 +1171,7 @@ export default function SommaireEditor(props) {
                                 handleClickPageDelete(page.id, page.number)
                               }
                             >
-                              Supprimer
+                              Delete
                             </button>
                           </div>
                         )}
