@@ -13,6 +13,7 @@ import EditorImageStyle from "../components/EditorImageStyle"
 import SommaireEditor from "../components/SommaireEditor"
 import Navbar from "../components/Navbar"
 import FormNewScenario from "./FormNewScenario"
+import FormEditScenario from "./FormEditScenario"
 
 export default function Editor() {
   const [user, setUser] = useState({}) // à SUPPRIMER par la suite, à récupérer via un context
@@ -20,6 +21,7 @@ export default function Editor() {
   const [campagnesUtilisateur, setCampagnesUtilisateur] = useState([]) // (id, campagneName)
   const [editedCampagne, setEditedCampagne] = useState({})
   const [scenariosOfEditedCampagne, setScenariosOfEditedCampagne] = useState([])
+  const [scenarioForInfoEdit, setScenarioForInfoEdit] = useState({})
   const [pagesOfScenarioSelected, setPagesOfScenarioSelected] = useState([])
   const [selectedElementType, setSelectedElementType] = useState("none")
   const [showMenuOpen, setShowMenuOpen] = useState(false)
@@ -38,6 +40,7 @@ export default function Editor() {
   const [savedImageStyles, setSavedImageStyles] = useState([])
   const [savedPageStyles, setSavedPageStyles] = useState([])
   const [showNewScenario, setShowNewScenario] = useState(false)
+  const [showEditScenario, setShowEditScenario] = useState(false)
   const [indexAfficheStyleText, setIndexAfficheStyleText] = useState({
     min: 0,
     max: 2,
@@ -1268,6 +1271,8 @@ export default function Editor() {
               setPageHistory={setPageHistory}
               setPageFuture={setPageFuture}
               setSelectedElementType={setSelectedElementType}
+              setShowEditScenario={setShowEditScenario}
+              setScenarioForInfoEdit={setScenarioForInfoEdit}
               user={user} // a SUPPRIMER probablement
               author={author} // a SUPPRIMER éventuellement, a voir
             />
@@ -1343,6 +1348,14 @@ export default function Editor() {
           setPageHistory={setPageHistory}
           setTextes={setTextes}
           setShowNewScenario={setShowNewScenario}
+        />
+      )}
+
+      {showEditScenario && (
+        <FormEditScenario
+          scenarioForInfoEdit={scenarioForInfoEdit}
+          setShowEditScenario={setShowEditScenario}
+          setScenariosOfEditedCampagne={setScenariosOfEditedCampagne}
         />
       )}
     </>
