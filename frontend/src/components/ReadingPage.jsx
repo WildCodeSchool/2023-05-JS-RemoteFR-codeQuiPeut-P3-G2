@@ -31,18 +31,46 @@ export default function ReadingPage(props) {
   //   }
 
   // ----FIN SECTION--------------------------------------------------
+
+  const calculateFontSize = (remSize) => {
+    if (window.innerWidth >= 1000) {
+      return remSize
+    } else {
+      const intSize = parseFloat(remSize)
+      return (intSize * window.innerWidth) / 1000 + "rem"
+    }
+  }
+
+  const adjustPxSize = (pxSize) => {
+    if (window.innerWidth >= 1000) {
+      return pxSize
+    } else {
+      const intSize = parseFloat(pxSize)
+      return (intSize * window.innerWidth) / 1000 + "px"
+    }
+  }
+
   return (
     <>
       {selectedPage && (
         <section className="section-page-reading" style={selectedPage.style}>
           {textes.map((item) => (
-            //   <textarea
-            //     key={item.id}
-            //     style={item.style}
-            //     value={item.text}
+            // <textarea
+            //   key={item.id}
+            //   style={item.style}
+            //   value={item.text}
 
-            //   ></textarea>
-            <div key={item.id} style={item.style}>
+            // ></textarea>
+            <div
+              key={item.id}
+              style={{
+                ...item.style,
+                fontSize: calculateFontSize(item.style.fontSize),
+                padding: adjustPxSize(item.style.padding),
+                borderRadius: adjustPxSize(item.style.borderRadius),
+                borderWidth: adjustPxSize(item.style.borderWidth),
+              }}
+            >
               <p style={{ textAlign: item.style.textAlign, margin: 0 }}>
                 {item.text}
               </p>
@@ -53,7 +81,12 @@ export default function ReadingPage(props) {
             <img
               src={item.img_src}
               alt="image"
-              style={item.style}
+              style={{
+                ...item.style,
+                padding: adjustPxSize(item.style.padding),
+                borderRadius: adjustPxSize(item.style.borderRadius),
+                borderWidth: adjustPxSize(item.style.borderWidth),
+              }}
               key={item.id}
             />
           ))}

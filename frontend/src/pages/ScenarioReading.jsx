@@ -88,9 +88,13 @@ export default function ScenarioReading() {
 
     setHeightPage(() => {
       if (window.innerWidth > 1000) {
-        return "1750px"
+        return "1414px"
       } else {
-        return window.innerWidth * 1.75 + "px"
+        if (window.innerHeight > 1.414 * window.innerWidth) {
+          return window.innerHeight
+        } else {
+          return window.innerWidth * 1.414 + "px"
+        }
       }
     })
     // root.style.setProperty(

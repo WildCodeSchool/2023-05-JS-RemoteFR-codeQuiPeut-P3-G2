@@ -11,12 +11,13 @@ $fontSizeTitre: 1.5rem;
   justify-content: center;
 
   .section-scenarioReading {
-    position: relative;
+    // position: relative;
 
     background-color: $colorDark;
     box-sizing: border-box;
 
     .reading-page-container {
+      // position: relative;
       width: 100%;
       height: 100%;
       max-width: 1000px;
