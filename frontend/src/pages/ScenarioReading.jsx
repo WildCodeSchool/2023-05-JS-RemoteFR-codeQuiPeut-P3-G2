@@ -1,11 +1,17 @@
 import { useState, useEffect } from "react"
 // import { useLocation } from "react-router-dom"
 import ReadingPage from "../components/ReadingPage"
+import SommaireReading from "../components/SommaireReading"
 import axios from "axios"
 
 export default function ScenarioReading() {
   // const location = useLocation()
   // const scenario = location.state?.scenario
+  const scenario = {
+    // A REMPLACER PAR LE LOCATION CI DESSUS
+    id: 1,
+    name: "Levé tôt",
+  }
 
   const [textes, setTextes] = useState([])
   const [images, setImages] = useState([])
@@ -15,7 +21,7 @@ export default function ScenarioReading() {
   const [heightPage, setHeightPage] = useState("1750px")
   const [widthPage, setWidthPage] = useState("1000px")
 
-  const scenarioID = 1
+  const scenarioID = 1 // A REMPLACER PAR scenario.id
 
   const handleFindTextesAndImages = (pageNumber) => {
     const idPageSelected = pages.filter((item) => item.number === pageNumber)[0]
@@ -57,24 +63,6 @@ export default function ScenarioReading() {
     }
   }
 
-  // // fonction renvoyant une largeur en fonction de la taille de la fenetre
-  // const setWidthPage = (width) => {
-  //   if (width > 1000) {
-  //     return "1000px"
-  //   } else {
-  //     return width + "px"
-  //   }
-  // };
-
-  // // fonction renvoyant une hauteur en fonction de la taille de la fenetre
-  // const setHeightPage = (width) => {
-  //   if (width > 1000) {
-  //     return "1750px"
-  //   } else {
-  //     return width * 1.75 + "px"
-  //   }
-  // };
-
   // fonction donnant les actions à faire lorsque la fenetre du navigateur est redimensionnée
   const resetWidthPageOnWindowResize = () => {
     // setWindowWidth(window.innerWidth)
@@ -97,10 +85,6 @@ export default function ScenarioReading() {
         }
       }
     })
-    // root.style.setProperty(
-    //   "--dimensionImageHome",
-    //   setWidthImageHome(largeurWindow, hauteurWindow)
-    // );
   }
 
   // on appelle la fonction lorsque la fenêtre est redimensionnée
@@ -145,6 +129,16 @@ export default function ScenarioReading() {
 
   return (
     <main className="main-scenarioReading">
+      <section className="section-sommaireReading">
+        <SommaireReading
+          scenario={scenario}
+          pages={pages}
+          setPages={setPages}
+          setTextes={setTextes}
+          setImages={setImages}
+        />
+      </section>
+
       <section
         className="section-scenarioReading"
         style={{ width: widthPage, height: heightPage }}
