@@ -61,6 +61,11 @@ $fontSizeTitre: 1.5rem;
       height: 100%;
     }
 
+    .imgResumPagScenar {
+      border-radius: 15px;
+      border: solid 3px $blueColor;
+    }
+
     ul {
       width: 75%;
       height: 80%;
@@ -102,8 +107,8 @@ $fontSizeTitre: 1.5rem;
       input {
         width: 33%;
         height: 75%;
-        font-size: $fontSizeBouton;
-        border-radius: 12px;
+        font-size: $fontSizeBouton; // attention au responsive ...
+        border-radius: 120px;
       }
     }
 
@@ -114,8 +119,13 @@ $fontSizeTitre: 1.5rem;
 
       textarea {
         margin-bottom: 5px;
-      }
+        border-radius: 10px;
+        padding: 10px;
+      }      
     }
 
+    .comments {
+      color: $colorYellow;
+    }
   }
 }

@@ -26,13 +26,24 @@ const ResumePageScenario = () => {
     level: "hard",
     img: "http://localhost:4242/public/assets/images/cameleon1.jpg1693405905262.jpg",
     description:
-      "c'est l'histoire d'un mec qui se fait bouffer par un dinosaure dans THe Witcher ...",
+      "c'est l'histoire d'un mec qui se fait bouffer par un dinosaure dans The Witcher ...",
     model: 1,
   }
   const { user } = useContext(MyContext)
   const navigate = useNavigate()
   const [isFavorite, setIsFAvorite] = useState(false)
   const [addComment, setAddComment] = useState(false)
+  const [avis, setAvis] = useState([])
+  const [comment, setComment] = useState()
+  const [writingDateComment, setWritingDateComment] = useState()
+
+  const getDateOfDay = () => {
+    const today = new Date()
+    const year = today.getFullYear()
+    const month = String(today.getMonth() + 1).padStart(2, "0")
+    const day = String(today.getDate()).padStart(2, "0")
+    return `${year}-${month}-${day}`
+  }
 
   const handleClickFavorite = () => {
     if (user !== null) {
@@ -55,12 +66,38 @@ const ResumePageScenario = () => {
     }
   }
 
-  const handleClickComment = () => {
+  const handleWriteComment = (e) => {
+    setComment(e.target.value)
+  }
+
+  const handleClickAddComment = () => {
     setAddComment(!addComment)
   }
 
   const handleGoToScenario = () => {
     navigate("/readscenario", { state: scenario })
+  }
+
+  const handleClickSubmitComment = () => {
+    axios
+      .post(`http://localhost:4242/scenarcomm`, {
+        utilisateurID: user.id,
+        scenarioID: scenario.id,
+        textcomment: comment,
+        datecomment: writingDateComment,
+      })
+      .then(() =>
+        axios.get("http://localhost:4242/scenarcomm").then(({ data }) => {
+          setAvis(data) || console.info(data).catch((err) => console.error(err))
+        })
+      )
+      .catch((err) => console.error(err))
+
+    setComment("")
+    // console.info("user", user.id)
+    // console.info("scenario", scenario.id)
+    // console.info("comm", comment)
+    // console.info("DateComment", writingDateComment)
   }
 
   useEffect(() => {
@@ -71,6 +108,19 @@ const ResumePageScenario = () => {
       })
       .catch(() => setIsFAvorite(false))
   }, [])
+
+  useEffect(() => {
+    setWritingDateComment(getDateOfDay())
+  }, [])
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:4242/scenarcomm")
+      .then(({ data }) => {
+        setAvis(data)
+      })
+      .catch((err) => console.error(err))
+  }, [avis])
 
   return (
     <>
@@ -85,7 +135,11 @@ const ResumePageScenario = () => {
           {/*  Penser à supprimer "Titre du scenario : " */}
         </div>
         <div className="mainInfos">
-          <img src={scenario.img} alt="picture of scenario" />
+          <img
+            className="imgResumPagScenar"
+            src={scenario.img}
+            alt="picture of scenario"
+          />
           {/* Pour vivualisation => à supprimer après ! Et activer celle d'en dessous ! */}
           {/* <img src={imgScenar} alt="picture of scenario" /> */}
           <ul>
@@ -121,7 +175,7 @@ const ResumePageScenario = () => {
               type="button"
               value="Leave a Comment"
               id="buttonAddComment"
-              onClick={handleClickComment}
+              onClick={handleClickAddComment}
             />
           </div>
           {addComment && (
@@ -133,10 +187,24 @@ const ResumePageScenario = () => {
                 rows="10"
                 maxLength="300"
                 placeholder="Add here your comment ... "
+                onChange={handleWriteComment}
               ></textarea>
-              <input type="button" value="Submit" />
+              <input
+                type="button"
+                value="Submit"
+                onClick={handleClickSubmitComment}
+              />
             </div>
           )}
+          <div className="comments">
+            <p>liste of comms !</p>
+            {avis.map((avi) => (
+              <div key={avi.id}>
+                <p>{avi.commentaire}</p>
+                <input type="button" value="Get out of here !" />
+              </div>
+            ))}
+          </div>
         </div>
       </main>
     </>
