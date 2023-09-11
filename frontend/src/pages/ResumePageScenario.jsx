@@ -1,14 +1,17 @@
 import { useState, useContext, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+// import { useLocation } from "react-router-dom"
 import MyContext from "../components/MyContext"
 import Navbar from "../components/Navbar"
 import axios from "axios"
-
 // import imgDefaultScenario from "../assets/images/defoscenario.png"
 import fullStar from "../assets/images/etoile-pleine.png"
 import emptyStar from "../assets/images/etoile-vide.png"
 
 // const ResumePageScenario = ({ scenario }) => {
 const ResumePageScenario = () => {
+  // const location = useLocation()
+  // const scenario = location.state
   const scenario = {
     id: 1,
     auteur_id: 1,
@@ -27,6 +30,7 @@ const ResumePageScenario = () => {
     model: 1,
   }
   const { user } = useContext(MyContext)
+  const navigate = useNavigate()
   const [isFavorite, setIsFAvorite] = useState(false)
   const [addComment, setAddComment] = useState(false)
 
@@ -53,6 +57,10 @@ const ResumePageScenario = () => {
 
   const handleClickComment = () => {
     setAddComment(!addComment)
+  }
+
+  const handleGoToScenario = () => {
+    navigate("/readscenario", { state: scenario })
   }
 
   useEffect(() => {
@@ -104,7 +112,11 @@ const ResumePageScenario = () => {
         </div>
         <div className="scenarInteractions">
           <div className="scenarInteractionsHight">
-            <input type="button" value="Read the Scenario" />
+            <input
+              type="button"
+              value="Read the Scenario"
+              onClick={handleGoToScenario}
+            />
             <input
               type="button"
               value="Leave a Comment"

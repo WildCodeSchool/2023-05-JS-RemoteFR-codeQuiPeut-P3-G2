@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react"
-// import { useLocation } from "react-router-dom"
+import { useLocation } from "react-router-dom"
 import ReadingPage from "../components/ReadingPage"
 import SommaireReading from "../components/SommaireReading"
 import summary from "../assets/images/summary2.png"
 import axios from "axios"
 
 export default function ScenarioReading() {
-  // const location = useLocation()
-  // const scenario = location.state?.scenario
-  const scenario = {
-    // A REMPLACER PAR LE LOCATION CI DESSUS
-    id: 1,
-    name: "Levé tôt",
-  }
+  const location = useLocation()
+  const scenario = location.state
+  // const scenario = {
+  //   // A REMPLACER PAR LE LOCATION CI DESSUS
+  //   id: 1,
+  //   name: "Levé tôt",
+  // }
 
   const [textes, setTextes] = useState([])
   const [images, setImages] = useState([])
