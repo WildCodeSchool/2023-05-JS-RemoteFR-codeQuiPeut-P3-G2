@@ -174,6 +174,25 @@ const sendUserWhoHasGoodEmailAndPassword = (req, res) => {
     })
 }
 
+const changePassword = (req, res) => {
+  const utilisateurs = req.body
+  const id = req.params.id
+
+  models.utilisateurs
+    .updatePassword(utilisateurs, id)
+    .then(([result]) => {
+      if (result.affectedRows === 0) {
+        res.sendStatus(404)
+      } else {
+        res.sendStatus(204)
+      }
+    })
+    .catch((err) => {
+      console.error(err)
+      res.sendStatus(500)
+    })
+}
+
 module.exports = {
   browse,
   add,
@@ -186,4 +205,5 @@ module.exports = {
   verifyEmail,
   verifyLogin,
   sendUserWhoHasGoodEmailAndPassword,
+  changePassword,
 }

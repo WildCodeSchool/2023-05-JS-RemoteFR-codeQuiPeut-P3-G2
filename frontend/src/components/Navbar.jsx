@@ -11,12 +11,12 @@ const Navbar = () => {
   const { user, setUser } = useContext(MyContext)
   const [openForm, setOpenForm] = useState(false)
   const [openFormSignUp, setOpenFormSignUp] = useState(false)
-  const [changeClassToOpenMenu,setChangeClassToOpenMenu]=useState(false)
+  const [changeClassToOpenMenu, setChangeClassToOpenMenu] = useState(true)
 
-  const HandleChangeClassTopOpenMenu=()=>{
+  const HandleChangeClassTopOpenMenu = () => {
     setChangeClassToOpenMenu(!changeClassToOpenMenu)
   }
-  
+
   const HandleClickOpenLog = () => {
     setOpenForm(true)
   }
@@ -66,16 +66,28 @@ const Navbar = () => {
             </button>
           ) : (
             <div className="loginContainer">
-              <button className="userConnect" type="button" onClick={HandleChangeClassTopOpenMenu}>
+              <button
+                className="userConnect"
+                type="button"
+                onClick={HandleChangeClassTopOpenMenu}
+              >
                 <p>{user.login}</p>
                 <img src={logout} alt="logout" onClick={HandleClickLogout} />
               </button>
-                <ul className={changeClassToOpenMenu ? "scrollingMenu" : "scrollingMenu displayNone" }>
-                  <Link to="/useraccount"><li>Informations</li></Link>
-                  <li>Favorites</li>
-                  <li>Creations</li>
-                  <li>Followers</li>
-                </ul>
+              <ul
+                className={
+                  changeClassToOpenMenu
+                    ? "scrollingMenu"
+                    : "scrollingMenu displayNone"
+                }
+              >
+                <Link to="/useraccount">
+                  <li>Informations</li>
+                </Link>
+                <li>Favorites</li>
+                <li>Creations</li>
+                <li>Followers</li>
+              </ul>
             </div>
           )}
           <button
