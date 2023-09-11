@@ -1,0 +1,127 @@
+$colorYellow: #ffbd59;
+$colorDark: #070a09;
+$blueColor: #4c60ae;
+$fontSizeP: 1.2rem;
+$fontSizeBouton: 1.3rem;
+$fontSizeTitre: 1.5rem;
+
+.main-sommaire-reading {
+  padding: 8px;
+
+  .sommaire-logo-home {
+    display: block;
+    width: 200px;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 50px;
+    cursor: pointer;
+  }
+
+  .container-campagne-scenario-page {
+    height: calc(96vh - 160px);
+    overflow-y: auto;
+    // border: 1px solid yellow;
+
+    .section-scenarios,
+    .section-pages {
+      p {
+        cursor: pointer;
+      }
+    }
+
+    .section-campagne,
+    .section-scenarios,
+    .section-pages {
+      color: white;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 16px;
+      width: 80%;
+
+      h1 {
+        text-align: center;
+        margin: 0;
+        font-size: $fontSizeTitre;
+        color: $colorYellow;
+        margin-bottom: 8px;
+      }
+
+      h2 {
+        text-align: center;
+        margin: 0;
+        font-size: $fontSizeTitre;
+        color: $blueColor;
+        // margin-bottom: 8px;
+      }
+
+      div {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+
+        p {
+          color: white;
+          font-size: $fontSizeP;
+          text-align: center;
+          margin: 8px;
+        }
+
+        input {
+          background-color: $blueColor;
+          color: white;
+          font-size: $fontSizeP;
+          text-align: center;
+        }
+
+        .container-menu-EditorPage {
+          position: absolute;
+          z-index: 3;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          gap: 0;
+          background-color: #ffbd591c;
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+
+          button {
+            width: 50%;
+            background-color: $blueColor;
+            color: white;
+            font-size: $fontSizeP;
+
+            &:hover {
+              background-color: $colorYellow;
+              color: black;
+            }
+          }
+        }
+
+        img {
+          width: 25px;
+          height: 25px;
+          border-radius: 50%;
+          cursor: pointer;
+
+          &:hover {
+            box-shadow: 0px 0px 20px 3px $colorYellow;
+          }
+        }
+      }
+    }
+
+    .section-scenarios {
+      p {
+        text-align: center;
+        cursor: default;
+        font-size: $fontSizeP;
+      }
+    }
+  }
+}

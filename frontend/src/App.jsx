@@ -8,6 +8,7 @@ import ResumePageScenario from "./pages/ResumePageScenario"
 import { Routes, Route } from "react-router-dom"
 import { useState, useMemo, useEffect } from "react"
 import "../index.scss"
+import ScenarioReading from "./pages/ScenarioReading"
 
 function App() {
   // users sera l'ensemble des utilisateurs de mon site
@@ -60,6 +61,7 @@ function App() {
           <Route path="/editor" element={<Editor />} />
           <Route path="/forum" element={<Forum />} />
           <Route path="/scripts" element={<Scripts />} />
+          <Route path="/readscenario" element={<ScenarioReading />} />
           <Route path="/formnewscenario" element={<FormNewScenario />} />
           <Route path="/resumescenario" element={<ResumePageScenario />} />
         </Routes>
