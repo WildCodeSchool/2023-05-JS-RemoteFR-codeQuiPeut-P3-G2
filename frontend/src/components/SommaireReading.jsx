@@ -1,17 +1,31 @@
 import axios from "axios"
+import scriptLogo from "../assets/images/ScripLogo.png"
+import { useNavigate } from "react-router-dom"
 // import { useState } from "react"
 
 export default function SommaireReading(props) {
-  const { scenario, pages, setPages, setTextes, setImages } = props
+  const {
+    scenario,
+    pages,
+    setPages,
+    setTextes,
+    setImages,
+    setShowSummary,
+    setPageNumber,
+  } = props
+  const navigate = useNavigate()
 
-  //  console.log("scenario",scenario);
-  //  console.log("editedCampagne",editedCampagne);
+  const handleClickLogoScripter = () => {
+    navigate("/")
+  }
 
   // ----------------------------------------------------------------------
   // ----FONCTIONS SECTION SCENARIOS-------------------
   // ------------------------------------------------------------------
 
   const handleClickSelectpage = (pageID) => {
+    setShowSummary(false)
+
     const newpages = pages.map((page) =>
       page.id === pageID
         ? { ...page, selected: true }
@@ -19,6 +33,8 @@ export default function SommaireReading(props) {
     )
 
     setPages(newpages)
+
+    setPageNumber(newpages.filter((page) => page.selected === true)[0].number)
 
     const idPageSelected = newpages.filter((item) => item.selected === true)[0]
       .id
@@ -47,7 +63,15 @@ export default function SommaireReading(props) {
   // ----FIN SECTION-----------------------------------------------------
 
   return (
-    <main className="main-sommaire-editor">
+    <main className="main-sommaire-reading">
+      <img
+        src={scriptLogo}
+        alt="back to home"
+        title="back to home"
+        className="sommaire-logo-home"
+        onClick={handleClickLogoScripter}
+        draggable
+      />
       <section className="container-campagne-scenario-page">
         <section className="section-scenarios">
           <h1>Scenario</h1>

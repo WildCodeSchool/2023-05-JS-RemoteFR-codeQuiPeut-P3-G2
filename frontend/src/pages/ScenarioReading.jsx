@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 // import { useLocation } from "react-router-dom"
 import ReadingPage from "../components/ReadingPage"
 import SommaireReading from "../components/SommaireReading"
+import summary from "../assets/images/summary2.png"
 import axios from "axios"
 
 export default function ScenarioReading() {
@@ -17,9 +18,14 @@ export default function ScenarioReading() {
   const [images, setImages] = useState([])
   const [pages, setPages] = useState([])
   const [pageNumber, setPageNumber] = useState(1)
-  // const [windowWidth, setWindowWidth] = useState(window.innerWidth)
   const [heightPage, setHeightPage] = useState("1750px")
   const [widthPage, setWidthPage] = useState("1000px")
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
+  const [showSummary, setShowSummary] = useState(false)
+  const [coordLogoSummary, setCoordLogoSummary] = useState({
+    top: "50px",
+    left: "20px",
+  })
 
   const scenarioID = 1 // A REMPLACER PAR scenario.id
 
@@ -53,6 +59,14 @@ export default function ScenarioReading() {
       setPageNumber(pageNumber - 1)
       handleFindTextesAndImages(pageNumber - 1)
     }
+
+    setPages((prevState) =>
+      prevState.map((page) =>
+        page.number === pageNumber - 1
+          ? { ...page, selected: true }
+          : { ...page, selected: false }
+      )
+    )
   }
 
   const handleClickNextPage = () => {
@@ -61,11 +75,20 @@ export default function ScenarioReading() {
       setPageNumber(pageNumber + 1)
       handleFindTextesAndImages(pageNumber + 1)
     }
+
+    setPages((prevState) =>
+      prevState.map((page) =>
+        page.number === pageNumber + 1
+          ? { ...page, selected: true }
+          : { ...page, selected: false }
+      )
+    )
   }
 
   // fonction donnant les actions à faire lorsque la fenetre du navigateur est redimensionnée
   const resetWidthPageOnWindowResize = () => {
-    // setWindowWidth(window.innerWidth)
+    setWindowWidth(window.innerWidth)
+
     setWidthPage(() => {
       if (window.innerWidth > 1000) {
         return "1000px"
@@ -86,6 +109,28 @@ export default function ScenarioReading() {
       }
     })
   }
+
+  // ----------------------------------------------------------------------
+  // ----FONCTIONS DRAG DU LOGO SOMMAIRE-------------------
+  // ------------------------------------------------------------------
+
+  const handleDragOver = (event) => {
+    event.preventDefault()
+  }
+
+  const handleDrop = (event) => {
+    event.preventDefault()
+
+    const newTop = event.pageY + "px"
+
+    // const newLeft = event.pageX;
+    const newLeft = event.pageX + "px"
+    // console.log("newTop", newTop, "newLeft", newLeft)
+
+    setCoordLogoSummary({ top: newTop, left: newLeft })
+  }
+
+  // -----------FIN SECTION-------------------------------------------
 
   // on appelle la fonction lorsque la fenêtre est redimensionnée
   window.onresize = resetWidthPageOnWindowResize
@@ -128,16 +173,42 @@ export default function ScenarioReading() {
   }, [])
 
   return (
-    <main className="main-scenarioReading">
-      <section className="section-sommaireReading">
-        <SommaireReading
-          scenario={scenario}
-          pages={pages}
-          setPages={setPages}
-          setTextes={setTextes}
-          setImages={setImages}
-        />
-      </section>
+    <main
+      className="main-scenarioReading"
+      draggable
+      onDragOver={handleDragOver}
+      onDrop={handleDrop}
+    >
+      {windowWidth > 1400 ? (
+        <section className="section-sommaireReading">
+          <SommaireReading
+            scenario={scenario}
+            pages={pages}
+            setPages={setPages}
+            setTextes={setTextes}
+            setImages={setImages}
+            setShowSummary={setShowSummary}
+            setPageNumber={setPageNumber}
+          />
+        </section>
+      ) : (
+        <section
+          className="section-mobile-sommaireReading"
+          style={coordLogoSummary}
+        >
+          {showSummary === false && (
+            <img
+              src={summary}
+              alt="summary"
+              title="Click to open the summary"
+              className="img-showMenu"
+              onClick={() => {
+                setShowSummary(!showSummary)
+              }}
+            />
+          )}
+        </section>
+      )}
 
       <section
         className="section-scenarioReading"
@@ -155,6 +226,23 @@ export default function ScenarioReading() {
           />
         </div>
       </section>
+
+      {showSummary === true && (
+        <section
+          className="mobile-summary"
+          onMouseLeave={() => setShowSummary(!showSummary)}
+        >
+          <SommaireReading
+            scenario={scenario}
+            pages={pages}
+            setPages={setPages}
+            setTextes={setTextes}
+            setImages={setImages}
+            setShowSummary={setShowSummary}
+            setPageNumber={setPageNumber}
+          />
+        </section>
+      )}
     </main>
   )
 }
