@@ -48,6 +48,7 @@ router.get("/utilisateurs", utilisateursControllers.browse)
 router.get("/utilisateurs/:id", utilisateursControllers.read)
 router.post("/utilisateurs", utilisateursControllers.add)
 router.put("/utilisateurs/:id", utilisateursControllers.edit)
+router.put("/password/:id", utilisateursControllers.changePassword)
 router.delete("/utilisateurs/:id", utilisateursControllers.destroy)
 router.post(
   "/login",

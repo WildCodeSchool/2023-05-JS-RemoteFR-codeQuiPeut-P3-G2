@@ -1,0 +1,157 @@
+@import url("https://fonts.googleapis.com/css2?family=Lustria&display=swap");
+$colorYellow: #ffbd59;
+$colorDark: #070a09;
+$blueColor: #4c60ae;
+$colorWhite: #ffffff;
+$fontSizeP: 1.4rem;
+$fontSizeBouton: 1.3rem;
+$fontSizeTitre: 1.5rem;
+
+.modifyAccount {
+  position: relative;
+  width: 30vw;
+  height: 60vh;
+  box-sizing: border-box;
+  background-color: $colorDark;
+  color: $colorWhite;
+  font-family: Lustria;
+  font-size: $fontSizeP;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  input {
+    font-size: $fontSizeP;
+    width: 320px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    background-color: $colorDark;
+    color: $colorWhite;
+  }
+
+  .inputModify {
+    border-color: $blueColor;
+  }
+
+  .containerPassword {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-left: 32px;
+    align-items: center;
+
+    .containerEditPassword {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      label {
+        display: flex;
+        align-items: center;
+        width: 350px;
+        height: 30px;
+        color: $blueColor;
+        margin-right: 16px;
+      }
+
+      p {
+        color: $blueColor;
+      }
+
+      .imgContainer {
+        width: 70px;
+        height: 100%;
+        display: flex;
+        cursor: pointer;
+      }
+    }
+  }
+  .containerForm {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    padding-left: 32px;
+    border-bottom: 2px solid $blueColor;
+    margin-bottom: 16px;
+    .imgContainer {
+      width: 70px;
+      height: 100%;
+      display: flex;
+      justify-content: flex-end;
+      align-content: end;
+      align-self: end;
+      cursor: pointer;
+      p {
+        color: $colorYellow;
+        cursor: pointer;
+      }
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+    span {
+      color: $colorYellow;
+      cursor: pointer;
+    }
+    .containInformation {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      margin-top: 16px;
+      margin-bottom: 16px;
+      justify-content: center;
+
+      .emailMessageAndSuccessMessage {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 16px;
+        p {
+          color: $colorYellow;
+        }
+      }
+
+      .LastnameFirstname {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .labelInput {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 16px;
+        label {
+          width: 200px;
+          height: 30px;
+          color: $blueColor;
+          margin-right: 16px;
+        }
+      }
+
+      p {
+        width: 300px;
+        height: 30px;
+        margin: 0;
+      }
+    }
+  }
+  button {
+    width: 250px;
+    height: 50px;
+    border-radius: 42px;
+    background-color: #ffffff;
+    color: $colorDark;
+    font-size: $fontSizeBouton;
+
+    &:hover {
+      background-color: $blueColor;
+      color: $colorWhite;
+    }
+  }
+}
