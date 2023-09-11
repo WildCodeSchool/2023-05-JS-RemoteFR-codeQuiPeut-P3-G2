@@ -4,6 +4,7 @@ import Editor from "./pages/Editor"
 import Forum from "./pages/Forum"
 import Scripts from "./pages/Scripts"
 import FormNewScenario from "./pages/FormNewScenario"
+import ResumePageScenario from "./pages/ResumePageScenario"
 import { Routes, Route } from "react-router-dom"
 import { useState, useMemo, useEffect } from "react"
 import "../index.scss"
@@ -62,6 +63,7 @@ function App() {
           <Route path="/scripts" element={<Scripts />} />
           <Route path="/readscenario" element={<ScenarioReading />} />
           <Route path="/formnewscenario" element={<FormNewScenario />} />
+          <Route path="/resumescenario" element={<ResumePageScenario />} />
         </Routes>
       </MyContext.Provider>
     </div>

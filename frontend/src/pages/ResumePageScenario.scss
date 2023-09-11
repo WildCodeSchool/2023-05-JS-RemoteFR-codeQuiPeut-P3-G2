@@ -1,0 +1,121 @@
+$colorYellow: #ffbd59;
+$colorDark: #070a09;
+$blueColor: #4c60ae;
+$fontSizeP: 1.2rem;
+$fontSizeBouton: 1.3rem;
+$fontSizeTitre: 1.5rem;
+
+.globalPage {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+
+  // color: white;
+
+  // .headerNavbare {
+  //   box-sizing: border-box;
+  //   width: 100vw;
+  //   // height: 10vh;
+  //   // margin-bottom: 50px;
+  //   margin-top: 0;
+  // }
+
+  .titleResumeScenar {
+    width: 75%;
+    height: 15%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    // background-color: red;
+
+    h1 {
+      font-size: $fontSizeTitre;
+      color: $colorYellow;
+    }
+
+    h2 {
+      font-size: $fontSizeBouton;
+      color: $blueColor;
+    }
+  }
+
+  .mainInfos {
+    width: 90%;
+    height: 35%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: $fontSizeP;
+    margin-bottom: 10px;
+    // background-color: green;
+
+    img {
+      width: auto;
+      height: 100%;
+    }
+
+    ul {
+      width: 75%;
+      height: 80%;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      list-style-type: none;
+      text-decoration: none;
+      // background-color: purple;
+    }
+
+    #isFavorite {
+      width: 75px;
+      height: 75px;
+      cursor: pointer;
+      // background-color: orange;
+    }
+  }
+
+  .scenarInteractions {
+      width: 50%;
+      height: 30%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      // background-color: yellowgreen;
+
+    .scenarInteractionsHight {
+      width: 100%;
+      height: 30%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
+      // background-color: aqua;
+  
+      input {
+        width: 33%;
+        height: 75%;
+        font-size: $fontSizeBouton;
+        border-radius: 12px;
+      }
+    }
+
+    .scenarInteractionsLow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      textarea {
+        margin-bottom: 5px;
+      }
+    }
+
+  }
+}
