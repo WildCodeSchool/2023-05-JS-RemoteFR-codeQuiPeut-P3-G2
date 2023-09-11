@@ -6,10 +6,10 @@ import axios from "axios"
 
 export default function AccountInformations() {
   const { user, setUser } = useContext(MyContext)
-  const [lastname, setLastname] = useState("")
-  const [firstname, setFirstname] = useState("")
-  const [login, setLogin] = useState("")
-  const [email, setEmail] = useState("")
+  const [lastname, setLastname] = useState(user.lastname)
+  const [firstname, setFirstname] = useState(user.firstname)
+  const [login, setLogin] = useState(user.login)
+  const [email, setEmail] = useState(user.email)
   const [emailAlreadyUsed, setEmailAlreadyUsed] = useState(false)
   const [loginAlreadyUsed, setLoginAlreadyUsed] = useState(false)
   const [password, setPassword] = useState("")
@@ -125,12 +125,12 @@ export default function AccountInformations() {
                     id="lastname"
                     type="text"
                     name="lastname"
-                    defaultValue={user.lastname}
+                    value={lastname}
                     onChange={HandleChangeLastname}
                     className="inputModify"
                   />
                 ) : (
-                  <p>{user ? user.lastname : ""}</p>
+                  <p>{lastname}</p>
                 )}
               </div>
               <div className="labelInput">
@@ -140,12 +140,12 @@ export default function AccountInformations() {
                     id="firstname"
                     type="text"
                     name="firstname"
-                    defaultValue={user ? user.firstname : ""}
+                    value={firstname}
                     onChange={HandleChangeFirstname}
                     className="inputModify"
                   />
                 ) : (
-                  <p>{user ? user.firstname : ""}</p>
+                  <p>{firstname}</p>
                 )}
               </div>
             </div>
@@ -156,12 +156,12 @@ export default function AccountInformations() {
                   id="login"
                   type="text"
                   name="login"
-                  defaultValue={user.login}
+                  value={login}
                   onChange={HandleChangeLogin}
                   className="inputModify"
                 />
               ) : (
-                <p>{user ? user.login : ""}</p>
+                <p>{login}</p>
               )}
               {loginAlreadyUsed && <p>Login déjà utilisé</p>}
             </div>
@@ -172,12 +172,12 @@ export default function AccountInformations() {
                   id="email"
                   type="email"
                   name="email"
-                  defaultValue={user.email}
+                  value={email}
                   onChange={HandleChangeEmail}
                   className="inputModify"
                 />
               ) : (
-                <p>{user ? user.email : ""}</p>
+                <p>{email}</p>
               )}
             </div>
             <div className="emailMessageAndSuccessMessage">
@@ -224,7 +224,7 @@ export default function AccountInformations() {
                 id="password"
                 type="password"
                 name="password"
-                defaultValue={""}
+                value={""}
                 onChange={HandleChangePassword}
                 className="inputModify"
               />
