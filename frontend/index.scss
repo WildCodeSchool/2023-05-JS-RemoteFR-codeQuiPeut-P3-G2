@@ -4,10 +4,15 @@
 @import "./src/pages/Scripts.scss";
 @import "./src/pages/Editor.scss";
 @import "./src/pages/Forum.scss";
+@import "./src/pages/ScenarioReading.scss";
 @import "./src/components/EditorPage.scss";
 @import "./src/components/SommaireEditor.scss";
+@import "./src/components/SommaireReading.scss";
 @import "./src/components/EditorTextStyle.scss";
 @import "./src/components/EditorPageStyle.scss";
+@import "./src/pages/FormNewScenario.scss";
+@import "./src/pages/ResumePageScenario.scss";
+@import "./src/components/ReadingPage.scss";
 
 $colorYellow: #ffbd59;
 $colorDark: #070a09;

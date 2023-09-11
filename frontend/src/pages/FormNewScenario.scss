@@ -6,8 +6,12 @@ $fontSizeBouton: 1.3rem;
 $fontSizeTitre: 1.5rem;
 
 .mainFormNewScenario {
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  z-index: 50;
+  left: calc(50vw - 650px / 2);
+  top: 50px;
+  width: 650px;
+  // height: 100%;
   display: flex;
   justify-content: center;
   font-family: Lustria;
@@ -17,12 +21,14 @@ $fontSizeTitre: 1.5rem;
   h2 {
     margin: 30px 0 10px 0;
     font-size: $fontSizeTitre;
+    color: $colorYellow;
   }
 
   .formGlobal {
     box-sizing: border-box;
-    width: 50%;
-    height: 100%;
+    width: 100%;
+    background-color: $colorDark;
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -30,141 +36,136 @@ $fontSizeTitre: 1.5rem;
     font-size: $fontSizeP;
     // background-color: $colorDark; // Utile ? marche si desactivé ...
     // box-shadow: 0px 0px 20px 5px $blueColor;  // Bonne valeur !!
-    box-shadow: 0px 0px 20px 5px $colorYellow; // Pour test
+    box-shadow: 0px 0px 20px 5px $blueColor; // Pour test
     border-radius: 50px;
 
-    .params {
-      width: 75%;
-      height: 100%;
+    p {
+      color: white;
+    }
+
+    .form-flexRow {
+      width: 550px;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
+      justify-content: space-between;
       align-items: center;
+      gap: 50px;
+      margin-bottom: 30px;
+      border-bottom: 1px solid $colorYellow;
+      padding-bottom: 24px;
 
-      // &:nth-child(even) {
-      //   align-items: flex-start;
-      // }
-
-      // &:nth-child(odd) {
-      //   align-items: flex-end;
-      // }
-
-      .inputSelect {
-        margin-left: 35px;
-        width: 100px;
-        height: 25px;
+      .p-numberPlayer {
+        margin-top: 60px;
+        font-size: $fontSizeBouton;
       }
 
-      .param_playerScenar {
-        color: red;
-        width: 100%;
-        height: 100%;
-
-        div {
-          width: 100%;
-          height: auto;
-          color: yellow;
-
-          div {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            // border: 3px solid $colorYellow;
-            border-radius: 10px;
-            margin: 5px 2px;
-            padding: 10px;
-            // color: green;
-          }
-        }
-
-        p {
-          margin: 5px 0;
-          margin-left: 15px;
-        }
-      }
-
-      .param {
-        width: 80%;
-        height: 100%;
+      .form-flexColumn {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        border: 3px solid $colorYellow;
-        border-radius: 10px;
-        margin: 5px 0;
-        padding: 10px;
+        gap: 0;
 
-        p {
-          margin: 5px 0;
-          align-items: flex-start;
-        }
-
-        textarea {
-          width: 350px;
-          height: 150px;
-        }
-
-        .inputText {
-          margin-left: 35px;
-          width: 300px;
-          height: 25px;
-        }
-      }
-
-      .pictureScenar {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-
-        p {
-          align-items: flex-start;
-          color: purple;
-        }
-
-        img {
-          width: 200px; // A adapter pour la demo !!
-          height: 100px; // A adapter pour la demo !!
-          margin-bottom: 5px;
-          align-items: center;
-        }
-      }
-
-      .param_playerScenar {
-        width: 75%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        border: 3px solid $colorYellow;
-        border-radius: 5px;
-        margin: 5px 0;
-        padding: 10px;
-
-        div {
-          display: flex;
-          flex-direction: row;
-        }
-
-        .NumberPlayer {
-          width: 75px;
-          height: 25px;
-        }
-
-        p {
+        select {
+          width: 200px;
+          height: 30px;
+          border-radius: 8px;
           margin: 0;
-          margin-left: 0;
+          cursor: pointer;
+          font-size: $fontSizeP;
+        }
+
+        input {
+          width: 300px;
+          height: 30px;
+          border-radius: 8px;
+          margin: 0;
+          cursor: pointer;
+          font-size: $fontSizeP;
         }
       }
     }
 
-    .submitScenar {
-      margin: 20px 0;
+    .form-container-synopsis {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 550px;
+      border-bottom: 1px solid $colorYellow;
+      padding-bottom: 24px;
 
-      button {
-        width: 250px;
-        height: 75px;
+      textarea {
+        width: 100%;
+        height: 150px;
+        border-radius: 16px;
+        padding: 8px;
+        box-sizing: border-box;
+        font-size: $fontSizeP;
+      }
+    }
+
+    .param-pictureScenar {
+      width: 550px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      p {
         font-size: $fontSizeBouton;
-        border-radius: 10px;
+      }
+
+      .form-chooseApicture {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 100px;
+        border-bottom: 1px solid $colorYellow;
+        padding-bottom: 24px;
+
+        label {
+          background-color: $blueColor;
+          color: white;
+          display: block;
+          width: 120px;
+          height: 28px;
+          padding: 8px 16px;
+          border-radius: 16px;
+          font-size: $fontSizeP;
+          cursor: pointer;
+
+          &:hover {
+            background-color: $colorYellow;
+            color: black;
+          }
+        }
+
+        input {
+          display: none;
+        }
+
+        img {
+          max-height: 200px;
+          max-width: 300px;
+        }
+      }
+    }
+
+    button {
+      margin-top: 30px;
+      margin-bottom: 30px;
+      width: 150px;
+      height: 50px;
+      border-radius: 16px;
+      font-size: $fontSizeP;
+      background-color: $blueColor;
+      color: white;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $colorYellow;
+        color: black;
       }
     }
   }

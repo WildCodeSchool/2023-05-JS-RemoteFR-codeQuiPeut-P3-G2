@@ -28,6 +28,22 @@ const read = (req, res) => {
     })
 }
 
+const readWithTheme = (req, res) => {
+  models.scenarios
+    .readWithTheme(req.params.id)
+    .then(([rows]) => {
+      if (rows[0] == null) {
+        res.sendStatus(404)
+      } else {
+        res.send(rows[0])
+      }
+    })
+    .catch((err) => {
+      console.error(err)
+      res.sendStatus(500)
+    })
+}
+
 const edit = (req, res) => {
   const scenarios = req.body
 
@@ -52,13 +68,13 @@ const edit = (req, res) => {
 
 const add = (req, res) => {
   const scenarios = req.body
-
   // TODO validations (length, format...)
 
   models.scenarios
     .insert(scenarios)
     .then(([result]) => {
-      res.location(`/items/${result.insertId}`).sendStatus(201)
+      // res.location(`/items/${result.insertId}`).status(201).send(result.insertId)
+      res.status(200).send(result.insertId.toString())
     })
     .catch((err) => {
       console.error(err)
@@ -117,4 +133,5 @@ module.exports = {
   add,
   destroy,
   readPages,
+  readWithTheme,
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import MyContext from "./MyContext"
 import "../components/Navbar.scss"
 import ScripLogo from "../assets/ScripLogo.png"
@@ -16,12 +16,14 @@ const Navbar = () => {
   const HandleChangeClassTopOpenMenu = () => {
     setChangeClassToOpenMenu(!changeClassToOpenMenu)
   }
+  const navigate = useNavigate()
 
   const HandleClickOpenLog = () => {
     setOpenForm(true)
   }
 
   const HandleClickLogout = () => {
+    navigate("/")
     setUser(null)
   }
 
@@ -50,11 +52,14 @@ const Navbar = () => {
           <li className="link" alt="Scripts">
             SCRIPTS
           </li>
-          <Link to="/editor" className="">
-            <li className="link" alt="Create">
-              CREATE
-            </li>
-          </Link>
+
+          {user !== null && (
+            <Link to="/editor" className="">
+              <li className="link" alt="Create">
+                CREATE
+              </li>
+            </Link>
+          )}
           <li className="link" alt="Forum">
             FORUM
           </li>
