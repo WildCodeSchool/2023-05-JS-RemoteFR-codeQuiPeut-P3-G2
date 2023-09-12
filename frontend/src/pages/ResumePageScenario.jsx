@@ -26,7 +26,7 @@ const ResumePageScenario = () => {
     level: "hard",
     img: "http://localhost:4242/public/assets/images/cameleon1.jpg1693405905262.jpg",
     description:
-      "c'est l'histoire d'un mec qui se fait bouffer par un dinosaure dans The Witcher ...",
+      "c'est l'histoire d'un mec qui se fait bouffer par un dinosaure, de type Tyrannosaure Rex, dans The Witcher ...",
     model: 1,
   }
   const { user } = useContext(MyContext)
@@ -100,6 +100,46 @@ const ResumePageScenario = () => {
     // console.info("DateComment", writingDateComment)
   }
 
+  const handleDeleteComment = (e) => {
+    const id = e.target.value
+    console.info(id)
+    axios
+      .delete(`http://localhost:4242/scenarcomm/${id}`, {
+        data: {
+          utilisateurID: user.id,
+          scenarioID: scenario.id,
+        },
+      })
+      .then(() =>
+        axios.get("http://localhost:4242/scenarcomm").then(({ data }) => {
+          setAvis(data) || console.info(avis.id)
+        })
+      )
+      .catch((err) => console.error(err))
+  }
+
+  const handleEditComment = (e) => {
+    const id = e.target.value
+    console.info("id", id)
+    console.info("user", user.id)
+    console.info("scenario", scenario.id)
+    console.info("comm", comment)
+    console.info("DateComment", writingDateComment)
+
+    axios
+      .put(`http://localhost:4242/scenarcomm/${id}`, {
+        utilisateurID: user.id,
+        scenarioID: scenario.id,
+        textcomment: comment,
+      })
+      .then(() =>
+        axios.get("http://localhost:4242/scenarcomm").then(({ data }) => {
+          setAvis(data) || console.info(avis.id)
+        })
+      )
+      .catch((err) => console.error(err))
+  }
+
   useEffect(() => {
     axios
       .get(`http://localhost:4242/favorite/${scenario.id}`)
@@ -169,12 +209,18 @@ const ResumePageScenario = () => {
             <input
               type="button"
               value="Read the Scenario"
+              title="Click to go see the scenario"
               onClick={handleGoToScenario}
             />
             <input
               type="button"
               value="Leave a Comment"
               id="buttonAddComment"
+              title={
+                addComment
+                  ? "Click to hide the texte area !"
+                  : "Click to post your comment !"
+              }
               onClick={handleClickAddComment}
             />
           </div>
@@ -201,7 +247,21 @@ const ResumePageScenario = () => {
             {avis.map((avi) => (
               <div key={avi.id}>
                 <p>{avi.commentaire}</p>
-                <input type="button" value="Get out of here !" />
+                <p>{avi.id}</p>
+                <button
+                  type="button"
+                  value={avi.id}
+                  onClick={handleDeleteComment}
+                >
+                  Get out of here !
+                </button>
+                <button
+                  type="button"
+                  value={avi.id}
+                  onClick={handleEditComment}
+                >
+                  Edit this shit !
+                </button>
               </div>
             ))}
           </div>

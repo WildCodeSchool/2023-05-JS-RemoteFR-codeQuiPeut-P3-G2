@@ -1,6 +1,6 @@
 const AbstractManager = require("./AbstractManager")
 
-class FavoriteManager extends AbstractManager {
+class ScenarioCommentManager extends AbstractManager {
   constructor() {
     super({ table: "avis_scenario" })
   }
@@ -12,19 +12,20 @@ class FavoriteManager extends AbstractManager {
     )
   }
 
-  deleteFavorite(utilisateurID, scenarioID) {
+  // deleteComment(id, scenarioID, utilisateurID) {
+  deleteComment(avis) {
     return this.database.query(
-      `delete from ${this.table} where scenarios_id = ? AND  utilisateurs_id = ? `,
-      [scenarioID, utilisateurID]
+      `DELETE FROM ${this.table} WHERE id = ? AND scenarios_id = ? AND  utilisateurs_id = ?`,
+      [avis.id, avis.scenarioID, avis.utilisateurID]
     )
   }
 
-  // findFavorite(id) {
-  //   return this.database.query(
-  //     `select * from  ${this.table} where scenarios_id = ?`,
-  //     [id]
-  //   )
-  // }
+  update(avis) {
+    return this.database.query(
+      `UPDATE ${this.table} SET commentaire = ? WHERE id = ? AND scenarioS_id = ? AND utilisateurs_id = ?`,
+      [avis.textcomment, avis.id, avis.scenarioID, avis.utilisateurID]
+    )
+  }
 }
 
-module.exports = FavoriteManager
+module.exports = ScenarioCommentManager
