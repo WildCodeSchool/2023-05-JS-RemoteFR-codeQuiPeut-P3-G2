@@ -5,7 +5,6 @@ import croix from "../assets/images/Close.svg"
 import eye from "../assets/images/eye.svg"
 import eyeOff from "../assets/images/eye_Off.svg"
 
-
 export default function SignUp({ setOpenFormSignUp, setOpenForm }) {
   // const [inscription, setInscription] = useState(false)
   const [lastname, setLastname] = useState("")
@@ -16,9 +15,9 @@ export default function SignUp({ setOpenFormSignUp, setOpenForm }) {
   const [img, setImg] = useState("")
   const [emailAlreadyUsed, setEmailAlreadyUsed] = useState(false)
   const [loginAlreadyUsed, setLoginAlreadyUsed] = useState(false)
-  const[showPassword,setShowPassword]=useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
-  const HandleClickShowPassword=()=>{
+  const HandleClickShowPassword = () => {
     setShowPassword(!showPassword)
   }
 
@@ -150,13 +149,25 @@ export default function SignUp({ setOpenFormSignUp, setOpenForm }) {
               <div className="inputPassword">
                 <input
                   id="passWord"
-                  type={showPassword ? "text" : "password" }
+                  type={showPassword ? "text" : "password"}
                   name="passWord"
                   value={passWord}
                   onChange={HandleChangePassWord}
                 />
                 <div className="containerImg" onClick={HandleClickShowPassword}>
-                  <img src={showPassword ? eyeOff : eye } title= {showPassword ? "masquer le mot de passe" : "afficher le mot de passe" } alt={showPassword ? "logo oeil masquer le mot de passe" : "logo oeil afficher le mot de passe" } />
+                  <img
+                    src={showPassword ? eyeOff : eye}
+                    title={
+                      showPassword
+                        ? "masquer le mot de passe"
+                        : "afficher le mot de passe"
+                    }
+                    alt={
+                      showPassword
+                        ? "logo oeil masquer le mot de passe"
+                        : "logo oeil afficher le mot de passe"
+                    }
+                  />
                 </div>
               </div>
             </div>

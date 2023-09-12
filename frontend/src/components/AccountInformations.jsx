@@ -19,9 +19,9 @@ export default function AccountInformations() {
   const [successMessage, setSuccesMessage] = useState(false)
   const [successMessagePassword, setMessagePassword] = useState(false)
   const [modifyPassword, setModifyPassword] = useState(false)
-  const[showPassword,setShowPassword]=useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
-  const HandleClickShowPassword=()=>{
+  const HandleClickShowPassword = () => {
     setShowPassword(!showPassword)
   }
 
@@ -230,17 +230,28 @@ export default function AccountInformations() {
               <div className="inputPassword">
                 <input
                   id="password"
-                  type={showPassword ? "text" : "password" }
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   value={password}
                   onChange={HandleChangePassword}
                   className="inputModify"
                 />
                 <div className="containerImg" onClick={HandleClickShowPassword}>
-                  <img src={showPassword ? eyeOff : eye } title= {showPassword ? "masquer le mot de passe" : "afficher le mot de passe" } alt={showPassword ? "logo oeil masquer le mot de passe" : "logo oeil afficher le mot de passe" } />
+                  <img
+                    src={showPassword ? eyeOff : eye}
+                    title={
+                      showPassword
+                        ? "masquer le mot de passe"
+                        : "afficher le mot de passe"
+                    }
+                    alt={
+                      showPassword
+                        ? "logo oeil masquer le mot de passe"
+                        : "logo oeil afficher le mot de passe"
+                    }
+                  />
                 </div>
               </div>
-
             )}
           </div>
         </div>
