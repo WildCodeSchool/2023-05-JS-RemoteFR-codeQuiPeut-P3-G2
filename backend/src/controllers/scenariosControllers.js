@@ -12,6 +12,18 @@ const browse = (req, res) => {
     })
 }
 
+const browseScenarios = (req, res) => {
+  models.scenarios
+    .findScenarios()
+    .then(([rows]) => {
+      res.send(rows)
+    })
+    .catch((err) => {
+      console.error(err)
+      res.sendStatus(500)
+    })
+}
+
 const read = (req, res) => {
   models.scenarios
     .find(req.params.id)
@@ -134,4 +146,5 @@ module.exports = {
   destroy,
   readPages,
   readWithTheme,
+  browseScenarios,
 }

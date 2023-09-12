@@ -20,6 +20,7 @@ const rolegamesControllers = require("./controllers/rolegamesControllers")
 const themesControllers = require("./controllers/themesControllers")
 const scenarioThemesControllers = require("./controllers/scenarioThemesControllers")
 const imagesControllers = require("./controllers/imagesControllers")
+const filterControllers = require("./controllers/filterControllers")
 const favoriteControllers = require("./controllers/favoriteControllers.js")
 const multer = require("./middleware/multer-config")
 const {
@@ -31,7 +32,10 @@ const {
   deleteImageForm,
 } = require("./middleware/imageURLProvider")
 
-router.get("/scenarios", scenariosControllers.browse)
+// router.get("/scenarios", scenariosControllers.browse)
+router.get("/scenarios", scenariosControllers.browseScenarios)
+// router.get("/scenarios/:id", scenariosControllers.read)
+// router.get("/scenarios", scenariosControllers.browse)
 // router.get("/scenarios/:id", scenariosControllers.read)
 router.get("/scenarios/:id", scenariosControllers.readWithTheme)
 router.put("/scenarios/:id", scenariosControllers.edit)
@@ -197,6 +201,7 @@ router.post(
 router.post("/tmpImage", multer, imageURLProvider)
 router.delete("/deleteTmpImage", deleteImageForm)
 
+router.get("/themes", filterControllers.findTheme)
 router.post("/favorite", favoriteControllers.add)
 router.delete("/favorite", favoriteControllers.destroy)
 router.get("/favorite/:id", favoriteControllers.read)
