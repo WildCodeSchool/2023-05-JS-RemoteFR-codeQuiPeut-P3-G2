@@ -7,19 +7,20 @@ import Navbar from "../components/Navbar"
 import "./Scripts.scss"
 import axios from "axios"
 import CardScenario from "../components/CardScenario"
+import FilterSelect from "../components/FilterSelect"
 
-function Scripts({ filteredScenarios }) {
+function Scripts() {
   const [scenarios, setScenarios] = useState([])
-  // const [exportedResult, setExportedResult] = useState(null)
+  const [filteredScenarios, setFilteredScenarios] = useState([])
+  const [filteredAuteur, setFilteredAuteur] = useState([])
+  const allFilters =filteredAuteur
 
   useEffect(() => {
     axios
       .get("http://localhost:4242/scenarios")
       .then((res) => setScenarios(res.data) || console.info(res.data))
   }, [])
-  // function handleExportedResult(result) {
-  //   setExportedResult(result)
-  // }
+
   // const [selectedId, setSelectedId] = useState(1)
   // const [selectedGenre, setSelectedGenre] = useState("")
   // const [sortedExamples, setSortedExamples] = useState([...examples])
@@ -73,7 +74,7 @@ function Scripts({ filteredScenarios }) {
               <Button
                 scenarios={scenarios}
                 filteredScenarios={filteredScenarios}
-                // onExportResult={handleExportedResult}
+                setFilteredScenarios={setFilteredScenarios}
               />
             </div>
           </div>
@@ -87,7 +88,11 @@ function Scripts({ filteredScenarios }) {
           </div>
           <div className="auteur">
             <p>Autor</p>
-            <select></select>
+            <FilterSelect
+              scenarios={scenarios}
+              filteredAuteur={filteredAuteur}
+              setFilteredAuteur={setFilteredAuteur}
+            />
           </div>
           <div className="Difficultes">
             <p>Difficulty</p>
@@ -99,22 +104,20 @@ function Scripts({ filteredScenarios }) {
           </div>
         </div>
         <div className="try">
-          <div className="Card">
+          {/* <div className="Card">
             {scenarios.map((scenario) => (
               <div key={scenario.id}>
                 <CardScenario scenario={scenario} />
               </div>
             ))}
+          </div> */}
+          <div className="filtered-scenarios">
+            {allFilters.map((scenario) => (
+              <div key={scenario.id}>
+                <CardScenario scenario={scenario} />
+              </div>
+            ))}
           </div>
-          {/* {exportedResult && (
-            <div className="filtered-scenarios">
-              {filteredScenarios.map((scenario) => (
-                <div key={scenario.id}>
-                  <CardScenario scenario={scenario} />
-                </div>
-              ))} */}
-          {/* </div>
-          )} */}
         </div>
       </div>
     </div>

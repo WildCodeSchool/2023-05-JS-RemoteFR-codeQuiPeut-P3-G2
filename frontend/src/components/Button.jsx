@@ -2,9 +2,9 @@ import { useState, useEffect } from "react"
 import axios from "axios"
 import "./Button.scss"
 
-function Button({ scenarios, onExportResult }) {
+function Button({ scenarios, setFilteredScenarios, filteredScenarios }) {
   const [themes, setThemes] = useState([])
-  // const [filteredScenarios, setFilteredScenarios] = useState([])
+
   useEffect(() => {
     axios
       .get("http://localhost:4242/themes")
@@ -23,13 +23,11 @@ function Button({ scenarios, onExportResult }) {
   //   ))
   // // }
 
-  // function handleClickGender(themeName) {
-  //   const filtered = scenarios.filter(
-  //     (scenario) => scenario.theme === themeName
-  //   )
+  function handleClickGender(id) {
+    const filtered = scenarios.filter((scenario) => scenario.themeId === id)
 
-  //   setFilteredScenarios(filtered)
-  // }
+    setFilteredScenarios(filtered)
+  }
 
   return (
     <>
@@ -44,14 +42,13 @@ function Button({ scenarios, onExportResult }) {
         <div key={theme.id}>
           <button
             className="ButtonGenre"
-            // onClick={() => handleClickGender(theme.name)}
+            onClick={() => handleClickGender(theme.id)}
           >
             {theme.name}
           </button>
         </div>
       ))}
-      {/* 
-      <div className="filtered-scenarios">
+      {/* <div className="filtered-scenarios">
         {filteredScenarios.map((scenario) => (
           <div key={scenario.id}>
             <CardScenario scenario={scenario} />
