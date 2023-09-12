@@ -1,6 +1,7 @@
 import "./CardScenario.scss"
 
 function CardScenario({ scenario }) {
+  // console.log(scenario)
   return (
     <div className="Scenario">
       <div className="containerimg">

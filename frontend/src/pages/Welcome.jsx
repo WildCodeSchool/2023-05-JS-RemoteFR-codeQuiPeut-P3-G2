@@ -3,7 +3,7 @@ import TitreAccueil from "../assets/TitreAccueil.png"
 import LivreAccueil from "../assets/LivreAccueil.png"
 import mokeUp from "../assets/ordi.png"
 import Navbar from "../components/Navbar"
-import CardScenario from "../components/CardScenario"
+// import CardScenario from "../components/CardScenario"
 // import { useState, useEffect } from 'react'
 
 const Welcome = () => {
@@ -72,7 +72,7 @@ const Welcome = () => {
             enim facilis natus, consequatur possimus atque sed voluptates nam
             quam iure, cumque quo!
           </p>
-          <CardScenario />
+          {/* <CardScenario /> */}
         </div>
       </main>
     </>
