@@ -11,7 +11,7 @@ const Navbar = () => {
   const { user, setUser } = useContext(MyContext)
   const [openForm, setOpenForm] = useState(false)
   const [openFormSignUp, setOpenFormSignUp] = useState(false)
-  const [changeClassToOpenMenu, setChangeClassToOpenMenu] = useState(true)
+  const [changeClassToOpenMenu, setChangeClassToOpenMenu] = useState(false)
 
   const HandleChangeClassTopOpenMenu = () => {
     setChangeClassToOpenMenu(!changeClassToOpenMenu)
@@ -31,6 +31,10 @@ const Navbar = () => {
     setOpenFormSignUp(true)
   }
 
+  const handleLeaveMenu = () => {
+    setChangeClassToOpenMenu(false)
+  }
+
   useEffect(() => {
     if (openForm) {
       document.querySelector("nav").classList.add("nav-no-scroll")
@@ -46,12 +50,16 @@ const Navbar = () => {
           <img src={ScripLogo}></img>
         </figcaption>
         <ul className="ContainLink">
-          <li className="link" alt="Home">
-            HOME
-          </li>
-          <li className="link" alt="Scripts">
-            SCRIPTS
-          </li>
+          <Link to="/" className="">
+            <li className="link" alt="Home">
+              HOME
+            </li>
+          </Link>
+          <Link to="/scripts" className="">
+            <li className="link" alt="Scripts">
+              SCRIPTS
+            </li>
+          </Link>
 
           {user !== null && (
             <Link to="/editor" className="">
@@ -60,9 +68,11 @@ const Navbar = () => {
               </li>
             </Link>
           )}
-          <li className="link" alt="Forum">
-            FORUM
-          </li>
+          <Link to="/forum" className="">
+            <li className="link" alt="Forum">
+              FORUM
+            </li>
+          </Link>
         </ul>
         <div className="PushContain">
           {user === null ? (
@@ -77,9 +87,10 @@ const Navbar = () => {
                 onClick={HandleChangeClassTopOpenMenu}
               >
                 <p>{user.login}</p>
-                <img src={logout} alt="logout" onClick={HandleClickLogout} />
+                {/* <img src={logout} alt="logout" onClick={HandleClickLogout} /> */}
               </button>
               <ul
+                onMouseLeave={handleLeaveMenu}
                 className={
                   changeClassToOpenMenu
                     ? "scrollingMenu"
@@ -89,9 +100,18 @@ const Navbar = () => {
                 <Link to="/useraccount">
                   <li>Informations</li>
                 </Link>
-                <li>Favorites</li>
-                <li>Creations</li>
-                <li>Followers</li>
+                <Link to="/useraccount/favorites">
+                  <li>Favorites</li>
+                </Link>
+                <Link to="/useraccount/creations">
+                  <li>Creations</li>
+                </Link>
+                <Link to="/useraccount/followers">
+                  <li>Followers</li>
+                </Link>
+                <li onClick={HandleClickLogout}>
+                  <img src={logout} alt="logout" />
+                </li>
               </ul>
             </div>
           )}
@@ -111,12 +131,14 @@ const Navbar = () => {
         <Login
           setOpenForm={setOpenForm}
           setOpenFormSignUp={setOpenFormSignUp}
+          setChangeClassToOpenMenu={setChangeClassToOpenMenu}
         />
       )}
       {openFormSignUp && (
         <SignUp
           setOpenFormSignUp={setOpenFormSignUp}
           setOpenForm={setOpenForm}
+          setChangeClassToOpenMenu={setChangeClassToOpenMenu}
         />
       )}
     </>

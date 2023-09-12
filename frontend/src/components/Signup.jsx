@@ -5,7 +5,11 @@ import croix from "../assets/images/Close.svg"
 import eye from "../assets/images/eye.svg"
 import eyeOff from "../assets/images/eye_Off.svg"
 
-export default function SignUp({ setOpenFormSignUp, setOpenForm }) {
+export default function SignUp({
+  setOpenFormSignUp,
+  setOpenForm,
+  setChangeClassToOpenMenu,
+}) {
   // const [inscription, setInscription] = useState(false)
   const [lastname, setLastname] = useState("")
   const [firstname, setFirstname] = useState("")
@@ -47,15 +51,19 @@ export default function SignUp({ setOpenFormSignUp, setOpenForm }) {
           console.error("Une erreur s'est produite : ", err.message)
         }
       })
+
+    setChangeClassToOpenMenu(false)
   }
 
   const HandleCloseFormSignOpenLog = () => {
     setOpenFormSignUp(false)
     setOpenForm(true)
+    setChangeClassToOpenMenu(false)
   }
 
   const HandleclosFormSignUp = () => {
     setOpenFormSignUp(false)
+    setChangeClassToOpenMenu(false)
   }
 
   const HandleChangeLastname = (event) => {
