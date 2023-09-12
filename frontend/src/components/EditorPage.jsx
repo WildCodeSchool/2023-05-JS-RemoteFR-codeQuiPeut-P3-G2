@@ -73,8 +73,12 @@ export default function EditorPage(props) {
             <img
               src={item.img_src}
               alt="image"
-              style={item.style}
+              style={{
+                ...item.style,
+                filter: item.selected ? "drop-shadow(0 0 3px black)" : "none",
+              }}
               draggable
+              // className={item.selected === true ? "imgPageSelected" : "imgPageNoSelected"}
               onClick={(e) => handleClickElementImage(item.id, e)}
               onDragStart={(e) => handleDragStartImage(e, item.id)}
               key={item.id}

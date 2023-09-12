@@ -1,3 +1,9 @@
+import Navbar from "../components/Navbar"
+
 export default function Forum() {
-  return <main>"Page forum"</main>
+  return (
+    <main>
+      <Navbar />
+    </main>
+  )
 }

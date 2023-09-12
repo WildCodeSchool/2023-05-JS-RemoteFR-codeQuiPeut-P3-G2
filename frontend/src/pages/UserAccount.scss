@@ -77,6 +77,11 @@ a:active {
         align-items: center;
         width: 100%;
         height: 40vh;
+
+        .active {
+          background-color: $colorYellow;
+          color: black;
+        }
       }
       .buttonMenu {
         width: 300px;
