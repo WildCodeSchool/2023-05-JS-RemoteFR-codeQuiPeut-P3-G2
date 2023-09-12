@@ -49,6 +49,7 @@ const FilterManager = require("./FilterManager")
 const ThemesManager = require("./ThemesManager")
 const ThemesScenarioManager = require("./ThemesScenarioManager")
 const FavoriteManager = require("./FavoriteManager")
+const ScenarioCommentManager = require("./ScenarioCommentManager")
 
 models.scenarios = new ScenariosManager()
 models.scenarios.setDatabase(pool)
@@ -106,8 +107,12 @@ models.images.setDatabase(pool)
 
 models.filter = new FilterManager()
 models.filter.setDatabase(pool)
+
 models.favorites = new FavoriteManager()
 models.favorites.setDatabase(pool)
+
+models.scenarcomms = new ScenarioCommentManager()
+models.scenarcomms.setDatabase(pool)
 
 // bonus: use a proxy to personalize error message,
 // when asking for a non existing model

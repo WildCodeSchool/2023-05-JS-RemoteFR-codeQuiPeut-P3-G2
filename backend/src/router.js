@@ -22,6 +22,7 @@ const scenarioThemesControllers = require("./controllers/scenarioThemesControlle
 const imagesControllers = require("./controllers/imagesControllers")
 const filterControllers = require("./controllers/filterControllers")
 const favoriteControllers = require("./controllers/favoriteControllers.js")
+const scenarioCommentControllers = require("./controllers/scenarioCommentControllers")
 const multer = require("./middleware/multer-config")
 const {
   deleteImage,
@@ -205,5 +206,8 @@ router.get("/themes", filterControllers.findTheme)
 router.post("/favorite", favoriteControllers.add)
 router.delete("/favorite", favoriteControllers.destroy)
 router.get("/favorite/:id", favoriteControllers.read)
+
+router.get("/scenarcomm", scenarioCommentControllers.browse)
+router.post("/scenarcomm", scenarioCommentControllers.add)
 
 module.exports = router
