@@ -15,6 +15,7 @@ import SommaireEditor from "../components/SommaireEditor"
 import Navbar from "../components/Navbar"
 import FormNewScenario from "./FormNewScenario"
 import FormEditScenario from "./FormEditScenario"
+import FormEditCampaign from "../components/FormEditCampaign"
 
 export default function Editor() {
   // const [user, setUser] = useState({}) // à SUPPRIMER par la suite, à récupérer via un context
@@ -45,6 +46,7 @@ export default function Editor() {
   const [showNewScenario, setShowNewScenario] = useState(false)
   const [showNewCampaign, setShowNewCampaign] = useState(false)
   const [showEditScenario, setShowEditScenario] = useState(false)
+  const [showEditCampaign, setShowEditCampaign] = useState(false)
   const [showMenuButtonNew, setShowMenuButtonNew] = useState(false)
   const [indexAfficheStyleText, setIndexAfficheStyleText] = useState({
     min: 0,
@@ -1288,6 +1290,8 @@ export default function Editor() {
             <SommaireEditor
               editedCampagne={editedCampagne}
               setEditedCampagne={setEditedCampagne}
+              setShowEditCampaign={setShowEditCampaign}
+              showEditCampaign={showEditCampaign}
               scenariosOfEditedCampagne={scenariosOfEditedCampagne}
               setScenariosOfEditedCampagne={setScenariosOfEditedCampagne}
               pagesOfScenarioSelected={pagesOfScenarioSelected}
@@ -1385,6 +1389,15 @@ export default function Editor() {
         <FormEditScenario
           scenarioForInfoEdit={scenarioForInfoEdit}
           setShowEditScenario={setShowEditScenario}
+          setScenariosOfEditedCampagne={setScenariosOfEditedCampagne}
+        />
+      )}
+
+      {showEditCampaign && (
+        <FormEditCampaign
+          campaignID={editedCampagne.id}
+          scenarioForInfoEdit={scenarioForInfoEdit}
+          setShowEditCampaign={setShowEditCampaign}
           setScenariosOfEditedCampagne={setScenariosOfEditedCampagne}
         />
       )}

@@ -48,6 +48,13 @@ class CampagnesManager extends AbstractManager {
       [id]
     )
   }
+
+  readWithTheme(id) {
+    return this.database.query(
+      `select s.* , st.themes_id, t.name AS theme_name from  ${this.table} AS s INNER JOIN campagnes_themes AS st ON st.campagnes_id = s.id INNER JOIN themes AS t ON t.id = st.themes_id where s.id = ?`,
+      [id]
+    )
+  }
 }
 
 module.exports = CampagnesManager

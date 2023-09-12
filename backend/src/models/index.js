@@ -48,6 +48,7 @@ const RoleGamesManager = require("./RoleGamesManager")
 const FilterManager = require("./FilterManager")
 const ThemesManager = require("./ThemesManager")
 const ThemesScenarioManager = require("./ThemesScenarioManager")
+const ThemesCampagnesManager = require("./ThemesCampagnesManager")
 const FavoriteManager = require("./FavoriteManager")
 const ScenarioCommentManager = require("./ScenarioCommentManager")
 
@@ -101,6 +102,9 @@ models.themes.setDatabase(pool)
 
 models.themesScenario = new ThemesScenarioManager()
 models.themesScenario.setDatabase(pool)
+
+models.themesCampagnes = new ThemesCampagnesManager()
+models.themesCampagnes.setDatabase(pool)
 
 models.images = new ImagesManager()
 models.images.setDatabase(pool)
