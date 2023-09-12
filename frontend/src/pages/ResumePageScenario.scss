@@ -61,6 +61,11 @@ $fontSizeTitre: 1.5rem;
       height: 100%;
     }
 
+    .imgResumPagScenar {
+      border-radius: 15px;
+      border: solid 3px $blueColor;
+    }
+
     ul {
       width: 75%;
       height: 80%;
@@ -82,13 +87,13 @@ $fontSizeTitre: 1.5rem;
   }
 
   .scenarInteractions {
-    width: 50%;
-    height: 30%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    // background-color: yellowgreen;
+      width: 50%;
+      height: 30%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      // background-color: yellowgreen;
 
     .scenarInteractionsHight {
       width: 100%;
@@ -98,12 +103,12 @@ $fontSizeTitre: 1.5rem;
       justify-content: space-around;
       align-items: center;
       // background-color: aqua;
-
+  
       input {
         width: 33%;
         height: 75%;
-        font-size: $fontSizeBouton;
-        border-radius: 12px;
+        font-size: $fontSizeBouton; // attention au responsive ...
+        border-radius: 120px;
       }
     }
 
@@ -114,7 +119,13 @@ $fontSizeTitre: 1.5rem;
 
       textarea {
         margin-bottom: 5px;
-      }
+        border-radius: 10px;
+        padding: 10px;
+      }      
+    }
+
+    .comments {
+      color: $colorYellow;
     }
   }
 }
