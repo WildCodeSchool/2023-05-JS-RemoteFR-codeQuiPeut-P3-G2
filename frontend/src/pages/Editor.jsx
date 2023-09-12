@@ -15,6 +15,8 @@ import SommaireEditor from "../components/SommaireEditor"
 import Navbar from "../components/Navbar"
 import FormNewScenario from "./FormNewScenario"
 import FormEditScenario from "./FormEditScenario"
+import FormEditCampaign from "../components/FormEditCampaign"
+import FormNewCampaign from "../components/FormNewCampaign"
 
 export default function Editor() {
   // const [user, setUser] = useState({}) // à SUPPRIMER par la suite, à récupérer via un context
@@ -45,6 +47,7 @@ export default function Editor() {
   const [showNewScenario, setShowNewScenario] = useState(false)
   const [showNewCampaign, setShowNewCampaign] = useState(false)
   const [showEditScenario, setShowEditScenario] = useState(false)
+  const [showEditCampaign, setShowEditCampaign] = useState(false)
   const [showMenuButtonNew, setShowMenuButtonNew] = useState(false)
   const [indexAfficheStyleText, setIndexAfficheStyleText] = useState({
     min: 0,
@@ -651,11 +654,13 @@ export default function Editor() {
   }
 
   const handleClickNouveauScenario = () => {
+    handleSave()
     setShowNewScenario(!showNewScenario)
     // const scenarioName = prompt("Entrez un nom pour votre scénario")
   }
 
   const handleClickNewCampaign = () => {
+    handleSave()
     setShowNewCampaign(!showNewCampaign)
   }
 
@@ -1288,6 +1293,8 @@ export default function Editor() {
             <SommaireEditor
               editedCampagne={editedCampagne}
               setEditedCampagne={setEditedCampagne}
+              setShowEditCampaign={setShowEditCampaign}
+              showEditCampaign={showEditCampaign}
               scenariosOfEditedCampagne={scenariosOfEditedCampagne}
               setScenariosOfEditedCampagne={setScenariosOfEditedCampagne}
               pagesOfScenarioSelected={pagesOfScenarioSelected}
@@ -1386,6 +1393,31 @@ export default function Editor() {
           scenarioForInfoEdit={scenarioForInfoEdit}
           setShowEditScenario={setShowEditScenario}
           setScenariosOfEditedCampagne={setScenariosOfEditedCampagne}
+        />
+      )}
+
+      {showEditCampaign && (
+        <FormEditCampaign
+          campaignID={editedCampagne.id}
+          scenarioForInfoEdit={scenarioForInfoEdit}
+          setShowEditCampaign={setShowEditCampaign}
+          setScenariosOfEditedCampagne={setScenariosOfEditedCampagne}
+        />
+      )}
+
+      {showNewCampaign && (
+        <FormNewCampaign
+          setShowNewCampaign={setShowNewCampaign}
+          authorID={author.id}
+          setScenariosOfEditedCampagne={setScenariosOfEditedCampagne}
+          scenariosOfEditedCampagne={scenariosOfEditedCampagne}
+          setPagesOfScenarioSelected={setPagesOfScenarioSelected}
+          setImages={setImages}
+          setPageFuture={setPageFuture}
+          setPageHistory={setPageHistory}
+          setTextes={setTextes}
+          setCampagnesUtilisateur={setCampagnesUtilisateur}
+          setEditedCampagne={setEditedCampagne}
         />
       )}
     </>

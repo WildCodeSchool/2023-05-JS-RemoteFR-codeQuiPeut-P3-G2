@@ -21,6 +21,8 @@ export default function SommaireEditor(props) {
     setPageFuture,
     setShowEditScenario,
     setScenarioForInfoEdit,
+    setShowEditCampaign,
+    showEditCampaign,
   } = props
 
   //  console.log("scenariosOfEditedCampagne",scenariosOfEditedCampagne);
@@ -522,6 +524,10 @@ export default function SommaireEditor(props) {
   }
   // ----FIN SECTION-----------------------------------------------------
 
+  const handleClickOpenFormEditCampaign = () => {
+    setShowEditCampaign(!showEditCampaign)
+  }
+
   // ----------------------------------------------------------------------
   // ----FONCTIONS SECTION SCENARIOS-------------------
   // ------------------------------------------------------------------
@@ -858,6 +864,7 @@ export default function SommaireEditor(props) {
               <p>{editedCampagne.name}</p>
               <img
                 src={dotsCircle}
+                onClick={handleClickOpenFormEditCampaign}
                 alt="Informations détaillées de la campagne"
                 title="Informations détaillées de la campagne"
               />
