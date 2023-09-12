@@ -17,8 +17,11 @@ const campagnesControllers = require("./controllers/campagnesControllers")
 const pagesControllers = require("./controllers/pagesControllers")
 const textesControllers = require("./controllers/textesControllers")
 const rolegamesControllers = require("./controllers/rolegamesControllers")
+const themesControllers = require("./controllers/themesControllers")
+const scenarioThemesControllers = require("./controllers/scenarioThemesControllers")
 const imagesControllers = require("./controllers/imagesControllers")
 const filterControllers = require("./controllers/filterControllers")
+const favoriteControllers = require("./controllers/favoriteControllers.js")
 const multer = require("./middleware/multer-config")
 const {
   deleteImage,
@@ -31,16 +34,25 @@ const {
 
 // router.get("/scenarios", scenariosControllers.browse)
 router.get("/scenarios", scenariosControllers.browseScenarios)
-router.get("/scenarios/:id", scenariosControllers.read)
+// router.get("/scenarios/:id", scenariosControllers.read)
+// router.get("/scenarios", scenariosControllers.browse)
+// router.get("/scenarios/:id", scenariosControllers.read)
+router.get("/scenarios/:id", scenariosControllers.readWithTheme)
 router.put("/scenarios/:id", scenariosControllers.edit)
 router.post("/scenarios", scenariosControllers.add)
 router.delete("/scenarios/:id", scenariosControllers.destroy)
 router.get("/scenarios/:id/pages", scenariosControllers.readPages)
 
+router.get("/themesScenarios", scenarioThemesControllers.browse)
+router.put("/themesScenarios/:id", scenarioThemesControllers.edit)
+router.post("/themesScenarios", scenarioThemesControllers.add)
+router.delete("/themesScenarios/:id", scenarioThemesControllers.destroy)
+
 router.get("/utilisateurs", utilisateursControllers.browse)
 router.get("/utilisateurs/:id", utilisateursControllers.read)
 router.post("/utilisateurs", utilisateursControllers.add)
 router.put("/utilisateurs/:id", utilisateursControllers.edit)
+router.put("/password/:id", utilisateursControllers.changePassword)
 router.delete("/utilisateurs/:id", utilisateursControllers.destroy)
 router.post(
   "/login",
@@ -173,6 +185,12 @@ router.post("/rolegames", rolegamesControllers.add)
 router.put("/rolegames/:id", rolegamesControllers.edit)
 router.delete("/rolegames/:id", rolegamesControllers.destroy)
 
+router.get("/themes", themesControllers.browse)
+router.get("/themes/:id", themesControllers.read)
+router.post("/themes", themesControllers.add)
+router.put("/themes/:id", themesControllers.edit)
+router.delete("/themes/:id", themesControllers.destroy)
+
 router.post(
   "/pages/:id/newImage",
   multer,
@@ -184,5 +202,8 @@ router.post("/tmpImage", multer, imageURLProvider)
 router.delete("/deleteTmpImage", deleteImageForm)
 
 router.get("/themes", filterControllers.findTheme)
+router.post("/favorite", favoriteControllers.add)
+router.delete("/favorite", favoriteControllers.destroy)
+router.get("/favorite/:id", favoriteControllers.read)
 
 module.exports = router

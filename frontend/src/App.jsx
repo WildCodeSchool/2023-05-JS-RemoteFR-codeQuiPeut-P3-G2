@@ -4,9 +4,16 @@ import Editor from "./pages/Editor"
 import Forum from "./pages/Forum"
 import Scripts from "./pages/Scripts"
 import FormNewScenario from "./pages/FormNewScenario"
+import ResumePageScenario from "./pages/ResumePageScenario"
 import { Routes, Route } from "react-router-dom"
 import { useState, useMemo, useEffect } from "react"
 import "../index.scss"
+import UserAccount from "./pages/UserAccount"
+import AccountInformations from "./components/AccountInformations"
+import AccountCreations from "./components/AccountCreations"
+import AccountFollowers from "./components/AccountFollowers"
+import AccountFavorites from "./components/AccountFavorites"
+import ScenarioReading from "./pages/ScenarioReading"
 
 function App() {
   // users sera l'ensemble des utilisateurs de mon site
@@ -59,7 +66,15 @@ function App() {
           <Route path="/editor" element={<Editor />} />
           <Route path="/forum" element={<Forum />} />
           <Route path="/scripts" element={<Scripts />} />
+          <Route path="/readscenario" element={<ScenarioReading />} />
           <Route path="/formnewscenario" element={<FormNewScenario />} />
+          <Route path="/useraccount/" element={<UserAccount />}>
+            <Route index element={<AccountInformations />} />
+            <Route path="favorites" element={<AccountFavorites />} />
+            <Route path="creations" element={<AccountCreations />} />
+            <Route path="followers" element={<AccountFollowers />} />
+          </Route>
+          <Route path="/resumescenario" element={<ResumePageScenario />} />
         </Routes>
       </MyContext.Provider>
     </div>

@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import MyContext from "./MyContext"
 import "../components/Navbar.scss"
 import ScripLogo from "../assets/ScripLogo.png"
@@ -11,12 +11,19 @@ const Navbar = () => {
   const { user, setUser } = useContext(MyContext)
   const [openForm, setOpenForm] = useState(false)
   const [openFormSignUp, setOpenFormSignUp] = useState(false)
+  const [changeClassToOpenMenu, setChangeClassToOpenMenu] = useState(true)
+
+  const HandleChangeClassTopOpenMenu = () => {
+    setChangeClassToOpenMenu(!changeClassToOpenMenu)
+  }
+  const navigate = useNavigate()
 
   const HandleClickOpenLog = () => {
     setOpenForm(true)
   }
 
   const HandleClickLogout = () => {
+    navigate("/")
     setUser(null)
   }
 
@@ -45,11 +52,14 @@ const Navbar = () => {
           <li className="link" alt="Scripts">
             SCRIPTS
           </li>
-          <Link to="/editor" className="">
-            <li className="link" alt="Create">
-              CREATE
-            </li>
-          </Link>
+
+          {user !== null && (
+            <Link to="/editor" className="">
+              <li className="link" alt="Create">
+                CREATE
+              </li>
+            </Link>
+          )}
           <li className="link" alt="Forum">
             FORUM
           </li>
@@ -60,10 +70,30 @@ const Navbar = () => {
               LOG IN
             </button>
           ) : (
-            <button className="userConnect" type="button">
-              <p>{user.login}</p>
-              <img src={logout} alt="logout" onClick={HandleClickLogout} />
-            </button>
+            <div className="loginContainer">
+              <button
+                className="userConnect"
+                type="button"
+                onClick={HandleChangeClassTopOpenMenu}
+              >
+                <p>{user.login}</p>
+                <img src={logout} alt="logout" onClick={HandleClickLogout} />
+              </button>
+              <ul
+                className={
+                  changeClassToOpenMenu
+                    ? "scrollingMenu"
+                    : "scrollingMenu displayNone"
+                }
+              >
+                <Link to="/useraccount">
+                  <li>Informations</li>
+                </Link>
+                <li>Favorites</li>
+                <li>Creations</li>
+                <li>Followers</li>
+              </ul>
+            </div>
           )}
           <button
             className={user === null ? "push" : "hidden"}

@@ -5,85 +5,6 @@ import "./FormNewScenario.scss"
 
 import imgDefaultScenario from "../assets/images/defoscenario.png"
 
-// const universRoleGame = [
-//   {
-//     id: 1,
-//     name: "Alien",
-//   },
-//   {
-//     id: 2,
-//     name: "Battlestar Galactica",
-//   },
-//   {
-//     id: 3,
-//     name: "Buffy the Vampire Slayer",
-//   },
-//   {
-//     id: 4,
-//     name: "Cadillacs & Dinosaurs",
-//   },
-//   {
-//     id: 5,
-//     name: "Cyberpunk 2077",
-//   },
-//   {
-//     id: 6,
-//     name: "Dungeons and Dragons",
-//   },
-//   {
-//     id: 7,
-//     name: "EverQuest",
-//   },
-//   {
-//     id: 8,
-//     name: "James Bond 007",
-//   },
-//   {
-//     id: 9,
-//     name: "L'Appel de Cthulhu",
-//   },
-//   {
-//     id: 10,
-//     name: "Les Trois Mousquetaires",
-//   },
-//   {
-//     id: 11,
-//     name: "Lanfeust de Troy",
-//   },
-//   {
-//     id: 12,
-//     name: "Légendes de la Table ronde",
-//   },
-//   {
-//     id: 13,
-//     name: "Lord of the Ring",
-//   },
-//   {
-//     id: 14,
-//     name: "Mass Effect",
-//   },
-//   {
-//     id: 15,
-//     name: "Men in Black",
-//   },
-//   {
-//     id: 16,
-//     name: "Prédateurs",
-//   },
-//   {
-//     id: 17,
-//     name: "Star Wars",
-//   },
-//   {
-//     id: 18,
-//     name: "Warhammer",
-//   },
-//   {
-//     id: 19,
-//     name: "Yggdrasill",
-//   },
-// ]
-
 const numberPlayers = [
   {
     id: 1,
@@ -154,9 +75,21 @@ const difficulty = [
   },
 ]
 
-export default function FormNewScenario() {
+export default function FormNewScenario({
+  campaignID,
+  authorID,
+  setScenariosOfEditedCampagne,
+  scenariosOfEditedCampagne,
+  setPagesOfScenarioSelected,
+  setTextes,
+  setPageFuture,
+  setPageHistory,
+  setImages,
+  setShowNewScenario,
+}) {
   // const [author, setAuthor] = useState("Undefined")
   const [roleGame, setRoleGame] = useState([])
+  const [themes, setThemes] = useState([])
   // const [campagneId, setCampagneId] = useState("Undefined")
   const [titleScenario, setTitleScenario] = useState("Undefined")
   const [playerNumberMin, setPlayerNumberMin] = useState("Undefined")
@@ -182,6 +115,16 @@ export default function FormNewScenario() {
 
   const handleChangeRoleGame = (e) => {
     setRoleGame((prevState) =>
+      prevState.map((game) =>
+        game.name === e.target.value
+          ? { ...game, selected: true }
+          : { ...game, selected: false }
+      )
+    )
+  }
+
+  const handleChangeTheme = (e) => {
+    setThemes((prevState) =>
       prevState.map((game) =>
         game.name === e.target.value
           ? { ...game, selected: true }
@@ -244,46 +187,177 @@ export default function FormNewScenario() {
 
   const handleSubmit = (e) => {
     const roleGameID = roleGame.filter((game) => game.selected === true)[0].id
-    console.info("roleGameID", roleGameID)
-    console.info("title", titleScenario)
-    console.info("playerNumberMin", playerNumberMin)
-    console.info("playerNumberMax", playerNumberMax)
-    console.info("level", levelScenario)
-    console.info("picture", pictureScenario)
-    console.info("description", descriptionScenario)
-    console.info("writingDateStart", writingDateStart)
-    console.info("publicationDate", publicationDate)
+    const themeID = themes.filter((theme) => theme.selected === true)[0].id
 
-    axios.post("http://localhost:4242/scenarios", {
-      // authorID: 1,
-      // jeuxDeRoleID: roleGameID,
-      // campagnID: 1,
-      // name: title,
+    axios
+      .post("http://localhost:4242/scenarios", {
+        auteurs_id: authorID, // author
+        jeux_de_role_id: roleGameID,
+        campagnes_id: campaignID, // A faire plus tard => campagneId
+        name: titleScenario,
+        nb_player_min: playerNumberMin,
+        nb_player_max: playerNumberMax,
+        level: levelScenario,
+        start_writing_date: writingDateStart,
+        publication_date: publicationDate,
+        img: pictureScenario,
+        type: "campagne",
+        description: descriptionScenario,
+        model: 1, // a supprimer si table modifiée avec suppression de cette colonne
+      })
+      .then(async ({ data }) => {
+        // post du theme du scenario
+        await axios.post(`http://localhost:4242/themesScenarios/`, {
+          scenarios_id: data,
+          themes_id: themeID,
+        })
 
-      auteurs_id: 1, // author
-      jeux_de_role_id: roleGameID,
-      campagnes_id: 1, // A faire plus tard => campagneId
-      name: titleScenario,
-      nb_player_min: playerNumberMin,
-      nb_player_max: playerNumberMax,
-      level: levelScenario,
-      start_writing_date: writingDateStart,
-      publication_date: publicationDate,
-      img: pictureScenario,
-      description: descriptionScenario,
-    })
+        // récupération du scénario avec son ID
+        axios
+          .get(`http://localhost:4242/scenarios/${data}`)
+          .then(({ data }) => {
+            let newScenariosOfEditedCampagne = scenariosOfEditedCampagne.map(
+              (scenario) => ({ ...scenario, selected: false })
+            )
+            data.selected = true
+            newScenariosOfEditedCampagne = [
+              ...newScenariosOfEditedCampagne,
+              data,
+            ]
+            setScenariosOfEditedCampagne(newScenariosOfEditedCampagne)
+
+            return newScenariosOfEditedCampagne
+          })
+          .then((newScenariosOfEditedCampagne) => {
+            handleClickButtonScript(newScenariosOfEditedCampagne)
+          })
+      })
+
+    setShowNewScenario(false)
   }
 
-  // Ne pas oublier l'envoi de :
-  // Author => recup lors de la connexion,
-  // campagne id => recup lors de la creation du formulaire campagne,
-  // writingDateStart => recup lors de l'envoie du formulaire à la bdd,
-  // publicationDate => recup lors de la publication du ScenariosManager,
+  // ------------------------------------------------------------------
+  // fonction pour ajouter une nouvelle page dans un scenario
+  // ------------------------------------------------------------
+  const handleClickButtonScript = async (newScenariosOfEditedCampagne) => {
+    // on récupère l'id du scenario sélectionné
+    const scenarioID = newScenariosOfEditedCampagne.filter(
+      (scenario) => scenario.selected === true
+    )[0].id
+
+    // on demande un nom pour la page
+    const pageName = "Rename me"
+
+    // on attribue un numéro de page (numéro de la dernière page + 1)
+    const pageNumber = 1
+
+    // on post une nouvelle page dans la base de donnée (page_type_id = 1 car page script)
+    axios
+      .post(`http://localhost:4242/pages`, {
+        scenarios_id: scenarioID,
+        page_types_id: 1,
+        titre: pageName,
+        number: pageNumber,
+      })
+      .then(() => {
+        // on récupère la page de la base de donnée avec son id et on l'ajoute dans le state pagesOfScenarioSelected
+        axios
+          .get(`http://localhost:4242/scenarios/${scenarioID}/pages`)
+          .then(async ({ data }) => {
+            data[data.length - 1].selected = true // on se place sur la page créée en la sélectionnant
+            setPagesOfScenarioSelected(data)
+
+            // on crée maintenant des textes prédéfinis pour la nouvelle page
+            const pageID = data[data.length - 1].id
+            const newTextes = []
+
+            const textareaTitre = await handleNewTextarea(
+              pageID,
+              "60%",
+              "4%",
+              "5%",
+              "5%",
+              "Entrez un titre",
+              "2rem",
+              700,
+              "left",
+              newTextes,
+              pageName
+            )
+            const textareaParagraphe = await handleNewTextarea(
+              pageID,
+              "90%",
+              "15%",
+              "5%",
+              "10%",
+              "Tapez votre texte",
+              "1.25rem",
+              400,
+              "justify",
+              textareaTitre
+            )
+
+            setTextes(textareaParagraphe) // textes du template
+            setPageHistory(textareaParagraphe) // idem
+            setPageFuture(textareaParagraphe) // idem
+            setImages([])
+          })
+          .catch((err) => {
+            console.error(err)
+          })
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+  }
+
+  const handleNewTextarea = async (
+    pageID,
+    width,
+    height,
+    left,
+    top,
+    placeholder,
+    fontSize,
+    fontWeight,
+    textAlign,
+    newTextes,
+    pageName
+  ) => {
+    await axios.post(
+      `http://localhost:4242/pages/${pageID}/newtexteAtPageCreation`,
+      {
+        top,
+        left,
+        width,
+        height,
+        fontSize,
+        fontWeight,
+        textAlign,
+      }
+    )
+
+    const { data } = await axios.get(`http://localhost:4242/lasttexte`)
+    data.placeHolder = placeholder
+    if (pageName) {
+      data.text = pageName
+    }
+    newTextes = [...newTextes, data]
+
+    return newTextes
+  }
+
+  // ----FIN SECTION-------------------------------------
 
   useEffect(() => {
     axios
       .get("http://localhost:4242/rolegames")
       .then(({ data }) => setRoleGame(data))
+      .catch((err) => console.error(err))
+
+    axios
+      .get("http://localhost:4242/themes")
+      .then(({ data }) => setThemes(data))
       .catch((err) => console.error(err))
   }, [])
 
@@ -301,33 +375,63 @@ export default function FormNewScenario() {
       <main className="mainFormNewScenario">
         <div className="formGlobal">
           <div className="titleh2">
-            <h2>Form for creating new scenario :</h2>
+            <h2>Scenario informations :</h2>
           </div>
           <div className="params">
-            <div className="param">
-              <p>Role Game or univers :</p>
-              <select className="inputSelect" onChange={handleChangeRoleGame}>
-                <option>---</option>
-                {roleGame.map((univer) => (
-                  <option value={univer.name} key={univer.id}>
-                    {univer.name}
-                  </option>
-                ))}
-              </select>
+            <div className="form-flexRow">
+              <div className="form-flexColumn">
+                <p>Role Game / universe :</p>
+                <select className="inputSelect" onChange={handleChangeRoleGame}>
+                  <option>---</option>
+                  {roleGame.map((univer) => (
+                    <option value={univer.name} key={univer.id}>
+                      {univer.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="form-flexColumn">
+                <p>Theme :</p>
+                <select className="inputSelect" onChange={handleChangeTheme}>
+                  <option>---</option>
+                  {themes.map((theme) => (
+                    <option value={theme.name} key={theme.id}>
+                      {theme.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
-            <div className="param">
-              <p>Title : {titleScenario}</p>
-              <input
-                className="inputText"
-                type="text"
-                placeholder="Titre de la campagne"
-                onChange={handleChangeTitle}
-              />
+
+            <div className="form-flexRow">
+              <div className="form-flexColumn">
+                <p>Title :</p>
+                <input
+                  className="inputText"
+                  type="text"
+                  placeholder="Titre de la campagne"
+                  onChange={handleChangeTitle}
+                />
+              </div>
+
+              <div className="form-flexColumn">
+                <p>Difficulty :</p>
+                <select className="inputSelect" onChange={handleChangeLevel}>
+                  <option>---</option>
+                  {difficulty.map((grade) => (
+                    <option value={grade.nameDiff} key={grade.id}>
+                      {grade.nameDiff}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
-            <div className="param_playerScenar">
-              <p>Number of player(s) :</p>
+
+            <div className="form-flexRow">
+              <p className="p-numberPlayer">Number of players :</p>
               <div>
-                <div className="param">
+                <div className="form-flexColumn">
                   <p>Minimum</p>
                   <select
                     className="NumberPlayer"
@@ -341,7 +445,7 @@ export default function FormNewScenario() {
                     ))}
                   </select>
                 </div>
-                <div className="param">
+                <div className="form-flexColumn">
                   <p>Maximum</p>
                   <select
                     className="NumberPlayer"
@@ -357,32 +461,29 @@ export default function FormNewScenario() {
                 </div>
               </div>
             </div>
-            <div className="param">
-              <p>Level : {levelScenario} </p>
-              <select className="inputSelect" onChange={handleChangeLevel}>
-                <option>---</option>
-                {difficulty.map((grade) => (
-                  <option value={grade.nameDiff} key={grade.id}>
-                    {grade.nameDiff}
-                  </option>
-                ))}
-              </select>
+
+            <div className="param-pictureScenar">
+              <p>Presentation picture of the scenario :</p>
+
+              <div className="form-chooseApicture">
+                <label htmlFor="inputFileFormNewScenario">Choose a file</label>
+                <input
+                  type="file"
+                  accept="image/jpeg, image/jpg, image/png"
+                  onChange={handleChangePicture}
+                  id="inputFileFormNewScenario"
+                />
+
+                {pictureScenario === "none" ? (
+                  <img src={imgDefaultScenario} alt="Picture of Scenario" />
+                ) : (
+                  <img src={pictureScenario} alt="Picture of Scenario" /> // A modifier la src !!!
+                )}
+              </div>
             </div>
-            <div className="param pictureScenar">
-              <p>Picture :</p>
-              {pictureScenario === "none" ? (
-                <img src={imgDefaultScenario} alt="Picture of Scenario" />
-              ) : (
-                <img src={pictureScenario} alt="Picture of Scenario" /> // A modifier la src !!!
-              )}
-              <input
-                type="file"
-                accept="image/jpeg, image/jpg, image/png"
-                onChange={handleChangePicture}
-              />
-            </div>
-            <div className="param">
-              <p>Scenario synopsys : {descriptionScenario}</p>
+
+            <div className="form-container-synopsis">
+              <p>Scenario synopsys :</p>
               <textarea
                 placeholder="Resume here"
                 maxLength="2000"

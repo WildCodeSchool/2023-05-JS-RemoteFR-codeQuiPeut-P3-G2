@@ -29,7 +29,7 @@ pool.getConnection().catch(() => {
 
 const models = {}
 
-const ScenariosManager = require("./ScenariosManager")
+const ScenariosManager = require("./scenariosManager")
 const UtilisateursManager = require("./UtilisateursManager")
 const ForumCommManager = require("./ForumCommManager")
 const SujetForumManager = require("./SujetForumManager")
@@ -46,6 +46,9 @@ const ImagesManager = require("./ImagesManager")
 const StylePageManager = require("./StylePageManager")
 const RoleGamesManager = require("./RoleGamesManager")
 const FilterManager = require("./FilterManager")
+const ThemesManager = require("./ThemesManager")
+const ThemesScenarioManager = require("./ThemesScenarioManager")
+const FavoriteManager = require("./FavoriteManager")
 
 models.scenarios = new ScenariosManager()
 models.scenarios.setDatabase(pool)
@@ -92,11 +95,19 @@ models.stylePage.setDatabase(pool)
 models.roleGames = new RoleGamesManager()
 models.roleGames.setDatabase(pool)
 
+models.themes = new ThemesManager()
+models.themes.setDatabase(pool)
+
+models.themesScenario = new ThemesScenarioManager()
+models.themesScenario.setDatabase(pool)
+
 models.images = new ImagesManager()
 models.images.setDatabase(pool)
 
 models.filter = new FilterManager()
 models.filter.setDatabase(pool)
+models.favorites = new FavoriteManager()
+models.favorites.setDatabase(pool)
 
 // bonus: use a proxy to personalize error message,
 // when asking for a non existing model
