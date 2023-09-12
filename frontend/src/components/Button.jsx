@@ -1,66 +1,64 @@
+import { useState, useEffect } from "react"
+import axios from "axios"
 import "./Button.scss"
-// import { useState } from "react"
-function Button({ selectedGenre, onGenreSelect }) {
-  // const [filter, setFilter] = useState("")
 
-  const examples = [
-    {
-      id: 1,
-      name: "scenario1",
-      genre: "horreur",
-    },
-    {
-      id: 2,
-      name: "campagne1",
-      genre: "fantaisy",
-    },
-  ]
+function Button({ scenarios, onExportResult }) {
+  const [themes, setThemes] = useState([])
+  // const [filteredScenarios, setFilteredScenarios] = useState([])
+  useEffect(() => {
+    axios
+      .get("http://localhost:4242/themes")
+      .then((res) => setThemes(res.data) || console.info(res.data))
+      .catch((error) => console.error(error))
+  }, [])
 
-  //   const handleFilterByGender = (event) => setFilter(event.target.value)
-  //   const filteredExamples = filter
-  //     ? examples.filter((example) => example.genre === filter)
-  //     : examples
-  //   return (
-  //     <>
-  //       <div>
-  //         {examples.map((example) => (
-  //           <button
-  //             className="ButtonGenre"
-  //             key={example.id}
-  //             onClick={handleFilterByGender}
-  //           >
-  //             {example.genre}
-  //           </button>
-  //         ))}
-  //       </div>
-  //       <div>
-  //         {filteredExamples.map((example) => (
-  //           <div key={example.id}>
-  //             <p>
-  //               {example.name}
-  //               {example.genre}
-  //             </p>
-  //           </div>
-  //         ))}
-  //       </div>
-  //     </>
+  // function handleClickgender(themes, scenarios) {
+  //   const filteredScenarios = scenarios.filter(
+  //     (scenario) => themes.name === themes
   //   )
+  //   filteredScenarios.map((scenario) => (
+  //     <div key={scenario.id}>
+  //       <CardScenario scenario={scenario} />
+  //     </div>
+  //   ))
+  // // }
+
+  // function handleClickGender(themeName) {
+  //   const filtered = scenarios.filter(
+  //     (scenario) => scenario.theme === themeName
+  //   )
+
+  //   setFilteredScenarios(filtered)
   // }
 
   return (
-    <div>
-      {examples.map((example) => (
-        <button
-          className={`ButtonGenre ${
-            selectedGenre === example.genre ? "selected" : ""
-          }`}
-          key={example.id}
-          onClick={() => onGenreSelect(example.genre)}
-        >
-          {example.genre}
-        </button>
+    <>
+      {/* {themes.map((theme) => (
+        <div key={theme.id}>
+          <button className="ButtonGenre" onClick={handleClickGender}>
+            {theme.name}
+          </button>
+        </div>
+      ))} */}
+      {themes.map((theme) => (
+        <div key={theme.id}>
+          <button
+            className="ButtonGenre"
+            // onClick={() => handleClickGender(theme.name)}
+          >
+            {theme.name}
+          </button>
+        </div>
       ))}
-    </div>
+      {/* 
+      <div className="filtered-scenarios">
+        {filteredScenarios.map((scenario) => (
+          <div key={scenario.id}>
+            <CardScenario scenario={scenario} />
+          </div>
+        ))}
+      </div> */}
+    </>
   )
 }
 

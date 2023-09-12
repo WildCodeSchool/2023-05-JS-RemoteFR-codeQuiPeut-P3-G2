@@ -1,67 +1,56 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 
 import Button from "../components/Button"
 import Navbar from "../components/Navbar"
 // import Switch from "../components/Switch"
 
 import "./Scripts.scss"
-// import axios from "axios"
+import axios from "axios"
+import CardScenario from "../components/CardScenario"
 
-function Scripts() {
-  const examples = [
-    {
-      id: 1,
-      name: "scenario1",
-      genre: "horreur",
-      date: "01-01-2020",
-      vue: "96",
-    },
-    {
-      id: 2,
-      name: "campagne1",
-      genre: "fantaisy",
-      date: "01-01-2023",
-      vue: "80",
-    },
-  ]
+function Scripts({ filteredScenarios }) {
+  const [scenarios, setScenarios] = useState([])
+  const [exportedResult, setExportedResult] = useState(null)
 
-  // useEffect(() => {
-  //   axios.get("http://localhost:4242/scenario").then(({ data }) => {
-  //     return console.info({ data })
-  //   })
-  // }, [])
-
-  const [selectedId, setSelectedId] = useState(1)
-  const [selectedGenre, setSelectedGenre] = useState("")
-  const [sortedExamples, setSortedExamples] = useState([...examples])
-  const [selectedDate, setSelectedDate] = useState(null)
-  const [sortedVue, setSortedVue] = useState([...examples])
-
-  const handleSwitch = () => {
-    setSelectedId((prevSelectedId) => (prevSelectedId === 1 ? 2 : 1))
+  useEffect(() => {
+    axios
+      .get("http://localhost:4242/scenarios")
+      .then((res) => setScenarios(res.data) || console.info(res.data))
+  }, [])
+  function handleExportedResult(result) {
+    setExportedResult(result)
   }
+  // const [selectedId, setSelectedId] = useState(1)
+  // const [selectedGenre, setSelectedGenre] = useState("")
+  // const [sortedExamples, setSortedExamples] = useState([...examples])
+  // const [selectedDate, setSelectedDate] = useState(null)
+  // const [sortedVue, setSortedVue] = useState([...examples])
 
-  const handleGenreSelect = (genre) => {
-    setSelectedGenre(genre)
-  }
-  const handleNewest = () => {
-    const sortedItems = [...sortedExamples].sort(
-      (a, b) => new Date(b.date) - new Date(a.date)
-    )
-    setSortedExamples(sortedItems)
-    setSelectedDate(sortedItems[0])
-  }
+  // const handleSwitch = () => {
+  //   setSelectedId((prevSelectedId) => (prevSelectedId === 1 ? 2 : 1))
+  // }
 
-  const handleView = () => {
-    const sortedItem = [...sortedExamples].sort(
-      (a, b) => parseInt(b.vue) - parseInt(a.vue)
-    )
-    setSortedVue(sortedItem)
-  }
+  // const handleGenreSelect = (theme) => {
+  //   setSelectedGenre(theme)
+  // }
+  // const handleNewest = () => {
+  //   const sortedItems = [...sortedExamples].sort(
+  //     (a, b) => new Date(b.date) - new Date(a.date)
+  //   )
+  //   setSortedExamples(sortedItems)
+  //   setSelectedDate(sortedItems[0])
+  // }
 
-  const mostViewed = sortedVue.length > 0 ? sortedVue[0] : null
+  // const handleView = () => {
+  //   const sortedItem = [...sortedExamples].sort(
+  //     (a, b) => parseInt(b.vue) - parseInt(a.vue)
+  //   )
+  //   setSortedVue(sortedItem)
+  // }
 
-  const selectedData = examples.find((data) => data.id === selectedId)
+  // const mostViewed = sortedVue.length > 0 ? sortedVue[0] : null
+
+  // const selectedData = examples.find((data) => data.id === selectedId)
 
   return (
     <div className="container">
@@ -74,7 +63,7 @@ function Scripts() {
           <div className="Type">
             <p>One Shot</p>
             <label className="switch">
-              <input type="checkbox" onChange={handleSwitch}></input>
+              <input type="checkbox"></input>
               <span className="slider"></span>
             </label>
             <p>Campagne</p>
@@ -82,14 +71,15 @@ function Scripts() {
           <div className="Button">
             <div>
               <Button
-                selectedGenre={selectedGenre}
-                onGenreSelect={handleGenreSelect}
+                scenarios={scenarios}
+                filteredScenarios={filteredScenarios}
+                onExportResult={handleExportedResult}
               />
             </div>
           </div>
           <div className="conseiller">
-            <button onClick={handleNewest}>The newest</button>
-            <button onClick={handleView}>Most populare</button>
+            <button>The newest</button>
+            <button>Most populare</button>
             <button>All scénarios</button>
           </div>
           <div className="univers">
@@ -109,10 +99,22 @@ function Scripts() {
           </div>
         </div>
         <div className="try">
-          <p>{selectedData && selectedData.name}</p>
-          <p>{selectedGenre && `${selectedGenre}`}</p>
-          <p>{selectedDate && selectedDate.date}</p>
-          <p>{sortedVue && mostViewed.vue}</p>
+          {/* <div className="Card">
+            {scenarios.map((scenario) => (
+              <div key={scenario.id}>
+                <CardScenario scenario={scenario} />
+              </div>
+            ))}
+          </div> */}
+          {exportedResult && (
+            <div className="filtered-scenarios">
+              {filteredScenarios.map((scenario) => (
+                <div key={scenario.id}>
+                  <CardScenario scenario={scenario} />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

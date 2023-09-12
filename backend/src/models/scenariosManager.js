@@ -60,6 +60,20 @@ class ScenariosManager extends AbstractManager {
       [id]
     )
   }
+
+  findScenarios() {
+    return this.database.query(
+      `SELECT scenarios.id, auteurs.name as autor, scenarios.name AS title, scenarios.nb_player_min, scenarios.nb_player_max, scenarios.type, scenarios.level, scenarios.start_writing_date, scenarios.publication_date, scenarios.img, scenarios.description, jeux_de_role.name AS universe, themes.name as theme, count(scenarios_favoris.scenarios_id)as nb_favoris, count(avis_scenario.scenarios_id)as nb_avis
+FROM ${this.table}
+JOIN jeux_de_role ON scenarios.jeux_de_role_id = jeux_de_role.id
+JOIN auteurs ON scenarios.auteurs_id = auteurs.id
+JOIN scenarios_themes ON scenarios.id = scenarios_themes.scenarios_id
+JOIN themes ON scenarios_themes.themes_id = themes.id 
+LEFT JOIN scenarios_favoris ON scenarios_favoris.scenarios_id = scenarios.id
+LEFT JOIN avis_scenario ON avis_scenario.scenarios_id = scenarios.id
+GROUP BY scenarios.id, auteurs.name, scenarios.name, scenarios.nb_player_min, scenarios.nb_player_max, scenarios.type, scenarios.level, scenarios.start_writing_date, scenarios.publication_date, scenarios.img, scenarios.description, jeux_de_role.name, themes.name`
+    )
+  }
 }
 
 module.exports = ScenariosManager

@@ -2,20 +2,25 @@ $blueColor: #4c60ae;
 $colorYellow: #ffbd59;
 
 .all{
-	width:40vw;
+	width:100%;
 	display:flex;
 	justify-content: space-between;
 	align-items: flex-start;
 
 		.Filter{
-			width: 30vw;
+			width: 25%;
 			box-shadow: 7px 0px 4px -4px $blueColor;
 		}
 
 		.try{
-			width:70vw;
+			width:70%;
 			font-size: xx-large;
+			display: flex;
+			flex-wrap: nowrap;
 	}
+	  .Card{
+			display:flex
+		}
 }
 
 .Title{

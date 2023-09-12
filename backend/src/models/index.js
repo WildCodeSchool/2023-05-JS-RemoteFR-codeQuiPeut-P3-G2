@@ -45,6 +45,7 @@ const TextesManager = require("./TextesManager")
 const ImagesManager = require("./ImagesManager")
 const StylePageManager = require("./StylePageManager")
 const RoleGamesManager = require("./RoleGamesManager")
+const FilterManager = require("./FilterManager")
 
 models.scenarios = new ScenariosManager()
 models.scenarios.setDatabase(pool)
@@ -93,6 +94,9 @@ models.roleGames.setDatabase(pool)
 
 models.images = new ImagesManager()
 models.images.setDatabase(pool)
+
+models.filter = new FilterManager()
+models.filter.setDatabase(pool)
 
 // bonus: use a proxy to personalize error message,
 // when asking for a non existing model
