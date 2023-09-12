@@ -34,6 +34,7 @@ export default function Editor() {
   const [pageHeight, setPageHeight] = useState()
   const [pageOffsetX, setPageOffsetX] = useState()
   const [pageOffsetY, setPageOffsetY] = useState()
+  const [offsets, setOffsets] = useState({ offsetX: 0, offsetY: 0 })
   const [addNewText, setAddNewText] = useState(false)
   const [textes, setTextes] = useState([])
   const [images, setImages] = useState([])
@@ -146,6 +147,13 @@ export default function Editor() {
   // -----------------------------------------------------------
   const handleDragStart = (event, id) => {
     handleClickElementTexte(id, event)
+
+    // prise en compte de la position de ma souris pour la dépose de mon élément
+    setOffsets({
+      offsetX: event.nativeEvent.offsetX,
+      offsetY: event.nativeEvent.offsetY,
+    })
+
     // setTextes((prevState) =>
     //   prevState.map((item) =>
     //     item.id === id
@@ -157,6 +165,12 @@ export default function Editor() {
 
   const handleDragStartImage = (event, id) => {
     handleClickElementImage(id, event)
+
+    // prise en compte de la position de ma souris pour la dépose de mon élément
+    setOffsets({
+      offsetX: event.nativeEvent.offsetX,
+      offsetY: event.nativeEvent.offsetY,
+    })
 
     // setImages((prevState) =>
     //   prevState.map((item) =>
@@ -175,10 +189,12 @@ export default function Editor() {
     event.preventDefault()
     // console.log("pageOffsetX", pageOffsetX)
 
-    const newTop = 100 * ((event.pageY - pageOffsetY) / pageHeight) + "%"
+    const newTop =
+      100 * ((event.pageY - pageOffsetY - offsets.offsetY) / pageHeight) + "%"
 
     // const newLeft = event.pageX;
-    const newLeft = 100 * ((event.pageX - pageOffsetX) / pageWidth) + "%"
+    const newLeft =
+      100 * ((event.pageX - pageOffsetX - offsets.offsetX) / pageWidth) + "%"
     // console.log("newTop", newTop, "newLeft", newLeft)
 
     const selectedText = textes.filter((texte) => texte.selected === true)[0]

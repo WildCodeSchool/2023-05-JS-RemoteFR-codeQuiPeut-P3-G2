@@ -47,6 +47,7 @@ export default function EditorPage(props) {
       {editedCampagne.name ? (
         <section
           className="section-page"
+          id="section-page"
           onDragOver={handleDragOver}
           onDrop={(event) => handleDrop(event, "idColumn1")}
           onClick={handleClickDropNewText}
@@ -73,13 +74,35 @@ export default function EditorPage(props) {
             <img
               src={item.img_src}
               alt="image"
-              style={item.style}
+              // style={item.style}
+              style={{
+                ...item.style,
+                filter: item.selected ? "drop-shadow(0 0 1px black)" : "none",
+              }}
               draggable
+              // className={item.selected === true ? "imgPageSelected" : "imgPageNoSelected"}
               onClick={(e) => handleClickElementImage(item.id, e)}
               onDragStart={(e) => handleDragStartImage(e, item.id)}
               key={item.id}
             />
           ))}
+          {/* {images.map((item) => (
+            <div
+              className={item.selected === true ? "imgPageSelected" : "imgPageNoSelected"}
+              style={{position:"absolute", width:item.style.width, height:item.style.height, top: item.style.top , left: item.style.left , zIndex:item.style.zIndex}}
+              onDragStart={(e) => handleDragStartImage(e, item.id)}
+              draggable
+
+              key={item.id}
+            >
+              <img
+                src={item.img_src}
+                alt="image"
+                style={{width:"100%", height:"100%" , borderStyle: item.style.borderStyle, borderRadius: item.style.borderRadius, borderColor: item.style.borderColor, boxShadow: item.style.boxShadow, opacity: item.style.opacity , padding: item.style.padding, boxSizing:"border-box"}}
+                onClick={(e) => handleClickElementImage(item.id, e)}
+              />
+            </div>
+          ))} */}
         </section>
       ) : (
         <section className="section-page">
