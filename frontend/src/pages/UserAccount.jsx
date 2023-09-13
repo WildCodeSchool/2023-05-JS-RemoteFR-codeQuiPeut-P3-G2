@@ -47,16 +47,32 @@ export default function UserAccount() {
               </div>
             </div>
             <div className="containMenu">
-              <NavLink className="buttonMenu" to="/useraccount/">
+              <NavLink
+                className="buttonMenu"
+                activeClassName="active"
+                to="/useraccount/"
+              >
                 <h2>Informations</h2>
               </NavLink>
-              <NavLink className="buttonMenu" to="/useraccount/favorites">
+              <NavLink
+                className="buttonMenu"
+                activeClassName="active"
+                to="/useraccount/favorites"
+              >
                 <h2>Favorites</h2>
               </NavLink>
-              <NavLink className="buttonMenu" to="/useraccount/creations">
+              <NavLink
+                className="buttonMenu"
+                activeClassName="active"
+                to="/useraccount/creations"
+              >
                 <h2>Creations</h2>
               </NavLink>
-              <NavLink className="buttonMenu" to="/useraccount/followers">
+              <NavLink
+                className="buttonMenu"
+                activeClassName="active"
+                to="/useraccount/followers"
+              >
                 <h2>Followers</h2>
               </NavLink>
             </div>

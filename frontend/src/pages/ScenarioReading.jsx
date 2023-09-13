@@ -22,6 +22,7 @@ export default function ScenarioReading() {
   const [widthPage, setWidthPage] = useState("1000px")
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
   const [showSummary, setShowSummary] = useState(false)
+  const [offsets, setOffsets] = useState({ offsetX: 0, offsetY: 0 })
   const [coordLogoSummary, setCoordLogoSummary] = useState({
     top: "50px",
     left: "20px",
@@ -114,6 +115,14 @@ export default function ScenarioReading() {
   // ----FONCTIONS DRAG DU LOGO SOMMAIRE-------------------
   // ------------------------------------------------------------------
 
+  const handleDragStart = (event, id) => {
+    // prise en compte de la position de ma souris pour la dépose de mon élément
+    setOffsets({
+      offsetX: event.nativeEvent.offsetX,
+      offsetY: event.nativeEvent.offsetY,
+    })
+  }
+
   const handleDragOver = (event) => {
     event.preventDefault()
   }
@@ -121,10 +130,10 @@ export default function ScenarioReading() {
   const handleDrop = (event) => {
     event.preventDefault()
 
-    const newTop = event.pageY + "px"
+    const newTop = event.clientY - offsets.offsetY + "px"
 
     // const newLeft = event.pageX;
-    const newLeft = event.pageX + "px"
+    const newLeft = event.clientX - offsets.offsetX + "px"
     // console.log("newTop", newTop, "newLeft", newLeft)
 
     setCoordLogoSummary({ top: newTop, left: newLeft })
@@ -202,6 +211,7 @@ export default function ScenarioReading() {
               alt="summary"
               title="Click to open the summary"
               className="img-showMenu"
+              onDragStart={handleDragStart}
               onClick={() => {
                 setShowSummary(!showSummary)
               }}
