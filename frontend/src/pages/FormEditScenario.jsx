@@ -227,7 +227,7 @@ export default function FormEditScenario({
       <main className="mainFormNewScenario">
         <div className="formGlobal">
           <div className="titleh2">
-            <h2>Scenario informations :</h2>
+            <h2>Scenario Edition</h2>
           </div>
           <div className="params">
             <div className="form-flexRow">
