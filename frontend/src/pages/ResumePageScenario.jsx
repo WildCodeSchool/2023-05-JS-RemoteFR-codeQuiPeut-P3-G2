@@ -30,12 +30,14 @@ const ResumePageScenario = () => {
     model: 1,
   }
   const { user } = useContext(MyContext)
+  // const { user, setUser } = useContext(MyContext)
   const navigate = useNavigate()
   const [isFavorite, setIsFAvorite] = useState(false)
   const [addComment, setAddComment] = useState(false)
   const [avis, setAvis] = useState([])
   const [comment, setComment] = useState()
   const [writingDateComment, setWritingDateComment] = useState()
+  // const [editComment, setEditComment] = useState()
 
   const getDateOfDay = () => {
     const today = new Date()
@@ -70,6 +72,18 @@ const ResumePageScenario = () => {
     setComment(e.target.value)
   }
 
+  const handleClickInput = (id) => {
+    setAvis((prevState) =>
+      prevState.map((avi) =>
+        avi.id === id ? { ...avi, edit: true } : { ...avi, edit: false }
+      )
+    )
+    const newAvis = avis.map((avi) =>
+      avi.id === id ? { ...avi, edit: true } : { ...avi, edit: false }
+    )
+    console.info("newAvis", newAvis)
+  }
+
   const handleClickAddComment = () => {
     setAddComment(!addComment)
   }
@@ -93,11 +107,8 @@ const ResumePageScenario = () => {
       )
       .catch((err) => console.error(err))
 
-    // setComment("")
-    // console.info("user", user.id)
-    // console.info("scenario", scenario.id)
-    // console.info("comm", comment)
-    // console.info("DateComment", writingDateComment)
+    setComment("")
+    setAddComment(false)
   }
 
   const handleDeleteComment = (e) => {
@@ -120,11 +131,11 @@ const ResumePageScenario = () => {
 
   const handleEditComment = (e) => {
     const id = e.target.value
-    console.info("id", id)
-    console.info("user", user.id)
-    console.info("scenario", scenario.id)
-    console.info("comm", comment)
-    console.info("DateComment", writingDateComment)
+    // console.info("id", id)
+    // console.info("user", user.id)
+    // console.info("scenario", scenario.id)
+    // console.info("comm", comment)
+    // console.info("DateComment", writingDateComment)
 
     axios
       .put(`http://localhost:4242/scenarcomm/${id}`, {
@@ -138,6 +149,8 @@ const ResumePageScenario = () => {
         })
       )
       .catch((err) => console.error(err))
+
+    setAvis((prevState) => prevState.map((avi) => ({ ...avi, edit: false })))
   }
 
   useEffect(() => {
@@ -227,6 +240,7 @@ const ResumePageScenario = () => {
           {addComment && (
             <div className="scenarInteractionsLow">
               <textarea
+                value={comment}
                 name="Commment"
                 id="scenarCom"
                 cols="30"
@@ -244,26 +258,90 @@ const ResumePageScenario = () => {
           )}
           <div className="comments">
             <p>liste of comms !</p>
-            {avis.map((avi) => (
+            {/* {avis.map((avi) => (
               <div key={avi.id}>
-                <p>{avi.commentaire}</p>
-                <p>{avi.id}</p>
-                <button
-                  type="button"
-                  value={avi.id}
-                  onClick={handleDeleteComment}
-                >
-                  Get out of here !
-                </button>
-                <button
-                  type="button"
-                  value={avi.id}
-                  onClick={handleEditComment}
-                >
-                  Edit this shit !
-                </button>
+                {editComment[avi.id] ? (
+                  <div>
+                    <input
+                      type="text"
+                      name=""
+                      value={avi.commentaire}
+                      onChange={handleWriteComment}
+                    />
+                  </div>
+                ) : (
+                  <p>
+                    {avi.commentaire} {avi.id}
+                  </p>
+                )}
+                {avi.utilisateurs_id === user.id ? (
+                  <div>
+                    <button
+                      type="button"
+                      value={avi.id}
+                      onClick={handleDeleteComment}
+                    >
+                      Remove comm
+                    </button>
+                    <button
+                      type="button"
+                      value={avi.id}
+                      onClick={() => handleClickInput(avi.id)}
+                    >
+                      Edit comm
+                    </button>
+                  </div>
+                ) : null}
               </div>
-            ))}
+            ))} */}
+            {avis.map((avi) =>
+              avi.utilisateurs_id === user.id ? (
+                avi.edit === true ? (
+                  <div>
+                    <input
+                      type="text"
+                      name=""
+                      value={avi.commentaire}
+                      onChange={handleWriteComment}
+                    />
+                    <button
+                      type="button"
+                      value={avi.id}
+                      onClick={handleEditComment}
+                    >
+                      Save
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    {console.info(avi)}
+                    <p>
+                      {avi.commentaire} {avi.id}
+                    </p>
+                    <button
+                      type="button"
+                      value={avi.id}
+                      onClick={handleDeleteComment}
+                    >
+                      Remove
+                    </button>
+                    <button
+                      type="button"
+                      value={avi.id}
+                      onClick={() => handleClickInput(avi.id)}
+                    >
+                      Edit
+                    </button>
+                  </div>
+                )
+              ) : (
+                <div key={avi.id}>
+                  <p>
+                    {avi.commentaire} {avi.id}
+                  </p>
+                </div>
+              )
+            )}
           </div>
         </div>
       </main>

@@ -22,7 +22,7 @@ class ScenarioCommentManager extends AbstractManager {
 
   update(avis) {
     return this.database.query(
-      `UPDATE ${this.table} SET commentaire = ? WHERE id = ? AND scenarioS_id = ? AND utilisateurs_id = ?`,
+      `UPDATE ${this.table} SET commentaire = ? WHERE id = ? AND scenarios_id = ? AND utilisateurs_id = ?`,
       [avis.textcomment, avis.id, avis.scenarioID, avis.utilisateurID]
     )
   }
