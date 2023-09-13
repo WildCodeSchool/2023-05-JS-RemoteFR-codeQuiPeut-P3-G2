@@ -11,26 +11,6 @@ function Button({
   valueTheme,
   setValueTheme,
 }) {
-  // const [themes, setThemes] = useState([])
-
-  // useEffect(() => {
-  //   axios
-  //     .get("http://localhost:4242/themes")
-  //     .then((res) => setThemes(res.data) || console.info(res.data))
-  //     .catch((error) => console.error(error))
-  // }, [])
-
-  // function handleClickgender(themes, scenarios) {
-  //   const filteredScenarios = scenarios.filter(
-  //     (scenario) => themes.name === themes
-  //   )
-  //   filteredScenarios.map((scenario) => (
-  //     <div key={scenario.id}>
-  //       <CardScenario scenario={scenario} />
-  //     </div>
-  //   ))
-  // // }
-
   function handleClickGender(id, name) {
     const filtered = scenarios.filter((scenario) => scenario.themeId === id)
 
@@ -39,16 +19,9 @@ function Button({
   }
 
   return (
-    <>
-      {/* {themes.map((theme) => (
-        <div key={theme.id}>
-          <button className="ButtonGenre" onClick={handleClickGender}>
-            {theme.name}
-          </button>
-        </div>
-      ))} */}
+    <div className="container-button">
       {themes.map((theme) => (
-        <div key={theme.id}>
+        <div key={theme.id} className="allButtonGenre">
           <button
             className="ButtonGenre"
             onClick={() => handleClickGender(theme.id, theme.name)}
@@ -64,7 +37,7 @@ function Button({
           </div>
         ))}
       </div> */}
-    </>
+    </div>
   )
 }
 

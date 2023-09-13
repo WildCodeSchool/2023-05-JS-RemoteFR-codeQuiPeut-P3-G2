@@ -9,6 +9,8 @@ import axios from "axios"
 import CardScenario from "../components/CardScenario"
 import FilterSelect from "../components/FilterSelect"
 
+import TitleScripts from "../assets/SCRIPTS.png"
+
 import { difficulty, numberPlayers } from "../assets/variables/variables"
 
 function Scripts() {
@@ -119,43 +121,14 @@ function Scripts() {
     valueRoleGame,
     valueTheme,
   ])
-  // const [selectedId, setSelectedId] = useState(1)
-  // const [selectedGenre, setSelectedGenre] = useState("")
-  // const [sortedExamples, setSortedExamples] = useState([...examples])
-  // const [selectedDate, setSelectedDate] = useState(null)
-  // const [sortedVue, setSortedVue] = useState([...examples])
+  // ------------------------------------------------------------------------------------------------
 
-  // const handleSwitch = () => {
-  //   setSelectedId((prevSelectedId) => (prevSelectedId === 1 ? 2 : 1))
-  // }
-
-  // const handleGenreSelect = (theme) => {
-  //   setSelectedGenre(theme)
-  // }
-  // const handleNewest = () => {
-  //   const sortedItems = [...sortedExamples].sort(
-  //     (a, b) => new Date(b.date) - new Date(a.date)
-  //   )
-  //   setSortedExamples(sortedItems)
-  //   setSelectedDate(sortedItems[0])
-  // }
-
-  // const handleView = () => {
-  //   const sortedItem = [...sortedExamples].sort(
-  //     (a, b) => parseInt(b.vue) - parseInt(a.vue)
-  //   )
-  //   setSortedVue(sortedItem)
-  // }
-
-  // const mostViewed = sortedVue.length > 0 ? sortedVue[0] : null
-
-  // const selectedData = examples.find((data) => data.id === selectedId)
-
+  // ------------------------------------------------------------------------------------------------
   return (
     <div className="container">
       <Navbar />
       <header className="Title">
-        <h1 className="Scripts">Scripts-Scripts-Scripts-Scripts</h1>
+        <img className="Scripts" src={TitleScripts}></img>
       </header>
       <div className="all">
         <div className="Filter">
@@ -165,28 +138,28 @@ function Scripts() {
               <input type="checkbox"></input>
               <span className="slider"></span>
             </label>
+            {/* <Switch
+              scenarios={scenarios}
+              typeScenarios={typeScenarios}
+              setTypeScenarios={setTypeScenarios}
+              changeType={changeType}
+            /> */}
             <p>Campagne</p>
           </div>
           <div className="Button">
-            <div>
-              <Button
-                scenarios={scenarios}
-                filteredScenarios={filteredScenarios}
-                setFilteredScenarios={setFilteredScenarios}
-                themes={themes}
-                setThemes={setThemes}
-                valueTheme={valueTheme}
-                setValueTheme={setValueTheme}
-              />
-            </div>
-          </div>
-          <div className="conseiller">
-            <button>The newest</button>
-            <button>Most populare</button>
-            <button>All scénarios</button>
+            <p className="titleTheme">Themes</p>
+            <Button
+              scenarios={scenarios}
+              filteredScenarios={filteredScenarios}
+              setFilteredScenarios={setFilteredScenarios}
+              themes={themes}
+              setThemes={setThemes}
+              valueTheme={valueTheme}
+              setValueTheme={setValueTheme}
+            />
           </div>
           <div className="univers">
-            <p>UNIVERSE</p>
+            <p>Universe</p>
             <select value={valueRoleGame} onChange={handleChangeRoleGame}>
               <option>---</option>
               {roleGames[0] &&
@@ -228,15 +201,13 @@ function Scripts() {
               ))}
             </select>
           </div>
+          <div className="conseiller">
+            <button>The news</button>
+            <button>The most popular</button>
+            <button>All scenarios</button>
+          </div>
         </div>
         <div className="try">
-          {/* <div className="Card">
-            {scenarios.map((scenario) => (
-              <div key={scenario.id}>
-                <CardScenario scenario={scenario} />
-              </div>
-            ))}
-          </div> */}
           <div className="filtered-scenarios">
             {scenarios.map((scenario) => (
               <div key={scenario.id}>
