@@ -375,7 +375,7 @@ export default function FormNewScenario({
       <main className="mainFormNewScenario">
         <div className="formGlobal">
           <div className="titleh2">
-            <h2>Scenario informations :</h2>
+            <h2>Scenario Starting</h2>
           </div>
           <div className="params">
             <div className="form-flexRow">
