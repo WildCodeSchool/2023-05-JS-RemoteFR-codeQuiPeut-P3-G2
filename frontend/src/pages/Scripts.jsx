@@ -13,7 +13,7 @@ function Scripts() {
   const [scenarios, setScenarios] = useState([])
   const [filteredScenarios, setFilteredScenarios] = useState([])
   const [filteredAuteur, setFilteredAuteur] = useState([])
-  const allFilters =filteredAuteur
+  const allFilters = filteredAuteur
 
   useEffect(() => {
     axios
