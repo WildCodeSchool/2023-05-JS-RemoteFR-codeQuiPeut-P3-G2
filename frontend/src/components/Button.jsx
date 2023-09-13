@@ -1,16 +1,24 @@
-import { useState, useEffect } from "react"
-import axios from "axios"
+// import { useState, useEffect } from "react"
+// import axios from "axios"
 import "./Button.scss"
 
-function Button({ scenarios, setFilteredScenarios, filteredScenarios }) {
-  const [themes, setThemes] = useState([])
+function Button({
+  scenarios,
+  setFilteredScenarios,
+  filteredScenarios,
+  themes,
+  setThemes,
+  valueTheme,
+  setValueTheme,
+}) {
+  // const [themes, setThemes] = useState([])
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:4242/themes")
-      .then((res) => setThemes(res.data) || console.info(res.data))
-      .catch((error) => console.error(error))
-  }, [])
+  // useEffect(() => {
+  //   axios
+  //     .get("http://localhost:4242/themes")
+  //     .then((res) => setThemes(res.data) || console.info(res.data))
+  //     .catch((error) => console.error(error))
+  // }, [])
 
   // function handleClickgender(themes, scenarios) {
   //   const filteredScenarios = scenarios.filter(
@@ -23,10 +31,11 @@ function Button({ scenarios, setFilteredScenarios, filteredScenarios }) {
   //   ))
   // // }
 
-  function handleClickGender(id) {
+  function handleClickGender(id, name) {
     const filtered = scenarios.filter((scenario) => scenario.themeId === id)
 
     setFilteredScenarios(filtered)
+    setValueTheme(name)
   }
 
   return (
@@ -42,7 +51,7 @@ function Button({ scenarios, setFilteredScenarios, filteredScenarios }) {
         <div key={theme.id}>
           <button
             className="ButtonGenre"
-            onClick={() => handleClickGender(theme.id)}
+            onClick={() => handleClickGender(theme.id, theme.name)}
           >
             {theme.name}
           </button>

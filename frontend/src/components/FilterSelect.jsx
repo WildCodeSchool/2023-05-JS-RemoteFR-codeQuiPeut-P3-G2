@@ -1,11 +1,16 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import axios from "axios"
 import "./FilterSelect.scss"
 
-function FilterSelect({ filteredAuteur, setFilteredAuteur, scenarios }) {
-  const [auteurs, setAuteurs] = useState([])
-  const [valueAuteur, setValueAuteur] = useState("---")
-
+function FilterSelect({
+  filteredAuteur,
+  setFilteredAuteur,
+  scenarios,
+  valueAuteur,
+  setValueAuteur,
+  auteurs,
+  setAuteurs,
+}) {
   useEffect(() => {
     axios
       .get("http://localhost:4242/auteurs")
@@ -15,14 +20,14 @@ function FilterSelect({ filteredAuteur, setFilteredAuteur, scenarios }) {
 
   function handleSelectAuteur(e) {
     setValueAuteur(e.target.value)
-    const auteurId = auteurs.filter(
-      (auteur) => auteur.name === e.target.value
-    )[0].id
-    const selectFiltered = scenarios.filter(
-      (scenario) => scenario.auteurId === auteurId
-    )
+    // const auteurId = auteurs.filter(
+    //   (auteur) => auteur.name === e.target.value
+    // )[0].id
+    // const selectFiltered = scenarios.filter(
+    //   (scenario) => scenario.auteurId === auteurId
+    // )
 
-    setFilteredAuteur(selectFiltered)
+    // setFilteredAuteur(selectFiltered)
   }
 
   return (
