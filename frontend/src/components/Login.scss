@@ -16,8 +16,8 @@ $fontSizeTitre: 1.5rem;
   align-items: center;
   z-index: 5;
   .logIn {
-    width: 45vw;
-    height: 40vh;
+    width: 600px;
+    height: 550px;
     box-sizing: border-box;
     box-shadow: 0 0 20px 3px $blueColor;
     background-color: $colorDark;
@@ -75,6 +75,8 @@ $fontSizeTitre: 1.5rem;
             position: relative;
             left: 22px;
             .containerImg {
+              position: relative;
+              top: 0px;
               width: 30px;
               margin-left: 16px;
               img {
