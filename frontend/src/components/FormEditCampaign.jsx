@@ -1,8 +1,6 @@
 import axios from "axios"
 import { useState, useEffect } from "react"
 
-// import "./FormNewScenario.scss"
-
 import imgDefaultScenario from "../assets/images/defoscenario.png"
 
 const numberPlayers = [
@@ -75,41 +73,22 @@ const difficulty = [
   },
 ]
 
-export default function FormEditScenario({
-  //   campaignID,
-  //   authorID,
-  setScenariosOfEditedCampagne,
-  //   scenariosOfEditedCampagne,
-  //   setPagesOfScenarioSelected,
-  //   setTextes,
-  //   setPageFuture,
-  //   setPageHistory,
-  //   setImages,
-  scenarioForInfoEdit,
-  setShowEditScenario,
-}) {
+export default function FormEditCampaign({ campaignID, setShowEditCampaign }) {
+  const [editedCampaign, setEditedCampaign] = useState({})
   // const [author, setAuthor] = useState("Undefined")
   const [roleGame, setRoleGame] = useState([])
   const [valueRoleGame, setValueRoleGame] = useState()
   const [themes, setThemes] = useState([])
-  const [valueTheme, setValueTheme] = useState(scenarioForInfoEdit.theme_name)
+  const [valueTheme, setValueTheme] = useState()
   // const [campagneId, setCampagneId] = useState("Undefined")
-  const [titleScenario, setTitleScenario] = useState(scenarioForInfoEdit.name)
-  const [playerNumberMin, setPlayerNumberMin] = useState(
-    scenarioForInfoEdit.nb_player_min
-  )
-  const [playerNumberMax, setPlayerNumberMax] = useState(
-    scenarioForInfoEdit.nb_player_max
-  )
+  const [campaignName, setCampaignName] = useState()
+  const [playerNumberMin, setPlayerNumberMin] = useState()
+  const [playerNumberMax, setPlayerNumberMax] = useState()
   // const [typeScenario, setTypeScenario] = useState("Undefined")
-  const [levelScenario, setLevelScenario] = useState(scenarioForInfoEdit.level)
+  const [levelScenario, setLevelScenario] = useState()
 
-  const [pictureScenario, setPictureScenario] = useState(
-    scenarioForInfoEdit.img
-  )
-  const [descriptionScenario, setDescriptionScenario] = useState(
-    scenarioForInfoEdit.description
-  )
+  const [pictureScenario, setPictureScenario] = useState()
+  const [synopsis, setSynopsis] = useState()
 
   const handleChangeRoleGame = (e) => {
     setValueRoleGame(e.target.value)
@@ -120,7 +99,7 @@ export default function FormEditScenario({
   }
 
   const handleChangeTitle = (e) => {
-    setTitleScenario(e.target.value)
+    setCampaignName(e.target.value)
   }
 
   const handleChangeNbPlayerMin = (e) => {
@@ -156,70 +135,74 @@ export default function FormEditScenario({
   }
 
   const handleChangeDescription = (e) => {
-    setDescriptionScenario(e.target.value)
+    setSynopsis(e.target.value)
   }
 
   const handleSubmit = (e) => {
     const roleGameID = roleGame.filter((game) => game.name === valueRoleGame)[0]
       .id
     const themeID = themes.filter((theme) => theme.name === valueTheme)[0].id
-    const startWritingdate = scenarioForInfoEdit.start_writing_date.slice(0, 10)
-    const publicationDate = scenarioForInfoEdit.publication_date.slice(0, 10)
+    const startWritingdate = editedCampaign.start_writing_date.slice(0, 10)
+    const publicationDate = editedCampaign.publication_date.slice(0, 10)
 
-    axios
-      .put(`http://localhost:4242/scenarios/${scenarioForInfoEdit.id}`, {
-        auteurs_id: scenarioForInfoEdit.auteurs_id, // author
-        jeux_de_role_id: roleGameID,
-        campagnes_id: scenarioForInfoEdit.campagnes_id, // A faire plus tard => campagneId
-        name: titleScenario,
-        nb_player_min: playerNumberMin,
-        nb_player_max: playerNumberMax,
-        level: levelScenario,
-        start_writing_date: startWritingdate,
-        publication_date: publicationDate,
-        img: pictureScenario,
-        type: scenarioForInfoEdit.type,
-        description: descriptionScenario,
-        model: 1, // a supprimer si table modifiée avec suppression de cette colonne
-      })
-      .then(() => {
-        axios
-          .get(
-            `http://localhost:4242/campagnes/${scenarioForInfoEdit.campagnes_id}/scenarios`
-          )
-          .then(({ data }) => setScenariosOfEditedCampagne(data))
-          .catch((err) => console.error(err))
-      })
-      .catch((err) => console.error(err))
+    axios.put(`http://localhost:4242/campagnes/${editedCampaign.id}`, {
+      auteurs_id: editedCampaign.auteurs_id, // author
+      jeux_de_role_id: roleGameID,
+      name: campaignName,
+      nb_player_min: playerNumberMin,
+      nb_player_max: playerNumberMax,
+      level: levelScenario,
+      start_writing_date: startWritingdate,
+      publication_date: publicationDate,
+      img: pictureScenario,
+      synopsis,
+    })
 
-    axios.put(
-      `http://localhost:4242/themesScenarios/${scenarioForInfoEdit.id}`,
-      {
-        scenarios_id: scenarioForInfoEdit.id,
-        themes_id: themeID,
-      }
-    )
+    axios.put(`http://localhost:4242/themesCampagnes/${editedCampaign.id}`, {
+      campagnes_id: editedCampaign.id,
+      themes_id: themeID,
+    })
 
-    setShowEditScenario(false)
+    setShowEditCampaign(false)
   }
 
   useEffect(() => {
     axios
-      .get("http://localhost:4242/rolegames")
+      .get(`http://localhost:4242/campagnes/${campaignID}`)
       .then(({ data }) => {
-        setRoleGame(data)
-        setValueRoleGame(
-          data.filter(
-            (game) => game.id === scenarioForInfoEdit.jeux_de_role_id
-          )[0].name
-        )
+        setEditedCampaign(data)
+        return data
       })
-      .catch((err) => console.error(err))
+      .then((campaign) => {
+        setSynopsis(campaign.synopsis)
+        setCampaignName(campaign.name)
+        setPlayerNumberMin(campaign.nb_player_min)
+        setPlayerNumberMax(campaign.nb_player_max)
+        setPictureScenario(campaign.img)
+        setLevelScenario(campaign.level)
+        setValueTheme(campaign.theme_name)
 
-    axios
-      .get("http://localhost:4242/themes")
-      .then(({ data }) => setThemes(data))
-      .catch((err) => console.error(err))
+        return campaign
+      })
+      .then((campaign) => {
+        axios
+          .get("http://localhost:4242/rolegames")
+          .then(({ data }) => {
+            setRoleGame(data)
+            setValueRoleGame(
+              data.filter((game) => game.id === campaign.jeux_de_role_id)[0]
+                .name
+            )
+          })
+          .catch((err) => console.error(err))
+
+        axios
+          .get("http://localhost:4242/themes")
+          .then(({ data }) => {
+            setThemes(data)
+          })
+          .catch((err) => console.error(err))
+      })
   }, [])
 
   return (
@@ -271,7 +254,7 @@ export default function FormEditScenario({
                   className="inputText"
                   type="text"
                   placeholder="Titre de la campagne"
-                  value={titleScenario}
+                  value={campaignName}
                   onChange={handleChangeTitle}
                 />
               </div>
@@ -355,7 +338,7 @@ export default function FormEditScenario({
                 placeholder="Resume here"
                 maxLength="2000"
                 onChange={handleChangeDescription}
-                value={descriptionScenario}
+                value={synopsis}
               />
             </div>
           </div>

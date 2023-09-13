@@ -4,7 +4,11 @@ import "./Login.scss"
 import axios from "axios"
 import croix from "../assets/images/Close.svg"
 
-export default function Login({ setOpenForm, setOpenFormSignUp }) {
+export default function Login({
+  setOpenForm,
+  setOpenFormSignUp,
+  setChangeClassToOpenMenu,
+}) {
   const { user, setUser } = useContext(MyContext)
   const [email, setEmail] = useState("")
   const [passWord, setPassWord] = useState("")
@@ -27,15 +31,19 @@ export default function Login({ setOpenForm, setOpenFormSignUp }) {
       .catch(() => {
         setWrongEmailOrPassword(true)
       })
+
+    setChangeClassToOpenMenu(false)
   }
 
   const HandleclosFormLogin = () => {
     setOpenForm(false)
+    setChangeClassToOpenMenu(false)
   }
 
   const HandleCloseFormLoginOpenSignup = () => {
     setOpenForm(false)
     setOpenFormSignUp(true)
+    setChangeClassToOpenMenu(false)
   }
 
   const HandleChangeEmail = (event) => {

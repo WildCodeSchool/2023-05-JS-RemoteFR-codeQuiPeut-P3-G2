@@ -1,8 +1,6 @@
 import axios from "axios"
 import { useState, useEffect } from "react"
 
-// import "./FormNewScenario.scss"
-
 import imgDefaultScenario from "../assets/images/defoscenario.png"
 
 const numberPlayers = [
@@ -75,41 +73,36 @@ const difficulty = [
   },
 ]
 
-export default function FormEditScenario({
-  //   campaignID,
-  //   authorID,
-  setScenariosOfEditedCampagne,
-  //   scenariosOfEditedCampagne,
-  //   setPagesOfScenarioSelected,
-  //   setTextes,
-  //   setPageFuture,
-  //   setPageHistory,
-  //   setImages,
-  scenarioForInfoEdit,
-  setShowEditScenario,
-}) {
+export default function FormNewCampaign(props) {
+  const {
+    setShowNewCampaign,
+    authorID,
+    setScenariosOfEditedCampagne,
+    scenariosOfEditedCampagne,
+    setPagesOfScenarioSelected,
+    setImages,
+    setPageFuture,
+    setPageHistory,
+    setTextes,
+    setEditedCampagne,
+    setCampagnesUtilisateur,
+  } = props
+
   // const [author, setAuthor] = useState("Undefined")
   const [roleGame, setRoleGame] = useState([])
   const [valueRoleGame, setValueRoleGame] = useState()
   const [themes, setThemes] = useState([])
-  const [valueTheme, setValueTheme] = useState(scenarioForInfoEdit.theme_name)
+  const [valueTheme, setValueTheme] = useState()
   // const [campagneId, setCampagneId] = useState("Undefined")
-  const [titleScenario, setTitleScenario] = useState(scenarioForInfoEdit.name)
-  const [playerNumberMin, setPlayerNumberMin] = useState(
-    scenarioForInfoEdit.nb_player_min
-  )
-  const [playerNumberMax, setPlayerNumberMax] = useState(
-    scenarioForInfoEdit.nb_player_max
-  )
+  const [campaignName, setCampaignName] = useState()
+  const [playerNumberMin, setPlayerNumberMin] = useState()
+  const [playerNumberMax, setPlayerNumberMax] = useState()
   // const [typeScenario, setTypeScenario] = useState("Undefined")
-  const [levelScenario, setLevelScenario] = useState(scenarioForInfoEdit.level)
-
-  const [pictureScenario, setPictureScenario] = useState(
-    scenarioForInfoEdit.img
-  )
-  const [descriptionScenario, setDescriptionScenario] = useState(
-    scenarioForInfoEdit.description
-  )
+  const [levelScenario, setLevelScenario] = useState()
+  const [writingDateStart, setWritingDateStart] = useState(Date())
+  const [publicationDate, setPublicationDate] = useState("3000-01-01")
+  const [pictureScenario, setPictureScenario] = useState("none")
+  const [synopsis, setSynopsis] = useState()
 
   const handleChangeRoleGame = (e) => {
     setValueRoleGame(e.target.value)
@@ -120,7 +113,7 @@ export default function FormEditScenario({
   }
 
   const handleChangeTitle = (e) => {
-    setTitleScenario(e.target.value)
+    setCampaignName(e.target.value)
   }
 
   const handleChangeNbPlayerMin = (e) => {
@@ -156,51 +149,217 @@ export default function FormEditScenario({
   }
 
   const handleChangeDescription = (e) => {
-    setDescriptionScenario(e.target.value)
+    setSynopsis(e.target.value)
+  }
+
+  // ------------------------------------------------------------------
+  // fonction pour ajouter une nouvelle page dans un scenario
+  // ------------------------------------------------------------
+  const handleClickButtonScript = async (newScenariosOfEditedCampagne) => {
+    // on récupère l'id du scenario sélectionné
+    const scenarioID = newScenariosOfEditedCampagne.filter(
+      (scenario) => scenario.selected === true
+    )[0].id
+
+    // on demande un nom pour la page
+    const pageName = "Rename me"
+
+    // on attribue un numéro de page (numéro de la dernière page + 1)
+    const pageNumber = 1
+
+    // on post une nouvelle page dans la base de donnée (page_type_id = 1 car page script)
+    axios
+      .post(`http://localhost:4242/pages`, {
+        scenarios_id: scenarioID,
+        page_types_id: 1,
+        titre: pageName,
+        number: pageNumber,
+      })
+      .then(() => {
+        // on récupère la page de la base de donnée avec son id et on l'ajoute dans le state pagesOfScenarioSelected
+        axios
+          .get(`http://localhost:4242/scenarios/${scenarioID}/pages`)
+          .then(async ({ data }) => {
+            data[data.length - 1].selected = true // on se place sur la page créée en la sélectionnant
+            setPagesOfScenarioSelected(data)
+
+            // on crée maintenant des textes prédéfinis pour la nouvelle page
+            const pageID = data[data.length - 1].id
+            const newTextes = []
+
+            const textareaTitre = await handleNewTextarea(
+              pageID,
+              "60%",
+              "4%",
+              "5%",
+              "5%",
+              "Entrez un titre",
+              "2rem",
+              700,
+              "left",
+              newTextes,
+              pageName
+            )
+            const textareaParagraphe = await handleNewTextarea(
+              pageID,
+              "90%",
+              "15%",
+              "5%",
+              "10%",
+              "Tapez votre texte",
+              "1.25rem",
+              400,
+              "justify",
+              textareaTitre
+            )
+
+            setTextes(textareaParagraphe) // textes du template
+            setPageHistory(textareaParagraphe) // idem
+            setPageFuture(textareaParagraphe) // idem
+            setImages([])
+          })
+          .catch((err) => {
+            console.error(err)
+          })
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+  }
+
+  const handleNewTextarea = async (
+    pageID,
+    width,
+    height,
+    left,
+    top,
+    placeholder,
+    fontSize,
+    fontWeight,
+    textAlign,
+    newTextes,
+    pageName
+  ) => {
+    await axios.post(
+      `http://localhost:4242/pages/${pageID}/newtexteAtPageCreation`,
+      {
+        top,
+        left,
+        width,
+        height,
+        fontSize,
+        fontWeight,
+        textAlign,
+      }
+    )
+
+    const { data } = await axios.get(`http://localhost:4242/lasttexte`)
+    data.placeHolder = placeholder
+    if (pageName) {
+      data.text = pageName
+    }
+    newTextes = [...newTextes, data]
+
+    return newTextes
+  }
+
+  // ----FIN SECTION-------------------------------------
+
+  const getDateOfDay = () => {
+    const today = new Date()
+    const year = today.getFullYear()
+    const month = String(today.getMonth() + 1).padStart(2, "0")
+    const day = String(today.getDate()).padStart(2, "0")
+    return `${year}-${month}-${day}`
   }
 
   const handleSubmit = (e) => {
     const roleGameID = roleGame.filter((game) => game.name === valueRoleGame)[0]
       .id
     const themeID = themes.filter((theme) => theme.name === valueTheme)[0].id
-    const startWritingdate = scenarioForInfoEdit.start_writing_date.slice(0, 10)
-    const publicationDate = scenarioForInfoEdit.publication_date.slice(0, 10)
 
     axios
-      .put(`http://localhost:4242/scenarios/${scenarioForInfoEdit.id}`, {
-        auteurs_id: scenarioForInfoEdit.auteurs_id, // author
+      .post(`http://localhost:4242/campagnes`, {
+        auteurs_id: authorID, // author
         jeux_de_role_id: roleGameID,
-        campagnes_id: scenarioForInfoEdit.campagnes_id, // A faire plus tard => campagneId
-        name: titleScenario,
+        name: campaignName,
         nb_player_min: playerNumberMin,
         nb_player_max: playerNumberMax,
         level: levelScenario,
-        start_writing_date: startWritingdate,
+        start_writing_date: writingDateStart,
         publication_date: publicationDate,
         img: pictureScenario,
-        type: scenarioForInfoEdit.type,
-        description: descriptionScenario,
-        model: 1, // a supprimer si table modifiée avec suppression de cette colonne
+        synopsis,
       })
-      .then(() => {
+      .then(async (res) => {
+        const newCampaignID = res.data
+
+        await axios.post(`http://localhost:4242/themesCampagnes`, {
+          campagnes_id: newCampaignID,
+          themes_id: themeID,
+        })
+
         axios
-          .get(
-            `http://localhost:4242/campagnes/${scenarioForInfoEdit.campagnes_id}/scenarios`
-          )
-          .then(({ data }) => setScenariosOfEditedCampagne(data))
+          .get(`http://localhost:4242/auteurs/${authorID}/campagnes`) // A MODIFIER - NE FONCTIONNE PAS ?? (sur de ça ? a verifier)
+          .then(({ data }) => {
+            setCampagnesUtilisateur(data)
+            const newEditedCampagne = data.filter(
+              (campagne) => campagne.id === newCampaignID
+            )[0]
+            setEditedCampagne(newEditedCampagne)
+
+            /// ///////////////////////////////////////////////////////////////////
+            axios
+              .post("http://localhost:4242/scenarios", {
+                auteurs_id: authorID, // author
+                jeux_de_role_id: roleGameID,
+                campagnes_id: newCampaignID, // A faire plus tard => campagneId
+                name: campaignName,
+                nb_player_min: playerNumberMin,
+                nb_player_max: playerNumberMax,
+                level: levelScenario,
+                start_writing_date: writingDateStart,
+                publication_date: publicationDate,
+                img: pictureScenario,
+                type: "one shot",
+                description: synopsis,
+                model: 1, // a supprimer si table modifiée avec suppression de cette colonne
+              })
+              .then(async ({ data }) => {
+                // post du theme du scenario
+                await axios.post(`http://localhost:4242/themesScenarios/`, {
+                  scenarios_id: data,
+                  themes_id: themeID,
+                })
+
+                // récupération du scénario avec son ID
+                axios
+                  .get(`http://localhost:4242/scenarios/${data}`)
+                  .then(({ data }) => {
+                    let newScenariosOfEditedCampagne =
+                      scenariosOfEditedCampagne.map((scenario) => ({
+                        ...scenario,
+                        selected: false,
+                      }))
+                    data.selected = true
+                    newScenariosOfEditedCampagne = [
+                      ...newScenariosOfEditedCampagne,
+                      data,
+                    ]
+                    setScenariosOfEditedCampagne(newScenariosOfEditedCampagne)
+
+                    return newScenariosOfEditedCampagne
+                  })
+                  .then((newScenariosOfEditedCampagne) => {
+                    handleClickButtonScript(newScenariosOfEditedCampagne)
+                  })
+              })
+            /// ///////////////////////////////////////////////////////////////////
+          })
           .catch((err) => console.error(err))
       })
-      .catch((err) => console.error(err))
 
-    axios.put(
-      `http://localhost:4242/themesScenarios/${scenarioForInfoEdit.id}`,
-      {
-        scenarios_id: scenarioForInfoEdit.id,
-        themes_id: themeID,
-      }
-    )
-
-    setShowEditScenario(false)
+    setShowNewCampaign(false)
   }
 
   useEffect(() => {
@@ -208,18 +367,20 @@ export default function FormEditScenario({
       .get("http://localhost:4242/rolegames")
       .then(({ data }) => {
         setRoleGame(data)
-        setValueRoleGame(
-          data.filter(
-            (game) => game.id === scenarioForInfoEdit.jeux_de_role_id
-          )[0].name
-        )
       })
       .catch((err) => console.error(err))
 
     axios
       .get("http://localhost:4242/themes")
-      .then(({ data }) => setThemes(data))
+      .then(({ data }) => {
+        setThemes(data)
+      })
       .catch((err) => console.error(err))
+  }, [])
+
+  useEffect(() => {
+    setWritingDateStart(getDateOfDay())
+    setPublicationDate("3000-01-01") // Inutile mais pour eviter une erreur => A supprimer !
   }, [])
 
   return (
@@ -271,7 +432,7 @@ export default function FormEditScenario({
                   className="inputText"
                   type="text"
                   placeholder="Titre de la campagne"
-                  value={titleScenario}
+                  value={campaignName}
                   onChange={handleChangeTitle}
                 />
               </div>
@@ -355,7 +516,7 @@ export default function FormEditScenario({
                 placeholder="Resume here"
                 maxLength="2000"
                 onChange={handleChangeDescription}
-                value={descriptionScenario}
+                value={synopsis}
               />
             </div>
           </div>
