@@ -12,6 +12,22 @@ const browse = (req, res) => {
     })
 }
 
+const getByScenarioID = (req, res) => {
+  models.scenarcomms
+    .getByScenarioID(req.params.id)
+    .then(([rows]) => {
+      if (rows[0] == null) {
+        res.sendStatus(404)
+      } else {
+        res.send(rows)
+      }
+    })
+    .catch((err) => {
+      console.error(err)
+      res.sendStatus(500)
+    })
+}
+
 const add = (req, res) => {
   const { utilisateurID, scenarioID, textcomment, datecomment } = req.body
 
@@ -67,6 +83,7 @@ const destroy = (req, res) => {
 
 module.exports = {
   browse,
+  getByScenarioID,
   add,
   edit,
   destroy,

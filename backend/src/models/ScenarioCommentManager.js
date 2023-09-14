@@ -5,7 +5,7 @@ class ScenarioCommentManager extends AbstractManager {
     super({ table: "avis_scenario" })
   }
 
-  add(scenarioID, utilisateurID, textcomment, datecomment) {
+  add(utilisateurID, scenarioID, textcomment, datecomment) {
     return this.database.query(
       `INSERT INTO ${this.table} (scenarios_id, utilisateurs_id, commentaire, date) VALUES (?,?,?,?)`,
       [scenarioID, utilisateurID, textcomment, datecomment]
@@ -24,6 +24,13 @@ class ScenarioCommentManager extends AbstractManager {
     return this.database.query(
       `UPDATE ${this.table} SET commentaire = ? WHERE id = ? AND scenarios_id = ? AND utilisateurs_id = ?`,
       [avis.textcomment, avis.id, avis.scenarioID, avis.utilisateurID]
+    )
+  }
+
+  getByScenarioID(id) {
+    return this.database.query(
+      `select * from  ${this.table} where scenarios_id = ?`,
+      [id]
     )
   }
 }

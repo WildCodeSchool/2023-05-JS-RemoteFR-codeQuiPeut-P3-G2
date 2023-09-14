@@ -217,5 +217,9 @@ router.get("/scenarcomm", scenarioCommentControllers.browse)
 router.post("/scenarcomm", scenarioCommentControllers.add)
 router.delete("/scenarcomm/:id", scenarioCommentControllers.destroy)
 router.put("/scenarcomm/:id", scenarioCommentControllers.edit)
+router.get(
+  "/scenario/:id/scenarcomm",
+  scenarioCommentControllers.getByScenarioID
+)
 
 module.exports = router

@@ -37,7 +37,7 @@ const ResumePageScenario = () => {
   const [avis, setAvis] = useState([])
   const [comment, setComment] = useState()
   const [writingDateComment, setWritingDateComment] = useState()
-  // const [editComment, setEditComment] = useState()
+  const [editComment, setEditComment] = useState()
 
   const getDateOfDay = () => {
     const today = new Date()
@@ -78,10 +78,11 @@ const ResumePageScenario = () => {
         avi.id === id ? { ...avi, edit: true } : { ...avi, edit: false }
       )
     )
-    const newAvis = avis.map((avi) =>
-      avi.id === id ? { ...avi, edit: true } : { ...avi, edit: false }
-    )
-    console.info("newAvis", newAvis)
+    // const newAvis = avis.map((avi) =>
+    //   avi.id === id ? { ...avi, edit: true } : { ...avi, edit: false }
+    // )
+    // console.info("newAvis", newAvis)
+    // console.info("avis", avis)
   }
 
   const handleClickAddComment = () => {
@@ -101,7 +102,7 @@ const ResumePageScenario = () => {
         datecomment: writingDateComment,
       })
       .then(() =>
-        axios.get("http://localhost:4242/scenarcomm").then(({ data }) => {
+        axios.get(`/scenario/${scenario.id}/scenarcomm`).then(({ data }) => {
           setAvis(data) || console.info(data)
         })
       )
@@ -122,35 +123,43 @@ const ResumePageScenario = () => {
         },
       })
       .then(() =>
-        axios.get("http://localhost:4242/scenarcomm").then(({ data }) => {
-          setAvis(data) || console.info(avis.id)
+        axios.get(`/scenario/${scenario.id}/scenarcomm`).then(({ data }) => {
+          setAvis(data)
         })
       )
       .catch((err) => console.error(err))
   }
 
+  const handleModifyComment = (e, id) => {
+    const newComment = e.target.value
+    setEditComment(newComment)
+    // console.log("newComment", newComment)
+
+    setAvis((prevState) =>
+      prevState.map((avi) =>
+        avi.id === id ? { ...avi, commentaire: newComment } : avi
+      )
+    )
+  }
+
   const handleEditComment = (e) => {
     const id = e.target.value
-    // console.info("id", id)
-    // console.info("user", user.id)
-    // console.info("scenario", scenario.id)
-    // console.info("comm", comment)
-    // console.info("DateComment", writingDateComment)
 
     axios
       .put(`http://localhost:4242/scenarcomm/${id}`, {
         utilisateurID: user.id,
         scenarioID: scenario.id,
-        textcomment: comment,
+        textcomment: editComment,
       })
       .then(() =>
-        axios.get("http://localhost:4242/scenarcomm").then(({ data }) => {
-          setAvis(data) || console.info(avis.id)
+        axios.get(`/scenario/${scenario.id}/scenarcomm`).then(({ data }) => {
+          const newAvis = data.map((avi) => ({ ...avi, edit: false }))
+          setAvis(newAvis) || console.info(newAvis)
         })
       )
       .catch((err) => console.error(err))
 
-    setAvis((prevState) => prevState.map((avi) => ({ ...avi, edit: false })))
+    // setAvis((prevState) => prevState.map((avi) => ({ ...avi, edit: false })))
   }
 
   useEffect(() => {
@@ -168,12 +177,12 @@ const ResumePageScenario = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4242/scenarcomm")
+      .get(`http://localhost:4242/scenario/${scenario.id}/scenarcomm`)
       .then(({ data }) => {
         setAvis(data)
       })
       .catch((err) => console.error(err))
-  }, [avis])
+  }, [])
 
   return (
     <>
@@ -258,51 +267,15 @@ const ResumePageScenario = () => {
           )}
           <div className="comments">
             <p>liste of comms !</p>
-            {/* {avis.map((avi) => (
-              <div key={avi.id}>
-                {editComment[avi.id] ? (
-                  <div>
-                    <input
-                      type="text"
-                      name=""
-                      value={avi.commentaire}
-                      onChange={handleWriteComment}
-                    />
-                  </div>
-                ) : (
-                  <p>
-                    {avi.commentaire} {avi.id}
-                  </p>
-                )}
-                {avi.utilisateurs_id === user.id ? (
-                  <div>
-                    <button
-                      type="button"
-                      value={avi.id}
-                      onClick={handleDeleteComment}
-                    >
-                      Remove comm
-                    </button>
-                    <button
-                      type="button"
-                      value={avi.id}
-                      onClick={() => handleClickInput(avi.id)}
-                    >
-                      Edit comm
-                    </button>
-                  </div>
-                ) : null}
-              </div>
-            ))} */}
             {avis.map((avi) =>
               avi.utilisateurs_id === user.id ? (
                 avi.edit === true ? (
-                  <div>
+                  <div key={avi.id}>
                     <input
                       type="text"
                       name=""
                       value={avi.commentaire}
-                      onChange={handleWriteComment}
+                      onChange={(e) => handleModifyComment(e, avi.id)}
                     />
                     <button
                       type="button"
@@ -313,10 +286,9 @@ const ResumePageScenario = () => {
                     </button>
                   </div>
                 ) : (
-                  <div>
-                    {console.info(avi)}
+                  <div key={avi.id}>
                     <p>
-                      {avi.commentaire} {avi.id}
+                      {avi.commentaire} {avi.id} {avi.utilisateurs_id}
                     </p>
                     <button
                       type="button"
@@ -337,7 +309,7 @@ const ResumePageScenario = () => {
               ) : (
                 <div key={avi.id}>
                   <p>
-                    {avi.commentaire} {avi.id}
+                    {avi.commentaire} {avi.id} {avi.utilisateurs_id}
                   </p>
                 </div>
               )
