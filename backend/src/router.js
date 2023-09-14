@@ -24,6 +24,7 @@ const imagesControllers = require("./controllers/imagesControllers")
 const filterControllers = require("./controllers/filterControllers")
 const favoriteControllers = require("./controllers/favoriteControllers.js")
 const scenarioCommentControllers = require("./controllers/scenarioCommentControllers")
+const forumCategoriesControllers = require("./controllers/forumCategoriesControllers")
 const multer = require("./middleware/multer-config")
 const {
   deleteImage,
@@ -215,5 +216,7 @@ router.get("/favorite/:id", favoriteControllers.read)
 
 router.get("/scenarcomm", scenarioCommentControllers.browse)
 router.post("/scenarcomm", scenarioCommentControllers.add)
+
+router.get("/forumCategories", forumCategoriesControllers.browse)
 
 module.exports = router
