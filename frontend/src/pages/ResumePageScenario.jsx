@@ -2,7 +2,7 @@ import { useState, useContext, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 // import { useLocation } from "react-router-dom"
 import MyContext from "../components/MyContext"
-import Navbar from "../components/Navbar"
+// import Navbar from "../components/Navbar"
 import axios from "axios"
 // import imgDefaultScenario from "../assets/images/defoscenario.png"
 import fullStar from "../assets/images/etoile-pleine.png"
@@ -47,6 +47,14 @@ const ResumePageScenario = () => {
     return `${year}-${month}-${day}`
   }
 
+  // const changeFormattingReturnDate = (bidule) => {
+  //   // 2023-09-11T22:00:00.000Z
+  //   console.log("bidule", bidule)
+  //   const newBidule = bidule.slice(0, 10)
+  //   console.log("newBidule", newBidule)
+  //   return newBidule
+  // }
+
   const handleClickFavorite = () => {
     if (user !== null) {
       setIsFAvorite(!isFavorite)
@@ -78,11 +86,6 @@ const ResumePageScenario = () => {
         avi.id === id ? { ...avi, edit: true } : { ...avi, edit: false }
       )
     )
-    // const newAvis = avis.map((avi) =>
-    //   avi.id === id ? { ...avi, edit: true } : { ...avi, edit: false }
-    // )
-    // console.info("newAvis", newAvis)
-    // console.info("avis", avis)
   }
 
   const handleClickAddComment = () => {
@@ -102,9 +105,11 @@ const ResumePageScenario = () => {
         datecomment: writingDateComment,
       })
       .then(() =>
-        axios.get(`/scenario/${scenario.id}/scenarcomm`).then(({ data }) => {
-          setAvis(data) || console.info(data)
-        })
+        axios
+          .get(`http://localhost:4242/scenario/${scenario.id}/scenarcomm`)
+          .then(({ data }) => {
+            setAvis(data) || console.info("data", data)
+          })
       )
       .catch((err) => console.error(err))
 
@@ -112,28 +117,9 @@ const ResumePageScenario = () => {
     setAddComment(false)
   }
 
-  const handleDeleteComment = (e) => {
-    const id = e.target.value
-    console.info(id)
-    axios
-      .delete(`http://localhost:4242/scenarcomm/${id}`, {
-        data: {
-          utilisateurID: user.id,
-          scenarioID: scenario.id,
-        },
-      })
-      .then(() =>
-        axios.get(`/scenario/${scenario.id}/scenarcomm`).then(({ data }) => {
-          setAvis(data)
-        })
-      )
-      .catch((err) => console.error(err))
-  }
-
   const handleModifyComment = (e, id) => {
     const newComment = e.target.value
     setEditComment(newComment)
-    // console.log("newComment", newComment)
 
     setAvis((prevState) =>
       prevState.map((avi) =>
@@ -149,17 +135,47 @@ const ResumePageScenario = () => {
       .put(`http://localhost:4242/scenarcomm/${id}`, {
         utilisateurID: user.id,
         scenarioID: scenario.id,
-        textcomment: editComment,
+        textcomment: `${editComment} (modifié !)`,
       })
       .then(() =>
-        axios.get(`/scenario/${scenario.id}/scenarcomm`).then(({ data }) => {
-          const newAvis = data.map((avi) => ({ ...avi, edit: false }))
-          setAvis(newAvis) || console.info(newAvis)
-        })
+        axios
+          .get(`http://localhost:4242/scenario/${scenario.id}/scenarcomm`)
+          .then(({ data }) => {
+            const newAvis = data.map((avi) => ({ ...avi, edit: false }))
+            setAvis(newAvis)
+          })
       )
       .catch((err) => console.error(err))
 
     // setAvis((prevState) => prevState.map((avi) => ({ ...avi, edit: false })))
+  }
+
+  const handleNoEditComment = () => {
+    axios
+      .get(`http://localhost:4242/scenario/${scenario.id}/scenarcomm`)
+      .then(({ data }) => {
+        const closeAvis = data.map((avi) => ({ ...avi, edit: false }))
+        setAvis(closeAvis)
+      })
+  }
+
+  const handleDeleteComment = (e) => {
+    const id = e.target.value
+    axios
+      .delete(`http://localhost:4242/scenarcomm/${id}`, {
+        data: {
+          utilisateurID: user.id,
+          scenarioID: scenario.id,
+        },
+      })
+      .then(() =>
+        axios
+          .get(`http://localhost:4242/scenario/${scenario.id}/scenarcomm`)
+          .then(({ data }) => {
+            setAvis(data)
+          })
+      )
+      .catch((err) => console.error(err))
   }
 
   useEffect(() => {
@@ -188,126 +204,155 @@ const ResumePageScenario = () => {
     <>
       <main className="globalPage">
         <div className="headerNavbare">
-          <Navbar />
+          {/* <Navbar /> */}
+          <p>Ceci est l'emplacement de la navbar</p>
         </div>
-        <div className="titleResumeScenar">
-          <h1>Titre de la campagne : {scenario.campagnes_name} </h1>
-          {/*  Penser à supprimer "Titre de la campagne : " */}
-          <h2>Titre du scenario : {scenario.name} </h2>
-          {/*  Penser à supprimer "Titre du scenario : " */}
-        </div>
-        <div className="mainInfos">
-          <img
-            className="imgResumPagScenar"
-            src={scenario.img}
-            alt="picture of scenario"
-          />
-          {/* Pour vivualisation => à supprimer après ! Et activer celle d'en dessous ! */}
-          {/* <img src={imgScenar} alt="picture of scenario" /> */}
-          <ul>
-            <li>Theme : {scenario.jeux_de_role} </li>
-            <li>
-              Number of players : from {scenario.nb_player_min} to{" "}
-              {scenario.nb_player_max}
-              players
-            </li>
-            <li>Description : {scenario.description}</li>
-            {/* <li>Aim : {scenario}</li> */}
-          </ul>
-          <img
-            id="isFavorite"
-            src={isFavorite ? fullStar : emptyStar}
-            alt="isFavorite"
-            title={
-              isFavorite
-                ? "Click to remove from favorites"
-                : "Click to add to favorites"
-            }
-            onClick={handleClickFavorite}
-          />
-        </div>
-        <div className="scenarInteractions">
-          <div className="scenarInteractionsHight">
-            <input
-              type="button"
-              value="Read the Scenario"
-              title="Click to go see the scenario"
-              onClick={handleGoToScenario}
+        <div className="carteResumeScenario">
+          <div className="titleResumeScenar">
+            <h1>Titre de la campagne : {scenario.campagnes_name} </h1>
+            {/*  Penser à supprimer "Titre de la campagne : " */}
+            <h2>Titre du scenario : {scenario.name} </h2>
+            {/*  Penser à supprimer "Titre du scenario : " */}
+          </div>
+          <div className="mainInfos">
+            <img
+              className="imgResumPagScenar"
+              src={scenario.img}
+              alt="picture of scenario"
             />
-            <input
-              type="button"
-              value="Leave a Comment"
-              id="buttonAddComment"
+            {/* Pour vivualisation => à supprimer après ! Et activer celle d'en dessous ! */}
+            {/* <img className="imgResumPagScenar" src={imgScenar} alt="picture of scenario" /> */}
+            <ul>
+              <li>Theme : {scenario.jeux_de_role} </li>
+              <li>
+                Number of players : From {scenario.nb_player_min} to{" "}
+                {scenario.nb_player_max} players
+              </li>
+              <li>Description : {scenario.description}</li>
+              {/* <li>Aim : {scenario}</li> */}
+            </ul>
+            <img
+              id="isFavorite"
+              src={isFavorite ? fullStar : emptyStar}
+              alt="isFavorite"
               title={
-                addComment
-                  ? "Click to hide the texte area !"
-                  : "Click to post your comment !"
+                isFavorite
+                  ? "Click to remove from favorites"
+                  : "Click to add to favorites"
               }
-              onClick={handleClickAddComment}
+              onClick={handleClickFavorite}
             />
           </div>
-          {addComment && (
-            <div className="scenarInteractionsLow">
-              <textarea
-                value={comment}
-                name="Commment"
-                id="scenarCom"
-                cols="30"
-                rows="10"
-                maxLength="300"
-                placeholder="Add here your comment ... "
-                onChange={handleWriteComment}
-              ></textarea>
+          <div className="scenarInteractions">
+            <div className="scenarInteractionsHight">
               <input
                 type="button"
-                value="Submit"
-                onClick={handleClickSubmitComment}
+                value="Read the Scenario"
+                title="Click to go see the scenario"
+                onClick={handleGoToScenario}
+              />
+              <input
+                type="button"
+                value="Leave a Comment"
+                id="buttonAddComment"
+                title={
+                  addComment
+                    ? "Click to hide the texte area !"
+                    : "Click to post your comment !"
+                }
+                onClick={handleClickAddComment}
               />
             </div>
-          )}
-          <div className="comments">
-            <p>liste of comms !</p>
+            {addComment && (
+              <div className="scenarInteractionsMiddle">
+                <textarea
+                  value={comment}
+                  name="Commment"
+                  id="scenarCom"
+                  // cols="30"
+                  // rows="10"
+                  maxLength="500"
+                  placeholder="Add here your comment ... Beware 500 character max. "
+                  onChange={handleWriteComment}
+                ></textarea>
+                <input
+                  type="button"
+                  value="Submit"
+                  onClick={handleClickSubmitComment}
+                />
+              </div>
+            )}
+            {/* <div className="scenarInteractionsLow"> */}
+            <h3>Commentary :</h3>
             {avis.map((avi) =>
               avi.utilisateurs_id === user.id ? (
                 avi.edit === true ? (
-                  <div key={avi.id}>
-                    <input
-                      type="text"
-                      name=""
+                  <div
+                    className="scenarInteractionsLowEditing scInLowAll"
+                    key={avi.id}
+                  >
+                    <textarea
                       value={avi.commentaire}
                       onChange={(e) => handleModifyComment(e, avi.id)}
                     />
-                    <button
-                      type="button"
-                      value={avi.id}
-                      onClick={handleEditComment}
-                    >
-                      Save
-                    </button>
+                    <div className="resumePageScenarButtonsEditing">
+                      <button
+                        type="button"
+                        value={avi.id}
+                        onClick={handleEditComment}
+                      >
+                        Save
+                      </button>
+                      <button
+                        type="button"
+                        value={avi.id}
+                        onClick={handleNoEditComment}
+                      >
+                        Don't Save
+                      </button>
+                    </div>
                   </div>
                 ) : (
-                  <div key={avi.id}>
+                  <div
+                    className="scenarInteractionsLowConsultation scInLowAll"
+                    key={avi.id}
+                  >
+                    <p>
+                      {avi.nomPrenom} le {avi.date} :
+                    </p>
                     <p>
                       {avi.commentaire} {avi.id} {avi.utilisateurs_id}
                     </p>
-                    <button
-                      type="button"
-                      value={avi.id}
-                      onClick={handleDeleteComment}
-                    >
-                      Remove
-                    </button>
-                    <button
-                      type="button"
-                      value={avi.id}
-                      onClick={() => handleClickInput(avi.id)}
-                    >
-                      Edit
-                    </button>
+                    <div className="resumePageScenarButtonsConsultation">
+                      <div>
+                        <button
+                          type="button"
+                          value={avi.id}
+                          onClick={handleDeleteComment}
+                        >
+                          Remove
+                        </button>
+                        <button
+                          type="button"
+                          value={avi.id}
+                          onClick={() => handleClickInput(avi.id)}
+                        >
+                          Edit
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 )
               ) : (
-                <div key={avi.id}>
+                <div
+                  className="scenarInteractionsLowReader scInLowAll"
+                  key={avi.id}
+                >
+                  <p>
+                    {/* {avi.login} le {() => changeFormattingReturnDate(avi.date)} : */}
+                    {/* {avi.login} le {avi.date} : */}
+                    {avi.nomPrenom} le {avi.date} :
+                  </p>
                   <p>
                     {avi.commentaire} {avi.id} {avi.utilisateurs_id}
                   </p>

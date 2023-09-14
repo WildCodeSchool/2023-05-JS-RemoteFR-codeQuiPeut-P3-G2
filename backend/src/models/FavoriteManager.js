@@ -12,7 +12,7 @@ class FavoriteManager extends AbstractManager {
     )
   }
 
-  deleteFavorite(utilisateurID, scenarioID) {
+  deleteFavorite(scenarioID, utilisateurID) {
     return this.database.query(
       `delete from ${this.table} where scenarios_id = ? AND  utilisateurs_id = ? `,
       [scenarioID, utilisateurID]

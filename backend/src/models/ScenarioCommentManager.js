@@ -29,8 +29,21 @@ class ScenarioCommentManager extends AbstractManager {
 
   getByScenarioID(id) {
     return this.database.query(
+      `SELECT avis_scenario.id, scenarios_id, scenarios.name, utilisateurs_id, concat(utilisateurs.firstname,' ',utilisateurs.lastname) AS nomPrenom, utilisateurs.login, commentaire, date FROM ${this.table} INNER JOIN utilisateurs ON utilisateurs_id = utilisateurs.id INNER JOIN scenarios ON scenarios_id = scenarios.id WHERE scenarios_id = ? ORDER BY avis_scenario.id ASC`,
+      [id]
+    )
+  }
+
+  getByScenarioID_sauvegarde(id) {
+    return this.database.query(
       `select * from  ${this.table} where scenarios_id = ?`,
       [id]
+    )
+  }
+
+  findAllExtended() {
+    return this.database.query(
+      `SELECT avis_scenario.id, scenarios_id, scenarios.name, utilisateurs_id, concat(utilisateurs.firstname,' ',utilisateurs.lastname) AS nomPrenom, utilisateurs.login, commentaire, date FROM ${this.table} INNER JOIN utilisateurs ON utilisateurs_id = utilisateurs.id INNER JOIN scenarios ON scenarios_id = scenarios.id`
     )
   }
 }
