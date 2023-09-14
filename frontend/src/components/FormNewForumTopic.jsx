@@ -89,7 +89,7 @@ export default function FormNewForumTopic({
             </select>
           </div>
         </section>
-        <div>
+        <div className="div-textarea">
           <label htmlFor="firstComment">Please leave a first comment</label>
           <textarea
             value={comment}
