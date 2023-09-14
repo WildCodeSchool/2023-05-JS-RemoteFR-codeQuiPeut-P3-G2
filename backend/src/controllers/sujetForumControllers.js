@@ -13,12 +13,12 @@ const browse = (req, res) => {
 }
 
 const add = (req, res) => {
-  const sujet = req.body
+  const { sujet, openDate, sujetForumCategoriesId, firstComment } = req.body
 
   // TODO validations (length, format...)
 
   models.sujetForum
-    .insert(sujet)
+    .insert(sujet, openDate, sujetForumCategoriesId, firstComment)
     .then(([result]) => {
       res.json(result.insertId)
     })
@@ -36,28 +36,6 @@ const read = (req, res) => {
         res.sendStatus(404)
       } else {
         res.send(rows[0])
-      }
-    })
-    .catch((err) => {
-      console.error(err)
-      res.sendStatus(500)
-    })
-}
-
-const edit = (req, res) => {
-  const sujet = req.body
-
-  // TODO validations (length, format...)
-
-  sujet.id = parseInt(req.params.id, 10)
-
-  models.sujetForum
-    .update(sujet)
-    .then(([result]) => {
-      if (result.affectedRows === 0) {
-        res.sendStatus(404)
-      } else {
-        res.sendStatus(204)
       }
     })
     .catch((err) => {
@@ -86,6 +64,5 @@ module.exports = {
   browse,
   add,
   read,
-  edit,
   destroy,
 }

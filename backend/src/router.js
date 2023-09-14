@@ -23,6 +23,7 @@ const campagnesThemesControllers = require("./controllers/campagnesThemesControl
 const imagesControllers = require("./controllers/imagesControllers")
 const favoriteControllers = require("./controllers/favoriteControllers.js")
 const scenarioCommentControllers = require("./controllers/scenarioCommentControllers")
+const forumCategoriesControllers = require("./controllers/forumCategoriesControllers")
 const multer = require("./middleware/multer-config")
 const {
   deleteImage,
@@ -82,7 +83,6 @@ router.delete("/commentaires_forum/:id", forumCommControllers.destroy)
 router.get("/sujet_forum", sujetForumControllers.browse)
 router.get("/sujet_forum/:id", sujetForumControllers.read)
 router.post("/sujet_forum", sujetForumControllers.add)
-router.put("/sujet_forum/:id", sujetForumControllers.edit)
 router.delete("/sujet_forum/:id", sujetForumControllers.destroy)
 
 router.get("/saved_style_text", savedStyleTextControllers.browse)
@@ -213,5 +213,7 @@ router.get("/favorite/:id", favoriteControllers.read)
 
 router.get("/scenarcomm", scenarioCommentControllers.browse)
 router.post("/scenarcomm", scenarioCommentControllers.add)
+
+router.get("/forumCategories", forumCategoriesControllers.browse)
 
 module.exports = router

@@ -5,17 +5,10 @@ class SujetForumManager extends AbstractManager {
     super({ table: "sujet_forum" })
   }
 
-  insert(sujFor) {
+  insert(sujet, openDate, sujetForumCategoriesId, firstComment) {
     return this.database.query(
-      `INSERT INTO ${this.table} (sujet, open_date) VALUES (?,?)`,
-      [sujFor.sujet, sujFor.open_date]
-    )
-  }
-
-  update(sujFor) {
-    return this.database.query(
-      `UPDATE ${this.table} SET sujet = ?, open_date = ? WHERE id = ?`,
-      [sujFor.sujet, sujFor.open_date, sujFor.id]
+      `INSERT INTO ${this.table} (sujet, open_date, sujet_forum_categories_id, firstComment) VALUES (? ,?, ?, ?)`,
+      [sujet, openDate, sujetForumCategoriesId, firstComment]
     )
   }
 }
