@@ -23,6 +23,7 @@ const campagnesThemesControllers = require("./controllers/campagnesThemesControl
 const imagesControllers = require("./controllers/imagesControllers")
 const favoriteControllers = require("./controllers/favoriteControllers.js")
 const scenarioCommentControllers = require("./controllers/scenarioCommentControllers")
+const campagnesMultiControllers = require("./controllers/campagnesMultiControllers")
 const multer = require("./middleware/multer-config")
 const {
   deleteImage,
@@ -145,6 +146,7 @@ router.delete("/auteurs/:id", auteursControllers.destroy)
 router.get("/auteurs/:id/campagnes", auteursControllers.readAuthorsCampagnes) // recherche les campagnes d'un auteur (retourne : id, campagneName)
 
 router.get("/campagnes", campagnesControllers.browse)
+
 router.get("/campagnes/:id", campagnesControllers.readWithTheme)
 router.post("/campagnes", campagnesControllers.add)
 router.put("/campagnes/:id", campagnesControllers.edit)
@@ -153,6 +155,8 @@ router.get(
   "/campagnes/:id/scenarios",
   campagnesControllers.readCampagneScenarios
 ) // recherche les scenarios associés à une campagne (retourne : id, scenarioName)
+
+router.get("/campagnesMulti", campagnesMultiControllers.findCampagnes)
 
 router.get("/pages", pagesControllers.browse)
 router.get("/pages/:id", pagesControllers.read)
