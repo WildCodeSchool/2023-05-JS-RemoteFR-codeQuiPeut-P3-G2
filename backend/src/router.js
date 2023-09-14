@@ -76,6 +76,11 @@ router.post(
 
 router.get("/commentaires_forum", forumCommControllers.browse)
 router.get("/commentaires_forum/:id", forumCommControllers.read)
+router.get(
+  "/sujet_forum/:id/commentaires_forum",
+  forumCommControllers.findCommentsByTopicId
+)
+
 router.post("/commentaires_forum", forumCommControllers.add)
 router.put("/commentaires_forum/:id", forumCommControllers.edit)
 router.delete("/commentaires_forum/:id", forumCommControllers.destroy)

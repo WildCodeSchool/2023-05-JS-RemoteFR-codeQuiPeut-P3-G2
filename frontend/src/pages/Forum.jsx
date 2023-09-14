@@ -2,10 +2,12 @@ import Navbar from "../components/Navbar"
 import plusDansRond from "../assets/images/plusDansRond.png"
 import cadenas from "../assets/images/cadenas.png"
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import FormNewForumTopic from "../components/FormNewForumTopic"
 
 export default function Forum() {
+  const navigate = useNavigate()
   const [categories, setCategories] = useState([])
   const [researchValue, setResearchValue] = useState("")
   const [topics, setTopics] = useState([])
@@ -44,6 +46,10 @@ export default function Forum() {
   }
 
   // ----------fin section---------------------------
+
+  const handleNavigateToComments = (topic) => {
+    navigate("/ForumPageComments", { state: topic })
+  }
 
   useEffect(() => {
     axios
@@ -138,7 +144,11 @@ export default function Forum() {
             {topics[0] &&
               categories[0] &&
               topics.map((topic) => (
-                <div className="topic" key={topic.id}>
+                <div
+                  className="topic"
+                  key={topic.id}
+                  onClick={() => handleNavigateToComments(topic)}
+                >
                   <div className="topic-title">
                     <img src={cadenas} alt="logo topic open" />
                     <p>{topic.sujet}</p>
