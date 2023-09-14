@@ -1,4 +1,5 @@
 import "./CardScenario.scss"
+import etoile from "../assets/images/etoile-vide.png"
 
 function CardScenario({ scenario }) {
   // console.log(scenario)
@@ -10,7 +11,7 @@ function CardScenario({ scenario }) {
       <div className="Card">
         <div className="title">
           <h2>{scenario.title}</h2>
-          <img src="../src/assets/etoile_vide.png" alt="favoris" />
+          <img src={etoile} alt="favoris" />
         </div>
         <div className="viewer">
           <p>{scenario.nb_avis} avis</p>
