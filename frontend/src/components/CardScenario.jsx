@@ -1,6 +1,20 @@
+import { useState } from "react"
 import "./CardScenario.scss"
+import etoileVide from "../assets/images/etoile-vide.png"
+import etoilePleine from "../assets/images/etoile-pleine.png"
 
 function CardScenario({ scenario }) {
+  const [favorite, setfavorite] = useState(false)
+  const [followAutor, setFollowAutor] = useState(false)
+
+  const handleClickPutFavorite = () => {
+    setfavorite(!favorite)
+  }
+
+  const handleClickFollowAutor = () => {
+    setFollowAutor(!followAutor)
+  }
+
   // console.log(scenario)
   return (
     <div className="Scenario">
@@ -10,8 +24,13 @@ function CardScenario({ scenario }) {
       <div className="Card">
         <div className="title">
           <h2>{scenario.title}</h2>
-          <img src="../src/assets/etoile_vide.png" alt="favoris" />
+          <img
+            onClick={handleClickPutFavorite}
+            src={favorite ? etoilePleine : etoileVide}
+            alt="favoris"
+          />
         </div>
+        <div className="borderTitle"></div>
         <div className="viewer">
           <p>{scenario.nb_avis} avis</p>
           <p>96 vues</p>
@@ -21,9 +40,16 @@ function CardScenario({ scenario }) {
           <p className="univers">{scenario.universe}</p>
           <p className="genre">{scenario.theme}</p>
         </div>
+        <div className="borderSmall"></div>
         <div className="auteur">
           <p>{scenario.autor}</p>
-          <button type="button">suivre l'auteur</button>
+          <button
+            onClick={handleClickFollowAutor}
+            className={followAutor ? "followAutor" : ""}
+            type="button"
+          >
+            {followAutor ? "Auteur suivi" : "Suivre l'auteur"}
+          </button>
         </div>
       </div>
     </div>
