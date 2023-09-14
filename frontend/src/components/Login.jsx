@@ -3,6 +3,8 @@ import MyContext from "./MyContext"
 import "./Login.scss"
 import axios from "axios"
 import croix from "../assets/images/Close.svg"
+import eye from "../assets/images/eye.svg"
+import eyeOff from "../assets/images/eye_Off.svg"
 
 export default function Login({
   setOpenForm,
@@ -13,6 +15,11 @@ export default function Login({
   const [email, setEmail] = useState("")
   const [passWord, setPassWord] = useState("")
   const [wrongEmailOrPassword, setWrongEmailOrPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+
+  const HandleClickShowPassword = () => {
+    setShowPassword(!showPassword)
+  }
 
   const HandleSubmitlogin = () => {
     axios
@@ -85,13 +92,30 @@ export default function Login({
 
             <div className="labelInput">
               <label htmlFor="passWord">Mot de passe</label>
-              <input
-                id="passWord"
-                type="text"
-                name="passWord"
-                value={passWord}
-                onChange={HandleChangePassWord}
-              />
+              <div className="inputPassword">
+                <input
+                  id="passWord"
+                  type={showPassword ? "text" : "password"}
+                  name="passWord"
+                  value={passWord}
+                  onChange={HandleChangePassWord}
+                />
+                <div className="containerImg" onClick={HandleClickShowPassword}>
+                  <img
+                    src={showPassword ? eyeOff : eye}
+                    title={
+                      showPassword
+                        ? "masquer le mot de passe"
+                        : "afficher le mot de passe"
+                    }
+                    alt={
+                      showPassword
+                        ? "logo oeil masquer le mot de passe"
+                        : "logo oeil afficher le mot de passe"
+                    }
+                  />
+                </div>
+              </div>
             </div>
 
             {wrongEmailOrPassword && (

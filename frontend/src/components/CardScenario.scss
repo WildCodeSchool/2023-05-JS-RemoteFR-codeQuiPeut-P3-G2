@@ -1,10 +1,21 @@
 @import url("https://fonts.googleapis.com/css2?family=Lustria&display=swap");
+$colorYellow: #ffbd59;
+$colorDark: #070a09;
+$blueColor: #4c60ae;
+$colorWhite: #ffffff;
+$fontSizeP: 1.4rem;
+$fontSizeBouton: 1.3rem;
+$fontSizeTitre: 1.5rem;
 
 .Scenario {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   font-family: "Lustria", serif;
   font-size: 1rem;
-  width: 30vw;
-  height: 70vh;
+  width: 277px;
+  height: 450px;
   margin: 0px;
   padding: 0px;
 
@@ -12,11 +23,13 @@
     color: white;
   }
   .containerimg {
-    width: 60%;
-    height: 47%;
+    width: 170px;
+    height: 230px;
 
     img {
-      width: 70%;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   }
   img:hover {
@@ -24,22 +37,26 @@
   }
 
   .Card {
+    display: flex;
+    width: 100%;
     flex-direction: column;
-    width: 40%;
-    height: 53%;
+    justify-content: center;
+    align-items: center;
     margin: 0;
 
     .title {
+      width: 100%;
       color: white;
       display: flex;
-      justify-content: space-between;
-      gap: 12%;
-      margin: 0;
+      justify-content: space-around;
+      margin-top: 16px;
+      padding-bottom: 8px;
 
       h2 {
-        font-size: 1.2rem;
+        font-size: 1rem;
         margin: 0;
       }
+
       img {
         width: 10%;
         object-fit: contain;
@@ -49,25 +66,36 @@
       }
     }
 
+    .borderTitle {
+      width: 90%;
+      border-bottom: 1px solid white;
+    }
+
     .viewer {
+      width: 100%;
       display: flex;
       justify-content: flex-end;
       gap: 10%;
       margin: 0;
       font-size: 0.75rem;
       color: white;
+      p {
+        margin: 8px 0px 8px 0px;
+      }
     }
 
     .description {
+      width: 100%;
       font-size: 0.75rem;
       margin: 0;
+      text-align: justify;
     }
     .theme {
+      font-size: 0.75rem;
       display: flex;
-      justify-content: space-between;
-      font-size: 0.85rem;
+      width: 80%;
+      justify-content: space-around;
       text-align: center;
-      gap: 2%;
 
       .univers {
         color: rgb(255, 189, 89);
@@ -76,21 +104,39 @@
         color: rgb(76, 96, 174);
       }
     }
+
+    .borderSmall {
+      width: 30%;
+      border-bottom: 1px solid white;
+      margin-bottom: 8px;
+    }
     .auteur {
-      font-size: 0.85rem;
+      width: 100%;
+      height: 50px;
+      font-size: 0.75rem;
       display: flex;
-      justify-content: space-between;
+      flex-direction:row;
+      justify-content: center;
       text-align: center;
+      align-items: center;
 
       p {
-        margin: 0;
+        color: white;
+        margin-right: 16px;
       }
 
       button {
+        width: 100px;
+        height: 30px;
         border-radius: 58px;
         color: white;
         background-color: rgb(76, 96, 174);
         border: 2px;
+      }
+
+      .followAutor {
+        background-color: $colorYellow;
+        color: $colorDark;
       }
 
       button:hover {

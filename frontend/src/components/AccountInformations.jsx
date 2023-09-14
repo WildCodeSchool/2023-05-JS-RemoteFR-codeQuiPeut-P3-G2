@@ -112,13 +112,14 @@ export default function AccountInformations() {
         <div className="containerForm">
           <div className="imgContainer">
             {modifyInfo ? (
-              <p
+              <button
+                type="button"
                 onClick={() => {
                   HandleClickPutInformations()
                 }}
               >
-                Enregistrer
-              </p>
+                Save
+              </button>
             ) : (
               <img src={pen} alt="pen for modify" onClick={HandletoModify} />
             )}
@@ -209,13 +210,14 @@ export default function AccountInformations() {
 
             <div className="imgContainer">
               {modifyPassword ? (
-                <p
+                <button
+                  type="button"
                   onClick={() => {
                     HandleClickPutPassWord()
                   }}
                 >
-                  Enregistrer
-                </p>
+                  Save
+                </button>
               ) : (
                 <img
                   src={pen}

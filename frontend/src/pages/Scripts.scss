@@ -1,47 +1,66 @@
+@import url("https://fonts.googleapis.com/css2?family=Lustria&display=swap");
 $blueColor: #4c60ae;
 $colorYellow: #ffbd59;
 
-.all {
+.Scripts {
+  margin-top: 20vh;
+  margin-bottom: 10vh;
   width: 100%;
+}
+
+.all {
+  // width: 100%;
+  // height: 100%;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  font-family: Lustria;
 
   .Filter {
-    width: 25%;
+    margin-top: 10%;
+    width: 27%;
+    height: 100%;
     box-shadow: 7px 0px 4px -4px $blueColor;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .Type {
+      display: flex;
+      align-items: baseline;
+    }
+    select {
+      border-radius: 50px;
+    }
   }
 
-  .try {
-    width: 70%;
-    font-size: xx-large;
-    display: flex;
-    flex-wrap: nowrap;
-  }
   .Card {
     display: flex;
   }
-}
 
-.Title {
-  margin-top: 100px;
-  color: $blueColor;
-
-  h1 {
-    font-size: 6rem;
-    // animation: Scroll 20s linear infinite;
+  .titleTheme {
+    display: flex;
+    justify-content: center;
+    font-size: large;
+    color: #4c60ae;
   }
 
-  @keyframes Scroll {
-    0% {
-      transform: translateX(-100%);
+  .try {
+    width: 65%;
+    font-size: xx-large;
+
+    .filtered-scenarios {
+      display: flex;
+      flex-wrap: wrap;
     }
   }
 }
+
 .container {
   .Type {
     display: flex;
     justify-content: baseline;
+    align-items: baseline;
     gap: 20px;
   }
   p {
@@ -57,7 +76,7 @@ $colorYellow: #ffbd59;
     justify-content: flex-start;
 
     button {
-      color: #4c60ae;
+      color: #ffbd59;
       font-size: larger;
       border: none;
       background-color: #070a09;
@@ -65,29 +84,44 @@ $colorYellow: #ffbd59;
   }
 
   .univers {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
     p {
-      color: #ffbd59;
+      color: #4c60ae;
     }
   }
   .auteur {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
     p {
       color: #4c60ae;
     }
   }
 
   .Difficultes {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
     p {
       color: #4c60ae;
     }
   }
 
   .nombre {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
     p {
       color: #4c60ae;
     }
   }
 }
-
+//--------------------------------------------------------------------------------------------------------------
 /* The switch - the box around the slider */
 .switch {
   font-size: 1rem;

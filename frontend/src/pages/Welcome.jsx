@@ -72,7 +72,6 @@ const Welcome = () => {
             enim facilis natus, consequatur possimus atque sed voluptates nam
             quam iure, cumque quo!
           </p>
-          {/* <CardScenario /> */}
         </div>
       </main>
     </>
