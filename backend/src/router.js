@@ -84,7 +84,6 @@ router.delete("/commentaires_forum/:id", forumCommControllers.destroy)
 router.get("/sujet_forum", sujetForumControllers.browse)
 router.get("/sujet_forum/:id", sujetForumControllers.read)
 router.post("/sujet_forum", sujetForumControllers.add)
-router.put("/sujet_forum/:id", sujetForumControllers.edit)
 router.delete("/sujet_forum/:id", sujetForumControllers.destroy)
 
 router.get("/saved_style_text", savedStyleTextControllers.browse)

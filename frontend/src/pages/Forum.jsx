@@ -119,6 +119,8 @@ export default function Forum() {
             <br />- Be kind and creative, for yourself and for others!
           </p>
 
+          <div className="masque"></div>
+
           <div className="div-research">
             <button type="button" onClick={handleClickRecentTopics}>
               See the most recent topics
@@ -163,6 +165,7 @@ export default function Forum() {
             <FormNewForumTopic
               setTopics={setTopics}
               setShowFormNewTopic={setShowFormNewTopic}
+              categories={categories}
             />
           </section>
         )}
