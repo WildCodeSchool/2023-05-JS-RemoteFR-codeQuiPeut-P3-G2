@@ -2,10 +2,10 @@
 $blueColor: #4c60ae;
 $colorYellow: #ffbd59;
 
-.Scripts{
-    margin-top: 20vh;
-    margin-bottom: 10vh;
-    width: 100%;
+.Scripts {
+  margin-top: 20vh;
+  margin-bottom: 10vh;
+  width: 100%;
 }
 
 .all {
@@ -15,7 +15,7 @@ $colorYellow: #ffbd59;
   justify-content: space-between;
   align-items: flex-start;
   font-family: Lustria;
- 
+
   .Filter {
     margin-top: 10%;
     width: 27%;
@@ -25,11 +25,11 @@ $colorYellow: #ffbd59;
     flex-direction: column;
     align-items: center;
 
-    .Type{
-        display:flex;
-        align-items: baseline;
-      }
-    select{
+    .Type {
+      display: flex;
+      align-items: baseline;
+    }
+    select {
       border-radius: 50px;
     }
   }
@@ -38,19 +38,19 @@ $colorYellow: #ffbd59;
     display: flex;
   }
 
-  .titleTheme{ 
-      display: flex;
-      justify-content: center;
-      font-size: large;
-      color: #4c60ae;
-  } 
-  
+  .titleTheme {
+    display: flex;
+    justify-content: center;
+    font-size: large;
+    color: #4c60ae;
+  }
+
   .try {
     width: 65%;
     font-size: xx-large;
 
-    .filtered-scenarios{
-      display:flex;
+    .filtered-scenarios {
+      display: flex;
       flex-wrap: wrap;
     }
   }
@@ -74,10 +74,9 @@ $colorYellow: #ffbd59;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    
 
     button {
-      color:#ffbd59;
+      color: #ffbd59;
       font-size: larger;
       border: none;
       background-color: #070a09;
@@ -85,15 +84,15 @@ $colorYellow: #ffbd59;
   }
 
   .univers {
-    display:flex;
+    display: flex;
     align-items: center;
     flex-direction: column;
     p {
-      color:#4c60ae;
+      color: #4c60ae;
     }
   }
   .auteur {
-    display:flex;
+    display: flex;
     align-items: center;
     flex-direction: column;
 
@@ -103,7 +102,7 @@ $colorYellow: #ffbd59;
   }
 
   .Difficultes {
-    display:flex;
+    display: flex;
     align-items: center;
     flex-direction: column;
 
@@ -113,10 +112,10 @@ $colorYellow: #ffbd59;
   }
 
   .nombre {
-    display:flex;
+    display: flex;
     align-items: center;
     flex-direction: column;
-    
+
     p {
       color: #4c60ae;
     }
