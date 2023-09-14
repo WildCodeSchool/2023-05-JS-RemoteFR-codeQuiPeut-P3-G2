@@ -97,6 +97,11 @@ a:visited {
       color: white;
       font-size: 2rem;
 
+      a {
+        text-decoration: none;
+        color: white;
+      }
+
       li {
         height: 70px;
         display: flex;
@@ -104,6 +109,13 @@ a:visited {
         align-items: center;
         text-decoration: none;
         border-bottom: 2px solid $blueColor;
+        cursor: pointer;
+
+        &:hover {
+          background-color: $blueColor;
+          color: white;
+          border-bottom: 2px solid $colorYellow;
+        }
       }
     }
     .displayNone {

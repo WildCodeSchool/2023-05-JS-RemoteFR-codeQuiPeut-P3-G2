@@ -16,8 +16,8 @@ $fontSizeTitre: 1.5rem;
   align-items: center;
   z-index: 5;
   .signUp {
-    width: 50vw;
-    height: 60vh;
+    width: 1000px;
+    height: 700px;
     box-sizing: border-box;
     box-shadow: 0 0 20px 3px $blueColor;
     background-color: $colorDark;
@@ -26,7 +26,6 @@ $fontSizeTitre: 1.5rem;
     font-size: $fontSizeP;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     .imgcontainer {
       display: flex;
@@ -35,87 +34,94 @@ $fontSizeTitre: 1.5rem;
       margin-right: 32px;
       margin-top: 16px;
     }
-    .containerForm {
+
+    .mainContainer {
+      width: 100%;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
-      span {
-        color: $colorYellow;
-        cursor: pointer;
-      }
-      .conteneurSVG {
-        display: flex;
-        justify-content: center;
-        object-fit: cover;
-        width: 20%;
-        svg {
-          width: 100%;
-          height: 5px;
-          stroke: #ffffff;
-        }
-      }
-      .containInformation {
+      .containerForm {
         display: flex;
         flex-direction: column;
-        margin-top: 16px;
-        margin-bottom: 16px;
         justify-content: center;
-
-        .LastnameFirstname {
-          display: flex;
-          flex-direction: row;
-          justify-content: space-between;
-          gap: 16px;
+        align-items: center;
+        span {
+          color: $colorYellow;
+          cursor: pointer;
         }
-
-        .inputPassword {
+        .conteneurSVG {
           display: flex;
-          justify-content: row;
-          .containerImg {
-            width: 30px;
-            margin-left: 16px;
-            img {
+          justify-content: center;
+          object-fit: cover;
+          width: 20%;
+          svg {
+            width: 100%;
+            height: 5px;
+            stroke: #ffffff;
+          }
+        }
+        .containInformation {
+          display: flex;
+          flex-direction: column;
+          margin-top: 16px;
+          margin-bottom: 16px;
+          justify-content: center;
+
+          .LastnameFirstname {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            gap: 16px;
+          }
+
+          .inputPassword {
+            display: flex;
+            justify-content: row;
+            .containerImg {
+              width: 30px;
+              margin-left: 16px;
+              img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                cursor: pointer;
+              }
+            }
+          }
+
+          .labelInput {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 16px;
+            label {
+              display: flex;
+              justify-content: center;
+              margin-bottom: 8px;
+            }
+            input {
+              font-size: $fontSizeP;
               width: 100%;
-              height: 100%;
-              object-fit: contain;
-              cursor: pointer;
+              height: 30px;
+              border-color: $blueColor;
+              display: flex;
+              justify-content: center;
+              background-color: $colorDark;
+              color: $colorWhite;
             }
           }
         }
+        button {
+          width: 250px;
+          height: 50px;
+          border-radius: 42px;
+          background-color: #ffffff;
+          color: $colorDark;
+          font-size: $fontSizeBouton;
 
-        .labelInput {
-          display: flex;
-          flex-direction: column;
-          margin-bottom: 16px;
-          label {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 8px;
-          }
-          input {
-            font-size: $fontSizeP;
-            width: 100%;
-            height: 30px;
-            border-color: $blueColor;
-            display: flex;
-            justify-content: center;
-            background-color: $colorDark;
+          &:hover {
+            background-color: $blueColor;
             color: $colorWhite;
           }
-        }
-      }
-      button {
-        width: 250px;
-        height: 50px;
-        border-radius: 42px;
-        background-color: #ffffff;
-        color: $colorDark;
-        font-size: $fontSizeBouton;
-
-        &:hover {
-          background-color: $blueColor;
-          color: $colorWhite;
         }
       }
     }

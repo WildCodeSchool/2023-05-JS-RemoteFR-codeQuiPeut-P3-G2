@@ -15,6 +15,8 @@ import SommaireEditor from "../components/SommaireEditor"
 import Navbar from "../components/Navbar"
 import FormNewScenario from "./FormNewScenario"
 import FormEditScenario from "./FormEditScenario"
+import FormEditCampaign from "../components/FormEditCampaign"
+import FormNewCampaign from "../components/FormNewCampaign"
 
 export default function Editor() {
   // const [user, setUser] = useState({}) // à SUPPRIMER par la suite, à récupérer via un context
@@ -34,6 +36,7 @@ export default function Editor() {
   const [pageHeight, setPageHeight] = useState()
   const [pageOffsetX, setPageOffsetX] = useState()
   const [pageOffsetY, setPageOffsetY] = useState()
+  const [offsets, setOffsets] = useState({ offsetX: 0, offsetY: 0 })
   const [addNewText, setAddNewText] = useState(false)
   const [textes, setTextes] = useState([])
   const [images, setImages] = useState([])
@@ -45,6 +48,7 @@ export default function Editor() {
   const [showNewScenario, setShowNewScenario] = useState(false)
   const [showNewCampaign, setShowNewCampaign] = useState(false)
   const [showEditScenario, setShowEditScenario] = useState(false)
+  const [showEditCampaign, setShowEditCampaign] = useState(false)
   const [showMenuButtonNew, setShowMenuButtonNew] = useState(false)
   const [indexAfficheStyleText, setIndexAfficheStyleText] = useState({
     min: 0,
@@ -146,6 +150,13 @@ export default function Editor() {
   // -----------------------------------------------------------
   const handleDragStart = (event, id) => {
     handleClickElementTexte(id, event)
+
+    // prise en compte de la position de ma souris pour la dépose de mon élément
+    setOffsets({
+      offsetX: event.nativeEvent.offsetX,
+      offsetY: event.nativeEvent.offsetY,
+    })
+
     // setTextes((prevState) =>
     //   prevState.map((item) =>
     //     item.id === id
@@ -157,6 +168,12 @@ export default function Editor() {
 
   const handleDragStartImage = (event, id) => {
     handleClickElementImage(id, event)
+
+    // prise en compte de la position de ma souris pour la dépose de mon élément
+    setOffsets({
+      offsetX: event.nativeEvent.offsetX,
+      offsetY: event.nativeEvent.offsetY,
+    })
 
     // setImages((prevState) =>
     //   prevState.map((item) =>
@@ -175,10 +192,12 @@ export default function Editor() {
     event.preventDefault()
     // console.log("pageOffsetX", pageOffsetX)
 
-    const newTop = 100 * ((event.pageY - pageOffsetY) / pageHeight) + "%"
+    const newTop =
+      100 * ((event.pageY - pageOffsetY - offsets.offsetY) / pageHeight) + "%"
 
     // const newLeft = event.pageX;
-    const newLeft = 100 * ((event.pageX - pageOffsetX) / pageWidth) + "%"
+    const newLeft =
+      100 * ((event.pageX - pageOffsetX - offsets.offsetX) / pageWidth) + "%"
     // console.log("newTop", newTop, "newLeft", newLeft)
 
     const selectedText = textes.filter((texte) => texte.selected === true)[0]
@@ -651,11 +670,13 @@ export default function Editor() {
   }
 
   const handleClickNouveauScenario = () => {
+    handleSave()
     setShowNewScenario(!showNewScenario)
     // const scenarioName = prompt("Entrez un nom pour votre scénario")
   }
 
   const handleClickNewCampaign = () => {
+    handleSave()
     setShowNewCampaign(!showNewCampaign)
   }
 
@@ -1288,6 +1309,8 @@ export default function Editor() {
             <SommaireEditor
               editedCampagne={editedCampagne}
               setEditedCampagne={setEditedCampagne}
+              setShowEditCampaign={setShowEditCampaign}
+              showEditCampaign={showEditCampaign}
               scenariosOfEditedCampagne={scenariosOfEditedCampagne}
               setScenariosOfEditedCampagne={setScenariosOfEditedCampagne}
               pagesOfScenarioSelected={pagesOfScenarioSelected}
@@ -1386,6 +1409,31 @@ export default function Editor() {
           scenarioForInfoEdit={scenarioForInfoEdit}
           setShowEditScenario={setShowEditScenario}
           setScenariosOfEditedCampagne={setScenariosOfEditedCampagne}
+        />
+      )}
+
+      {showEditCampaign && (
+        <FormEditCampaign
+          campaignID={editedCampagne.id}
+          scenarioForInfoEdit={scenarioForInfoEdit}
+          setShowEditCampaign={setShowEditCampaign}
+          setScenariosOfEditedCampagne={setScenariosOfEditedCampagne}
+        />
+      )}
+
+      {showNewCampaign && (
+        <FormNewCampaign
+          setShowNewCampaign={setShowNewCampaign}
+          authorID={author.id}
+          setScenariosOfEditedCampagne={setScenariosOfEditedCampagne}
+          scenariosOfEditedCampagne={scenariosOfEditedCampagne}
+          setPagesOfScenarioSelected={setPagesOfScenarioSelected}
+          setImages={setImages}
+          setPageFuture={setPageFuture}
+          setPageHistory={setPageHistory}
+          setTextes={setTextes}
+          setCampagnesUtilisateur={setCampagnesUtilisateur}
+          setEditedCampagne={setEditedCampagne}
         />
       )}
     </>

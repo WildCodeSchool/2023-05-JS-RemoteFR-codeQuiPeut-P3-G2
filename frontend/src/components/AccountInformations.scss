@@ -65,8 +65,14 @@ $fontSizeTitre: 1.5rem;
         height: 100%;
         display: flex;
         cursor: pointer;
-        p {
+        button {
+          width: 190px;
+          height: 45px;
           color: $colorYellow;
+          border-radius: 20px;
+          border: 2px solid $colorYellow;
+          background-color: rgba(0, 0, 255, 0);
+          cursor: pointer;
         }
       }
     }
@@ -103,8 +109,13 @@ $fontSizeTitre: 1.5rem;
       align-content: end;
       align-self: end;
       cursor: pointer;
-      p {
+      button {
+        width: 190px;
+        height: 45px;
         color: $colorYellow;
+        border-radius: 20px;
+        border: 2px solid $colorYellow;
+        background-color: rgba(0, 0, 255, 0);
         cursor: pointer;
       }
       img {
@@ -157,19 +168,6 @@ $fontSizeTitre: 1.5rem;
         height: 30px;
         margin: 0;
       }
-    }
-  }
-  button {
-    width: 250px;
-    height: 50px;
-    border-radius: 42px;
-    background-color: #ffffff;
-    color: $colorDark;
-    font-size: $fontSizeBouton;
-
-    &:hover {
-      background-color: $blueColor;
-      color: $colorWhite;
     }
   }
 }
