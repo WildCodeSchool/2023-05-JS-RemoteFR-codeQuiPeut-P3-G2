@@ -50,6 +50,8 @@ const ThemesScenarioManager = require("./ThemesScenarioManager")
 const ThemesCampagnesManager = require("./ThemesCampagnesManager")
 const FavoriteManager = require("./FavoriteManager")
 const CampagnesMultiManager = require("./CampagnesMultiManager")
+const ScenarioCommentManager = require("./ScenarioCommentManager")
+const ForumCategoriesManager = require("./ForumCategoriesManager")
 
 models.scenarios = new ScenariosManager()
 models.scenarios.setDatabase(pool)
@@ -113,6 +115,12 @@ models.favorites.setDatabase(pool)
 
 models.campagnesMulti = new CampagnesMultiManager()
 models.campagnesMulti.setDatabase(pool)
+models.scenarcomms = new ScenarioCommentManager()
+models.scenarcomms.setDatabase(pool)
+
+models.forumCategories = new ForumCategoriesManager()
+models.forumCategories.setDatabase(pool)
+
 // bonus: use a proxy to personalize error message,
 // when asking for a non existing model
 

@@ -2,10 +2,10 @@
 $blueColor: #4c60ae;
 $colorYellow: #ffbd59;
 
-.Scripts{
-    margin-top: 20vh;
-    margin-bottom: 10vh;
-    width: 100%;
+.Scripts {
+  margin-top: 20vh;
+  margin-bottom: 10vh;
+  width: 100%;
 }
 
 .all {
@@ -15,7 +15,7 @@ $colorYellow: #ffbd59;
   justify-content: space-between;
   align-items: flex-start;
   font-family: Lustria;
- 
+
   .Filter {
     margin-top: 10%;
     width: 25%;
@@ -53,8 +53,8 @@ $colorYellow: #ffbd59;
     width: 65%;
     font-size: xx-large;
 
-    .filtered-scenarios{
-      display:flex;
+    .filtered-scenarios {
+      display: flex;
       flex-wrap: wrap;
     }
   }
@@ -80,7 +80,7 @@ $colorYellow: #ffbd59;
     
 
     button {
-      color:#ffbd59;
+      color: #ffbd59;
       font-size: larger;
       border: none;
       background-color: #070a09;
@@ -92,7 +92,7 @@ $colorYellow: #ffbd59;
     justify-content: flex-start;
     flex-direction: column;
     p {
-      color:#4c60ae;
+      color: #4c60ae;
     }
   }
   .auteur {
@@ -119,7 +119,7 @@ $colorYellow: #ffbd59;
     display:flex;
     justify-content: flex-start;
     flex-direction: column;
-    
+
     p {
       color: #4c60ae;
     }

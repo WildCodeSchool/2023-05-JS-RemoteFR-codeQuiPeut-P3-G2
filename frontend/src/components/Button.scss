@@ -1,21 +1,19 @@
-.container-button{
+.container-button {
   display: flex;
   flex-wrap: wrap;
 }
-  .allButtonGenre{
-    padding:8px;
-    
-    .ButtonGenre {
-      border: 2px;
-      border-radius: 58px;
-      background-color: rgb(76, 96, 174);
-      color: rgb(255, 255, 255);
-    }
-    
-    .ButtonGenre:hover {
-      background-color: rgb(255, 255, 255);
-      color: rgb(76, 96, 174);
-    }
+.allButtonGenre {
+  padding: 8px;
+
+  .ButtonGenre {
+    border: 2px;
+    border-radius: 58px;
+    background-color: rgb(76, 96, 174);
+    color: rgb(255, 255, 255);
   }
 
-
+  .ButtonGenre:hover {
+    background-color: rgb(255, 255, 255);
+    color: rgb(76, 96, 174);
+  }
+}
