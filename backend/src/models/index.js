@@ -121,6 +121,9 @@ models.scenarcomms.setDatabase(pool)
 models.forumCategories = new ForumCategoriesManager()
 models.forumCategories.setDatabase(pool)
 
+models.scenarcomms = new ScenarioCommentManager()
+models.scenarcomms.setDatabase(pool)
+
 // bonus: use a proxy to personalize error message,
 // when asking for a non existing model
 
