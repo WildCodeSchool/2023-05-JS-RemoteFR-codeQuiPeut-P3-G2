@@ -22,6 +22,7 @@ const scenarioThemesControllers = require("./controllers/scenarioThemesControlle
 const campagnesThemesControllers = require("./controllers/campagnesThemesControllers")
 const imagesControllers = require("./controllers/imagesControllers")
 const favoriteControllers = require("./controllers/favoriteControllers.js")
+const auteursFavorisControllers = require("./controllers/auteursFavorisControllers")
 const scenarioCommentControllers = require("./controllers/scenarioCommentControllers")
 const multer = require("./middleware/multer-config")
 const {
@@ -210,6 +211,10 @@ router.delete("/deleteTmpImage", deleteImageForm)
 router.post("/favorite", favoriteControllers.add)
 router.delete("/favorite", favoriteControllers.destroy)
 router.get("/favorite/:id", favoriteControllers.read)
+
+router.post("/autorFavorite", auteursFavorisControllers.add)
+router.delete("/autorFavorite", auteursFavorisControllers.destroy)
+router.get("/autorFavorite/:id", auteursFavorisControllers.read)
 
 router.get("/scenarcomm", scenarioCommentControllers.browse)
 router.post("/scenarcomm", scenarioCommentControllers.add)

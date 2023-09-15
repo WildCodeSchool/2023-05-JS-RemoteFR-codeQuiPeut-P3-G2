@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom"
 // import { useLocation } from "react-router-dom"
 import MyContext from "../components/MyContext"
 import Navbar from "../components/Navbar"
@@ -10,25 +10,27 @@ import emptyStar from "../assets/images/etoile-vide.png"
 
 // const ResumePageScenario = ({ scenario }) => {
 const ResumePageScenario = () => {
-  // const location = useLocation()
   // const scenario = location.state
-  const scenario = {
-    id: 1,
-    auteur_id: 1,
-    jeux_de_role: "The Witcher",
-    jeux_de_role_id: 1,
-    campagnes_id: 1,
-    campagnes_name: "The Witcher dans JP",
-    name: "Jurassic Park",
-    nb_player_min: 2,
-    nb_player_max: 4,
-    type: "one shot",
-    level: "hard",
-    img: "http://localhost:4242/public/assets/images/cameleon1.jpg1693405905262.jpg",
-    description:
-      "c'est l'histoire d'un mec qui se fait bouffer par un dinosaure dans The Witcher ...",
-    model: 1,
-  }
+  const location = useLocation()
+  const scenario = location.state
+
+  // const scenario = {
+  //   id: 1,
+  //   auteur_id: 1,
+  //   jeux_de_role: "The Witcher",
+  //   jeux_de_role_id: 1,
+  //   campagnes_id: 1,
+  //   campagnes_name: "The Witcher dans JP",
+  //   name: "Jurassic Park",
+  //   nb_player_min: 2,
+  //   nb_player_max: 4,
+  //   type: "one shot",
+  //   level: "hard",
+  //   img: "http://localhost:4242/public/assets/images/cameleon1.jpg1693405905262.jpg",
+  //   description:
+  //     "c'est l'histoire d'un mec qui se fait bouffer par un dinosaure dans The Witcher ...",
+  //   model: 1,
+  // }
   const { user } = useContext(MyContext)
   const navigate = useNavigate()
   const [isFavorite, setIsFAvorite] = useState(false)
