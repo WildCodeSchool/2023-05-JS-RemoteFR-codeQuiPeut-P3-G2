@@ -52,7 +52,6 @@ const FavoriteManager = require("./FavoriteManager")
 const CampagnesMultiManager = require("./CampagnesMultiManager")
 const ScenarioCommentManager = require("./ScenarioCommentManager")
 const ForumCategoriesManager = require("./ForumCategoriesManager")
-const ScenarioCommentManager = require("./ScenarioCommentManager")
 
 models.scenarios = new ScenariosManager()
 models.scenarios.setDatabase(pool)
