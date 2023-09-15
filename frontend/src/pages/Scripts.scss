@@ -2,10 +2,10 @@
 $blueColor: #4c60ae;
 $colorYellow: #ffbd59;
 
-.Scripts{
-    margin-top: 20vh;
-    margin-bottom: 10vh;
-    width: 100%;
+.Scripts {
+  margin-top: 20vh;
+  margin-bottom: 10vh;
+  width: 100%;
 }
 
 .all {
@@ -15,22 +15,26 @@ $colorYellow: #ffbd59;
   justify-content: space-between;
   align-items: flex-start;
   font-family: Lustria;
- 
+
   .Filter {
     margin-top: 10%;
-    width: 27%;
+    width: 25%;
     height: 100%;
     box-shadow: 7px 0px 4px -4px $blueColor;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    justify-content: flex-start;
 
     .Type{
         display:flex;
         align-items: baseline;
       }
     select{
-      border-radius: 50px;
+      // border-radius: 50px;
+      background-color: #070a09;
+      border-color: #4c60ae;
+      color: #eee;
+      width:65%;
     }
   }
 
@@ -40,7 +44,7 @@ $colorYellow: #ffbd59;
 
   .titleTheme{ 
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       font-size: large;
       color: #4c60ae;
   } 
@@ -49,8 +53,8 @@ $colorYellow: #ffbd59;
     width: 65%;
     font-size: xx-large;
 
-    .filtered-scenarios{
-      display:flex;
+    .filtered-scenarios {
+      display: flex;
       flex-wrap: wrap;
     }
   }
@@ -59,8 +63,7 @@ $colorYellow: #ffbd59;
 .container {
   .Type {
     display: flex;
-    justify-content: baseline;
-    align-items: baseline;
+    justify-content: flex-start;
     gap: 20px;
   }
   p {
@@ -70,14 +73,14 @@ $colorYellow: #ffbd59;
     margin-top: 25px;
     margin-bottom: 25px;
     gap: 10px;
-    width: 18vw;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    align-items: flex-start;
     
 
     button {
-      color:#ffbd59;
+      color: #ffbd59;
       font-size: larger;
       border: none;
       background-color: #070a09;
@@ -86,15 +89,15 @@ $colorYellow: #ffbd59;
 
   .univers {
     display:flex;
-    align-items: center;
+    justify-content: flex-start;
     flex-direction: column;
     p {
-      color:#4c60ae;
+      color: #4c60ae;
     }
   }
   .auteur {
     display:flex;
-    align-items: center;
+    justify-content: flex-start;
     flex-direction: column;
 
     p {
@@ -104,7 +107,7 @@ $colorYellow: #ffbd59;
 
   .Difficultes {
     display:flex;
-    align-items: center;
+    justify-content: flex-start;
     flex-direction: column;
 
     p {
@@ -114,9 +117,9 @@ $colorYellow: #ffbd59;
 
   .nombre {
     display:flex;
-    align-items: center;
+    justify-content: flex-start;
     flex-direction: column;
-    
+
     p {
       color: #4c60ae;
     }

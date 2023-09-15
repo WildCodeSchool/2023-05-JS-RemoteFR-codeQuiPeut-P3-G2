@@ -49,6 +49,9 @@ const ThemesManager = require("./ThemesManager")
 const ThemesScenarioManager = require("./ThemesScenarioManager")
 const ThemesCampagnesManager = require("./ThemesCampagnesManager")
 const FavoriteManager = require("./FavoriteManager")
+const CampagnesMultiManager = require("./CampagnesMultiManager")
+const ScenarioCommentManager = require("./ScenarioCommentManager")
+const ForumCategoriesManager = require("./ForumCategoriesManager")
 const ScenarioCommentManager = require("./ScenarioCommentManager")
 
 models.scenarios = new ScenariosManager()
@@ -110,6 +113,14 @@ models.images.setDatabase(pool)
 
 models.favorites = new FavoriteManager()
 models.favorites.setDatabase(pool)
+
+models.campagnesMulti = new CampagnesMultiManager()
+models.campagnesMulti.setDatabase(pool)
+models.scenarcomms = new ScenarioCommentManager()
+models.scenarcomms.setDatabase(pool)
+
+models.forumCategories = new ForumCategoriesManager()
+models.forumCategories.setDatabase(pool)
 
 models.scenarcomms = new ScenarioCommentManager()
 models.scenarcomms.setDatabase(pool)

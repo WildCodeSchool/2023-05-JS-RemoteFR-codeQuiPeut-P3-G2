@@ -89,8 +89,7 @@ a:active {
         background-color: $blueColor;
         text-align: center;
         margin: 8px;
-        &:hover,
-        &:active {
+        &:hover {
           background-color: $colorWhite;
           color: $blueColor;
         }
