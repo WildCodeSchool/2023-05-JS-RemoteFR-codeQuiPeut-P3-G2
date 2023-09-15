@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react"
-
+import React, { useState, useEffect, useContext } from "react"
+import MyContext from "../components/MyContext"
 import Button from "../components/Button"
 import Navbar from "../components/Navbar"
 import Switch from "../components/Switch"
@@ -30,6 +30,7 @@ function Scripts() {
   const [type, setType] = useState([])
   const [typeScenarios, setTypeScenarios] = useState([])
   const [campagnes, setCampagnes] = useState([])
+  const { user } = useContext(MyContext)
   // -----------------------------------------------------------------------------------
   // ----fonction filters
 
@@ -233,7 +234,7 @@ function Scripts() {
           <div className="filtered-scenarios">
             {scenarios.map((scenario) => (
               <div key={scenario.id}>
-                <CardScenario scenario={scenario} />
+                <CardScenario user={user} scenario={scenario} />
               </div>
             ))}
           </div>
