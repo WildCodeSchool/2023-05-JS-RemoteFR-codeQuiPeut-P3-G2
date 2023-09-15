@@ -22,7 +22,9 @@ const scenarioThemesControllers = require("./controllers/scenarioThemesControlle
 const campagnesThemesControllers = require("./controllers/campagnesThemesControllers")
 const imagesControllers = require("./controllers/imagesControllers")
 const favoriteControllers = require("./controllers/favoriteControllers.js")
+const auteursFavorisControllers = require("./controllers/auteursFavorisControllers")
 const scenarioCommentControllers = require("./controllers/scenarioCommentControllers")
+const campagnesMultiControllers = require("./controllers/campagnesMultiControllers")
 const forumCategoriesControllers = require("./controllers/forumCategoriesControllers")
 const multer = require("./middleware/multer-config")
 const {
@@ -150,6 +152,7 @@ router.delete("/auteurs/:id", auteursControllers.destroy)
 router.get("/auteurs/:id/campagnes", auteursControllers.readAuthorsCampagnes) // recherche les campagnes d'un auteur (retourne : id, campagneName)
 
 router.get("/campagnes", campagnesControllers.browse)
+
 router.get("/campagnes/:id", campagnesControllers.readWithTheme)
 router.post("/campagnes", campagnesControllers.add)
 router.put("/campagnes/:id", campagnesControllers.edit)
@@ -158,6 +161,8 @@ router.get(
   "/campagnes/:id/scenarios",
   campagnesControllers.readCampagneScenarios
 ) // recherche les scenarios associés à une campagne (retourne : id, scenarioName)
+
+router.get("/campagnesMulti", campagnesMultiControllers.findCampagnes)
 
 router.get("/pages", pagesControllers.browse)
 router.get("/pages/:id", pagesControllers.read)
@@ -216,8 +221,18 @@ router.post("/favorite", favoriteControllers.add)
 router.delete("/favorite", favoriteControllers.destroy)
 router.get("/favorite/:id", favoriteControllers.read)
 
+router.post("/autorFavorite", auteursFavorisControllers.add)
+router.delete("/autorFavorite", auteursFavorisControllers.destroy)
+router.get("/autorFavorite/:id", auteursFavorisControllers.read)
+
 router.get("/scenarcomm", scenarioCommentControllers.browse)
 router.post("/scenarcomm", scenarioCommentControllers.add)
+router.delete("/scenarcomm/:id", scenarioCommentControllers.destroy)
+router.put("/scenarcomm/:id", scenarioCommentControllers.edit)
+router.get(
+  "/scenario/:id/scenarcomm",
+  scenarioCommentControllers.getByScenarioID
+)
 
 router.get("/forumCategories", forumCategoriesControllers.browse)
 

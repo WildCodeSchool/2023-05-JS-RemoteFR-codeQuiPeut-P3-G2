@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react"
-
+import React, { useState, useEffect, useContext } from "react"
+import MyContext from "../components/MyContext"
 import Button from "../components/Button"
 import Navbar from "../components/Navbar"
-// import Switch from "../components/Switch"
+import Switch from "../components/Switch"
 
 import "./Scripts.scss"
 import axios from "axios"
@@ -26,6 +26,11 @@ function Scripts() {
   const [themes, setThemes] = useState([])
   const [valueRoleGame, setValueRoleGame] = useState("---")
   const [valueTheme, setValueTheme] = useState(null)
+  const [valueType, setValueType] = useState(false)
+  const [type, setType] = useState([])
+  const [typeScenarios, setTypeScenarios] = useState([])
+  const [campagnes, setCampagnes] = useState([])
+  const { user } = useContext(MyContext)
   // -----------------------------------------------------------------------------------
   // ----fonction filters
 
@@ -91,6 +96,13 @@ function Scripts() {
         (scenario) => scenario.theme === valueTheme
       )
     }
+
+    if (valueType) {
+      newScenarios = newScenarios.filter(
+        (scenario) => scenario.type === valueType
+      )
+    }
+
     setScenarios(newScenarios)
   }
 
@@ -110,6 +122,11 @@ function Scripts() {
       .get("http://localhost:4242/themes")
       .then(({ data }) => setThemes(data))
       .catch((err) => console.error(err))
+
+    axios
+      .get("http://localhost:4242/campagnesMulti")
+      .then(({ data }) => setCampagnes(data))
+      .catch((err) => console.error(err))
   }, [])
 
   useEffect(() => {
@@ -120,6 +137,7 @@ function Scripts() {
     valueNumberPlayer,
     valueRoleGame,
     valueTheme,
+    valueType,
   ])
   // ------------------------------------------------------------------------------------------------
 
@@ -134,17 +152,22 @@ function Scripts() {
         <div className="Filter">
           <div className="Type">
             <p>One Shot</p>
-            <label className="switch">
+            {/* <label className="switch">
               <input type="checkbox"></input>
               <span className="slider"></span>
-            </label>
-            {/* <Switch
+            </label> */}
+            <Switch
               scenarios={scenarios}
+              setValueType={setValueType}
+              valueType={valueType}
+              type={type}
+              setType={setType}
               typeScenarios={typeScenarios}
               setTypeScenarios={setTypeScenarios}
-              changeType={changeType}
-            /> */}
-            <p>Campagne</p>
+              setCampagnes={setCampagnes}
+              campagnes={campagnes}
+            />
+            <p>Campaign</p>
           </div>
           <div className="Button">
             <p className="titleTheme">Themes</p>
@@ -211,7 +234,7 @@ function Scripts() {
           <div className="filtered-scenarios">
             {scenarios.map((scenario) => (
               <div key={scenario.id}>
-                <CardScenario scenario={scenario} />
+                <CardScenario user={user} scenario={scenario} />
               </div>
             ))}
           </div>

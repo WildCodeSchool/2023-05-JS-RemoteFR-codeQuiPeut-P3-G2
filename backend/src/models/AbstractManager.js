@@ -14,7 +14,7 @@ class AbstractManager {
   }
 
   delete(id) {
-    return this.database.query(`delete from ${this.table} where id = ?`, [id])
+    return this.database.query(`DELETE FROM ${this.table} WHERE id = ?`, [id])
   }
 
   setDatabase(database) {
