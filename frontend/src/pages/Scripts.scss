@@ -59,13 +59,13 @@ $colorYellow: #ffbd59;
     display: flex;
   }
 
-  .titleTheme{ 
-      display: flex;
-      justify-content: flex-start;
-      font-size: large;
-      color: #4c60ae;
-  } 
-  
+  .titleTheme {
+    display: flex;
+    justify-content: flex-start;
+    font-size: large;
+    color: #4c60ae;
+  }
+
   .try {
     width: 65%;
     font-size: xx-large;
@@ -92,7 +92,6 @@ $colorYellow: #ffbd59;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    
 
     button {
       color: #ffbd59;
@@ -103,7 +102,7 @@ $colorYellow: #ffbd59;
   }
 
   .univers {
-    display:flex;
+    display: flex;
     justify-content: flex-start;
     flex-direction: column;
     p {
@@ -111,7 +110,7 @@ $colorYellow: #ffbd59;
     }
   }
   .auteur {
-    display:flex;
+    display: flex;
     justify-content: flex-start;
     flex-direction: column;
 
@@ -121,7 +120,7 @@ $colorYellow: #ffbd59;
   }
 
   .Difficultes {
-    display:flex;
+    display: flex;
     justify-content: flex-start;
     flex-direction: column;
 
@@ -131,7 +130,7 @@ $colorYellow: #ffbd59;
   }
 
   .nombre {
-    display:flex;
+    display: flex;
     justify-content: flex-start;
     flex-direction: column;
 
