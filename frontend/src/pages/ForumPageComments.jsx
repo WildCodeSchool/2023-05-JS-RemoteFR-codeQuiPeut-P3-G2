@@ -9,12 +9,13 @@ export default function ForumPageComments() {
   const topic = location.state
 
   const { user } = useContext(MyContext)
-  const [numberCommentPerPage, setNumberCommentPerPage] = useState(3)
-  const [indexToShow, setIndexToShow] = useState({ min: 0, max: 2 })
+  const [numberCommentPerPage, setNumberCommentPerPage] = useState(5)
+  const [indexToShow, setIndexToShow] = useState({ min: 0, max: 4 })
   const [comments, setComments] = useState([])
   const [showInputNewComment, setShowInputNewComment] = useState(false)
   const [valueNewComment, setValueNewComment] = useState("")
-  const [orderComments, setOrderComments] = useState("Older First")
+  const [orderComments, setOrderComments] = useState("Older first")
+  const [mounted, setMounted] = useState(false)
 
   const handleFormatDate = (myDate) => {
     const year = myDate.slice(0, 4)
@@ -111,16 +112,20 @@ export default function ForumPageComments() {
       .get(`http://localhost:4242/sujet_forum/${topic.id}/commentaires_forum`)
       .then(({ data }) => setComments(data))
       .catch((err) => console.error(err))
+
+    setMounted(true)
   }, [])
 
   useEffect(() => {
-    if (numberCommentPerPage >= comments.length) {
-      setIndexToShow({ min: 0, max: comments.length - 1 })
-    } else {
-      setIndexToShow((prevState) => ({
-        min: prevState.min,
-        max: prevState.min + numberCommentPerPage - 1,
-      }))
+    if (mounted) {
+      if (numberCommentPerPage >= comments.length) {
+        setIndexToShow({ min: 0, max: comments.length - 1 })
+      } else {
+        setIndexToShow((prevState) => ({
+          min: prevState.min,
+          max: prevState.min + numberCommentPerPage - 1,
+        }))
+      }
     }
   }, [numberCommentPerPage])
 
