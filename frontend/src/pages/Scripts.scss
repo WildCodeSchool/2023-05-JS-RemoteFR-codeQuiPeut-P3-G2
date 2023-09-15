@@ -18,19 +18,23 @@ $colorYellow: #ffbd59;
 
   .Filter {
     margin-top: 10%;
-    width: 27%;
+    width: 25%;
     height: 100%;
     box-shadow: 7px 0px 4px -4px $blueColor;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    justify-content: flex-start;
 
-    .Type {
-      display: flex;
-      align-items: baseline;
-    }
-    select {
-      border-radius: 50px;
+    .Type{
+        display:flex;
+        align-items: baseline;
+      }
+    select{
+      // border-radius: 50px;
+      background-color: #070a09;
+      border-color: #4c60ae;
+      color: #eee;
+      width:65%;
     }
   }
 
@@ -38,13 +42,13 @@ $colorYellow: #ffbd59;
     display: flex;
   }
 
-  .titleTheme {
-    display: flex;
-    justify-content: center;
-    font-size: large;
-    color: #4c60ae;
-  }
-
+  .titleTheme{ 
+      display: flex;
+      justify-content: flex-start;
+      font-size: large;
+      color: #4c60ae;
+  } 
+  
   .try {
     width: 65%;
     font-size: xx-large;
@@ -59,8 +63,7 @@ $colorYellow: #ffbd59;
 .container {
   .Type {
     display: flex;
-    justify-content: baseline;
-    align-items: baseline;
+    justify-content: flex-start;
     gap: 20px;
   }
   p {
@@ -70,10 +73,11 @@ $colorYellow: #ffbd59;
     margin-top: 25px;
     margin-bottom: 25px;
     gap: 10px;
-    width: 18vw;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    align-items: flex-start;
+    
 
     button {
       color: #ffbd59;
@@ -84,16 +88,16 @@ $colorYellow: #ffbd59;
   }
 
   .univers {
-    display: flex;
-    align-items: center;
+    display:flex;
+    justify-content: flex-start;
     flex-direction: column;
     p {
       color: #4c60ae;
     }
   }
   .auteur {
-    display: flex;
-    align-items: center;
+    display:flex;
+    justify-content: flex-start;
     flex-direction: column;
 
     p {
@@ -102,8 +106,8 @@ $colorYellow: #ffbd59;
   }
 
   .Difficultes {
-    display: flex;
-    align-items: center;
+    display:flex;
+    justify-content: flex-start;
     flex-direction: column;
 
     p {
@@ -112,8 +116,8 @@ $colorYellow: #ffbd59;
   }
 
   .nombre {
-    display: flex;
-    align-items: center;
+    display:flex;
+    justify-content: flex-start;
     flex-direction: column;
 
     p {

@@ -112,6 +112,18 @@ const readCampagneScenarios = (req, res) => {
     })
 }
 
+// const findCampagne = (req, res) => {
+//   models.campagnes
+//     .findCampagne()
+//     .then(([rows]) => {
+//       res.send(rows)
+//     })
+//     .catch((err) => {
+//       console.error(err)
+//       res.sendStatus(500)
+//     })
+// }
+
 module.exports = {
   browse,
   add,
@@ -120,4 +132,5 @@ module.exports = {
   destroy,
   readCampagneScenarios,
   readWithTheme,
+  // findCampagne,
 }

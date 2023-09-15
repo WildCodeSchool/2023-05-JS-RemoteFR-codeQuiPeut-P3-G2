@@ -44,7 +44,8 @@ class CampagnesManager extends AbstractManager {
 
   findScenarios(id) {
     return this.database.query(
-      `select scenarios.id, scenarios.name FROM ${this.table} INNER JOIN scenarios ON scenarios.campagnes_id = campagnes.id WHERE campagnes.id = ?`,
+      `select scenarios.id, campagnes.name, campagnes.id as campagneId, scenarios.name, count(scenarios.id) as nbScenarios FROM ${this.table} INNER JOIN scenarios ON scenarios.campagnes_id = campagnes.id WHERE campagnes.id = ?
+      group by scenarios.id, scenarios.name, campagnes.name, campagnes.id`,
       [id]
     )
   }
@@ -53,6 +54,13 @@ class CampagnesManager extends AbstractManager {
     return this.database.query(
       `select s.* , st.themes_id, t.name AS theme_name from  ${this.table} AS s INNER JOIN campagnes_themes AS st ON st.campagnes_id = s.id INNER JOIN themes AS t ON t.id = st.themes_id where s.id = ?`,
       [id]
+    )
+  }
+
+  findCampagne() {
+    return this.database.query(
+      `select campagnes.name, campagnes.id as campagneId, count(scenarios.id) as nbScenarios FROM ${this.table} INNER JOIN scenarios ON scenarios.campagnes_id = campagnes.id 
+      group by campagnes.name, campagnes.id`
     )
   }
 }
