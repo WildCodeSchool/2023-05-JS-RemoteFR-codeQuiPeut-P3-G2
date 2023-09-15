@@ -2,7 +2,7 @@ import { useState, useContext, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 // import { useLocation } from "react-router-dom"
 import MyContext from "../components/MyContext"
-// import Navbar from "../components/Navbar"
+import Navbar from "../components/Navbar"
 import axios from "axios"
 // import imgDefaultScenario from "../assets/images/defoscenario.png"
 import fullStar from "../assets/images/etoile-pleine.png"
@@ -203,10 +203,7 @@ const ResumePageScenario = () => {
   return (
     <>
       <main className="globalPage">
-        <div className="headerNavbare">
-          {/* <Navbar /> */}
-          <p>Ceci est l'emplacement de la navbar</p>
-        </div>
+        <Navbar />
         <div className="carteResumeScenario">
           <div className="titleResumeScenar">
             <h1>Titre de la campagne : {scenario.campagnes_name} </h1>
@@ -308,7 +305,7 @@ const ResumePageScenario = () => {
                         value={avi.id}
                         onClick={handleNoEditComment}
                       >
-                        Don't Save
+                        Close
                       </button>
                     </div>
                   </div>
