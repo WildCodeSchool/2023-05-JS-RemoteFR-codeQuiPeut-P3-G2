@@ -116,6 +116,7 @@ models.favorites.setDatabase(pool)
 
 models.campagnesMulti = new CampagnesMultiManager()
 models.campagnesMulti.setDatabase(pool)
+
 models.scenarcomms = new ScenarioCommentManager()
 models.scenarcomms.setDatabase(pool)
 

@@ -1,38 +1,35 @@
 import { useState, useContext, useEffect } from "react"
-import { useNavigate, useLocation } from "react-router-dom"
-// import { useLocation } from "react-router-dom"
+// import { useNavigate, useLocation } from "react-router-dom"  // A decommenté qd useLocation sera OK (1/2)
+import { useNavigate } from "react-router-dom"
 import MyContext from "../components/MyContext"
 import Navbar from "../components/Navbar"
 import axios from "axios"
-// import imgDefaultScenario from "../assets/images/defoscenario.png"
 import fullStar from "../assets/images/etoile-pleine.png"
 import emptyStar from "../assets/images/etoile-vide.png"
 
-// const ResumePageScenario = ({ scenario }) => {
 const ResumePageScenario = () => {
-  // const scenario = location.state
-  const location = useLocation()
-  const scenario = location.state
+  // const scenario = location.state  // A decommenté qd useLocation sera OK (2/2)
+  // const location = useLocation()
 
-  // const scenario = {
-  //   id: 1,
-  //   auteur_id: 1,
-  //   jeux_de_role: "The Witcher",
-  //   jeux_de_role_id: 1,
-  //   campagnes_id: 1,
-  //   campagnes_name: "The Witcher dans JP",
-  //   name: "Jurassic Park",
-  //   nb_player_min: 2,
-  //   nb_player_max: 4,
-  //   type: "one shot",
-  //   level: "hard",
-  //   img: "http://localhost:4242/public/assets/images/cameleon1.jpg1693405905262.jpg",
-  //   description:
-  //     "c'est l'histoire d'un mec qui se fait bouffer par un dinosaure dans The Witcher ...",
-  //   model: 1,
-  // }
+  const scenario = {
+    id: 1,
+    auteur_id: 1,
+    jeux_de_role: "The Witcher",
+    jeux_de_role_id: 1,
+    campagnes_id: 1,
+    campagnes_name: "The Witcher dans JP",
+    name: "Jurassic Park",
+    nb_player_min: 2,
+    nb_player_max: 4,
+    type: "one shot",
+    level: "hard",
+    img: "http://localhost:4242/public/assets/images/cameleon1.jpg1693405905262.jpg",
+    description:
+      "c'est l'histoire d'un mec qui se fait bouffer par un dinosaure dans The Witcher ...",
+    model: 1,
+  }
+
   const { user } = useContext(MyContext)
-  // const { user, setUser } = useContext(MyContext)
   const navigate = useNavigate()
   const [isFavorite, setIsFAvorite] = useState(false)
   const [addComment, setAddComment] = useState(false)
@@ -78,6 +75,13 @@ const ResumePageScenario = () => {
     }
   }
 
+  const handleGoToScenario = () => {
+    navigate("/readscenario", { state: scenario })
+  }
+  const handleClickAddComment = () => {
+    setAddComment(!addComment)
+  }
+
   const handleWriteComment = (e) => {
     setComment(e.target.value)
   }
@@ -88,14 +92,6 @@ const ResumePageScenario = () => {
         avi.id === id ? { ...avi, edit: true } : { ...avi, edit: false }
       )
     )
-  }
-
-  const handleClickAddComment = () => {
-    setAddComment(!addComment)
-  }
-
-  const handleGoToScenario = () => {
-    navigate("/readscenario", { state: scenario })
   }
 
   const handleClickSubmitComment = () => {
@@ -148,8 +144,6 @@ const ResumePageScenario = () => {
           })
       )
       .catch((err) => console.error(err))
-
-    // setAvis((prevState) => prevState.map((avi) => ({ ...avi, edit: false })))
   }
 
   const handleNoEditComment = () => {
@@ -208,10 +202,8 @@ const ResumePageScenario = () => {
         <Navbar />
         <div className="carteResumeScenario">
           <div className="titleResumeScenar">
-            <h1>Titre de la campagne : {scenario.campagnes_name} </h1>
-            {/*  Penser à supprimer "Titre de la campagne : " */}
-            <h2>Titre du scenario : {scenario.name} </h2>
-            {/*  Penser à supprimer "Titre du scenario : " */}
+            <h1>{scenario.campagnes_name} </h1>
+            <h2>{scenario.name} </h2>
           </div>
           <div className="mainInfos">
             <img
@@ -219,8 +211,6 @@ const ResumePageScenario = () => {
               src={scenario.img}
               alt="picture of scenario"
             />
-            {/* Pour vivualisation => à supprimer après ! Et activer celle d'en dessous ! */}
-            {/* <img className="imgResumPagScenar" src={imgScenar} alt="picture of scenario" /> */}
             <ul>
               <li>Theme : {scenario.jeux_de_role} </li>
               <li>
@@ -228,7 +218,6 @@ const ResumePageScenario = () => {
                 {scenario.nb_player_max} players
               </li>
               <li>Description : {scenario.description}</li>
-              {/* <li>Aim : {scenario}</li> */}
             </ul>
             <img
               id="isFavorite"
@@ -255,9 +244,7 @@ const ResumePageScenario = () => {
                 value="Leave a Comment"
                 id="buttonAddComment"
                 title={
-                  addComment
-                    ? "Click to hide the texte area !"
-                    : "Click to post your comment !"
+                  addComment ? "Click to close." : "Click to post your comment."
                 }
                 onClick={handleClickAddComment}
               />
@@ -281,7 +268,6 @@ const ResumePageScenario = () => {
                 />
               </div>
             )}
-            {/* <div className="scenarInteractionsLow"> */}
             <h3>Commentary :</h3>
             {avis.map((avi) =>
               avi.utilisateurs_id === user.id ? (
