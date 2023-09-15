@@ -2,13 +2,16 @@ import Navbar from "../components/Navbar"
 import plusDansRond from "../assets/images/plusDansRond.png"
 import cadenas from "../assets/images/cadenas.png"
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import FormNewForumTopic from "../components/FormNewForumTopic"
 
 export default function Forum() {
+  const navigate = useNavigate()
   const [categories, setCategories] = useState([])
   const [researchValue, setResearchValue] = useState("")
   const [topics, setTopics] = useState([])
+  const [originalTopics, setOriginalTopics] = useState([])
   // const [comments, setComments] = useState([])
   const [showFormNewTopic, setShowFormNewTopic] = useState(false)
 
@@ -16,17 +19,54 @@ export default function Forum() {
     setShowFormNewTopic(!showFormNewTopic)
   }
 
-  const handleClickRecentTopics = () => {}
+  const handleClickRecentTopics = () => {
+    const newTopics = originalTopics.sort((a, b) => b.id - a.id).slice(0, 10)
+    setTopics(newTopics)
+  }
 
   const handleChangeResearchValue = (e) => {
     setResearchValue(e.target.value)
   }
 
+  // fonction qui supprime les accents
+  function removeAccents(str) {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+  }
+
   const handleStartResearch = (e) => {
     // lancer la recherche après avoir appuyé sur entrer
     if (e.key === "Enter") {
+      const researchValues = researchValue
+        .split(" ")
+        .filter((value) => value.length > 3)
+
+      const newTopics = originalTopics.filter((topic) =>
+        researchValues.some(
+          (value) =>
+            removeAccents(topic.sujet.toUpperCase()).includes(
+              removeAccents(value.toUpperCase())
+            ) ||
+            removeAccents(topic.firstComment.toUpperCase()).includes(
+              removeAccents(value.toUpperCase())
+            )
+        )
+      )
+
+      setTopics(newTopics)
       setResearchValue("")
     }
+  }
+
+  const handleFilterByCategory = (id) => {
+    const newTopics = originalTopics.filter(
+      (topic) => topic.sujet_forum_categories_id === id
+    )
+
+    setTopics(newTopics)
+  }
+
+  const handleClickEveryCategory = () => {
+    setTopics(originalTopics)
   }
 
   // ---------------------------------------
@@ -45,6 +85,10 @@ export default function Forum() {
 
   // ----------fin section---------------------------
 
+  const handleNavigateToComments = (topic) => {
+    navigate("/ForumPageComments", { state: topic })
+  }
+
   useEffect(() => {
     axios
       .get("http://localhost:4242/forumCategories")
@@ -53,7 +97,10 @@ export default function Forum() {
 
     axios
       .get("http://localhost:4242/sujet_forum")
-      .then(({ data }) => setTopics(data))
+      .then(({ data }) => {
+        setTopics(data)
+        setOriginalTopics(data)
+      })
       .catch((err) => console.error(err))
   }, [])
 
@@ -76,7 +123,11 @@ export default function Forum() {
 
             {categories[0] &&
               categories.map((category) => (
-                <div className="category-element" key={category.id}>
+                <div
+                  className="category-element"
+                  key={category.id}
+                  onClick={() => handleFilterByCategory(category.id)}
+                >
                   <div
                     className="category-color"
                     style={{ backgroundColor: category.color }}
@@ -85,12 +136,15 @@ export default function Forum() {
                 </div>
               ))}
 
-            <div className="category-element">
+            <div
+              className="category-element"
+              onClick={handleClickEveryCategory}
+            >
               <div
                 className="category-color"
                 style={{ backgroundColor: "rgb(240,240,240)" }}
               ></div>
-              <h2>Toutes les catégories</h2>
+              <h2>Every category</h2>
             </div>
           </div>
 
@@ -138,7 +192,11 @@ export default function Forum() {
             {topics[0] &&
               categories[0] &&
               topics.map((topic) => (
-                <div className="topic" key={topic.id}>
+                <div
+                  className="topic"
+                  key={topic.id}
+                  onClick={() => handleNavigateToComments(topic)}
+                >
                   <div className="topic-title">
                     <img src={cadenas} alt="logo topic open" />
                     <p>{topic.sujet}</p>
@@ -164,6 +222,7 @@ export default function Forum() {
           <section className="forum-section-formNewTopic">
             <FormNewForumTopic
               setTopics={setTopics}
+              setOriginalTopics={setOriginalTopics}
               setShowFormNewTopic={setShowFormNewTopic}
               categories={categories}
             />
