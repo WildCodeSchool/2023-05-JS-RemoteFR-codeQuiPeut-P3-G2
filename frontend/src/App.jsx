@@ -14,6 +14,7 @@ import AccountCreations from "./components/AccountCreations"
 import AccountFollowers from "./components/AccountFollowers"
 import AccountFavorites from "./components/AccountFavorites"
 import ScenarioReading from "./pages/ScenarioReading"
+import ForumPageComments from "./pages/ForumPageComments"
 
 function App() {
   // users sera l'ensemble des utilisateurs de mon site
@@ -65,6 +66,7 @@ function App() {
           <Route path="/" element={<Welcome />} />
           <Route path="/editor" element={<Editor />} />
           <Route path="/forum" element={<Forum />} />
+          <Route path="/ForumPageComments" element={<ForumPageComments />} />
           <Route path="/scripts" element={<Scripts />} />
           <Route path="/readscenario" element={<ScenarioReading />} />
           <Route path="/formnewscenario" element={<FormNewScenario />} />

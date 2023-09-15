@@ -4,6 +4,7 @@ import { useState } from "react"
 export default function FormNewForumTopic({
   setShowFormNewTopic,
   setTopics,
+  setOriginalTopics,
   categories,
 }) {
   const [topic, setTopic] = useState("")
@@ -47,8 +48,13 @@ export default function FormNewForumTopic({
       .then(() => {
         axios
           .get("http://localhost:4242/sujet_forum")
-          .then(({ data }) => setTopics(data))
+          .then(({ data }) => {
+            setTopics(data)
+            setOriginalTopics(data)
+          })
+          .catch((err) => console.error(err))
       })
+      .catch((err) => console.error(err))
 
     setShowFormNewTopic(false)
   }

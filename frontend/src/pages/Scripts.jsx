@@ -143,10 +143,10 @@ function Scripts() {
 
   // ------------------------------------------------------------------------------------------------
   return (
-    <div className="container">
+    <div className="containerScripts">
       <Navbar />
-      <header className="Title">
-        <img className="Scripts" src={TitleScripts}></img>
+      <header>
+        <img src={TitleScripts}></img>
       </header>
       <div className="all">
         <div className="Filter">
@@ -181,48 +181,50 @@ function Scripts() {
               setValueTheme={setValueTheme}
             />
           </div>
-          <div className="univers">
-            <p>Universe</p>
-            <select value={valueRoleGame} onChange={handleChangeRoleGame}>
-              <option>---</option>
-              {roleGames[0] &&
-                roleGames.map((roleGame) => (
-                  <option key={roleGame.id}>{roleGame.name}</option>
+          <div className="containerSelect">
+            <div className="univers">
+              <p>Universe</p>
+              <select value={valueRoleGame} onChange={handleChangeRoleGame}>
+                <option>---</option>
+                {roleGames[0] &&
+                  roleGames.map((roleGame) => (
+                    <option key={roleGame.id}>{roleGame.name}</option>
+                  ))}
+              </select>
+            </div>
+            <div className="auteur">
+              <p>Autor</p>
+              <FilterSelect
+                scenarios={scenarios}
+                filteredAuteur={filteredAuteur}
+                setFilteredAuteur={setFilteredAuteur}
+                auteurs={auteurs}
+                setAuteurs={setAuteurs}
+                valueAuteur={valueAuteur}
+                setValueAuteur={setValueAuteur}
+              />
+            </div>
+            <div className="Difficultes">
+              <p>Difficulty</p>
+              <select value={valueDifficulty} onChange={handleChangeDifficulty}>
+                <option>---</option>
+                {difficulty.map((item) => (
+                  <option key={item.id}>{item.nameDiff}</option>
                 ))}
-            </select>
-          </div>
-          <div className="auteur">
-            <p>Autor</p>
-            <FilterSelect
-              scenarios={scenarios}
-              filteredAuteur={filteredAuteur}
-              setFilteredAuteur={setFilteredAuteur}
-              auteurs={auteurs}
-              setAuteurs={setAuteurs}
-              valueAuteur={valueAuteur}
-              setValueAuteur={setValueAuteur}
-            />
-          </div>
-          <div className="Difficultes">
-            <p>Difficulty</p>
-            <select value={valueDifficulty} onChange={handleChangeDifficulty}>
-              <option>---</option>
-              {difficulty.map((item) => (
-                <option key={item.id}>{item.nameDiff}</option>
-              ))}
-            </select>
-          </div>
-          <div className="nombre">
-            <p>Number of player min.</p>
-            <select
-              value={valueNumberPlayer}
-              onChange={handleChangeNumberPlayer}
-            >
-              <option>---</option>
-              {numberPlayers.map((item) => (
-                <option key={item.id}>{item.rank}</option>
-              ))}
-            </select>
+              </select>
+            </div>
+            <div className="nombre">
+              <p>Number of player min.</p>
+              <select
+                value={valueNumberPlayer}
+                onChange={handleChangeNumberPlayer}
+              >
+                <option>---</option>
+                {numberPlayers.map((item) => (
+                  <option key={item.id}>{item.rank}</option>
+                ))}
+              </select>
+            </div>
           </div>
           <div className="conseiller">
             <button>The news</button>
