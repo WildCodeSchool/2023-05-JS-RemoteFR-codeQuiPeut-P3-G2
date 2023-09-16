@@ -124,12 +124,12 @@ const verifyEmail = (req, res, next) => {
       if (rows[0] == null) {
         next()
       } else {
-        res.sendStatus(404)
+        res.sendStatus(403).send({ errorMessage: "Mail déjà existant" })
       }
     })
     .catch((err) => {
       console.error(err)
-      res.status(500).send({ errorMessage: "Mail déjà existant" })
+      res.status(500).send({ errorMessage: "Mail déjà existant" }) // inutile a cet endroit
     })
 }
 
@@ -141,12 +141,12 @@ const verifyLogin = (req, res, next) => {
         next()
       } else {
         // res.send(rows[0])
-        res.sendStatus(404)
+        res.sendStatus(403).send({ errorMessage: "Login déjà existant" })
       }
     })
     .catch((err) => {
       console.error(err)
-      res.status(500).send({ errorMessage: "Login déjà existant" })
+      res.status(500).send({ errorMessage: "Login déjà existant" }) // inutile a cet endroit
     })
 }
 

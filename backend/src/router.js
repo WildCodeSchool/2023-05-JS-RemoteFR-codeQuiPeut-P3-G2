@@ -2,6 +2,8 @@ const express = require("express")
 
 const router = express.Router()
 
+const { hashPassword } = require("./services/authentification")
+
 const scenariosControllers = require("./controllers/scenariosControllers")
 const utilisateursControllers = require("./controllers/UtilisateursControllers")
 const forumCommControllers = require("./controllers/forumCommControllers")
@@ -71,6 +73,7 @@ router.post(
 )
 router.post(
   "/signup",
+  hashPassword,
   utilisateursControllers.verifyEmail,
   utilisateursControllers.verifyLogin,
   utilisateursControllers.add
