@@ -2,7 +2,7 @@ const models = require("../models")
 
 const browse = (req, res) => {
   models.utilisateurs
-    .findAll()
+    .findAllWithoutPassword()
     .then(([rows]) => {
       res.send(rows)
     })
@@ -30,7 +30,7 @@ const add = (req, res) => {
 
 const read = (req, res) => {
   models.utilisateurs
-    .find(req.params.id)
+    .findWithoutPassword(req.params.id)
     .then(([rows]) => {
       if (rows[0] == null) {
         res.sendStatus(404)
@@ -81,9 +81,9 @@ const destroy = (req, res) => {
     })
 }
 
-const readUserByEmail = (req, res, next) => {
+const readUserByEmailWithPassword = (req, res, next) => {
   models.utilisateurs
-    .readUserByEmail(req.body.email)
+    .readUserByEmailWithPassword(req.body.email)
     .then(([rows]) => {
       if (rows[0] == null) {
         res.sendStatus(404)
@@ -124,12 +124,12 @@ const verifyEmail = (req, res, next) => {
       if (rows[0] == null) {
         next()
       } else {
-        res.sendStatus(403).send({ errorMessage: "Mail déjà existant" })
+        res.status(422).json({ errorMessage: "Mail déjà existant" })
       }
     })
     .catch((err) => {
       console.error(err)
-      res.status(500).send({ errorMessage: "Mail déjà existant" }) // inutile a cet endroit
+      res.status(500).json({ errorMessage: "Mail déjà existant" }) // inutile a cet endroit
     })
 }
 
@@ -141,21 +141,13 @@ const verifyLogin = (req, res, next) => {
         next()
       } else {
         // res.send(rows[0])
-        res.sendStatus(403).send({ errorMessage: "Login déjà existant" })
+        res.status(422).json({ errorMessage: "Login déjà existant" })
       }
     })
     .catch((err) => {
       console.error(err)
-      res.status(500).send({ errorMessage: "Login déjà existant" }) // inutile a cet endroit
+      res.status(500).json({ errorMessage: "Login déjà existant" }) // inutile a cet endroit
     })
-}
-
-const verifyPassword = (req, res, next) => {
-  if (req.body.password === req.user.password) {
-    next()
-  } else {
-    res.sendStatus(404)
-  }
 }
 
 const sendUserWhoHasGoodEmailAndPassword = (req, res) => {
@@ -199,9 +191,8 @@ module.exports = {
   read,
   edit,
   destroy,
-  readUserByEmail,
+  readUserByEmailWithPassword,
   readUserByLogin,
-  verifyPassword,
   verifyEmail,
   verifyLogin,
   sendUserWhoHasGoodEmailAndPassword,
