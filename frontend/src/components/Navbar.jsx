@@ -49,25 +49,25 @@ const Navbar = () => {
         <img src={ScripLogo}></img>
       </figcaption>
       <ul className="ContainLink">
-        <Link to="/" className="">
+        <Link to="/" className="li-container">
           <li className="link" alt="Home">
             HOME
           </li>
         </Link>
-        <Link to="/scripts" className="">
+        <Link to="/scripts" className="li-container">
           <li className="link" alt="Scripts">
             SCRIPTS
           </li>
         </Link>
 
         {user !== null && (
-          <Link to="/editor" className="">
+          <Link to="/editor" className="li-container">
             <li className="link" alt="Create">
               CREATE
             </li>
           </Link>
         )}
-        <Link to="/forum" className="">
+        <Link to="/forum" className="li-container">
           <li className="link" alt="Forum">
             FORUM
           </li>
@@ -75,9 +75,18 @@ const Navbar = () => {
       </ul>
       <div className="PushContain">
         {user === null ? (
-          <button className="push" type="button" onClick={HandleClickOpenLog}>
-            LOG IN
-          </button>
+          <>
+            <button className="push" type="button" onClick={HandleClickOpenLog}>
+              LOG IN
+            </button>
+            <button
+              className={user === null ? "push" : "hidden"}
+              type="button"
+              onClick={HandleClickOpenLogSignUp}
+            >
+              SIGN UP
+            </button>
+          </>
         ) : (
           <div className="loginContainer">
             <button
@@ -114,18 +123,12 @@ const Navbar = () => {
             </ul>
           </div>
         )}
-        <button
-          className={user === null ? "push" : "hidden"}
-          type="button"
-          onClick={HandleClickOpenLogSignUp}
-        >
-          SIGN UP
-        </button>
-      </div>
+
+        {/* </div>
       <div className="BurgerMenu">
         <div className="BurgerIcon"></div>
       </div>
-      <div>
+      <div> */}
         {openForm && (
           <Login
             setOpenForm={setOpenForm}

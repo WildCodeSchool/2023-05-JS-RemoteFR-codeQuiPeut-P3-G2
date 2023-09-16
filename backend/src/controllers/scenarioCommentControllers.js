@@ -62,12 +62,12 @@ const edit = (req, res) => {
 }
 
 const destroy = (req, res) => {
-  const avis = req.body
-  avis.id = parseInt(req.params.id, 10)
+  // const avis = req.body
+  const id = req.params.id
 
   models.scenarcomms
     // .deleteComment(id, scenarioID, utilisateurID)
-    .deleteComment(avis)
+    .delete(id)
     .then(([result]) => {
       if (result.affectedRows === 0) {
         res.sendStatus(404)

@@ -62,15 +62,16 @@ class ScenariosManager extends AbstractManager {
 
   findScenarios() {
     return this.database.query(
-      `SELECT scenarios.id, auteurs.id as auteurId, auteurs.name as autor, scenarios.name AS title, scenarios.nb_player_min, scenarios.nb_player_max, scenarios.type, scenarios.level, scenarios.start_writing_date, scenarios.publication_date, scenarios.img, scenarios.description, jeux_de_role.id as jeux_de_roleId, jeux_de_role.name AS universe, themes.id as themeId, themes.name as theme, count(scenarios_favoris.scenarios_id)as nb_favoris, count(avis_scenario.scenarios_id)as nb_avis
+      `SELECT campagnes.name AS campagnes_name, jeux_de_role.name AS jeux_de_role, scenarios.id, auteurs.id as auteurId, auteurs.name as autor, scenarios.name AS title, scenarios.nb_player_min, scenarios.nb_player_max, scenarios.type, scenarios.level, scenarios.start_writing_date, scenarios.publication_date, scenarios.img, scenarios.description, jeux_de_role.id as jeux_de_roleId, jeux_de_role.name AS universe, themes.id as themeId, themes.name as theme, count(scenarios_favoris.scenarios_id)as nb_favoris, count(avis_scenario.scenarios_id)as nb_avis
 FROM ${this.table}
+JOIN campagnes ON scenarios.campagnes_id = campagnes.id
 JOIN jeux_de_role ON scenarios.jeux_de_role_id = jeux_de_role.id
 JOIN auteurs ON scenarios.auteurs_id = auteurs.id
 JOIN scenarios_themes ON scenarios.id = scenarios_themes.scenarios_id
 JOIN themes ON scenarios_themes.themes_id = themes.id 
 LEFT JOIN scenarios_favoris ON scenarios_favoris.scenarios_id = scenarios.id
 LEFT JOIN avis_scenario ON avis_scenario.scenarios_id = scenarios.id
-GROUP BY scenarios.id, auteurs.name, auteurs.id, scenarios.name, scenarios.nb_player_min, scenarios.nb_player_max, scenarios.type, scenarios.level, scenarios.start_writing_date, scenarios.publication_date, scenarios.img, scenarios.description, jeux_de_role.id, jeux_de_role.name, themes.id, themes.name`
+GROUP BY campagnes.name, jeux_de_role.name, scenarios.id, auteurs.name, auteurs.id, scenarios.name, scenarios.nb_player_min, scenarios.nb_player_max, scenarios.type, scenarios.level, scenarios.start_writing_date, scenarios.publication_date, scenarios.img, scenarios.description, jeux_de_role.id, jeux_de_role.name, themes.id, themes.name`
     )
   }
 
