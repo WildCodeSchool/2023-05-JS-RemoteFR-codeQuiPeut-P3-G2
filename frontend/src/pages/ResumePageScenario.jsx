@@ -249,7 +249,7 @@ const ResumePageScenario = () => {
               </li>
               <li>
                 <span>Publication date : </span>
-                {handleFormatDate(scenario.start_writing_date)}{" "}
+                {handleFormatDate(scenario.publication_date)}{" "}
               </li>
             </ul>
           </div>

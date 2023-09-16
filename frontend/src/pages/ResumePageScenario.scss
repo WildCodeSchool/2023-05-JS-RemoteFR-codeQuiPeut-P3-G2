@@ -95,6 +95,10 @@ $fontSizeTitre: 1.5rem;
         list-style-type: none;
         text-decoration: none;
         // background-color: purple;
+
+        li {
+          margin-bottom: 4px;
+        }
       }
     }
 

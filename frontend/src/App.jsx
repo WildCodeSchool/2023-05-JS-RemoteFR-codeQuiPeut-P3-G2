@@ -5,6 +5,7 @@ import Forum from "./pages/Forum"
 import Scripts from "./pages/Scripts"
 import FormNewScenario from "./pages/FormNewScenario"
 import ResumePageScenario from "./pages/ResumePageScenario"
+import ResumePageCampaign from "./pages/ResumePageCampaign"
 import { Routes, Route } from "react-router-dom"
 import { useState, useMemo, useEffect } from "react"
 import "../index.scss"
@@ -77,6 +78,8 @@ function App() {
             <Route path="followers" element={<AccountFollowers />} />
           </Route>
           <Route path="/resumescenario" element={<ResumePageScenario />} />
+          <Route path="/resumeCampagne" element={<ResumePageCampaign />} />
+          ResumePageCampaign
         </Routes>
       </MyContext.Provider>
     </div>
