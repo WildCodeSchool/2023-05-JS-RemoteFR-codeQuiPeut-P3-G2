@@ -310,6 +310,31 @@ $fontSizeTitre: 1.5rem;
       color: white;
     }
   }
+
+  .separation-line {
+    width: 100%;
+    max-width: 1200px;
+    height: 0;
+    box-shadow: 0px 0px 5px 3px $blueColor;
+    margin: 24px 0 24px 0;
+  }
+
+  h3 {
+    color: $colorYellow;
+    font-size: $fontSizeTitre;
+    margin-bottom: 48px;
+  }
+
+  .section-cards-scenarios {
+    width: 100%;
+    max-width: 1400px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    gap: 64px;
+  }
 }
 
 // .resumePageScenarButtonsConsultation {

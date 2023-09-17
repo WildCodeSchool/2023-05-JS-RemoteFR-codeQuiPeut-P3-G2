@@ -63,7 +63,10 @@ export default function ResumePageCampaign() {
 
     axios
       .get(`http://localhost:4242/campagnes/${campagneID}/detailedScenarios`)
-      .then(({ data }) => setScenariosOfSelectedCampagne(data))
+      .then(({ data }) => {
+        data = data.map((item) => ({ ...item, title: item.name }))
+        setScenariosOfSelectedCampagne(data)
+      })
   }, [])
 
   return (
@@ -134,7 +137,7 @@ export default function ResumePageCampaign() {
 
             <div className="separation-line"></div>
 
-            <h2>Campaign associated scenarios :</h2>
+            <h3>Campaign associated scenarios</h3>
 
             <section className="section-cards-scenarios">
               {scenariosOfSelectedCampagne.map((scenario) => (
