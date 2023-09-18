@@ -3,18 +3,12 @@ import { useEffect, useContext, useState } from "react"
 import MyContext from "./MyContext"
 import axios from "axios"
 import "./AccountFavorites.scss"
-import AccountFavoritesMyFavorites from "./AccountFavoritesMyFavorites"
 
-export default function AccountFavorites() {
+export default function AccountFavoritesMyFavorites() {
   const { user } = useContext(MyContext)
   const [scenarios, setScenarios] = useState([])
   const [campagnes, setCampagnes] = useState([])
-  const [ongletActif, setOngletActif] = useState(1)
   const [originalScenarios, setOriginalScenarios] = useState([])
-
-  const showTap = (numOnglet) => {
-    setOngletActif(numOnglet)
-  }
 
   useEffect(() => {
     axios.get("http://localhost:4242/scenarios").then((res) => {
@@ -30,16 +24,13 @@ export default function AccountFavorites() {
 
   return (
     <div className="containerFavorites">
-      <ul>
-        <li onClick={() => showTap(1)}>My favorites one</li>
-        <li onClick={() => showTap(2)}>My view</li>
-        <li onClick={() => showTap(3)}>My comments</li>
-      </ul>
-
-      <div className="containTab">
-        {ongletActif === 1 && <AccountFavoritesMyFavorites />}
-        {ongletActif === 2 && <AccountFavoritesMyFavorites />}
-        {ongletActif === 3 && <AccountFavoritesMyFavorites />}
+      <h1>My favorites ones</h1>
+      <div className="boardCards">
+        {scenarios.map((scenario) => (
+          <div className="containerCard" key={scenario.id}>
+            <CardScenario user={user} scenario={scenario} />
+          </div>
+        ))}
       </div>
     </div>
   )

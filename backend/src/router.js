@@ -46,6 +46,10 @@ router.put("/scenarios/:id", scenariosControllers.edit)
 router.post("/scenarios", scenariosControllers.add)
 router.delete("/scenarios/:id", scenariosControllers.destroy)
 router.get("/scenarios/:id/pages", scenariosControllers.readPages)
+router.get(
+  "/scenarios/userFavorite",
+  scenariosControllers.findUserScenariosFavorite
+)
 
 router.get("/themesScenarios", scenarioThemesControllers.browse)
 router.put("/themesScenarios/:id", scenarioThemesControllers.edit)
@@ -58,6 +62,10 @@ router.post("/themesCampagnes", campagnesThemesControllers.add)
 router.delete("/themesCampagnes/:id", campagnesThemesControllers.destroy)
 
 router.get("/utilisateurs", utilisateursControllers.browse)
+router.get(
+  "/utilisateurs/followers",
+  utilisateursControllers.usersWhoAreFollowers
+)
 router.get("/utilisateurs/:id", utilisateursControllers.read)
 router.post("/utilisateurs", utilisateursControllers.add)
 router.put("/utilisateurs/:id", utilisateursControllers.edit)

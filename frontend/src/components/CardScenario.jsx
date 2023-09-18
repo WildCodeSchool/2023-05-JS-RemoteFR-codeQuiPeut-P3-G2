@@ -87,7 +87,10 @@ function CardScenario({ scenario, user }) {
           <p>{scenario.nb_avis} avis</p>
           <p>96 vues</p>
         </div>
-        <p className="description"> {scenario.description} </p>
+        <p className="description">
+          {" "}
+          {scenario.description.slice(0, 150) + "..."}{" "}
+        </p>
         <div className="theme">
           <p className="univers">{scenario.universe}</p>
           <p className="genre">{scenario.theme}</p>

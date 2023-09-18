@@ -1,0 +1,41 @@
+@import url("https://fonts.googleapis.com/css2?family=Lustria&display=swap");
+$colorYellow: #ffbd59;
+$colorDark: #070a09;
+$blueColor: #4c60ae;
+$colorWhite: #ffffff;
+$fontSizeP: 1.4rem;
+$fontSizeBouton: 1.3rem;
+$fontSizeTitre: 1.5rem;
+
+.containerFollower {
+  width: 85%;
+  color: $colorWhite;
+  border-top: 2px solid $blueColor;
+  .follower {
+    width: 100%;
+    display: flex;
+    margin: 8px;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+    p {
+      margin: 0px;
+    }
+    .containerFavoris {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    button {
+      width: 110px;
+      height: 40px;
+      border-radius: 58px;
+      padding: 4px;
+      color: white;
+      background-color: rgb(76, 96, 174);
+    }
+  }
+}
