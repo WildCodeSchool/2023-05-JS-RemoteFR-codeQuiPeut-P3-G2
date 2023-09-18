@@ -70,6 +70,12 @@ class CampagnesManager extends AbstractManager {
       group by campagnes.name, campagnes.id`
     )
   }
+
+  findCampagnesWithDetails() {
+    return this.database.query(
+      `SELECT c.*, a.name AS autor, jdr.name as jeux_de_role, t.name AS theme, COALESCE(vc.nbVuesCampagne, 0) AS nbVues FROM ${this.table} AS c INNER JOIN auteurs AS a ON a.id = c.auteurs_id INNER JOIN jeux_de_role as jdr ON jdr.id = c.jeux_de_role_id INNER JOIN campagnes_themes AS ct ON ct.campagnes_id = c.id INNER JOIN themes AS t ON t.id = ct.themes_id LEFT JOIN vues_campagnes AS vc ON vc.campagnes_id = c.id`
+    )
+  }
 }
 
 module.exports = CampagnesManager
