@@ -804,12 +804,11 @@ CREATE TABLE `utilisateurs` (
   `id` int NOT NULL AUTO_INCREMENT,
   `lastname` varchar(100) NOT NULL,
   `firstname` varchar(100) NOT NULL,
-  `login` varchar(100) UNIQUE NOT NULL,
-  `email` varchar(255) UNIQUE NOT NULL,
+  `login` varchar(100) NOT NULL,
+  `email` varchar(255) NOT NULL,
   `password` varchar(45) NOT NULL,
-  `hashedPassword` varchar(255) NOT NULL,
   `img` varchar(1000) DEFAULT NULL,
-  `inscription_date` DATE DEFAULT (DATE_FORMAT(NOW(), '%Y-%m-%d')) NOT NULL,
+  `inscription_date` date NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
