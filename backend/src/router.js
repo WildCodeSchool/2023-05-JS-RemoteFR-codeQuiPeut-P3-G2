@@ -160,7 +160,7 @@ router.delete("/auteurs/:id", auteursControllers.destroy)
 router.get("/auteurs/:id/campagnes", auteursControllers.readAuthorsCampagnes) // recherche les campagnes d'un auteur (retourne : id, campagneName)
 
 router.get("/campagnes", campagnesControllers.browse)
-
+router.get("/detailedCampagnes", campagnesControllers.findCampagnesWithDetails)
 router.get("/campagnes/:id", campagnesControllers.readWithTheme)
 router.post("/campagnes", campagnesControllers.add)
 router.put("/campagnes/:id", campagnesControllers.edit)
