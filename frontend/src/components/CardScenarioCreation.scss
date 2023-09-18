@@ -1,0 +1,137 @@
+@import url("https://fonts.googleapis.com/css2?family=Lustria&display=swap");
+$colorYellow: #ffbd59;
+$colorDark: #070a09;
+$blueColor: #4c60ae;
+$colorWhite: #ffffff;
+$fontSizeP: 1.4rem;
+$fontSizeBouton: 1.3rem;
+$fontSizeTitre: 1.5rem;
+
+.ScenarioCreation {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: "Lustria", serif;
+  font-size: 1rem;
+  width: 277px;
+  height: 450px;
+  margin: 0px;
+  padding: 0px;
+
+  p {
+    color: white;
+  }
+  .containerimg {
+    width: 170px;
+    height: 230px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  img:hover {
+    transform: rotate(10deg);
+  }
+
+  .Card {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+
+    .title {
+      width: 100%;
+      color: white;
+      display: flex;
+      justify-content: space-around;
+      margin-top: 16px;
+      margin-bottom: 8px;
+      padding-bottom: 8px;
+
+      h2 {
+        font-size: 1rem;
+        margin: 0;
+      }
+
+      img {
+        width: 10%;
+        object-fit: contain;
+      }
+      img:hover {
+        transform: none;
+      }
+    }
+
+    .borderTitle {
+      width: 90%;
+      border-bottom: 1px solid white;
+    }
+
+    .description {
+      width: 100%;
+      font-size: 0.75rem;
+      margin: 0px;
+      margin-top: 8px;
+      text-align: justify;
+    }
+    .theme {
+      font-size: 0.75rem;
+      display: flex;
+      width: 80%;
+      justify-content: space-around;
+      text-align: center;
+
+      .univers {
+        color: rgb(255, 189, 89);
+      }
+      .genre {
+        color: rgb(76, 96, 174);
+      }
+    }
+
+    .borderSmall {
+      width: 30%;
+      border-bottom: 1px solid white;
+      margin-bottom: 8px;
+    }
+
+    .publicationDate {
+      width: 100%;
+      font-size: 0.75rem;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      text-align: center;
+      align-items: center;
+
+      p {
+        color: white;
+        margin: 0px;
+      }
+
+      button {
+        width: 100px;
+        height: 30px;
+        border-radius: 58px;
+        color: white;
+        background-color: rgb(76, 96, 174);
+        border: 2px;
+      }
+
+      .followAutor {
+        background-color: $colorYellow;
+        color: $colorDark;
+      }
+
+      button:hover {
+        color: rgb(76, 96, 174);
+        background-color: white;
+      }
+    }
+  }
+}
