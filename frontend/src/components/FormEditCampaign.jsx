@@ -73,7 +73,11 @@ const difficulty = [
   },
 ]
 
-export default function FormEditCampaign({ campaignID, setShowEditCampaign }) {
+export default function FormEditCampaign({
+  campaignID,
+  setShowEditCampaign,
+  setEditedCampagneEditor,
+}) {
   const [editedCampaign, setEditedCampaign] = useState({})
   // const [author, setAuthor] = useState("Undefined")
   const [roleGame, setRoleGame] = useState([])
@@ -163,6 +167,10 @@ export default function FormEditCampaign({ campaignID, setShowEditCampaign }) {
       themes_id: themeID,
     })
 
+    setEditedCampagneEditor((prevState) => ({
+      ...prevState,
+      name: campaignName,
+    }))
     setShowEditCampaign(false)
   }
 

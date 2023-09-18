@@ -352,9 +352,7 @@ const ResumePageScenario = () => {
                   <p className="pseudo-date">
                     {avi.login} le {handleFormatDate(avi.date)}
                   </p>
-                  <p>
-                    {avi.commentaire} {avi.id} {avi.utilisateurs_id}
-                  </p>
+                  <p>{avi.commentaire}</p>
                   <div className="resumePageScenarButtonsConsultation">
                     <div>
                       <button
@@ -380,14 +378,12 @@ const ResumePageScenario = () => {
                 className="scenarInteractionsLowReader scInLowAll"
                 key={avi.id}
               >
-                <p>
+                <p className="pseudo-date">
                   {/* {avi.login} le {() => changeFormattingReturnDate(avi.date)} : */}
                   {/* {avi.login} le {avi.date} : */}
-                  {avi.nomPrenom} le {avi.date} :
+                  {avi.nomPrenom} le {handleFormatDate(avi.date)} :
                 </p>
-                <p>
-                  {avi.commentaire} {avi.id} {avi.utilisateurs_id}
-                </p>
+                <p>{avi.commentaire}</p>
               </div>
             )
           )}

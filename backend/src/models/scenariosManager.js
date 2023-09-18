@@ -28,8 +28,9 @@ class ScenariosManager extends AbstractManager {
 
   update(scenarios) {
     return this.database.query(
-      `update ${this.table} set name = ?, nb_player_min = ?, nb_player_max = ?, type = ?, level = ?, start_writing_date = ?, publication_date = ?, img = ?, description = ?, model = ?, pdf = ? where id = ?`,
+      `update ${this.table} set jeux_de_role_id = ?,name = ?, nb_player_min = ?, nb_player_max = ?, type = ?, level = ?, start_writing_date = ?, publication_date = ?, img = ?, description = ?, model = ?, pdf = ? where id = ?`,
       [
+        scenarios.jeux_de_role_id,
         scenarios.name,
         scenarios.nb_player_min,
         scenarios.nb_player_max,
