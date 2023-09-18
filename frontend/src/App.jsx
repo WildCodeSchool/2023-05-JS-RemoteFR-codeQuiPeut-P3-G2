@@ -5,6 +5,7 @@ import Forum from "./pages/Forum"
 import Scripts from "./pages/Scripts"
 import FormNewScenario from "./pages/FormNewScenario"
 import ResumePageScenario from "./pages/ResumePageScenario"
+import ResumePageCampaign from "./pages/ResumePageCampaign"
 import { Routes, Route } from "react-router-dom"
 import { useState, useMemo, useEffect } from "react"
 import "../index.scss"
@@ -14,6 +15,7 @@ import AccountCreations from "./components/AccountCreations"
 import AccountFollowers from "./components/AccountFollowers"
 import AccountFavorites from "./components/AccountFavorites"
 import ScenarioReading from "./pages/ScenarioReading"
+import ForumPageComments from "./pages/ForumPageComments"
 
 function App() {
   // users sera l'ensemble des utilisateurs de mon site
@@ -65,6 +67,7 @@ function App() {
           <Route path="/" element={<Welcome />} />
           <Route path="/editor" element={<Editor />} />
           <Route path="/forum" element={<Forum />} />
+          <Route path="/ForumPageComments" element={<ForumPageComments />} />
           <Route path="/scripts" element={<Scripts />} />
           <Route path="/readscenario" element={<ScenarioReading />} />
           <Route path="/formnewscenario" element={<FormNewScenario />} />
@@ -75,6 +78,7 @@ function App() {
             <Route path="followers" element={<AccountFollowers />} />
           </Route>
           <Route path="/resumescenario" element={<ResumePageScenario />} />
+          <Route path="/resumeCampagne" element={<ResumePageCampaign />} />
         </Routes>
       </MyContext.Provider>
     </div>

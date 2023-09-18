@@ -86,6 +86,11 @@ router.post(
 
 router.get("/commentaires_forum", forumCommControllers.browse)
 router.get("/commentaires_forum/:id", forumCommControllers.read)
+router.get(
+  "/sujet_forum/:id/commentaires_forum",
+  forumCommControllers.findCommentsByTopicId
+)
+
 router.post("/commentaires_forum", forumCommControllers.add)
 router.put("/commentaires_forum/:id", forumCommControllers.edit)
 router.delete("/commentaires_forum/:id", forumCommControllers.destroy)
@@ -163,6 +168,10 @@ router.delete("/campagnes/:id", campagnesControllers.destroy)
 router.get(
   "/campagnes/:id/scenarios",
   campagnesControllers.readCampagneScenarios
+) // recherche les scenarios associés à une campagne (retourne : id, scenarioName)
+router.get(
+  "/campagnes/:id/detailedScenarios",
+  campagnesControllers.readCampagneDetailedScenarios
 ) // recherche les scenarios associés à une campagne (retourne : id, scenarioName)
 
 router.get("/campagnesMulti", campagnesMultiControllers.findCampagnes)

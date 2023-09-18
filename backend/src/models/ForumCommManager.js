@@ -29,6 +29,13 @@ class ForumCommManager extends AbstractManager {
       ]
     )
   }
+
+  findCommentsByTopicId(id) {
+    return this.database.query(
+      `select c.*, u.login AS pseudo FROM  ${this.table} as c INNER JOIN utilisateurs as u ON u.id = c.utilisateurs_id WHERE c.sujet_forum_id = ?`,
+      [id]
+    )
+  }
 }
 
 module.exports = ForumCommManager

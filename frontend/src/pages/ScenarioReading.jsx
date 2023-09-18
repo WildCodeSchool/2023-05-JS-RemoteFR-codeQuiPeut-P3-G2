@@ -28,7 +28,7 @@ export default function ScenarioReading() {
     left: "20px",
   })
 
-  const scenarioID = 1 // A REMPLACER PAR scenario.id
+  const scenarioID = scenario.id // A REMPLACER PAR scenario.id
 
   const handleFindTextesAndImages = (pageNumber) => {
     const idPageSelected = pages.filter((item) => item.number === pageNumber)[0]
