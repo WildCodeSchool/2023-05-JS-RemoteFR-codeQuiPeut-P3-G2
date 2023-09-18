@@ -12,6 +12,7 @@ import FilterSelect from "../components/FilterSelect"
 import TitleScripts from "../assets/SCRIPTS.png"
 
 import { difficulty, numberPlayers } from "../assets/variables/variables"
+import CardCampaign from "../components/CardCampaign"
 
 function Scripts() {
   const [originalScenarios, setOriginalScenarios] = useState([])
@@ -123,8 +124,12 @@ function Scripts() {
       .then(({ data }) => setThemes(data))
       .catch((err) => console.error(err))
 
+    // axios
+    //   .get("http://localhost:4242/campagnesMulti")
+    //   .then(({ data }) => setCampagnes(data))
+    //   .catch((err) => console.error(err))
     axios
-      .get("http://localhost:4242/campagnesMulti")
+      .get("http://localhost:4242/detailedCampagnes")
       .then(({ data }) => setCampagnes(data))
       .catch((err) => console.error(err))
   }, [])
@@ -234,9 +239,14 @@ function Scripts() {
         </div>
         <div className="try">
           <div className="filtered-scenarios">
-            {scenarios.map((scenario) => (
+            {/* {scenarios.map((scenario) => (
               <div key={scenario.id}>
                 <CardScenario user={user} scenario={scenario} />
+              </div>
+            ))} */}
+            {campagnes.map((campagne) => (
+              <div key={campagne.id}>
+                <CardCampaign user={user} campaign={campagne} />
               </div>
             ))}
           </div>

@@ -26,6 +26,7 @@ const auteursFavorisControllers = require("./controllers/auteursFavorisControlle
 const scenarioCommentControllers = require("./controllers/scenarioCommentControllers")
 const campagnesMultiControllers = require("./controllers/campagnesMultiControllers")
 const forumCategoriesControllers = require("./controllers/forumCategoriesControllers")
+const campaignFavoriteControllers = require("./controllers/campaignFavoriteControllers")
 const multer = require("./middleware/multer-config")
 const {
   deleteImage,
@@ -83,6 +84,13 @@ router.post(
   utilisateursControllers.verifyLogin,
   utilisateursControllers.add
 )
+
+router.get(
+  "/utilisateurs/:userId/campagneFavorite/:campaignId",
+  campaignFavoriteControllers.verifyCampaignIsFavoriteForUser
+)
+router.post("/favoriteCampaign", campaignFavoriteControllers.add)
+router.delete("/favoriteCampaign", campaignFavoriteControllers.destroy)
 
 router.get("/commentaires_forum", forumCommControllers.browse)
 router.get("/commentaires_forum/:id", forumCommControllers.read)

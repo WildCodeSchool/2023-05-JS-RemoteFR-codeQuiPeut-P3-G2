@@ -12,14 +12,16 @@ export default function CardCampaign({ campaign, user }) {
   const navigate = useNavigate()
 
   useEffect(() => {
-    axios
-      .get(
-        `http://localhost:4242/utilisateur/${user.id}/campagneFavorite/${campaign.id}`
-      )
-      .then(() => {
-        setfavorite(true)
-      })
-      .catch(() => setfavorite(false))
+    if (user !== null) {
+      axios
+        .get(
+          `http://localhost:4242/utilisateurs/${user.id}/campagneFavorite/${campaign.id}`
+        )
+        .then(({ data }) => {
+          setfavorite(true)
+        })
+        .catch(() => setfavorite(false))
+    }
   }, [])
 
   // pour être rediriger vers le campaign au clic de l'image
