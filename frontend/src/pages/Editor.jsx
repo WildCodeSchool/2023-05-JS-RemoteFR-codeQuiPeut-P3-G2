@@ -1418,6 +1418,7 @@ export default function Editor() {
           scenarioForInfoEdit={scenarioForInfoEdit}
           setShowEditCampaign={setShowEditCampaign}
           setScenariosOfEditedCampagne={setScenariosOfEditedCampagne}
+          setEditedCampagneEditor={setEditedCampagne}
         />
       )}
 

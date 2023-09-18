@@ -50,9 +50,16 @@ class CampagnesManager extends AbstractManager {
     )
   }
 
+  readCampagneDetailedScenarios(id) {
+    return this.database.query(
+      `select scenarios.*, campagnes.name AS campagnes_name, jdr.name AS jeux_de_role, themes.name AS theme FROM ${this.table} INNER JOIN scenarios ON scenarios.campagnes_id = campagnes.id INNER JOIN jeux_de_role AS jdr ON jdr.id = scenarios.jeux_de_role_id INNER JOIN scenarios_themes AS st ON st.scenarios_id = scenarios.id  INNER JOIN themes ON themes.id = st.themes_id WHERE campagnes.id = ?`,
+      [id]
+    )
+  }
+
   readWithTheme(id) {
     return this.database.query(
-      `select s.* , st.themes_id, t.name AS theme_name from  ${this.table} AS s INNER JOIN campagnes_themes AS st ON st.campagnes_id = s.id INNER JOIN themes AS t ON t.id = st.themes_id where s.id = ?`,
+      `select s.* , st.themes_id, t.name AS theme_name, jdr.name AS jeux_de_role FROM  ${this.table} AS s INNER JOIN campagnes_themes AS st ON st.campagnes_id = s.id INNER JOIN themes AS t ON t.id = st.themes_id INNER JOIN jeux_de_role AS jdr ON jdr.id = s.jeux_de_role_id where s.id = ?`,
       [id]
     )
   }

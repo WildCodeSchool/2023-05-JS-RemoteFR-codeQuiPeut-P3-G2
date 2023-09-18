@@ -79,6 +79,19 @@ class UtilisateursManager extends AbstractManager {
       [id]
     )
   }
+
+  usersWhoAreFollowers(auteurId) {
+    return this.database.query(
+      `select utilisateurs.id, login, auteurs_favoris.auteurs_id, auteurs.id, count(scenarios_favoris.scenarios_id) as nbFavoris, count(avis_scenario.id) as nbAvis from ${this.table}
+      JOIN auteurs_favoris ON auteurs_favoris.utilisateurs_id=utilisateurs.id
+      JOIN scenarios_favoris ON scenarios_favoris.utilisateurs_id=utilisateurs.id
+      JOIN avis_scenario ON avis_scenario.utilisateurs_id=utilisateurs.id
+      JOIN auteurs ON auteurs.utilisateurs_id=utilisateurs.id
+      WHERE auteurs.id= ?
+      GROUP BY utilisateurs.id, login, auteurs_favoris.auteurs_id`,
+      [auteurId]
+    )
+  }
 }
 
 module.exports = UtilisateursManager

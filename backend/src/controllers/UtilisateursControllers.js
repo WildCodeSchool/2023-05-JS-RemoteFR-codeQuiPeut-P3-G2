@@ -185,6 +185,22 @@ const changePassword = (req, res) => {
     })
 }
 
+const usersWhoAreFollowers = (req, res) => {
+  models.utilisateurs
+    .usersWhoAreFollowers(req.params.auteurId)
+    .then(([rows]) => {
+      if (rows[0] == null) {
+        res.sendStatus(404)
+      } else {
+        res.send(rows[0])
+      }
+    })
+    .catch((err) => {
+      console.error(err)
+      res.sendStatus(500)
+    })
+}
+
 module.exports = {
   browse,
   add,
@@ -197,4 +213,5 @@ module.exports = {
   verifyLogin,
   sendUserWhoHasGoodEmailAndPassword,
   changePassword,
+  usersWhoAreFollowers,
 }

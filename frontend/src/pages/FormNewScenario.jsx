@@ -185,6 +185,13 @@ export default function FormNewScenario({
     return `${year}-${month}-${day}`
   }
 
+  const handleReformatDate = (myDate) => {
+    const year = myDate.slice(0, 4)
+    const month = myDate.slice(5, 7)
+    const day = myDate.slice(8, 10)
+    return `${year}-${month}-${day}`
+  }
+
   const handleSubmit = (e) => {
     const roleGameID = roleGame.filter((game) => game.selected === true)[0].id
     const themeID = themes.filter((theme) => theme.selected === true)[0].id
@@ -231,6 +238,33 @@ export default function FormNewScenario({
           .then((newScenariosOfEditedCampagne) => {
             handleClickButtonScript(newScenariosOfEditedCampagne)
           })
+      })
+
+    // mise à jour des scénarios précédants de la campagne pour passer leur type en campagne s'ils étaient en one shot
+    axios
+      .get(`http://localhost:4242/campagnes/${campaignID}/detailedScenarios`)
+      .then(({ data }) => {
+        data
+          .filter((item) => item.type === "one shot")
+          .map((scenario) =>
+            axios.put(`http://localhost:4242/scenarios/${scenario.id}`, {
+              auteurs_id: scenario.auteurs_id, // author
+              jeux_de_role_id: scenario.jeux_de_role_id,
+              campagnes_id: scenario.campagnes_id, // A faire plus tard => campagneId
+              name: scenario.name,
+              nb_player_min: scenario.nb_player_min,
+              nb_player_max: scenario.nb_player_max,
+              level: scenario.level,
+              start_writing_date: handleReformatDate(
+                scenario.start_writing_date
+              ),
+              publication_date: handleReformatDate(scenario.publication_date),
+              img: scenario.img,
+              type: "campagne",
+              description: scenario.description,
+              model: scenario.model, // a supprimer si table modifiée avec suppression de cette colonne
+            })
+          )
       })
 
     setShowNewScenario(false)
