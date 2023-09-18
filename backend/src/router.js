@@ -48,6 +48,10 @@ router.put("/scenarios/:id", scenariosControllers.edit)
 router.post("/scenarios", scenariosControllers.add)
 router.delete("/scenarios/:id", scenariosControllers.destroy)
 router.get("/scenarios/:id/pages", scenariosControllers.readPages)
+router.get(
+  "/scenarios/userFavorite",
+  scenariosControllers.findUserScenariosFavorite
+)
 
 router.get("/themesScenarios", scenarioThemesControllers.browse)
 router.put("/themesScenarios/:id", scenarioThemesControllers.edit)
@@ -60,6 +64,10 @@ router.post("/themesCampagnes", campagnesThemesControllers.add)
 router.delete("/themesCampagnes/:id", campagnesThemesControllers.destroy)
 
 router.get("/utilisateurs", utilisateursControllers.browse)
+router.get(
+  "/utilisateurs/followers",
+  utilisateursControllers.usersWhoAreFollowers
+)
 router.get("/utilisateurs/:id", utilisateursControllers.read)
 router.post("/utilisateurs", utilisateursControllers.add)
 router.put("/utilisateurs/:id", utilisateursControllers.edit)
@@ -163,6 +171,10 @@ router.delete("/campagnes/:id", campagnesControllers.destroy)
 router.get(
   "/campagnes/:id/scenarios",
   campagnesControllers.readCampagneScenarios
+) // recherche les scenarios associés à une campagne (retourne : id, scenarioName)
+router.get(
+  "/campagnes/:id/detailedScenarios",
+  campagnesControllers.readCampagneDetailedScenarios
 ) // recherche les scenarios associés à une campagne (retourne : id, scenarioName)
 
 router.get("/campagnesMulti", campagnesMultiControllers.findCampagnes)

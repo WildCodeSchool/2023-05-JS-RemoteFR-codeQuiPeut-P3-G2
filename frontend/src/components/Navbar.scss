@@ -17,70 +17,167 @@ a:visited {
 
 .ContainNav {
   display: flex;
+  flex-direction: row;
+  align-items: center;
   height: 100px;
-  width: 100%;
+  width: 100vw;
+  padding-top: 16px;
+  box-sizing: border-box;
   background-color: #070a09;
   font-family: Julius Sans One;
 
   .FeatherBox {
-    display: flex;
-    flex-direction: left;
     cursor: pointer;
-  }
-}
-
-.nav-no-scroll {
-  overflow: hidden;
-}
-
-.ContainLink {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  align-items: center;
-
-  .link {
+    width: 15vw;
     display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      width: 220px;
+      max-width: 15vw;
+      height: auto;
+    }
+  }
+
+  .ContainLink {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    // width: 1000px;
+    width: 57vw;
     height: 100%;
     align-items: center;
-    text-decoration: none;
-    font-family: Julius Sans One;
-    font-size: 2rem;
-    color: white;
-    padding: 5px 60px;
-    border-left: 2px solid #4c60ae;
-    height: 70%;
 
-    cursor: pointer;
-    &:last-child {
-      border-right: 2px solid #4c60ae;
-      height: 70px;
-    }
-    &:hover {
-      color: #ffbd59;
-    }
-  }
-}
-.PushContain {
-  margin: 10px;
-  height: 100%;
-  width: 930px;
-
-  .loginContainer {
-    width: 400px;
-    height: 300px;
-    .userConnect {
-      width: 300px;
-      height: 60px;
+    .li-container {
       display: flex;
+      display: block;
       justify-content: center;
       align-items: center;
+      max-width: 14vw;
+      height: 100%;
+      text-decoration: none;
+      border-left: 2px solid #4c60ae;
+      padding-left: 30px;
+      padding-right: 30px;
+      box-sizing: border-box;
+
+      &:last-child {
+        border-right: 2px solid #4c60ae;
+      }
+
+      .link {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        height: 100%;
+        max-width: 25%;
+        align-items: center;
+        text-decoration: none;
+        font-family: Julius Sans One;
+        font-size: 2rem;
+        color: white;
+        // padding: 5px 60px;
+        height: 100%;
+
+        cursor: pointer;
+
+        &:hover {
+          color: #ffbd59;
+        }
+      }
+    }
+  }
+
+  .PushContain {
+    // margin: 10px;
+    height: 100%;
+    // width: 930px;
+    width: 28vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10%;
+    align-items: center;
+
+    .loginContainer {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+
+      .userConnect {
+        width: 300px;
+        height: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-color: #4c60ae;
+        background-color: #070a09;
+        border-radius: 10px;
+        // margin-top: 15px;
+        font-family: Julius Sans One;
+        font-size: 1.5rem;
+        color: #4c60ae;
+        cursor: pointer;
+        &:hover {
+          background-color: #4c60ae;
+          color: #ffffff;
+        }
+      }
+      .scrollingMenu {
+        position: absolute;
+        top: 70%;
+        left: calc(50% - 150px);
+        width: 300px;
+        z-index: 20;
+        background-color: $colorDark;
+        padding: 0;
+        color: white;
+        font-size: 2rem;
+
+        a {
+          text-decoration: none;
+          color: white;
+        }
+
+        li {
+          height: 70px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          text-decoration: none;
+          border-bottom: 2px solid $blueColor;
+          cursor: pointer;
+
+          &:hover {
+            background-color: $blueColor;
+            color: white;
+            border-bottom: 2px solid $colorYellow;
+          }
+        }
+      }
+      .displayNone {
+        display: none;
+      }
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .push {
+      width: 160px;
+      max-width: 45%;
+      height: 50px;
       border-color: #4c60ae;
       background-color: #070a09;
       border-radius: 10px;
-      margin-right: 10px;
-      margin-left: 50px;
-      margin-top: 15px;
+      margin: 0;
       font-family: Julius Sans One;
       font-size: 1.5rem;
       color: #4c60ae;
@@ -90,59 +187,24 @@ a:visited {
         color: #ffffff;
       }
     }
-    .scrollingMenu {
-      position: relative;
-      z-index: 3;
-      background-color: $colorDark;
-      color: white;
-      font-size: 2rem;
+  }
+}
 
-      a {
-        text-decoration: none;
-        color: white;
-      }
+.nav-no-scroll {
+  overflow: hidden;
+}
 
-      li {
-        height: 70px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-decoration: none;
-        border-bottom: 2px solid $blueColor;
-        cursor: pointer;
-
-        &:hover {
-          background-color: $blueColor;
-          color: white;
-          border-bottom: 2px solid $colorYellow;
+@media screen and (max-width: 1250px) {
+  .ContainNav {
+    .ContainLink {
+      padding: 0;
+      .li-container {
+        padding-left: 10px;
+        padding-right: 10px;
+        .link {
+          font-size: 1.5rem;
         }
       }
-    }
-    .displayNone {
-      display: none;
-    }
-  }
-
-  .hidden {
-    display: none;
-  }
-
-  .push {
-    width: 160px;
-    height: 50px;
-    border-color: #4c60ae;
-    background-color: #070a09;
-    border-radius: 10px;
-    margin-right: 10px;
-    margin-left: 50px;
-    margin-top: 15px;
-    font-family: Julius Sans One;
-    font-size: 1.5rem;
-    color: #4c60ae;
-    cursor: pointer;
-    &:hover {
-      background-color: #4c60ae;
-      color: #ffffff;
     }
   }
 }

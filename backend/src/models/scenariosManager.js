@@ -28,8 +28,9 @@ class ScenariosManager extends AbstractManager {
 
   update(scenarios) {
     return this.database.query(
-      `update ${this.table} set name = ?, nb_player_min = ?, nb_player_max = ?, type = ?, level = ?, start_writing_date = ?, publication_date = ?, img = ?, description = ?, model = ?, pdf = ? where id = ?`,
+      `update ${this.table} set jeux_de_role_id = ?,name = ?, nb_player_min = ?, nb_player_max = ?, type = ?, level = ?, start_writing_date = ?, publication_date = ?, img = ?, description = ?, model = ?, pdf = ? where id = ?`,
       [
+        scenarios.jeux_de_role_id,
         scenarios.name,
         scenarios.nb_player_min,
         scenarios.nb_player_max,
@@ -62,7 +63,22 @@ class ScenariosManager extends AbstractManager {
 
   findScenarios() {
     return this.database.query(
-      `SELECT scenarios.id, auteurs.id as auteurId, auteurs.name as autor, scenarios.name AS title, scenarios.nb_player_min, scenarios.nb_player_max, scenarios.type, scenarios.level, scenarios.start_writing_date, scenarios.publication_date, scenarios.img, scenarios.description, jeux_de_role.id as jeux_de_roleId, jeux_de_role.name AS universe, themes.id as themeId, themes.name as theme, count(scenarios_favoris.scenarios_id)as nb_favoris, count(avis_scenario.scenarios_id)as nb_avis
+      `SELECT campagnes.name AS campagnes_name, jeux_de_role.name AS jeux_de_role, scenarios.id, auteurs.id as auteurId, auteurs.name as autor, scenarios.name AS title, scenarios.nb_player_min, scenarios.nb_player_max, scenarios.type, scenarios.level, scenarios.start_writing_date, scenarios.publication_date, scenarios.img, scenarios.description, jeux_de_role.id as jeux_de_roleId, jeux_de_role.name AS universe, themes.id as themeId, themes.name as theme, count(scenarios_favoris.scenarios_id)as nb_favoris, count(avis_scenario.scenarios_id)as nb_avis
+FROM ${this.table}
+JOIN campagnes ON scenarios.campagnes_id = campagnes.id
+JOIN jeux_de_role ON scenarios.jeux_de_role_id = jeux_de_role.id
+JOIN auteurs ON scenarios.auteurs_id = auteurs.id
+JOIN scenarios_themes ON scenarios.id = scenarios_themes.scenarios_id
+JOIN themes ON scenarios_themes.themes_id = themes.id 
+LEFT JOIN scenarios_favoris ON scenarios_favoris.scenarios_id = scenarios.id
+LEFT JOIN avis_scenario ON avis_scenario.scenarios_id = scenarios.id
+GROUP BY campagnes.name, jeux_de_role.name, scenarios.id, auteurs.name, auteurs.id, scenarios.name, scenarios.nb_player_min, scenarios.nb_player_max, scenarios.type, scenarios.level, scenarios.start_writing_date, scenarios.publication_date, scenarios.img, scenarios.description, jeux_de_role.id, jeux_de_role.name, themes.id, themes.name`
+    )
+  }
+
+  findUserScenariosFavorite(scenarioID, utilisateurID) {
+    return this.database.query(
+      `SELECT scenarios.id, auteurs.id as auteurId, auteurs.name as autor, scenarios.name AS title, scenarios.nb_player_min, scenarios.nb_player_max, scenarios.type, scenarios.level, scenarios.start_writing_date, scenarios.publication_date, scenarios.img, scenarios.description, jeux_de_role.id as jeux_de_roleId, jeux_de_role.name AS universe, themes.id as themeId, themes.name as theme, scenarios_favoris.scenarios_id as scenarioIdFavorite, scenarios_favoris.utilisateurs_id as utilisateursIdFavorite, count(scenarios_favoris.scenarios_id)as nb_favoris, count(avis_scenario.scenarios_id)as nb_avis
 FROM ${this.table}
 JOIN jeux_de_role ON scenarios.jeux_de_role_id = jeux_de_role.id
 JOIN auteurs ON scenarios.auteurs_id = auteurs.id
@@ -70,7 +86,9 @@ JOIN scenarios_themes ON scenarios.id = scenarios_themes.scenarios_id
 JOIN themes ON scenarios_themes.themes_id = themes.id 
 LEFT JOIN scenarios_favoris ON scenarios_favoris.scenarios_id = scenarios.id
 LEFT JOIN avis_scenario ON avis_scenario.scenarios_id = scenarios.id
-GROUP BY scenarios.id, auteurs.name, auteurs.id, scenarios.name, scenarios.nb_player_min, scenarios.nb_player_max, scenarios.type, scenarios.level, scenarios.start_writing_date, scenarios.publication_date, scenarios.img, scenarios.description, jeux_de_role.id, jeux_de_role.name, themes.id, themes.name`
+WHERE scenarios_favoris.utilisateurs_id = ? AND scenarios_favoris.utilisateurs_id= ?
+GROUP BY scenarios.id, auteurs.name, auteurs.id, scenarios.name, scenarios.nb_player_min, scenarios.nb_player_max, scenarios.type, scenarios.level, scenarios.start_writing_date, scenarios.publication_date, scenarios.img, scenarios.description, jeux_de_role.id, jeux_de_role.name, themes.id, themes.name,scenarios_favoris.scenarios_id, scenarios_favoris.utilisateurs_id`,
+      [scenarioID, utilisateurID]
     )
   }
 

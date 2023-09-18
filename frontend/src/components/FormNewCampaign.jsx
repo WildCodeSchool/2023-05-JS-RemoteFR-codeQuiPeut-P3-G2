@@ -78,7 +78,6 @@ export default function FormNewCampaign(props) {
     setShowNewCampaign,
     authorID,
     setScenariosOfEditedCampagne,
-    scenariosOfEditedCampagne,
     setPagesOfScenarioSelected,
     setImages,
     setPageFuture,
@@ -300,7 +299,7 @@ export default function FormNewCampaign(props) {
         })
 
         axios
-          .get(`http://localhost:4242/auteurs/${authorID}/campagnes`) // A MODIFIER - NE FONCTIONNE PAS ?? (sur de ça ? a verifier)
+          .get(`http://localhost:4242/auteurs/${authorID}/campagnes`)
           .then(({ data }) => {
             setCampagnesUtilisateur(data)
             const newEditedCampagne = data.filter(
@@ -336,16 +335,18 @@ export default function FormNewCampaign(props) {
                 axios
                   .get(`http://localhost:4242/scenarios/${data}`)
                   .then(({ data }) => {
-                    let newScenariosOfEditedCampagne =
-                      scenariosOfEditedCampagne.map((scenario) => ({
-                        ...scenario,
-                        selected: false,
-                      }))
+                    // let newScenariosOfEditedCampagne =
+                    //   scenariosOfEditedCampagne.map((scenario) => ({
+                    //     ...scenario,
+                    //     selected: false,
+                    //   }))
+                    // data.selected = true
+                    // newScenariosOfEditedCampagne = [
+                    //   ...newScenariosOfEditedCampagne,
+                    //   data,
+                    // ]
                     data.selected = true
-                    newScenariosOfEditedCampagne = [
-                      ...newScenariosOfEditedCampagne,
-                      data,
-                    ]
+                    const newScenariosOfEditedCampagne = [data]
                     setScenariosOfEditedCampagne(newScenariosOfEditedCampagne)
 
                     return newScenariosOfEditedCampagne
