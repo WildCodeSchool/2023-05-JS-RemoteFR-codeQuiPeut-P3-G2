@@ -101,7 +101,7 @@ const readUserByEmailWithPassword = (req, res, next) => {
 
 const readUserByLogin = (req, res, next) => {
   models.utilisateurs
-    .readUserByEmail(req.body.login)
+    .readUserByLogin(req.body.login)
     .then(([rows]) => {
       if (rows[0] == null) {
         res.sendStatus(404)

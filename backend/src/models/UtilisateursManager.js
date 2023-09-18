@@ -47,6 +47,12 @@ class UtilisateursManager extends AbstractManager {
     )
   }
 
+  readUserByEmail(email) {
+    return this.database.query(`select * from  ${this.table} where email = ?`, [
+      email,
+    ])
+  }
+
   readUserByLogin(login) {
     return this.database.query(`select * from  ${this.table} where login = ?`, [
       login,
