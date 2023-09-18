@@ -31,6 +31,8 @@ function Scripts() {
   const [typeScenarios, setTypeScenarios] = useState([])
   const [campagnes, setCampagnes] = useState([])
   const { user } = useContext(MyContext)
+  const [isChecked, setIsChecked] = useState(valueType === "one shot")
+  const [newest, setNewest] = useState([])
   // -----------------------------------------------------------------------------------
   // ----fonction filters
 
@@ -45,6 +47,8 @@ function Scripts() {
   const handleChangeRoleGame = (e) => {
     setValueRoleGame(e.target.value)
   }
+
+  const handleNewest = () => {}
 
   const handleScenariosFilter = () => {
     //  const newScenarios = originalScenarios
@@ -140,7 +144,11 @@ function Scripts() {
     valueType,
   ])
   // ------------------------------------------------------------------------------------------------
+  useEffect(() => {
+    setIsChecked(valueType === "one shot")
 
+    handleScenariosFilter()
+  }, [])
   // ------------------------------------------------------------------------------------------------
   return (
     <div className="containerScripts">
@@ -166,6 +174,8 @@ function Scripts() {
               setTypeScenarios={setTypeScenarios}
               setCampagnes={setCampagnes}
               campagnes={campagnes}
+              isChecked={isChecked}
+              setIsChecked={setIsChecked}
             />
             <p>Campaign</p>
           </div>
@@ -227,7 +237,7 @@ function Scripts() {
             </div>
           </div>
           <div className="conseiller">
-            <button>The news</button>
+            <button onClick={handleNewest}>The news</button>
             <button>The most popular</button>
             <button>All scenarios</button>
           </div>

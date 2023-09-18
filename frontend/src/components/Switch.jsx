@@ -9,34 +9,21 @@ function Switch({
   campagnes,
   setCampagnes,
   scenarios,
+  isChecked,
+  setIsChecked,
 }) {
-  const [isChecked, setIsChecked] = useState(false)
-
   const checkHandler = () => {
     setIsChecked((prevChecked) => !prevChecked)
 
-    // const changeType = !isChecked
-    //   ? scenarios.filter((scenario) => scenario.type === "one shot")
-    //   : campagnes.filter((scenario) => scenario.type === "campagne")
-    //   ? scenarios.filter((scenario) => scenario.type === "one shot")
-    //   : campagnes.map((campagne) => campagne.type === "campagne")
+    const newType = isChecked ? "one shot" : "campagne"
+    setValueType(newType)
 
-    // setTypeScenarios(changeType)
-    // setValueType(type)
+    const updatedScenarios =
+      newType === "one shot"
+        ? scenarios.filter((scenario) => scenario.type === "one shot")
+        : campagnes.filter((campagne) => campagne.type === "campagne")
 
-    if (isChecked) {
-      const oneShotScenarios = scenarios.filter(
-        (scenario) => scenario.type === "one shot"
-      )
-      setTypeScenarios(oneShotScenarios)
-      setValueType("one shot")
-    } else {
-      const campagneScenarios = campagnes.filter(
-        (campagne) => campagne.type === "campagne"
-      )
-      setTypeScenarios(campagneScenarios)
-      setValueType("campagne")
-    }
+    setTypeScenarios(updatedScenarios)
   }
 
   return (
