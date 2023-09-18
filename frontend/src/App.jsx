@@ -79,7 +79,6 @@ function App() {
           </Route>
           <Route path="/resumescenario" element={<ResumePageScenario />} />
           <Route path="/resumeCampagne" element={<ResumePageCampaign />} />
-          ResumePageCampaign
         </Routes>
       </MyContext.Provider>
     </div>

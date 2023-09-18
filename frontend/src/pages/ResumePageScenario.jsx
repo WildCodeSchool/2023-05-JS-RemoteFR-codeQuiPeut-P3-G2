@@ -1,39 +1,19 @@
 import { useState, useContext, useEffect } from "react"
-import { useNavigate, useLocation } from "react-router-dom"
-// import { useLocation } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom" // A decommenté qd useLocation sera OK (1/2)
+// import { useNavigate } from "react-router-dom"
 import MyContext from "../components/MyContext"
 import Navbar from "../components/Navbar"
 import axios from "axios"
-// import imgDefaultScenario from "../assets/images/defoscenario.png"
 import fullStar from "../assets/images/etoile-pleine.png"
 import emptyStar from "../assets/images/etoile-vide.png"
 
-// const ResumePageScenario = ({ scenario }) => {
 const ResumePageScenario = () => {
   // const scenario = location.state
   const location = useLocation()
   const recupSccenario = location.state
   const scenario = { ...recupSccenario, name: recupSccenario.title }
 
-  // const scenario = {
-  //   id: 1,
-  //   auteur_id: 1,
-  //   jeux_de_role: "The Witcher",
-  //   jeux_de_role_id: 1,
-  //   campagnes_id: 1,
-  //   campagnes_name: "The Witcher dans JP",
-  //   name: "Jurassic Park",
-  //   nb_player_min: 2,
-  //   nb_player_max: 4,
-  //   type: "one shot",
-  //   level: "hard",
-  //   img: "http://localhost:4242/public/assets/images/cameleon1.jpg1693405905262.jpg",
-  //   description:
-  //     "c'est l'histoire d'un mec qui se fait bouffer par un dinosaure dans The Witcher ...",
-  //   model: 1,
-  // }
   const { user } = useContext(MyContext)
-  // const { user, setUser } = useContext(MyContext)
   const navigate = useNavigate()
   const [isFavorite, setIsFAvorite] = useState(false)
   const [addComment, setAddComment] = useState(false)
@@ -78,6 +58,13 @@ const ResumePageScenario = () => {
     }
   }
 
+  const handleGoToScenario = () => {
+    navigate("/readscenario", { state: scenario })
+  }
+  const handleClickAddComment = () => {
+    setAddComment(!addComment)
+  }
+
   const handleWriteComment = (e) => {
     setComment(e.target.value)
   }
@@ -88,14 +75,6 @@ const ResumePageScenario = () => {
         avi.id === id ? { ...avi, edit: true } : { ...avi, edit: false }
       )
     )
-  }
-
-  const handleClickAddComment = () => {
-    setAddComment(!addComment)
-  }
-
-  const handleGoToScenario = () => {
-    navigate("/readscenario", { state: scenario })
   }
 
   const handleClickSubmitComment = () => {
@@ -148,8 +127,6 @@ const ResumePageScenario = () => {
           })
       )
       .catch((err) => console.error(err))
-
-    // setAvis((prevState) => prevState.map((avi) => ({ ...avi, edit: false })))
   }
 
   const handleNoEditComment = () => {
