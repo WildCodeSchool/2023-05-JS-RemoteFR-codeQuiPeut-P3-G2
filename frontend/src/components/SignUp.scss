@@ -47,6 +47,7 @@ $fontSizeTitre: 1.5rem;
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        margin-top: -45px;
         span {
           color: $colorYellow;
           cursor: pointer;
@@ -109,6 +110,29 @@ $fontSizeTitre: 1.5rem;
               justify-content: center;
               background-color: $colorDark;
               color: $colorWhite;
+            }
+          }
+
+          .labelInputFileAvatar {
+            margin-bottom: 0;
+
+            input {
+              display: none;
+            }
+
+            .button-import-image {
+              img {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                background-color: $blueColor;
+                cursor: pointer;
+
+                &:hover {
+                  background-color: $colorYellow;
+                  box-shadow: 0px 0px 20px 3px $colorYellow;
+                }
+              }
             }
           }
         }
