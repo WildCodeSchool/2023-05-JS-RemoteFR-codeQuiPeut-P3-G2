@@ -4,10 +4,13 @@ import MyContext from "./MyContext"
 import axios from "axios"
 import "./AccountFavorites.scss"
 import AccountFavoritesMyFavorites from "./AccountFavoritesMyFavorites"
+import AccountFavoritesMyViews from "./AccountFavoritesMyViews"
+import AccountFavoritesMyComments from "./AccountFavoritesMyComments"
 
 export default function AccountFavorites() {
   const { user } = useContext(MyContext)
-  const [scenarios, setScenarios] = useState([])
+  const [scenariosFavorite, setScenariosFavorite] = useState([])
+  const [scenariosAvis, setScenariosAvis] = useState([])
   const [campagnes, setCampagnes] = useState([])
   const [ongletActif, setOngletActif] = useState(1)
   const [originalScenarios, setOriginalScenarios] = useState([])
@@ -17,10 +20,17 @@ export default function AccountFavorites() {
   }
 
   useEffect(() => {
-    axios.get("http://localhost:4242/scenarios").then((res) => {
-      setScenarios(res.data)
-      setOriginalScenarios(res.data)
-    })
+    axios
+      .get(`http://localhost:4242/scenariosFavorites/utilisateur/${user.id}`)
+      .then((res) => {
+        setScenariosFavorite(res.data)
+      })
+
+    axios
+      .get(`http://localhost:4242/scenariosAvis/utilisateur/${user.id}`)
+      .then((res) => {
+        setScenariosAvis(res.data)
+      })
 
     axios
       .get("http://localhost:4242/campagnesMulti")
@@ -31,15 +41,30 @@ export default function AccountFavorites() {
   return (
     <div className="containerFavorites">
       <ul>
-        <li onClick={() => showTap(1)}>My favorites one</li>
+        <li onClick={() => showTap(1)}>My favorites ones</li>
         <li onClick={() => showTap(2)}>My view</li>
         <li onClick={() => showTap(3)}>My comments</li>
       </ul>
 
       <div className="containTab">
-        {ongletActif === 1 && <AccountFavoritesMyFavorites />}
-        {ongletActif === 2 && <AccountFavoritesMyFavorites />}
-        {ongletActif === 3 && <AccountFavoritesMyFavorites />}
+        {ongletActif === 1 && (
+          <AccountFavoritesMyFavorites
+            scenariosFavorite={scenariosFavorite}
+            user={user}
+          />
+        )}
+        {ongletActif === 2 && (
+          <AccountFavoritesMyViews
+            scenariosFavorite={scenariosFavorite}
+            user={user}
+          />
+        )}
+        {ongletActif === 3 && (
+          <AccountFavoritesMyComments
+            scenariosAvis={scenariosAvis}
+            user={user}
+          />
+        )}
       </div>
     </div>
   )

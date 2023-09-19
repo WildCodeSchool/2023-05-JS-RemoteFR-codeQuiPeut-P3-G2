@@ -21,8 +21,15 @@ class AuteursFavorisManager extends AbstractManager {
 
   findFavoriteAuteur(id) {
     return this.database.query(
-      `select * from  ${this.table} where auteurs_id = ?`,
+      `select * from  ${this.table} where utilisateurs_id = ?`,
       [id]
+    )
+  }
+
+  verifyAuthorIsFavoriteForUser(userId, authorId) {
+    return this.database.query(
+      `SELECT * FROM ${this.table} WHERE auteurs_id = ? AND utilisateurs_id = ?`,
+      [authorId, userId]
     )
   }
 }

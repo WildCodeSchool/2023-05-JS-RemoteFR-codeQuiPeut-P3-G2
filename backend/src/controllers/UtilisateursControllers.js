@@ -14,6 +14,7 @@ const browse = (req, res) => {
 
 const add = (req, res) => {
   const utilisateurs = req.body
+  // console.info("RB__ADD", utilisateurs)
 
   // TODO validations (length, format...)
 
@@ -119,7 +120,7 @@ const readUserByLogin = (req, res, next) => {
 
 const verifyEmail = (req, res, next) => {
   models.utilisateurs
-    .readUserByEmail(req.body.email)
+    .readUserByEmailNoPassword(req.body.email)
     .then(([rows]) => {
       if (rows[0] == null) {
         next()
@@ -187,12 +188,12 @@ const changePassword = (req, res) => {
 
 const usersWhoAreFollowers = (req, res) => {
   models.utilisateurs
-    .usersWhoAreFollowers(req.params.auteurId)
+    .usersWhoAreFollowers(req.params.id)
     .then(([rows]) => {
       if (rows[0] == null) {
         res.sendStatus(404)
       } else {
-        res.send(rows[0])
+        res.send(rows)
       }
     })
     .catch((err) => {
