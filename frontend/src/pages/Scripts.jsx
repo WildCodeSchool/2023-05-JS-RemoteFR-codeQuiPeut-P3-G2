@@ -32,6 +32,8 @@ function Scripts() {
   const [typeScenarios, setTypeScenarios] = useState([])
   const [campagnes, setCampagnes] = useState([])
   const { user } = useContext(MyContext)
+  const [originalCampagnes, setOrginalCampagnes] = useState([])
+  const [scenariosCampaignType, setScenariosCampaignType] = useState("one shot")
   // -----------------------------------------------------------------------------------
   // ----fonction filters
 
@@ -47,9 +49,23 @@ function Scripts() {
     setValueRoleGame(e.target.value)
   }
 
+  const handleNewest = () => {
+    const newScenarios = originalScenarios
+      .sort((a, b) => b.id - a.id)
+      .filter((item, index) => index < 4)
+
+    setScenarios(newScenarios)
+    const newCampaigns = originalCampagnes
+      .sort((a, b) => b.id - a.id)
+      .filter((item, index) => index < 2)
+
+    setCampagnes(newCampaigns)
+  }
+
   const handleScenariosFilter = () => {
     //  const newScenarios = originalScenarios
     let newScenarios = JSON.parse(JSON.stringify(originalScenarios))
+    let newCampaigns = JSON.parse(JSON.stringify(originalCampagnes))
     // duplication d'un tableau sans pointer vers la meme reference
 
     if (valueAuteur !== "---") {
@@ -59,11 +75,17 @@ function Scripts() {
       newScenarios = newScenarios.filter(
         (scenario) => scenario.auteurId === auteurID
       )
+      newCampaigns = newCampaigns.filter(
+        (campagne) => campagne.auteurId === auteurID
+      )
     }
 
     if (valueDifficulty !== "---") {
       newScenarios = newScenarios.filter(
         (scenario) => scenario.level === valueDifficulty
+      )
+      newCampaigns = newCampaigns.filter(
+        (campagne) => campagne.level === valueDifficulty
       )
     }
 
@@ -72,10 +94,18 @@ function Scripts() {
         newScenarios = newScenarios.filter(
           (scenario) => parseInt(scenario.nb_players_min) === 10
         )
+        newCampaigns = newCampaigns.filter(
+          (campagne) => parseInt(campagne.nb_players_min) === 10
+        )
       } else {
         newScenarios = newScenarios.filter(
           (scenario) =>
             parseInt(scenario.nb_players_min, 10) ===
+            parseInt(valueNumberPlayer, 10)
+        )
+        newCampaigns = newCampaigns.filter(
+          (campagne) =>
+            parseInt(campagne.nb_players_min, 10) ===
             parseInt(valueNumberPlayer, 10)
         )
       }
@@ -90,26 +120,28 @@ function Scripts() {
         (scenario) =>
           parseInt(scenario.jeux_de_roleId, 10) === parseInt(roleGameID, 10)
       )
+      newCampaigns = newCampaigns.filter(
+        (campagne) =>
+          parseInt(campagne.jeux_de_roleId, 10) === parseInt(roleGameID, 10)
+      )
     }
 
     if (valueTheme !== null) {
       newScenarios = newScenarios.filter(
         (scenario) => scenario.theme === valueTheme
       )
-    }
-
-    if (valueType) {
-      newScenarios = newScenarios.filter(
-        (scenario) => scenario.type === valueType
+      newCampaigns = newCampaigns.filter(
+        (campagne) => campagne.theme === valueTheme
       )
     }
 
     setScenarios(newScenarios)
+    setCampagnes(newCampaigns)
   }
 
   // -----------------------------------------------------------------------------------
   useEffect(() => {
-    axios.get("http://localhost:4242/scenarios").then((res) => {
+    axios.get("http://localhost:4242/scenariosOneshot").then((res) => {
       setScenarios(res.data)
       setOriginalScenarios(res.data)
     })
@@ -126,7 +158,10 @@ function Scripts() {
 
     axios
       .get("http://localhost:4242/detailedCampagnes")
-      .then(({ data }) => setCampagnes(data))
+      .then(({ data }) => {
+        setCampagnes(data)
+        setOrginalCampagnes(data)
+      })
       .catch((err) => console.error(err))
   }, [])
 
@@ -141,7 +176,6 @@ function Scripts() {
     valueType,
   ])
   // ------------------------------------------------------------------------------------------------
-
   // ------------------------------------------------------------------------------------------------
   return (
     <div className="containerScripts">
@@ -153,10 +187,7 @@ function Scripts() {
         <div className="Filter">
           <div className="Type">
             <p>One Shot</p>
-            {/* <label className="switch">
-              <input type="checkbox"></input>
-              <span className="slider"></span>
-            </label> */}
+
             <Switch
               scenarios={scenarios}
               setValueType={setValueType}
@@ -167,21 +198,17 @@ function Scripts() {
               setTypeScenarios={setTypeScenarios}
               setCampagnes={setCampagnes}
               campagnes={campagnes}
+              scenariosCampaignType={scenariosCampaignType}
+              setScenariosCampaignType={setScenariosCampaignType}
             />
             <p>Campaign</p>
           </div>
-          <div className="Button">
-            <p className="titleTheme">Themes</p>
-            <Button
-              scenarios={scenarios}
-              filteredScenarios={filteredScenarios}
-              setFilteredScenarios={setFilteredScenarios}
-              themes={themes}
-              setThemes={setThemes}
-              valueTheme={valueTheme}
-              setValueTheme={setValueTheme}
-            />
+          <div className="conseiller">
+            <button onClick={handleNewest}>The news</button>
+            <button>The most popular</button>
+            <button>All scenarios</button>
           </div>
+
           <div className="containerSelect">
             <div className="univers">
               <p>Universe</p>
@@ -227,24 +254,32 @@ function Scripts() {
               </select>
             </div>
           </div>
-          <div className="conseiller">
-            <button>The news</button>
-            <button>The most popular</button>
-            <button>All scenarios</button>
+          <div className="Button">
+            <p className="titleTheme">Themes</p>
+            <Button
+              scenarios={scenarios}
+              filteredScenarios={filteredScenarios}
+              setFilteredScenarios={setFilteredScenarios}
+              themes={themes}
+              setThemes={setThemes}
+              valueTheme={valueTheme}
+              setValueTheme={setValueTheme}
+            />
           </div>
         </div>
         <div className="try">
           <div className="filtered-scenarios">
-            {scenarios.map((scenario) => (
-              <div key={scenario.id}>
-                <CardScenario user={user} scenario={scenario} />
-              </div>
-            ))}
-            {/* {campagnes.map((campagne) => (
-              <div key={campagne.id}>
-                <CardCampaign user={user} campaign={campagne} />
-              </div>
-            ))} */}
+            {scenariosCampaignType === "one shot"
+              ? scenarios.map((scenario) => (
+                  <div key={scenario.id}>
+                    <CardScenario user={user} scenario={scenario} />
+                  </div>
+                ))
+              : campagnes.map((campagne) => (
+                  <div key={campagne.id}>
+                    <CardCampaign user={user} campaign={campagne} />
+                  </div>
+                ))}
           </div>
         </div>
       </div>
