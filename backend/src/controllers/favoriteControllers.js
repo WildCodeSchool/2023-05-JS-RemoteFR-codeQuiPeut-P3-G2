@@ -48,8 +48,28 @@ const destroy = (req, res) => {
     })
 }
 
+const verifyScenarioIsFavoriteForUser = (req, res) => {
+  const userId = parseInt(req.params.userId, 10)
+  const scenarioId = parseInt(req.params.scenarioId, 10)
+
+  models.favorites
+    .verifyScenarioIsFavoriteForUser(userId, scenarioId)
+    .then(([rows]) => {
+      if (rows[0] == null) {
+        res.sendStatus(404)
+      } else {
+        res.send(rows)
+      }
+    })
+    .catch((err) => {
+      console.error(err)
+      res.sendStatus(500)
+    })
+}
+
 module.exports = {
   add,
   read,
   destroy,
+  verifyScenarioIsFavoriteForUser,
 }

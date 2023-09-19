@@ -1,13 +1,14 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import "./CardScenario.scss"
 import etoileVide from "../assets/images/etoile-vide.png"
 import etoilePleine from "../assets/images/etoile-pleine.png"
+import MyContext from "./MyContext"
 
 export default function CardCampaign({ campaign, user }) {
+  const { followedAutors, setFollowedAutors } = useContext(MyContext)
   const [favorite, setfavorite] = useState(false)
-  const [followAutor, setFollowAutor] = useState(false)
 
   const navigate = useNavigate()
 
@@ -21,6 +22,15 @@ export default function CardCampaign({ campaign, user }) {
           setfavorite(true)
         })
         .catch(() => setfavorite(false))
+
+      // axios
+      // .get(
+      //   `http://localhost:4242/utilisateurs/${user.id}/authorFavorite/${campaign.auteurs_id}`
+      // )
+      // .then(({ data }) => {
+      //     setFollowAutor(true)
+      // })
+      // .catch(() => setFollowAutor(false))
     }
   }, [])
 
@@ -52,19 +62,35 @@ export default function CardCampaign({ campaign, user }) {
 
   const handleClickFollowAutor = () => {
     if (user !== null) {
-      setFollowAutor(!followAutor)
-      if (followAutor) {
-        axios.delete(`http://localhost:4242/autorFavorite`, {
-          data: {
-            utilisateurID: user.id,
-            auteurID: campaign.auteur_id,
-          },
-        })
+      // setFollowAutor(!followAutor)
+      if (
+        followedAutors.find((item) => item.auteurs_id === campaign.auteurs_id)
+      ) {
+        axios
+          .delete(`http://localhost:4242/autorFavorite`, {
+            data: {
+              utilisateurID: user.id,
+              auteurID: campaign.auteurs_id,
+            },
+          })
+          .then(() => {
+            axios
+              .get(`http://localhost:4242/autorFavorite/${user.id}`)
+              .then(({ data }) => setFollowedAutors(data))
+              .catch((err) => console.error(err))
+          })
       } else {
-        axios.post(`http://localhost:4242/autorFavorite`, {
-          utilisateurID: user.id,
-          auteurID: campaign.auteur_id,
-        })
+        axios
+          .post(`http://localhost:4242/autorFavorite`, {
+            utilisateurID: user.id,
+            auteurID: campaign.auteurs_id,
+          })
+          .then(() => {
+            axios
+              .get(`http://localhost:4242/autorFavorite/${user.id}`)
+              .then(({ data }) => setFollowedAutors(data))
+              .catch((err) => console.error(err))
+          })
       }
     } else {
       alert("Please log in to add favorites")
@@ -103,10 +129,21 @@ export default function CardCampaign({ campaign, user }) {
           <p>{campaign.autor}</p>
           <button
             onClick={handleClickFollowAutor}
-            className={followAutor ? "followAutor" : ""}
+            className={
+              followedAutors.find(
+                (item) => item.auteurs_id === campaign.auteurs_id
+              )
+                ? "followAutor"
+                : ""
+            }
             type="button"
           >
-            {followAutor ? "Auteur suivi" : "Suivre l'auteur"}
+            {/* {followAutor ? "Auteur suivi" : "Suivre l'auteur"} */}
+            {followedAutors.find(
+              (item) => item.auteurs_id === campaign.auteurs_id
+            )
+              ? "Auteur suivi"
+              : "Suivre l'auteur"}
           </button>
         </div>
       </div>

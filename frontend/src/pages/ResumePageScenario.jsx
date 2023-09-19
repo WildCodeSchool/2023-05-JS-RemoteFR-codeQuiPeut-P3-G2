@@ -154,12 +154,16 @@ const ResumePageScenario = () => {
   }
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:4242/favorite/${scenario.id}`)
-      .then(() => {
-        setIsFAvorite(true)
-      })
-      .catch(() => setIsFAvorite(false))
+    if (user !== null) {
+      axios
+        .get(
+          `http://localhost:4242/utilisateurs/${user.id}/scenarioFavorite/${scenario.id}`
+        )
+        .then(({ data }) => {
+          setIsFAvorite(true)
+        })
+        .catch(() => setIsFAvorite(false))
+    }
   }, [])
 
   useEffect(() => {

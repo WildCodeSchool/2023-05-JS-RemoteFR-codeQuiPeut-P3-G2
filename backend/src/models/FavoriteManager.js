@@ -25,6 +25,13 @@ class FavoriteManager extends AbstractManager {
       [id]
     )
   }
+
+  verifyScenarioIsFavoriteForUser(userId, scenarioId) {
+    return this.database.query(
+      `SELECT * FROM ${this.table} WHERE scenarios_id = ? AND utilisateurs_id = ?`,
+      [scenarioId, userId]
+    )
+  }
 }
 
 module.exports = FavoriteManager

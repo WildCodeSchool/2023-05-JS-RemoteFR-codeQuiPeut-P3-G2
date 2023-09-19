@@ -240,10 +240,18 @@ router.delete("/deleteTmpImage", deleteImageForm)
 router.post("/favorite", favoriteControllers.add)
 router.delete("/favorite", favoriteControllers.destroy)
 router.get("/favorite/:id", favoriteControllers.read)
+router.get(
+  "/utilisateurs/:userId/scenarioFavorite/:scenarioId",
+  favoriteControllers.verifyScenarioIsFavoriteForUser
+)
 
 router.post("/autorFavorite", auteursFavorisControllers.add)
 router.delete("/autorFavorite", auteursFavorisControllers.destroy)
 router.get("/autorFavorite/:id", auteursFavorisControllers.read)
+router.get(
+  "/utilisateurs/:userId/authorFavorite/:authorId",
+  auteursFavorisControllers.verifyAuthorIsFavoriteForUser
+)
 
 router.get("/scenarcomm", scenarioCommentControllers.browse)
 router.post("/scenarcomm", scenarioCommentControllers.add)
