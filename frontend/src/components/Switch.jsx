@@ -9,21 +9,18 @@ function Switch({
   campagnes,
   setCampagnes,
   scenarios,
-  isChecked,
-  setIsChecked,
+  scenariosCampaignType,
+  setScenariosCampaignType,
 }) {
+  const [isChecked, setIsChecked] = useState(false)
   const checkHandler = () => {
-    setIsChecked((prevChecked) => !prevChecked)
+    setIsChecked(!isChecked)
 
-    const newType = isChecked ? "one shot" : "campagne"
-    setValueType(newType)
-
-    const updatedScenarios =
-      newType === "one shot"
-        ? scenarios.filter((scenario) => scenario.type === "one shot")
-        : campagnes.filter((campagne) => campagne.type === "campagne")
-
-    setTypeScenarios(updatedScenarios)
+    if (scenariosCampaignType === "one shot") {
+      setScenariosCampaignType("campagne")
+    } else {
+      setScenariosCampaignType("one shot")
+    }
   }
 
   return (

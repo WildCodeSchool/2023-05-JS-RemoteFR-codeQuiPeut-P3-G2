@@ -39,6 +39,7 @@ const {
 
 // router.get("/scenarios", scenariosControllers.browse)
 router.get("/scenarios", scenariosControllers.browseScenarios)
+router.get("/scenariosOneshot", scenariosControllers.browseScenariosOneshot)
 // router.get("/scenarios/:id", scenariosControllers.read)
 // router.get("/scenarios", scenariosControllers.browse)
 // router.get("/scenarios/:id", scenariosControllers.read)
