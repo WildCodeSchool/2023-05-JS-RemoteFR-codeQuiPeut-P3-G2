@@ -31,8 +31,6 @@ $fontSizeTitre: 1.5rem;
   -webkit-backdrop-filter: blur(5px);
   border: 1px solid rgba(255, 255, 255, 0.3);
 
-  
-
   .profile {
     width: 1100px;
     height: 800px;
@@ -53,8 +51,8 @@ $fontSizeTitre: 1.5rem;
       margin-right: 32px;
       margin-top: 16px;
     }
-    p{
-      color:$colorWhite;
+    p {
+      color: $colorWhite;
     }
 
     .containImg {
@@ -63,16 +61,16 @@ $fontSizeTitre: 1.5rem;
       height: 100px;
       border-radius: 50%;
       background-color: #4c60ae;
-      margin-top: 20px;;
+      margin-top: 20px;
       .imgPhoto {
-          width: 100%;
-          height: 100%;
-          object-fit: contain;
-        }
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
       }
+    }
 
     .containerProfile {
-      display:flex;
+      display: flex;
       flex-direction: column;
       align-items: center;
       width: 100%;
@@ -81,7 +79,7 @@ $fontSizeTitre: 1.5rem;
         background-color: $colorYellow;
         color: black;
       }
-    
+
       ul {
         display: flex;
         flex-direction: row;
@@ -104,13 +102,12 @@ $fontSizeTitre: 1.5rem;
         }
       }
 
-      .containTab{
-        display:flex;
+      .containTab {
+        display: flex;
         justify-content: center;
-        align-items:center;
-        width:90%;
-      }
-    
+        align-items: center;
+        width: 90%;
       }
     }
   }
+}

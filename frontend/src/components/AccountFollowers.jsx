@@ -1,4 +1,4 @@
-import { useEffect,useContext, useState } from "react"
+import { useEffect, useContext, useState } from "react"
 import MyContext from "./MyContext"
 import etoilePleine from "../assets/images/etoile-pleine.png"
 import "./AccountFollowers.scss"
@@ -7,39 +7,45 @@ import UserProfile from "./userProfile"
 
 export default function AccountFollowers() {
   const { user } = useContext(MyContext)
-  const[followers,setFollowers]=useState([])
-  const[showPopUpProfile, setShowPopUpProfile]=useState(false)
+  const [followers, setFollowers] = useState([])
+  const [showPopUpProfile, setShowPopUpProfile] = useState(false)
 
-const handleClickShowPopupProfile=()=>{
-  setShowPopUpProfile(true)
-}
-
+  const handleClickShowPopupProfile = () => {
+    setShowPopUpProfile(true)
+  }
 
   useEffect(() => {
-      axios
+    axios
       .get(`http://localhost:4242/followers/${user.auteurId}`)
       .then((res) => {
-        setFollowers(res.data)     
-    })
+        setFollowers(res.data)
+      })
   }, [])
 
   return (
     <>
       {followers.map((follower) => (
-      <div className="containerFollower" key={follower.utilisateurId}>
-        <div className="follower" >
-          <p className="login">{follower.login}</p>
-          <div className="containerFavoris">
-            <img src={etoilePleine} alt="" />
-            <p>{follower.nbFavoris}</p>
+        <div className="containerFollower" key={follower.utilisateurId}>
+          <div className="follower">
+            <p className="login">{follower.login}</p>
+            <div className="containerFavoris">
+              <img src={etoilePleine} alt="" />
+              <p>{follower.nbFavoris}</p>
+            </div>
+            <p>{follower.nbAvis} avis</p>
+            <button onClick={handleClickShowPopupProfile}>
+              Voir le profil
+            </button>
+            <button>Proposer co-écriture</button>
           </div>
-          <p>{follower.nbAvis} avis</p>
-          <button onClick={handleClickShowPopupProfile}>Voir le profil</button>
-          <button>Proposer co-écriture</button>
         </div>
-      </div>
       ))}
-      {showPopUpProfile && <UserProfile showPopUpProfile={showPopUpProfile} setShowPopUpProfile={setShowPopUpProfile}/>}
+      {showPopUpProfile && (
+        <UserProfile
+          showPopUpProfile={showPopUpProfile}
+          setShowPopUpProfile={setShowPopUpProfile}
+        />
+      )}
     </>
   )
 }
