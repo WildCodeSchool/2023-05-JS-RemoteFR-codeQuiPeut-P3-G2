@@ -140,12 +140,60 @@ const readPages = (req, res) => {
 
 const findUserScenariosFavorite = (req, res) => {
   models.scenarios
-    .readWithTheme(req.params.id)
+    .findUserScenariosFavorite(req.params.id)
     .then(([rows]) => {
       if (rows[0] == null) {
         res.sendStatus(404)
       } else {
-        res.send(rows[0])
+        res.send(rows)
+      }
+    })
+    .catch((err) => {
+      console.error(err)
+      res.sendStatus(500)
+    })
+}
+
+const findUserScenariosAvis = (req, res) => {
+  models.scenarios
+    .findUserScenariosAvis(req.params.id)
+    .then(([rows]) => {
+      if (rows[0] == null) {
+        res.sendStatus(404)
+      } else {
+        res.send(rows)
+      }
+    })
+    .catch((err) => {
+      console.error(err)
+      res.sendStatus(500)
+    })
+}
+
+const findScenariosInProgress = (req, res) => {
+  models.scenarios
+    .findScenariosInProgress(req.params.id)
+    .then(([rows]) => {
+      if (rows[0] == null) {
+        res.sendStatus(404)
+      } else {
+        res.send(rows)
+      }
+    })
+    .catch((err) => {
+      console.error(err)
+      res.sendStatus(500)
+    })
+}
+
+const findScenariosFinished = (req, res) => {
+  models.scenarios
+    .findScenariosFinished(req.params.id)
+    .then(([rows]) => {
+      if (rows[0] == null) {
+        res.sendStatus(404)
+      } else {
+        res.send(rows)
       }
     })
     .catch((err) => {
@@ -164,4 +212,7 @@ module.exports = {
   readWithTheme,
   browseScenarios,
   findUserScenariosFavorite,
+  findUserScenariosAvis,
+  findScenariosInProgress,
+  findScenariosFinished,
 }
