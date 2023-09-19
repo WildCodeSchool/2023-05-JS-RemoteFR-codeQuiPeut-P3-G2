@@ -60,6 +60,30 @@ const ResumePageScenario = () => {
 
   const handleGoToScenario = () => {
     navigate("/readscenario", { state: scenario })
+
+    if (scenario.nbVues === 0) {
+      axios.post(`http://localhost:4242/vuesScenarios`, {
+        nbVues: 1,
+        scenarioId: scenario.id,
+      })
+    } else {
+      axios.put(`http://localhost:4242/vuesScenarios`, {
+        nbVues: scenario.nbVues + 1,
+        scenarioId: scenario.id,
+      })
+    }
+
+    if (scenario.nbVuesCampagne === 0) {
+      axios.post(`http://localhost:4242/vuesCampagnes`, {
+        nbVues: 1,
+        campagneId: scenario.campagnes_id,
+      })
+    } else {
+      axios.put(`http://localhost:4242/vuesCampagnes`, {
+        nbVues: scenario.nbVuesCampagne + 1,
+        campagneId: scenario.campagnes_id,
+      })
+    }
   }
   const handleClickAddComment = () => {
     setAddComment(!addComment)

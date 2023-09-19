@@ -114,7 +114,7 @@ export default function CardCampaign({ campaign, user }) {
         </div>
         <div className="borderTitle"></div>
         <div className="viewer">
-          <p>xxx vues</p>
+          <p>{campaign.nbVues} vues</p>
         </div>
         <p className="description">
           {" "}
