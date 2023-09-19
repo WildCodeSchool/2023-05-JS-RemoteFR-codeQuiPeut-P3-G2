@@ -50,18 +50,25 @@ function Scripts() {
   }
 
   const handleNewest = () => {
-    const newScenarios = originalScenarios
+    let newScenarios = JSON.parse(JSON.stringify(originalScenarios))
+    let newCampaigns = JSON.parse(JSON.stringify(originalCampagnes))
+
+    newScenarios = newScenarios
       .sort((a, b) => b.id - a.id)
       .filter((item, index) => index < 4)
 
     setScenarios(newScenarios)
-    const newCampaigns = originalCampagnes
+    newCampaigns = newCampaigns
       .sort((a, b) => b.id - a.id)
       .filter((item, index) => index < 2)
 
     setCampagnes(newCampaigns)
   }
 
+  const handleClickAll = () => {
+    setScenarios(originalScenarios)
+    setCampagnes(originalCampagnes)
+  }
   const handleScenariosFilter = () => {
     //  const newScenarios = originalScenarios
     let newScenarios = JSON.parse(JSON.stringify(originalScenarios))
@@ -206,7 +213,11 @@ function Scripts() {
           <div className="conseiller">
             <button onClick={handleNewest}>The news</button>
             <button>The most popular</button>
-            <button>All scenarios</button>
+            <button onClick={handleClickAll}>
+              {scenariosCampaignType === "one shot"
+                ? "All scenarios"
+                : "All campaigns"}
+            </button>
           </div>
 
           <div className="containerSelect">
@@ -221,7 +232,7 @@ function Scripts() {
               </select>
             </div>
             <div className="auteur">
-              <p>Autor</p>
+              <p>Author</p>
               <FilterSelect
                 scenarios={scenarios}
                 filteredAuteur={filteredAuteur}
