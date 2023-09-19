@@ -13,7 +13,7 @@ class UtilisateursManager extends AbstractManager {
         utilisateurs.firstname,
         utilisateurs.login,
         utilisateurs.email,
-        utilisateurs.password,
+        utilisateurs.hashedPassword,
         utilisateurs.img,
       ]
     )
@@ -39,6 +39,20 @@ class UtilisateursManager extends AbstractManager {
     )
   }
 
+  readUserByEmailWithPassword(email) {
+    return this.database.query(
+      `select id, lastname, firstname, login, email, password, img, inscription_date from  ${this.table} where email = ?`,
+      [email]
+    )
+  }
+
+  readUserByEmailNoPassword(email) {
+    return this.database.query(
+      `select id, lastname, firstname, login, email, img, inscription_date from  ${this.table} where email = ?`,
+      [email]
+    )
+  }
+
   readUserByEmail(email) {
     return this.database.query(`select * from  ${this.table} where email = ?`, [
       email,
@@ -57,6 +71,20 @@ class UtilisateursManager extends AbstractManager {
 left join auteurs ON utilisateurs.id=auteurs.utilisateurs_id
 where email = ?`,
       [email]
+    )
+  }
+
+  findAllWithoutPassword() {
+    return this.database.query(
+      `SELECT id, lastname, firstname, login, email, img, inscription_date FROM  ${this.table}`
+    )
+  }
+
+  findWithoutPassword(id) {
+    return this.database.query(
+      `SELECT id, lastname, firstname, login, email, img, inscription_date FROM  ${this.table} WHERE  id = ?`,
+      // `SELECT * FROM  ${this.table} WHERE  id = ?`,   //  Pour test !!!!!!!!!!!!!
+      [id]
     )
   }
 

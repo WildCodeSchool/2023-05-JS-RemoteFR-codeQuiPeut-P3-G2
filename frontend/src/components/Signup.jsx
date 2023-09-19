@@ -42,10 +42,10 @@ export default function SignUp({
           const { data } = err.response
           if (data.errorMessage === "Mail déjà existant") {
             setEmailAlreadyUsed(true)
-            setLoginAlreadyUsed(false)
+            // setLoginAlreadyUsed(false)
           } else if (data.errorMessage === "Login déjà existant") {
+            // setEmailAlreadyUsed(false)
             setLoginAlreadyUsed(true)
-            setEmailAlreadyUsed(false)
           }
         } else {
           console.error("Une erreur s'est produite : ", err.message)
@@ -53,8 +53,9 @@ export default function SignUp({
       })
 
     setChangeClassToOpenMenu(false)
+    setEmailAlreadyUsed(false)
+    setLoginAlreadyUsed(false)
   }
-
   const HandleCloseFormSignOpenLog = () => {
     setOpenFormSignUp(false)
     setOpenForm(true)
