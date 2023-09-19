@@ -1,14 +1,12 @@
 import CardScenario from "./CardScenario"
-import "./AccountFavoritesMyFavorites.scss"
+import "./AccountFavoritesMyViews.scss"
 
-export default function AccountFavoritesMyFavorites({scenariosFavorite, user}) {
+export default function AccountFavoritesMyViews({scenariosFavorite, user}) {
 
   return (
-    <div className="containerMyFavorites">
+    <div className="containerMyViews">
       <div className="boardCards">
-        {
-          scenariosFavorite[0] && 
-        scenariosFavorite.map((scenario) => (
+        {scenariosFavorite.map((scenario) => (
           <div className="containerCard" key={scenario.id}>
             <CardScenario user={user} scenario={scenario} />
           </div>
