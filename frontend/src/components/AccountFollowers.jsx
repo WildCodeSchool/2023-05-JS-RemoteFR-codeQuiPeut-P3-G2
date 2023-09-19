@@ -1,32 +1,45 @@
-import { useEffect } from "react"
+import { useEffect,useContext, useState } from "react"
+import MyContext from "./MyContext"
 import etoilePleine from "../assets/images/etoile-pleine.png"
 import "./AccountFollowers.scss"
 import axios from "axios"
+import UserProfile from "./userProfile"
 
 export default function AccountFollowers() {
-  // useEffect(() => {
-  //     axios
-  //     .get(`http://localhost:4242/utilisateurs/followers`, {
-  //     auteurId: user.auteur_id,
-  //   })
+  const { user } = useContext(MyContext)
+  const[followers,setFollowers]=useState([])
+  const[showPopUpProfile, setShowPopUpProfile]=useState(false)
 
-  //   }, [
-  //     auteurId
-  //   ])
+const handleClickShowPopupProfile=()=>{
+  setShowPopUpProfile(true)
+}
+
+
+  useEffect(() => {
+      axios
+      .get(`http://localhost:4242/followers/${user.auteurId}`)
+      .then((res) => {
+        setFollowers(res.data)     
+    })
+  }, [])
 
   return (
-    <div className="containerFollower">
-      <div className="follower">
-        <p>Utilisateur 1</p>
-        <div className="containerFavoris">
-          <img src={etoilePleine} alt="" />
-          <p>60</p>
+    <>
+      {followers.map((follower) => (
+      <div className="containerFollower" key={follower.utilisateurId}>
+        <div className="follower" >
+          <p className="login">{follower.login}</p>
+          <div className="containerFavoris">
+            <img src={etoilePleine} alt="" />
+            <p>{follower.nbFavoris}</p>
+          </div>
+          <p>{follower.nbAvis} avis</p>
+          <button onClick={handleClickShowPopupProfile}>Voir le profil</button>
+          <button>Proposer co-écriture</button>
         </div>
-        <p>30 vues</p>
-        <p>3 avis</p>
-        <button>Voir le profil</button>
-        <button>Proposer co-écriture</button>
       </div>
-    </div>
+      ))}
+      {showPopUpProfile && <UserProfile showPopUpProfile={showPopUpProfile} setShowPopUpProfile={setShowPopUpProfile}/>}
+    </>
   )
 }

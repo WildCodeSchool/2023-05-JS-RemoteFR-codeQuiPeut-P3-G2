@@ -1,0 +1,116 @@
+@import url("https://fonts.googleapis.com/css2?family=Lustria&display=swap");
+$colorYellow: #ffbd59;
+$colorDark: #070a09;
+$blueColor: #4c60ae;
+$colorWhite: #ffffff;
+$fontSizeP: 1.2rem;
+$fontSizeBouton: 1.3rem;
+$fontSizeTitre: 1.5rem;
+
+.popUpProfile {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  /* From https://css.glass */
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+
+  
+
+  .profile {
+    width: 1100px;
+    height: 800px;
+    box-sizing: border-box;
+    box-shadow: 0 0 20px 3px $blueColor;
+    background-color: $colorDark;
+    color: $colorWhite;
+    font-family: Lustria;
+    font-size: $fontSizeP;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .imgcontainerClose {
+      display: flex;
+      justify-content: flex-end;
+      width: 100%;
+      margin-right: 32px;
+      margin-top: 16px;
+    }
+    p{
+      color:$colorWhite;
+    }
+
+    .containImg {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background-color: #4c60ae;
+      margin-top: 20px;;
+      .imgPhoto {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+        }
+      }
+
+    .containerProfile {
+      display:flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      a:active {
+        background-color: $colorYellow;
+        color: black;
+      }
+    
+      ul {
+        display: flex;
+        flex-direction: row;
+        color: $colorYellow;
+        text-decoration: none;
+        list-style: none;
+        margin-bottom: 32px;
+        li {
+          width: 200px;
+          padding: 8px;
+          border: 0.5px solid black;
+          background-color: $blueColor;
+          color: $colorWhite;
+          border-radius: 16px 16px 0px 0px;
+          cursor: pointer;
+          &:hover {
+            color: $blueColor;
+            background-color: $colorWhite;
+          }
+        }
+      }
+
+      .containTab{
+        display:flex;
+        justify-content: center;
+        align-items:center;
+        width:90%;
+      }
+    
+      }
+    }
+  }

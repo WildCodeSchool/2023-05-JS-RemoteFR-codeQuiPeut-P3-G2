@@ -195,7 +195,7 @@ const changePassword = (req, res) => {
 
 const usersWhoAreFollowers = (req, res) => {
   models.utilisateurs
-    .usersWhoAreFollowers(req.params.id)
+    .usersWhoAreFollowers(req.params.auteurId)
     .then(([rows]) => {
       if (rows[0] == null) {
         res.sendStatus(404)

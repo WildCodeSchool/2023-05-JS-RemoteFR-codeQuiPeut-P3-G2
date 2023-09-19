@@ -30,6 +30,7 @@ export default function Login({
       })
       .then(({ data }) => {
         setUser(data)
+        console.log("user",data)
 
         axios
           .get(`http://localhost:4242/autorFavorite/${data.id}`)
