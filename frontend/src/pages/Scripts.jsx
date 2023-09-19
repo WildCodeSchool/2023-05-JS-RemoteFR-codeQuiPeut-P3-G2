@@ -89,7 +89,7 @@ function Scripts() {
         (scenario) => scenario.auteurId === auteurID
       )
       newCampaigns = newCampaigns.filter(
-        (campagne) => campagne.auteurId === auteurID
+        (campagne) => campagne.auteurs_id === auteurID
       )
     }
 
@@ -113,13 +113,18 @@ function Scripts() {
       } else {
         newScenarios = newScenarios.filter(
           (scenario) =>
-            parseInt(scenario.nb_players_min, 10) ===
-            parseInt(valueNumberPlayer, 10)
+            parseInt(scenario.nb_player_min, 10) <=
+              parseInt(valueNumberPlayer, 10) &&
+            parseInt(scenario.nb_player_max, 10) >=
+              parseInt(valueNumberPlayer, 10)
         )
+
         newCampaigns = newCampaigns.filter(
           (campagne) =>
-            parseInt(campagne.nb_players_min, 10) ===
-            parseInt(valueNumberPlayer, 10)
+            parseInt(campagne.nb_player_min, 10) <=
+              parseInt(valueNumberPlayer, 10) &&
+            parseInt(campagne.nb_player_max, 10) >=
+              parseInt(valueNumberPlayer, 10)
         )
       }
     }
@@ -274,7 +279,7 @@ function Scripts() {
               </select>
             </div>
             <div className="nombre">
-              <p>Number of player min.</p>
+              <p>Number of player</p>
               <select
                 value={valueNumberPlayer}
                 onChange={handleChangeNumberPlayer}
