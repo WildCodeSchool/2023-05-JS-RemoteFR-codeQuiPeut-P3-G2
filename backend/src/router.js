@@ -26,6 +26,7 @@ const auteursFavorisControllers = require("./controllers/auteursFavorisControlle
 const scenarioCommentControllers = require("./controllers/scenarioCommentControllers")
 const campagnesMultiControllers = require("./controllers/campagnesMultiControllers")
 const forumCategoriesControllers = require("./controllers/forumCategoriesControllers")
+const campaignFavoriteControllers = require("./controllers/campaignFavoriteControllers")
 const multer = require("./middleware/multer-config")
 const {
   deleteImage,
@@ -96,6 +97,13 @@ router.post(
   utilisateursControllers.verifyLogin,
   utilisateursControllers.add
 )
+
+router.get(
+  "/utilisateurs/:userId/campagneFavorite/:campaignId",
+  campaignFavoriteControllers.verifyCampaignIsFavoriteForUser
+)
+router.post("/favoriteCampaign", campaignFavoriteControllers.add)
+router.delete("/favoriteCampaign", campaignFavoriteControllers.destroy)
 
 router.get("/commentaires_forum", forumCommControllers.browse)
 router.get("/commentaires_forum/:id", forumCommControllers.read)
@@ -173,7 +181,7 @@ router.delete("/auteurs/:id", auteursControllers.destroy)
 router.get("/auteurs/:id/campagnes", auteursControllers.readAuthorsCampagnes) // recherche les campagnes d'un auteur (retourne : id, campagneName)
 
 router.get("/campagnes", campagnesControllers.browse)
-
+router.get("/detailedCampagnes", campagnesControllers.findCampagnesWithDetails)
 router.get("/campagnes/:id", campagnesControllers.readWithTheme)
 router.post("/campagnes", campagnesControllers.add)
 router.put("/campagnes/:id", campagnesControllers.edit)
@@ -245,10 +253,18 @@ router.delete("/deleteTmpImage", deleteImageForm)
 router.post("/favorite", favoriteControllers.add)
 router.delete("/favorite", favoriteControllers.destroy)
 router.get("/favorite/:id", favoriteControllers.read)
+router.get(
+  "/utilisateurs/:userId/scenarioFavorite/:scenarioId",
+  favoriteControllers.verifyScenarioIsFavoriteForUser
+)
 
 router.post("/autorFavorite", auteursFavorisControllers.add)
 router.delete("/autorFavorite", auteursFavorisControllers.destroy)
 router.get("/autorFavorite/:id", auteursFavorisControllers.read)
+router.get(
+  "/utilisateurs/:userId/authorFavorite/:authorId",
+  auteursFavorisControllers.verifyAuthorIsFavoriteForUser
+)
 
 router.get("/scenarcomm", scenarioCommentControllers.browse)
 router.post("/scenarcomm", scenarioCommentControllers.add)

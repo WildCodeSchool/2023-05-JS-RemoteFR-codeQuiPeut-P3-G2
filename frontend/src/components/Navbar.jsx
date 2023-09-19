@@ -8,7 +8,7 @@ import logout from "../assets/images/Logout.svg"
 import SignUp from "./Signup"
 
 const Navbar = () => {
-  const { user, setUser } = useContext(MyContext)
+  const { user, setUser, setFollowedAutors } = useContext(MyContext)
   const [openForm, setOpenForm] = useState(false)
   const [openFormSignUp, setOpenFormSignUp] = useState(false)
   const [changeClassToOpenMenu, setChangeClassToOpenMenu] = useState(false)
@@ -25,6 +25,7 @@ const Navbar = () => {
   const HandleClickLogout = () => {
     navigate("/")
     setUser(null)
+    setFollowedAutors([])
   }
 
   const HandleClickOpenLogSignUp = () => {
