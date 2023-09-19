@@ -322,7 +322,7 @@ const ResumePageScenario = () => {
 
           <h2>Gamers reviews :</h2>
           {avis.map((avi) =>
-            avi.utilisateurs_id === user.id ? (
+            user !== null && avi.utilisateurs_id === user.id ? (
               avi.edit === true ? (
                 <div
                   className="scenarInteractionsLowEditing scInLowAll"
