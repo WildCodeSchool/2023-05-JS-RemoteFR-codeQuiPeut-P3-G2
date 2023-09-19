@@ -63,11 +63,17 @@ function Scripts() {
       .filter((item, index) => index < 2)
 
     setCampagnes(newCampaigns)
+    setThemes((prevstate) =>
+      prevstate.map((item) => ({ ...item, selected: false }))
+    )
   }
 
   const handleClickAll = () => {
     setScenarios(originalScenarios)
     setCampagnes(originalCampagnes)
+    setThemes((prevstate) =>
+      prevstate.map((item) => ({ ...item, selected: false }))
+    )
   }
   const handleScenariosFilter = () => {
     //  const newScenarios = originalScenarios
@@ -133,12 +139,24 @@ function Scripts() {
       )
     }
 
-    if (valueTheme !== null) {
-      newScenarios = newScenarios.filter(
-        (scenario) => scenario.theme === valueTheme
+    // if (valueTheme !== null) {
+    //   newScenarios = newScenarios.filter(
+    //     (scenario) => scenario.theme === valueTheme
+    //   )
+    //   newCampaigns = newCampaigns.filter(
+    //     (campagne) => campagne.theme === valueTheme
+    //   )
+    // }
+
+    let themeFilter = themes.filter((theme) => theme.selected)
+
+    if (themeFilter.length > 0) {
+      themeFilter = themeFilter.map((theme) => theme.name)
+      newScenarios = newScenarios.filter((scenario) =>
+        themeFilter.includes(scenario.theme)
       )
-      newCampaigns = newCampaigns.filter(
-        (campagne) => campagne.theme === valueTheme
+      newCampaigns = newCampaigns.filter((campaign) =>
+        themeFilter.includes(campaign.theme)
       )
     }
 
@@ -160,7 +178,10 @@ function Scripts() {
 
     axios
       .get("http://localhost:4242/themes")
-      .then(({ data }) => setThemes(data))
+      .then(({ data }) => {
+        const newThemes = data.map((item) => ({ ...item, selected: false }))
+        setThemes(newThemes)
+      })
       .catch((err) => console.error(err))
 
     axios
@@ -179,7 +200,7 @@ function Scripts() {
     valueDifficulty,
     valueNumberPlayer,
     valueRoleGame,
-    valueTheme,
+    themes,
     valueType,
   ])
   // ------------------------------------------------------------------------------------------------
