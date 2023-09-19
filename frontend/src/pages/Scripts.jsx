@@ -124,10 +124,6 @@ function Scripts() {
       .then(({ data }) => setThemes(data))
       .catch((err) => console.error(err))
 
-    // axios
-    //   .get("http://localhost:4242/campagnesMulti")
-    //   .then(({ data }) => setCampagnes(data))
-    //   .catch((err) => console.error(err))
     axios
       .get("http://localhost:4242/detailedCampagnes")
       .then(({ data }) => setCampagnes(data))
@@ -239,16 +235,16 @@ function Scripts() {
         </div>
         <div className="try">
           <div className="filtered-scenarios">
-            {/* {scenarios.map((scenario) => (
+            {scenarios.map((scenario) => (
               <div key={scenario.id}>
                 <CardScenario user={user} scenario={scenario} />
               </div>
-            ))} */}
-            {campagnes.map((campagne) => (
+            ))}
+            {/* {campagnes.map((campagne) => (
               <div key={campagne.id}>
                 <CardCampaign user={user} campaign={campagne} />
               </div>
-            ))}
+            ))} */}
           </div>
         </div>
       </div>
