@@ -2,6 +2,12 @@ const express = require("express")
 
 const router = express.Router()
 
+const { hashPassword, verifyPassword } = require("./services/authentification")
+const {
+  validateDataUsersNoCheckPassword,
+  validateDataUsersCheckOnlyPassword,
+} = require("./middleware/validateDataUsers")
+
 const scenariosControllers = require("./controllers/scenariosControllers")
 const utilisateursControllers = require("./controllers/UtilisateursControllers")
 const forumCommControllers = require("./controllers/forumCommControllers")
@@ -27,6 +33,8 @@ const scenarioCommentControllers = require("./controllers/scenarioCommentControl
 const campagnesMultiControllers = require("./controllers/campagnesMultiControllers")
 const forumCategoriesControllers = require("./controllers/forumCategoriesControllers")
 const campaignFavoriteControllers = require("./controllers/campaignFavoriteControllers")
+const vuesCampagnesControllers = require("./controllers/vuesCampagnesControllers")
+const vuesScenariosControllers = require("./controllers/vuesScenariosControllers")
 const multer = require("./middleware/multer-config")
 const {
   deleteImage,
@@ -39,6 +47,7 @@ const {
 
 // router.get("/scenarios", scenariosControllers.browse)
 router.get("/scenarios", scenariosControllers.browseScenarios)
+router.get("/scenariosOneshot", scenariosControllers.browseScenariosOneshot)
 // router.get("/scenarios/:id", scenariosControllers.read)
 // router.get("/scenarios", scenariosControllers.browse)
 // router.get("/scenarios/:id", scenariosControllers.read)
@@ -87,14 +96,17 @@ router.put("/password/:id", utilisateursControllers.changePassword)
 router.delete("/utilisateurs/:id", utilisateursControllers.destroy)
 router.post(
   "/login",
-  utilisateursControllers.readUserByEmail,
-  utilisateursControllers.verifyPassword,
+  utilisateursControllers.readUserByEmailWithPassword,
+  verifyPassword,
   utilisateursControllers.sendUserWhoHasGoodEmailAndPassword
 )
 router.post(
   "/signup",
   utilisateursControllers.verifyEmail,
   utilisateursControllers.verifyLogin,
+  validateDataUsersNoCheckPassword,
+  validateDataUsersCheckOnlyPassword,
+  hashPassword,
   utilisateursControllers.add
 )
 
@@ -276,5 +288,11 @@ router.get(
 )
 
 router.get("/forumCategories", forumCategoriesControllers.browse)
+
+router.post("/vuesScenarios", vuesScenariosControllers.add)
+router.put("/vuesScenarios", vuesScenariosControllers.edit)
+
+router.post("/vuesCampagnes", vuesCampagnesControllers.add)
+router.put("/vuesCampagnes", vuesCampagnesControllers.edit)
 
 module.exports = router
