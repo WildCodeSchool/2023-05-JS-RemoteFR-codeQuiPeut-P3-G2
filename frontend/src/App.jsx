@@ -29,12 +29,12 @@ function App() {
   const [scenarios, setScenarios] = useState([])
 
   // pour conserver l'utilisateur connecté même en cas de raffraichissement
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user")
-    if (storedUser) {
-      setUser(JSON.parse(storedUser))
-    }
-  }, [])
+  // useEffect(() => {
+  //   const storedUser = localStorage.getItem("user")
+  //   if (storedUser) {
+  //     setUser(JSON.parse(storedUser))
+  //   }
+  // }, [])
 
   // stockage de l'état initial de user, setUser et users via un useMemo
   const valeursFourniesDansMyContextProvider = useMemo(

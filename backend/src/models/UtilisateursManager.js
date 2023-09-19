@@ -7,13 +7,12 @@ class UtilisateursManager extends AbstractManager {
 
   insert(utilisateurs) {
     return this.database.query(
-      `insert into ${this.table} (lastname, firstname, login, email, password, hashedPassword, img) values (?,?,?,?,?,?,?)`,
+      `insert into ${this.table} (lastname, firstname, login, email, password, img) values (?,?,?,?,?,?)`,
       [
         utilisateurs.lastname,
         utilisateurs.firstname,
         utilisateurs.login,
         utilisateurs.email,
-        utilisateurs.password,
         utilisateurs.hashedPassword,
         utilisateurs.img,
       ]
@@ -42,7 +41,14 @@ class UtilisateursManager extends AbstractManager {
 
   readUserByEmailWithPassword(email) {
     return this.database.query(
-      `select id, lastname, firstname, login, email, hashedPassword, img, inscription_date from  ${this.table} where email = ?`,
+      `select id, lastname, firstname, login, email, password, img, inscription_date from  ${this.table} where email = ?`,
+      [email]
+    )
+  }
+
+  readUserByEmailNoPassword(email) {
+    return this.database.query(
+      `select id, lastname, firstname, login, email, img, inscription_date from  ${this.table} where email = ?`,
       [email]
     )
   }
@@ -68,8 +74,8 @@ class UtilisateursManager extends AbstractManager {
 
   findWithoutPassword(id) {
     return this.database.query(
-      // `SELECT id, lastname, firstname, login, email, img, inscription_date FROM  ${this.table} WHERE  id = ?`,
-      `SELECT * FROM  ${this.table} WHERE  id = ?`,
+      `SELECT id, lastname, firstname, login, email, img, inscription_date FROM  ${this.table} WHERE  id = ?`,
+      // `SELECT * FROM  ${this.table} WHERE  id = ?`,   //  Pour test !!!!!!!!!!!!!
       [id]
     )
   }

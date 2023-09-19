@@ -24,7 +24,7 @@ const hashPassword = (req, res, next) => {
 
 const verifyPassword = (req, res, next) => {
   argon2
-    .verify(req.user.hashedPassword, req.body.password)
+    .verify(req.user.password, req.body.password)
     .then((isVerified) => {
       if (isVerified) {
         next()
