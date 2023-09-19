@@ -12,6 +12,7 @@ import FilterSelect from "../components/FilterSelect"
 import TitleScripts from "../assets/SCRIPTS.png"
 
 import { difficulty, numberPlayers } from "../assets/variables/variables"
+import CardCampaign from "../components/CardCampaign"
 
 function Scripts() {
   const [originalScenarios, setOriginalScenarios] = useState([])
@@ -32,7 +33,7 @@ function Scripts() {
   const [campagnes, setCampagnes] = useState([])
   const { user } = useContext(MyContext)
   const [isChecked, setIsChecked] = useState(valueType === "one shot")
-  const [newest, setNewest] = useState([])
+  const [detailedCampagnes, setDetailedCampagnes] = useState([])
   // -----------------------------------------------------------------------------------
   // ----fonction filters
 
@@ -130,6 +131,11 @@ function Scripts() {
     axios
       .get("http://localhost:4242/campagnesMulti")
       .then(({ data }) => setCampagnes(data))
+      .catch((err) => console.error(err))
+
+    axios
+      .get("http://localhost:4242/detailedCampagnes")
+      .then(({ data }) => setDetailedCampagnes(data))
       .catch((err) => console.error(err))
   }, [])
 
@@ -249,6 +255,17 @@ function Scripts() {
                 <CardScenario user={user} scenario={scenario} />
               </div>
             ))}
+            {/* {isChecked
+              ? scenarios.map((scenario) => (
+                  <div key={scenario.id}>
+                    <CardScenario user={user} scenario={scenario} />
+                  </div>
+                ))
+              : campagnes.map((campagne) => (
+                  <div key={campagne.id}>
+                    <CardCampaign user={user} campaign={campagne} />
+                  </div>
+                ))} */}
           </div>
         </div>
       </div>

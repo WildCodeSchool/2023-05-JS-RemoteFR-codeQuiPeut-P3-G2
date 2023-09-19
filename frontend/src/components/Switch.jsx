@@ -29,7 +29,12 @@ function Switch({
   return (
     <>
       <label className="switch">
-        <input type="checkbox" checked={isChecked} onChange={checkHandler} />
+        <input
+          type="checkbox"
+          value={isChecked}
+          checked={isChecked}
+          onChange={checkHandler}
+        />
         <span className="slider"></span>
       </label>
     </>
