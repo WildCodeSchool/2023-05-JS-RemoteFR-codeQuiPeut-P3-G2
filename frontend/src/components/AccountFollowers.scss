@@ -11,6 +11,7 @@ $fontSizeTitre: 1.5rem;
   width: 85%;
   color: $colorWhite;
   border-top: 2px solid $blueColor;
+  border-bottom: 2px solid $blueColor;
   .follower {
     width: 100%;
     display: flex;
@@ -19,6 +20,10 @@ $fontSizeTitre: 1.5rem;
     align-items: center;
     flex-direction: row;
     width: 100%;
+    .login {
+      width: 200px;
+    }
+
     p {
       margin: 0px;
     }

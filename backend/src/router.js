@@ -89,7 +89,7 @@ router.get(
   utilisateursControllers.usersWhoAreFollowers
 )
 router.get("/utilisateurs/:id", utilisateursControllers.read)
-router.get("/auteurFollowers/:id", utilisateursControllers.usersWhoAreFollowers)
+router.get("/followers/:auteurId", utilisateursControllers.usersWhoAreFollowers)
 router.post("/utilisateurs", utilisateursControllers.add)
 router.put("/utilisateurs/:id", utilisateursControllers.edit)
 router.put("/password/:id", utilisateursControllers.changePassword)
