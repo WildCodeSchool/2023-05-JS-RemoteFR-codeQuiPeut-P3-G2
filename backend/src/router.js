@@ -2,6 +2,8 @@ const express = require("express")
 
 const router = express.Router()
 
+const { hashPassword, verifyPassword } = require("./services/authentification")
+
 const scenariosControllers = require("./controllers/scenariosControllers")
 const utilisateursControllers = require("./controllers/UtilisateursControllers")
 const forumCommControllers = require("./controllers/forumCommControllers")
@@ -88,14 +90,15 @@ router.put("/password/:id", utilisateursControllers.changePassword)
 router.delete("/utilisateurs/:id", utilisateursControllers.destroy)
 router.post(
   "/login",
-  utilisateursControllers.readUserByEmail,
-  utilisateursControllers.verifyPassword,
+  utilisateursControllers.readUserByEmailWithPassword,
+  verifyPassword,
   utilisateursControllers.sendUserWhoHasGoodEmailAndPassword
 )
 router.post(
   "/signup",
   utilisateursControllers.verifyEmail,
   utilisateursControllers.verifyLogin,
+  hashPassword,
   utilisateursControllers.add
 )
 
