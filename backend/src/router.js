@@ -46,10 +46,22 @@ router.put("/scenarios/:id", scenariosControllers.edit)
 router.post("/scenarios", scenariosControllers.add)
 router.delete("/scenarios/:id", scenariosControllers.destroy)
 router.get("/scenarios/:id/pages", scenariosControllers.readPages)
-router.get("/scenariosFavorites/utilisateur/:id",scenariosControllers.findUserScenariosFavorite)
-router.get("/scenariosAvis/utilisateur/:id",scenariosControllers.findUserScenariosAvis)
-router.get("/scenariosInProgress/utilisateur/:id",scenariosControllers.findScenariosInProgress)
-router.get("/scenariosFinished/utilisateur/:id",scenariosControllers.findScenariosFinished)
+router.get(
+  "/scenariosFavorites/utilisateur/:id",
+  scenariosControllers.findUserScenariosFavorite
+)
+router.get(
+  "/scenariosAvis/utilisateur/:id",
+  scenariosControllers.findUserScenariosAvis
+)
+router.get(
+  "/scenariosInProgress/utilisateur/:id",
+  scenariosControllers.findScenariosInProgress
+)
+router.get(
+  "/scenariosFinished/utilisateur/:id",
+  scenariosControllers.findScenariosFinished
+)
 
 router.get("/themesScenarios", scenarioThemesControllers.browse)
 router.put("/themesScenarios/:id", scenarioThemesControllers.edit)

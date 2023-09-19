@@ -1,8 +1,7 @@
 import CardScenario from "./CardScenario"
 import "./AccountFavoritesMyComments.scss"
 
-export default function AccountFavoritesMyComments({scenariosAvis, user}) {
-
+export default function AccountFavoritesMyComments({ scenariosAvis, user }) {
   return (
     <div className="containerMyComments">
       <div className="boardCards">

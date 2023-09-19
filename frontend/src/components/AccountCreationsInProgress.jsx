@@ -1,11 +1,11 @@
-
 import "./AccountCreationsInProgress.scss"
 import pen from "../assets/images/Pen.svg"
 import CardScenarioCreation from "./CardScenarioCreation"
 
-export default function AccountCreationsInProgress({scenariosInProgress,user}) {
-
-
+export default function AccountCreationsInProgress({
+  scenariosInProgress,
+  user,
+}) {
   return (
     <div className="containerCreationsInProgress">
       <h1>My creations in progress</h1>

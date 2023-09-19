@@ -20,15 +20,17 @@ export default function AccountFavorites() {
   }
 
   useEffect(() => {
-    axios.get(`http://localhost:4242/scenariosFavorites/utilisateur/${user.id}`)
-        .then((res) => {
-      setScenariosFavorite(res.data)
-    })
+    axios
+      .get(`http://localhost:4242/scenariosFavorites/utilisateur/${user.id}`)
+      .then((res) => {
+        setScenariosFavorite(res.data)
+      })
 
-    axios.get(`http://localhost:4242/scenariosAvis/utilisateur/${user.id}`)
-    .then((res) => {
-  setScenariosAvis(res.data)
-})
+    axios
+      .get(`http://localhost:4242/scenariosAvis/utilisateur/${user.id}`)
+      .then((res) => {
+        setScenariosAvis(res.data)
+      })
 
     axios
       .get("http://localhost:4242/campagnesMulti")
@@ -45,9 +47,24 @@ export default function AccountFavorites() {
       </ul>
 
       <div className="containTab">
-        {ongletActif === 1 && <AccountFavoritesMyFavorites scenariosFavorite={scenariosFavorite} user={user}/>}
-        {ongletActif === 2 && <AccountFavoritesMyViews scenariosFavorite={scenariosFavorite} user={user}/>}
-        {ongletActif === 3 && <AccountFavoritesMyComments scenariosAvis={scenariosAvis} user={user}/>}
+        {ongletActif === 1 && (
+          <AccountFavoritesMyFavorites
+            scenariosFavorite={scenariosFavorite}
+            user={user}
+          />
+        )}
+        {ongletActif === 2 && (
+          <AccountFavoritesMyViews
+            scenariosFavorite={scenariosFavorite}
+            user={user}
+          />
+        )}
+        {ongletActif === 3 && (
+          <AccountFavoritesMyComments
+            scenariosAvis={scenariosAvis}
+            user={user}
+          />
+        )}
       </div>
     </div>
   )

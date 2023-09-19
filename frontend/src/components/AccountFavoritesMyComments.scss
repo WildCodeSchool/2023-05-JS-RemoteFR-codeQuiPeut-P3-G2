@@ -7,11 +7,11 @@ $fontSizeP: 1.4rem;
 $fontSizeBouton: 1.3rem;
 $fontSizeTitre: 1.5rem;
 
-.containerMyComments{
-    width:100%;
-    .boardCards{
-        display:flex;
-        flex-wrap: wrap;
-        gap:54px;
-    }
+.containerMyComments {
+  width: 100%;
+  .boardCards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 54px;
+  }
 }

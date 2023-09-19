@@ -7,11 +7,11 @@ $fontSizeP: 1.4rem;
 $fontSizeBouton: 1.3rem;
 $fontSizeTitre: 1.5rem;
 
-.containerMyViews{
-    width:100%;
-    .boardCards{
-        display:flex;
-        flex-wrap: wrap;
-        gap:54px;
-    }
+.containerMyViews {
+  width: 100%;
+  .boardCards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 54px;
+  }
 }

@@ -16,23 +16,25 @@ export default function AccountFavorites() {
   const [campagnes, setCampagnes] = useState([])
   const [ongletActif, setOngletActif] = useState(1)
   const [originalScenarios, setOriginalScenarios] = useState([])
-const [scenariosInProgress,setScenariosInProgress] =useState([])
-const [scenariosFinished,setScenariosFinished] =useState([])
+  const [scenariosInProgress, setScenariosInProgress] = useState([])
+  const [scenariosFinished, setScenariosFinished] = useState([])
 
   const showTap = (numOnglet) => {
     setOngletActif(numOnglet)
   }
 
   useEffect(() => {
-    axios.get(`http://localhost:4242/scenariosInProgress/utilisateur/${user.id}`)
-        .then((res) => {
-      setScenariosInProgress(res.data)
-    })
+    axios
+      .get(`http://localhost:4242/scenariosInProgress/utilisateur/${user.id}`)
+      .then((res) => {
+        setScenariosInProgress(res.data)
+      })
 
-    axios.get(`http://localhost:4242/scenariosFinished/utilisateur/:id${user.id}`)
-    .then((res) => {
-      setScenariosFinished(res.data)
-})
+    axios
+      .get(`http://localhost:4242/scenariosFinished/utilisateur/:id${user.id}`)
+      .then((res) => {
+        setScenariosFinished(res.data)
+      })
 
     axios
       .get("http://localhost:4242/campagnesMulti")
@@ -48,8 +50,18 @@ const [scenariosFinished,setScenariosFinished] =useState([])
       </ul>
 
       <div className="containTab">
-        {ongletActif === 1 && <AccountCreationsInProgress scenariosInProgress={scenariosInProgress} user={user}/>}
-        {ongletActif === 2 && <AccountCreationsFinished scenariosFinished={scenariosFinished} user={user}/>}
+        {ongletActif === 1 && (
+          <AccountCreationsInProgress
+            scenariosInProgress={scenariosInProgress}
+            user={user}
+          />
+        )}
+        {ongletActif === 2 && (
+          <AccountCreationsFinished
+            scenariosFinished={scenariosFinished}
+            user={user}
+          />
+        )}
       </div>
     </div>
   )

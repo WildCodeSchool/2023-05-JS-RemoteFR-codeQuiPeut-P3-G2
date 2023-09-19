@@ -121,7 +121,7 @@ LEFT JOIN scenarios_favoris ON scenarios_favoris.scenarios_id = scenarios.id
 LEFT JOIN avis_scenario ON avis_scenario.scenarios_id = scenarios.id
 WHERE scenarios.publication_date>2999-12-25 and auteurs.utilisateurs_id= ?
 GROUP BY campagnes.name, jeux_de_role.name, scenarios.id, auteurs.name, auteurs.id, auteurs.utilisateurs_id, scenarios.name, scenarios.nb_player_min, scenarios.nb_player_max, scenarios.type, scenarios.level, scenarios.start_writing_date, scenarios.publication_date, scenarios.img, scenarios.description, jeux_de_role.id, jeux_de_role.name, themes.id, themes.name`,
-[auteurId]
+      [auteurId]
     )
   }
 
@@ -138,7 +138,7 @@ LEFT JOIN scenarios_favoris ON scenarios_favoris.scenarios_id = scenarios.id
 LEFT JOIN avis_scenario ON avis_scenario.scenarios_id = scenarios.id
 WHERE scenarios.publication_date<2999-12-25 and auteurs.utilisateurs_id= ?
 GROUP BY campagnes.name, jeux_de_role.name, scenarios.id, auteurs.name, auteurs.id, auteurs.utilisateurs_id, scenarios.name, scenarios.nb_player_min, scenarios.nb_player_max, scenarios.type, scenarios.level, scenarios.start_writing_date, scenarios.publication_date, scenarios.img, scenarios.description, jeux_de_role.id, jeux_de_role.name, themes.id, themes.name`,
-[auteurId]
+      [auteurId]
     )
   }
 
