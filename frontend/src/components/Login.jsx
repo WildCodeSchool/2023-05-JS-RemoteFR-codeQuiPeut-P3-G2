@@ -11,7 +11,7 @@ export default function Login({
   setOpenFormSignUp,
   setChangeClassToOpenMenu,
 }) {
-  const { user, setUser } = useContext(MyContext)
+  const { user, setUser, setFollowedAutors } = useContext(MyContext)
   const [email, setEmail] = useState("")
   const [passWord, setPassWord] = useState("")
   const [wrongEmailOrPassword, setWrongEmailOrPassword] = useState(false)
@@ -30,6 +30,11 @@ export default function Login({
       })
       .then(({ data }) => {
         setUser(data)
+
+        axios
+          .get(`http://localhost:4242/autorFavorite/${data.id}`)
+          .then(({ data }) => setFollowedAutors(data))
+          .catch((err) => console.error(err))
 
         // Sauvegarde des informations de l'utilisateur dans le localStorage
         localStorage.setItem("user", JSON.stringify(data))

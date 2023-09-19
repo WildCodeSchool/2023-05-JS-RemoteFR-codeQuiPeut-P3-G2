@@ -129,7 +129,7 @@ function Scripts() {
       .catch((err) => console.error(err))
 
     axios
-      .get("http://localhost:4242/campagnesMulti")
+      .get("http://localhost:4242/detailedCampagnes")
       .then(({ data }) => setCampagnes(data))
       .catch((err) => console.error(err))
 

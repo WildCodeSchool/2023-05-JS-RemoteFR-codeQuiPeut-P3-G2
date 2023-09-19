@@ -3,20 +3,38 @@ import { useEffect, useContext, useState } from "react"
 import MyContext from "./MyContext"
 import axios from "axios"
 import "./AccountCreations.scss"
-import pen from "../assets/images/Pen.svg"
-import CardScenarioCreation from "./CardScenarioCreation"
+import AccountFavoritesMyFavorites from "./AccountFavoritesMyFavorites"
+import AccountFavoritesMyViews from "./AccountFavoritesMyViews"
+import AccountFavoritesMyComments from "./AccountFavoritesMyComments"
+import AccountCreationsInProgress from "./AccountCreationsInProgress"
+import AccountCreationsFinished from "./AccountCreationsFinished"
 
-export default function AccountCreations() {
+export default function AccountFavorites() {
   const { user } = useContext(MyContext)
-  const [scenarios, setScenarios] = useState([])
+  const [scenariosFavorite, setScenariosFavorite] = useState([])
+  const [scenariosAvis, setScenariosAvis] = useState([])
   const [campagnes, setCampagnes] = useState([])
+  const [ongletActif, setOngletActif] = useState(1)
   const [originalScenarios, setOriginalScenarios] = useState([])
+  const [scenariosInProgress, setScenariosInProgress] = useState([])
+  const [scenariosFinished, setScenariosFinished] = useState([])
+
+  const showTap = (numOnglet) => {
+    setOngletActif(numOnglet)
+  }
 
   useEffect(() => {
-    axios.get("http://localhost:4242/scenarios").then((res) => {
-      setScenarios(res.data)
-      setOriginalScenarios(res.data)
-    })
+    axios
+      .get(`http://localhost:4242/scenariosInProgress/utilisateur/${user.id}`)
+      .then((res) => {
+        setScenariosInProgress(res.data)
+      })
+
+    axios
+      .get(`http://localhost:4242/scenariosFinished/utilisateur/:id${user.id}`)
+      .then((res) => {
+        setScenariosFinished(res.data)
+      })
 
     axios
       .get("http://localhost:4242/campagnesMulti")
@@ -26,16 +44,24 @@ export default function AccountCreations() {
 
   return (
     <div className="containerCreations">
-      <h1>My creations in progress</h1>
-      <div className="boardCards">
-        {scenarios.map((scenario) => (
-          <div className="containerCard" key={scenario.id}>
-            <div className="containerImg">
-              <img src={pen} alt="crayon pour modifier" />
-            </div>
-            <CardScenarioCreation user={user} scenario={scenario} />
-          </div>
-        ))}
+      <ul>
+        <li onClick={() => showTap(1)}>Work in progress</li>
+        <li onClick={() => showTap(2)}>Finished</li>
+      </ul>
+
+      <div className="containTab">
+        {ongletActif === 1 && (
+          <AccountCreationsInProgress
+            scenariosInProgress={scenariosInProgress}
+            user={user}
+          />
+        )}
+        {ongletActif === 2 && (
+          <AccountCreationsFinished
+            scenariosFinished={scenariosFinished}
+            user={user}
+          />
+        )}
       </div>
     </div>
   )
