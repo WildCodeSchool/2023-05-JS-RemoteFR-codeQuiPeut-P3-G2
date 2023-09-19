@@ -1,4 +1,5 @@
 import { useState, useContext, useEffect } from "react"
+import { useLocation } from "react-router-dom"
 import MyContext from "../components/MyContext"
 import Navbar from "../components/Navbar"
 import axios from "axios"
@@ -7,7 +8,8 @@ import emptyStar from "../assets/images/etoile-vide.png"
 import CardScenario from "../components/CardScenario"
 
 export default function ResumePageCampaign() {
-  const campagneID = 1
+  const location = useLocation()
+  const campagneID = location.state
 
   const [campagne, setCampagne] = useState([])
   const [scenariosOfSelectedCampagne, setScenariosOfSelectedCampagne] =
@@ -27,16 +29,16 @@ export default function ResumePageCampaign() {
     if (user !== null) {
       setIsFAvorite(!isFavorite)
       if (isFavorite) {
-        axios.delete(`http://localhost:4242/favorite`, {
+        axios.delete(`http://localhost:4242/favoriteCampaign`, {
           data: {
             utilisateurID: user.id,
-            campagneID: campagne.id,
+            campaignID: campagneID,
           },
         })
       } else {
-        axios.post(`http://localhost:4242/favorite`, {
+        axios.post(`http://localhost:4242/favoriteCampaign`, {
           utilisateurID: user.id,
-          campagneID: campagne.id,
+          campaignID: campagneID,
         })
       }
     } else {
@@ -44,14 +46,18 @@ export default function ResumePageCampaign() {
     }
   }
 
-  //   useEffect(() => {
-  //     axios
-  //       .get(`http://localhost:4242/favorite/${scenario.id}`)
-  //       .then(() => {
-  //         setIsFAvorite(true)
-  //       })
-  //       .catch(() => setIsFAvorite(false))
-  //   }, [])
+  useEffect(() => {
+    if (user !== null) {
+      axios
+        .get(
+          `http://localhost:4242/utilisateurs/${user.id}/campagneFavorite/${campagneID}`
+        )
+        .then(({ data }) => {
+          setIsFAvorite(true)
+        })
+        .catch(() => setIsFAvorite(false))
+    }
+  }, [])
 
   useEffect(() => {
     axios

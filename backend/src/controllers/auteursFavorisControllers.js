@@ -21,7 +21,7 @@ const read = (req, res) => {
       if (rows[0] == null) {
         res.sendStatus(404)
       } else {
-        res.send(rows[0])
+        res.send(rows)
       }
     })
     .catch((err) => {
@@ -48,8 +48,28 @@ const destroy = (req, res) => {
     })
 }
 
+const verifyAuthorIsFavoriteForUser = (req, res) => {
+  const userId = parseInt(req.params.userId, 10)
+  const authorId = parseInt(req.params.authorId, 10)
+
+  models.auteursFavoris
+    .verifyAuthorIsFavoriteForUser(userId, authorId)
+    .then(([rows]) => {
+      if (rows[0] == null) {
+        res.sendStatus(404)
+      } else {
+        res.send(rows)
+      }
+    })
+    .catch((err) => {
+      console.error(err)
+      res.sendStatus(500)
+    })
+}
+
 module.exports = {
   add,
   read,
   destroy,
+  verifyAuthorIsFavoriteForUser,
 }
