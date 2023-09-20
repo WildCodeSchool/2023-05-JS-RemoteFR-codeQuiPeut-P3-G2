@@ -75,6 +75,25 @@ $fontSizeTitre: 1.5rem;
           margin-bottom: 16px;
           justify-content: center;
 
+          .signUpErrors{
+            display: flex;
+            justify-content: center;
+            // max-width: 90%;
+            margin: 5px 0 0 0;
+            color: red;
+            font-size: calc($fontSizeP/1.5);
+          }
+
+          .sUEPassword{
+            display: flex;
+            justify-content: center;
+            max-width: 80%;
+            margin: 5px 0 0 0;
+            color: red;
+            font-size: calc($fontSizeP/1.5);
+            margin-left: 15px;
+          }
+
           .LastnameFirstname {
             display: flex;
             flex-direction: row;
