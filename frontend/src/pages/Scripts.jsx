@@ -188,13 +188,15 @@ function Scripts() {
     <div className="containerScripts">
       <Navbar />
       <header>
-        <img src={TitleScripts}></img>
+        {/* <img src={TitleScripts}></img>
+        <img src={TitleScripts}></img> */}
+        <p>SCRIPTS-SCRIPTS-SCRIPTS-SCRIPTS- </p>
+        <p>SCRIPTS-SCRIPTS-SCRIPTS-SCRIPTS-</p>
       </header>
       <div className="all">
         <div className="Filter">
           <div className="Type">
             <p>One Shot</p>
-
             <Switch
               scenarios={scenarios}
               setValueType={setValueType}
