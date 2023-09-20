@@ -60,6 +60,30 @@ const ResumePageScenario = () => {
 
   const handleGoToScenario = () => {
     navigate("/readscenario", { state: scenario })
+
+    if (scenario.nbVues === 0) {
+      axios.post(`http://localhost:4242/vuesScenarios`, {
+        nbVues: 1,
+        scenarioId: scenario.id,
+      })
+    } else {
+      axios.put(`http://localhost:4242/vuesScenarios`, {
+        nbVues: scenario.nbVues + 1,
+        scenarioId: scenario.id,
+      })
+    }
+
+    if (scenario.nbVuesCampagne === 0) {
+      axios.post(`http://localhost:4242/vuesCampagnes`, {
+        nbVues: 1,
+        campagneId: scenario.campagnes_id,
+      })
+    } else {
+      axios.put(`http://localhost:4242/vuesCampagnes`, {
+        nbVues: scenario.nbVuesCampagne + 1,
+        campagneId: scenario.campagnes_id,
+      })
+    }
   }
   const handleClickAddComment = () => {
     setAddComment(!addComment)
@@ -154,12 +178,16 @@ const ResumePageScenario = () => {
   }
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:4242/favorite/${scenario.id}`)
-      .then(() => {
-        setIsFAvorite(true)
-      })
-      .catch(() => setIsFAvorite(false))
+    if (user !== null) {
+      axios
+        .get(
+          `http://localhost:4242/utilisateurs/${user.id}/scenarioFavorite/${scenario.id}`
+        )
+        .then(({ data }) => {
+          setIsFAvorite(true)
+        })
+        .catch(() => setIsFAvorite(false))
+    }
   }, [])
 
   useEffect(() => {
@@ -294,7 +322,7 @@ const ResumePageScenario = () => {
 
           <h2>Gamers reviews :</h2>
           {avis.map((avi) =>
-            avi.utilisateurs_id === user.id ? (
+            user !== null && avi.utilisateurs_id === user.id ? (
               avi.edit === true ? (
                 <div
                   className="scenarInteractionsLowEditing scInLowAll"

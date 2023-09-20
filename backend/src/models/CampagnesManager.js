@@ -52,7 +52,14 @@ class CampagnesManager extends AbstractManager {
 
   readCampagneDetailedScenarios(id) {
     return this.database.query(
-      `select scenarios.*, campagnes.name AS campagnes_name, jdr.name AS jeux_de_role, themes.name AS theme FROM ${this.table} INNER JOIN scenarios ON scenarios.campagnes_id = campagnes.id INNER JOIN jeux_de_role AS jdr ON jdr.id = scenarios.jeux_de_role_id INNER JOIN scenarios_themes AS st ON st.scenarios_id = scenarios.id  INNER JOIN themes ON themes.id = st.themes_id WHERE campagnes.id = ?`,
+      `select scenarios.*, campagnes.name AS campagnes_name, jdr.name AS jeux_de_role, themes.name AS theme, COALESCE(vs.nbVuesScenario, 0) AS nbVues, COALESCE(vc.nbVuesCampagne, 0) AS nbVuesCampagne FROM ${this.table} 
+      INNER JOIN scenarios ON scenarios.campagnes_id = campagnes.id 
+      INNER JOIN jeux_de_role AS jdr ON jdr.id = scenarios.jeux_de_role_id 
+      INNER JOIN scenarios_themes AS st ON st.scenarios_id = scenarios.id  
+      INNER JOIN themes ON themes.id = st.themes_id 
+      LEFT JOIN vues_scenarios AS vs ON vs.scenarios_id = scenarios.id
+      LEFT JOIN vues_campagnes AS vc ON vc.campagnes_id = scenarios.campagnes_id
+      WHERE campagnes.id = ?`,
       [id]
     )
   }
@@ -68,6 +75,38 @@ class CampagnesManager extends AbstractManager {
     return this.database.query(
       `select campagnes.name, campagnes.id as campagneId, count(scenarios.id) as nbScenarios FROM ${this.table} INNER JOIN scenarios ON scenarios.campagnes_id = campagnes.id 
       group by campagnes.name, campagnes.id`
+    )
+  }
+
+  // findCampagnesWithDetails() {
+  //   return this.database.query(
+  //     `SELECT c.*, a.name AS autor, jdr.name as jeux_de_role, t.name AS theme, COALESCE(vc.nbVuesCampagne, 0) AS nbVues FROM ${this.table} AS c INNER JOIN auteurs AS a ON a.id = c.auteurs_id INNER JOIN jeux_de_role as jdr ON jdr.id = c.jeux_de_role_id INNER JOIN campagnes_themes AS ct ON ct.campagnes_id = c.id INNER JOIN themes AS t ON t.id = ct.themes_id LEFT JOIN vues_campagnes AS vc ON vc.campagnes_id = c.id`
+  //   )
+  // }
+
+  findCampagnesWithDetails() {
+    return this.database.query(
+      `SELECT c.*, a.name AS autor, jdr.name as jeux_de_role, t.name AS theme, COALESCE(vc.nbVuesCampagne, 0) AS nbVues 
+      FROM ${this.table} AS c 
+      INNER JOIN auteurs AS a ON a.id = c.auteurs_id 
+      INNER JOIN jeux_de_role as jdr ON jdr.id = c.jeux_de_role_id 
+      INNER JOIN campagnes_themes AS ct ON ct.campagnes_id = c.id 
+      INNER JOIN themes AS t ON t.id = ct.themes_id 
+      LEFT JOIN vues_campagnes AS vc ON vc.campagnes_id = c.id
+      WHERE (
+        SELECT COUNT(*) FROM scenarios AS s WHERE s.campagnes_id = c.id
+      ) > 1`
+    )
+  }
+
+  verifyNumberOfSameImageBetweenCampagnesAndScenarios(img) {
+    return this.database.query(
+      `SELECT COUNT(*) as countImage FROM (
+      SELECT img FROM scenarios
+      UNION ALL
+      SELECT img FROM campagnes
+  ) as combined WHERE img = ?`,
+      [img]
     )
   }
 }

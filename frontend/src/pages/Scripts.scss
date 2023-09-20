@@ -6,29 +6,46 @@ $colorYellow: #ffbd59;
   width: 100vw;
 
   header {
-    width: 100vw;
-    height: 150px;
-    margin-top: 96px;
-    margin-bottom: 96px;
+    width: 100%;
+    height: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display:flex;
+ 
 
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
+    p {
+      font-size: 7rem;
+      color: #070a09;
+      white-space: nowrap;
+      // height: 100%;
+      // // object-fit: fill;
+      animation: Scroll 20s linear infinite;
+      text-shadow: 0 0 5px  #4c60ae,
+    }
+
+    @keyframes Scroll {
+      0% {
+        transform: translateX(-100%);
+      }
+
+      100%{
+        transform: translateX(0%);
+      }
     }
   }
   .all {
-    // width: 100%;
-    // height: 100%;
+    width: 100%;
+    height: 100%;
     display: flex;
-    justify-content: space-between;
     align-items: flex-start;
     font-family: Lustria;
+    font-weight: bold;
 
     .Filter {
+      // margin-top:10%;
       position: sticky;
-      width: 30%;
-      height: 100vh;
+      width: 28%;
+      height: 100%;
       box-shadow: 7px 0px 4px -4px $blueColor;
       display: flex;
       flex-direction: column;
@@ -39,10 +56,17 @@ $colorYellow: #ffbd59;
       .Type {
         display: flex;
         align-items: baseline;
+        p{
+          font-size: x-large;
+        }
       }
       .containerSelect {
-        width: 60%;
-
+        width: 65%;
+        p{
+          font-size: x-large;
+          display: flex;
+          justify-content: center;
+        }
         select {
           // border-radius: 50px;
           background-color: #070a09;
@@ -53,15 +77,13 @@ $colorYellow: #ffbd59;
       }
     }
 
-    .Card {
-      display: flex;
-    }
-
     .titleTheme {
       display: flex;
-      justify-content: flex-start;
-      font-size: large;
-      color: #4c60ae;
+      justify-content: center;
+      font-size: x-large;
+      color:  #ffff;
+      text-decoration: underline;
+      text-decoration-color:#4c60ae;
     }
 
     .try {
@@ -71,6 +93,7 @@ $colorYellow: #ffbd59;
       .filtered-scenarios {
         display: flex;
         flex-wrap: wrap;
+        justify-content: center;
         gap: 54px;
       }
     }
@@ -79,18 +102,21 @@ $colorYellow: #ffbd59;
     display: flex;
     justify-content: flex-start;
     gap: 20px;
+      p {
+        color: white;
+        position: relative;
+        top: 10px;
+      }
   }
-  p {
-    color: white;
-  }
+
   .conseiller {
     margin-top: 25px;
     margin-bottom: 25px;
     gap: 10px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
+    justify-content: center;
+    align-items: center;
 
     button {
       color: #ffbd59;
@@ -98,14 +124,22 @@ $colorYellow: #ffbd59;
       border: none;
       background-color: #070a09;
     }
+
+    button:hover{
+        text-decoration: underline;
+        text-decoration-color: #ffbd59;
+    }
   }
 
   .univers {
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
+    
     p {
-      color: #4c60ae;
+      color: #ffff;
+      text-decoration: underline;
+      text-decoration-color:#4c60ae;
     }
   }
   .auteur {
@@ -114,7 +148,9 @@ $colorYellow: #ffbd59;
     flex-direction: column;
 
     p {
-      color: #4c60ae;
+      color: #ffff;
+      text-decoration: underline;
+      text-decoration-color:#4c60ae;
     }
   }
 
@@ -124,7 +160,9 @@ $colorYellow: #ffbd59;
     flex-direction: column;
 
     p {
-      color: #4c60ae;
+      color: #ffff;
+      text-decoration: underline;
+      text-decoration-color:#4c60ae;
     }
   }
 
@@ -134,7 +172,9 @@ $colorYellow: #ffbd59;
     flex-direction: column;
 
     p {
-      color: #4c60ae;
+      color:  #ffff;
+      text-decoration: underline;
+      text-decoration-color:#4c60ae;
     }
   }
 }

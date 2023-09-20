@@ -23,18 +23,16 @@ function App() {
   // user sera l'utilisateur de mon site, quand on entre sur le site il est initialisé à null
   // il changera quand on l'utilisateur se connectera
   const [user, setUser] = useState(null)
-  // le state infoCampagnes contiendra les infos de toutes les campagnes
-  // le state scenarios contiendra les infos de tous les scenarios
-  const [campagnes, setCampagnes] = useState([])
-  const [scenarios, setScenarios] = useState([])
+  // le state followedAutors contiendra les infos de tous les auteurs suivis
+  const [followedAutors, setFollowedAutors] = useState([])
 
   // pour conserver l'utilisateur connecté même en cas de raffraichissement
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user")
-    if (storedUser) {
-      setUser(JSON.parse(storedUser))
-    }
-  }, [])
+  // useEffect(() => {
+  //   const storedUser = localStorage.getItem("user")
+  //   if (storedUser) {
+  //     setUser(JSON.parse(storedUser))
+  //   }
+  // }, [])
 
   // stockage de l'état initial de user, setUser et users via un useMemo
   const valeursFourniesDansMyContextProvider = useMemo(
@@ -43,21 +41,10 @@ function App() {
       setUser,
       users,
       setUsers,
-      campagnes,
-      setCampagnes,
-      scenarios,
-      setScenarios,
+      followedAutors,
+      setFollowedAutors,
     }),
-    [
-      user,
-      setUser,
-      users,
-      setUsers,
-      campagnes,
-      setCampagnes,
-      scenarios,
-      setScenarios,
-    ]
+    [user, setUser, users, setUsers, followedAutors, setFollowedAutors]
   )
 
   return (

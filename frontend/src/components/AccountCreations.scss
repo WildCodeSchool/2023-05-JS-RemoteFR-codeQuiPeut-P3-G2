@@ -9,28 +9,33 @@ $fontSizeTitre: 1.5rem;
 
 .containerCreations {
   width: 100%;
+  height: 100%;
   margin-top: 56px;
   margin-left: 56px;
-  h1 {
-    color: $colorYellow;
-    margin-bottom: 56px;
+  a:active {
+    background-color: $colorYellow;
+    color: black;
   }
-  .boardCards {
-    width: 80%;
-    display: grid;
-    grid-template-columns: 33% 33% 33%;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    .containerCard {
-      position: relative;
-      width: 277px;
-      height: 450px;
-      .containerImg {
-        position: absolute;
-        z-index: 2;
-        top: -25px;
-        right: -10px;
+
+  ul {
+    display: flex;
+    flex-direction: row;
+    color: $colorYellow;
+    text-decoration: none;
+    list-style: none;
+    margin-top: 32px;
+    margin-bottom: 32px;
+    li {
+      width: 200px;
+      padding: 8px;
+      border: 0.5px solid black;
+      background-color: $blueColor;
+      color: $colorWhite;
+      border-radius: 16px 16px 0px 0px;
+      cursor: pointer;
+      &:hover {
+        color: $blueColor;
+        background-color: $colorWhite;
       }
     }
   }
