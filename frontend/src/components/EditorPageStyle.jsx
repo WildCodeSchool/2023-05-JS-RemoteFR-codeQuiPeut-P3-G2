@@ -122,7 +122,7 @@ export default function EditorPageStyle(props) {
 
       setDivPaddingPage(parseInt(itemStyle.padding, 10))
     }
-  }, [pagesOfScenarioSelected])
+  }, [pagesOfScenarioSelected, mounted])
 
   return (
     <main className="main-editorPageStyle">
