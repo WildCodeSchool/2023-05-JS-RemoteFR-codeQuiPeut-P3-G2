@@ -9,9 +9,16 @@ export default function AccountFollowers() {
   const { user } = useContext(MyContext)
   const [followers, setFollowers] = useState([])
   const [showPopUpProfile, setShowPopUpProfile] = useState(false)
+  const [followerID, setFollowerId] = useState()
+  const [followersProfile, setFollowersProfile] = useState([])
 
-  const handleClickShowPopupProfile = () => {
+  const handleClickShowPopupProfile = (id) => {
+    setFollowerId(id)
     setShowPopUpProfile(true)
+
+    axios.get(`http://localhost:4242/utilisateurs/${id}`).then((res) => {
+      setFollowersProfile(res.data)
+    })
   }
 
   useEffect(() => {
@@ -33,7 +40,11 @@ export default function AccountFollowers() {
               <p>{follower.nbFavoris}</p>
             </div>
             <p>{follower.nbAvis} avis</p>
-            <button onClick={handleClickShowPopupProfile}>
+            <button
+              onClick={() =>
+                handleClickShowPopupProfile(follower.utilisateurId)
+              }
+            >
               Voir le profil
             </button>
             <button>Proposer co-écriture</button>
@@ -44,6 +55,8 @@ export default function AccountFollowers() {
         <UserProfile
           showPopUpProfile={showPopUpProfile}
           setShowPopUpProfile={setShowPopUpProfile}
+          followerID={followerID}
+          followersProfile={followersProfile}
         />
       )}
     </>

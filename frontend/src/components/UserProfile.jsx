@@ -8,11 +8,14 @@ import UserProfileCreations from "./UserProfileCreations"
 import UserProfileFollowers from "./UserProfileFollowers"
 import croix from "../assets/images/Close.svg"
 
-export default function UserProfile({ setShowPopUpProfile }) {
+export default function UserProfile({
+  setShowPopUpProfile,
+  followerID,
+  followersProfile,
+}) {
   const { user } = useContext(MyContext)
   const [ongletActif, setOngletActif] = useState(1)
-  const [scenariosUserFavorite, setScenariosUserFavorite] = useState([])
-  const [followersProfile, setFollowersProfile] = useState([])
+  // const [scenariosUserFavorite, setScenariosUserFavorite] = useState([])
 
   const showTap = (numOnglet) => {
     setOngletActif(numOnglet)
@@ -21,20 +24,6 @@ export default function UserProfile({ setShowPopUpProfile }) {
   const HandlecloseFormProfile = () => {
     setShowPopUpProfile(false)
   }
-
-  useEffect(() => {
-    axios
-      .get(`http://localhost:4242/scenariosFavorites/utilisateur/${user.id}`)
-      .then((res) => {
-        setScenariosUserFavorite(res.data)
-      })
-
-    axios
-      .get(`http://localhost:4242/followers/${user.auteurId}`)
-      .then((res) => {
-        setFollowersProfile(res.data)
-      })
-  }, [])
 
   return (
     <div className="popUpProfile">
@@ -47,33 +36,42 @@ export default function UserProfile({ setShowPopUpProfile }) {
           />
         </div>
         <div className="containImg">
-          <img className="imgPhoto" src={profil} alt="photo de profil" />
+          <img
+            className="imgPhoto"
+            src={
+              followersProfile.img === "none" ? profil : followersProfile.img
+            }
+            alt="photo de profil"
+          />
+          <p>{followersProfile.login}</p>
         </div>
-        <p>The best</p>
         <div className="containerProfile">
           <ul>
             <li onClick={() => showTap(1)}>Favorite</li>
             <li onClick={() => showTap(2)}>Creations Finished</li>
-            <li onClick={() => showTap(2)}>Followers</li>
+            <li onClick={() => showTap(3)}>Followers</li>
           </ul>
 
           <div className="containTab">
             {ongletActif === 1 && (
               <UserProfileFavorite
-                scenariosUserFavorite={scenariosUserFavorite}
+                // scenariosUserFavorite={scenariosUserFavorite}
+                // setScenariosUserFavorite={setScenariosUserFavorite}
+                // setFollowersProfile= {setFollowersProfile}
                 user={user}
+                followerID={followerID}
               />
             )}
             {ongletActif === 2 && (
               <UserProfileCreations
-                scenariosUserFavorite={scenariosUserFavorite}
+                // scenariosUserFavorite={scenariosUserFavorite}
                 user={user}
               />
             )}
             {ongletActif === 3 && (
               <UserProfileFollowers
+                followerID={followerID}
                 followersProfile={followersProfile}
-                user={user}
               />
             )}
           </div>

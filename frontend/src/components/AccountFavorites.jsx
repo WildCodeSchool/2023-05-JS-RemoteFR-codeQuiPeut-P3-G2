@@ -33,7 +33,7 @@ export default function AccountFavorites() {
       })
 
     axios
-      .get("http://localhost:4242/campagnesMulti")
+      .get(`http://localhost:4242/campagnesFavorites/utilisateur/${user.id}`)
       .then(({ data }) => setCampagnes(data))
       .catch((err) => console.error(err))
   }, [])
@@ -50,6 +50,7 @@ export default function AccountFavorites() {
         {ongletActif === 1 && (
           <AccountFavoritesMyFavorites
             scenariosFavorite={scenariosFavorite}
+            campagnes={campagnes}
             user={user}
           />
         )}
