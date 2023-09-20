@@ -20,6 +20,11 @@ export default function SignUp({
   const [emailAlreadyUsed, setEmailAlreadyUsed] = useState(false)
   const [loginAlreadyUsed, setLoginAlreadyUsed] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const [errorDataUser, setErrorDataUser] = useState([])
+  // const [errorFirstname, setErrorFirstname] = useState([])
+  // const [errorEmail, setErrorEmail] = useState([])
+  // const [errorLogin, setErrorLogin] = useState([])
+  // const [errorPassword, setErrorPassword] = useState([])
 
   const HandleClickShowPassword = () => {
     setShowPassword(!showPassword)
@@ -40,22 +45,29 @@ export default function SignUp({
       .catch((err) => {
         if (err.response) {
           const { data } = err.response
-          if (data.errorMessage === "Mail déjà existant") {
-            setEmailAlreadyUsed(true)
-            // setLoginAlreadyUsed(false)
-          } else if (data.errorMessage === "Login déjà existant") {
-            // setEmailAlreadyUsed(false)
-            setLoginAlreadyUsed(true)
-          }
+          setErrorDataUser(data)
+          // setErrorLastname(data)
+          // setErrorFirstname(data)
+          // setErrorEmail(data)
+          // setErrorLogin(data)
+          // setErrorPassword(data)
+
+          // if (data.errorMessage === "Mail déjà existant") {
+          //   setEmailAlreadyUsed(true)
+          //   // setLoginAlreadyUsed(false)
+          // } else if (data.errorMessage === "Login déjà existant") {
+          //   // setEmailAlreadyUsed(false)
+          //   setLoginAlreadyUsed(true)
+          // }
         } else {
           console.error("Une erreur s'est produite : ", err.message)
         }
       })
-
     setChangeClassToOpenMenu(false)
     setEmailAlreadyUsed(false)
     setLoginAlreadyUsed(false)
   }
+
   const HandleCloseFormSignOpenLog = () => {
     setOpenFormSignUp(false)
     setOpenForm(true)
@@ -91,6 +103,13 @@ export default function SignUp({
     setImg(event.target.value)
   }
 
+  const passwordLimits = `The password must contain at least :\n
+  - a upper case letter,
+  - a lower case letter,
+  - a number,
+  - a special character,
+  and have a minimum length of 8 characters.`
+
   return (
     <div className="popUpSignUp">
       <form className="signUp">
@@ -103,7 +122,7 @@ export default function SignUp({
         </div>
         <div className="mainContainer">
           <div className="containerForm">
-            <h2>Inscrivez vous</h2>
+            <h2>Register</h2>
             <div className="conteneurSVG">
               <svg>
                 <line x1="0" x2="200" y1="0" y2="0" />
@@ -112,39 +131,69 @@ export default function SignUp({
             <div className="containInformation">
               <div className="LastnameFirstname">
                 <div className="labelInput">
-                  <label htmlFor="lastname">Votre nom</label>
+                  <label htmlFor="lastname">Lastname</label>
                   <input
                     id="lastname"
                     type="text"
                     name="lastname"
+                    placeholder="Required, max 100 characters"
                     value={lastname}
                     onChange={HandleChangeLastname}
                   />
+                  {errorDataUser.length !== 0
+                    ? errorDataUser.validationErrors
+                        .filter((error) => error.message.includes("lastname"))
+                        .map((err) => (
+                          <p className="signUpErrors" key={err.context.key}>
+                            {err.message}
+                          </p>
+                        ))
+                    : null}
                 </div>
                 <div className="labelInput">
-                  <label htmlFor="firstname">Votre prénom</label>
+                  <label htmlFor="firstname">Firstname</label>
                   <input
                     id="firstname"
                     type="text"
                     name="firstname"
+                    placeholder="Required, max 100 characters"
                     value={firstname}
                     onChange={HandleChangeFirstname}
                   />
+                  {errorDataUser.length !== 0
+                    ? errorDataUser.validationErrors
+                        .filter((error) => error.message.includes("firstname"))
+                        .map((err) => (
+                          <p className="signUpErrors" key={err.context.key}>
+                            {err.message}
+                          </p>
+                        ))
+                    : null}
                 </div>
               </div>
               <div className="labelInput">
-                <label htmlFor="login">Choisissez un pseudo</label>
+                <label htmlFor="login">Choose a login</label>
                 <input
                   id="login"
                   type="text"
                   name="login"
+                  placeholder="Required, max 100 characters"
                   value={login}
                   onChange={HandleChangeLogin}
                 />
-                {loginAlreadyUsed && <p>Login déjà utilisé</p>}
+                {loginAlreadyUsed && <p>Login already used</p>}
+                {errorDataUser.length !== 0
+                  ? errorDataUser.validationErrors
+                      .filter((error) => error.message.includes("login"))
+                      .map((err) => (
+                        <p className="signUpErrors" key={err.context.key}>
+                          {err.message}
+                        </p>
+                      ))
+                  : null}
               </div>
               <div className="labelInput">
-                <label htmlFor="email">Votre mail</label>
+                <label htmlFor="email">Email</label>
                 <input
                   id="email"
                   type="email"
@@ -152,14 +201,24 @@ export default function SignUp({
                   value={email}
                   onChange={HandleChangeEmail}
                 />
-                {emailAlreadyUsed && <p>Email déjà utilisé</p>}
+                {emailAlreadyUsed && <p>Email already used</p>}
+                {errorDataUser.length !== 0
+                  ? errorDataUser.validationErrors
+                      .filter((error) => error.message.includes("email"))
+                      .map((err) => (
+                        <p className="signUpErrors" key={err.context.key}>
+                          {err.message}
+                        </p>
+                      ))
+                  : null}
               </div>
               <div className="labelInput">
-                <label htmlFor="passWord">Choisissez un mot de passe</label>
+                <label htmlFor="passWord">Password</label>
                 <div className="inputPassword">
                   <input
                     id="passWord"
                     type={showPassword ? "text" : "password"}
+                    title={passwordLimits}
                     name="passWord"
                     value={passWord}
                     onChange={HandleChangePassWord}
@@ -183,9 +242,34 @@ export default function SignUp({
                     />
                   </div>
                 </div>
+                {console.info("pass__Good ?", errorDataUser.validationErrors)}
+                {errorDataUser.length !== 0
+                  ? errorDataUser.validationErrors
+                      .filter((error) => error.message.includes("password"))
+                      .map((err) => (
+                        <p
+                          className="signUpErrors sUEPassword"
+                          key={err.context.key}
+                        >
+                          {err.message}
+                        </p>
+                      ))
+                  : null}
+                {errorDataUser.length !== 0
+                  ? errorDataUser.validationErrors
+                      .filter((error) => error.message.includes("value"))
+                      .map((err) => (
+                        <p
+                          className="signUpErrors sUEPassword"
+                          key={err.context.key}
+                        >
+                          {err.message}
+                        </p>
+                      ))
+                  : null}
               </div>
               <div className="labelInput">
-                <label htmlFor="img">Choisissez votre image de profil</label>
+                <label htmlFor="img">Choose your profile picture</label>
                 <input
                   id="img"
                   type="file"
@@ -197,12 +281,12 @@ export default function SignUp({
               </div>
             </div>
             <button type="button" onClick={HandleSubmitSignUp}>
-              Confirmer l'inscription
+              Confirme registration
             </button>
             <p>
-              Si vous avez déjà un compte,{" "}
+              If you already have an account,{" "}
               <span onClick={HandleCloseFormSignOpenLog}>
-                connectez vous ici
+                please log in here.
               </span>
             </p>
           </div>

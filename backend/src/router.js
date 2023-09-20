@@ -4,8 +4,9 @@ const router = express.Router()
 
 const { hashPassword, verifyPassword } = require("./services/authentification")
 const {
-  validateDataUsersNoCheckPassword,
-  validateDataUsersCheckOnlyPassword,
+  // validateDataUsersNoCheckPassword,
+  // validateDataUsersCheckOnlyPassword,
+  validateUserData,
 } = require("./middleware/validateDataUsers")
 
 const scenariosControllers = require("./controllers/scenariosControllers")
@@ -102,8 +103,7 @@ router.post(
   "/signup",
   utilisateursControllers.verifyEmail,
   utilisateursControllers.verifyLogin,
-  validateDataUsersNoCheckPassword,
-  validateDataUsersCheckOnlyPassword,
+  validateUserData,
   hashPassword,
   utilisateursControllers.add
 )
