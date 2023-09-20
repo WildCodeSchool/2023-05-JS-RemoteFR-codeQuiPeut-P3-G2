@@ -4,6 +4,7 @@ import axios from "axios"
 import croix from "../assets/images/Close.svg"
 import eye from "../assets/images/eye.svg"
 import eyeOff from "../assets/images/eye_Off.svg"
+import avatar from "../assets/images/pas_content.png"
 
 export default function SignUp({
   setOpenFormSignUp,
@@ -16,7 +17,7 @@ export default function SignUp({
   const [login, setLogin] = useState("")
   const [email, setEmail] = useState("")
   const [passWord, setPassWord] = useState("")
-  const [img, setImg] = useState("")
+  const [img, setImg] = useState("none")
   const [emailAlreadyUsed, setEmailAlreadyUsed] = useState(false)
   const [loginAlreadyUsed, setLoginAlreadyUsed] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
@@ -99,8 +100,24 @@ export default function SignUp({
     setPassWord(event.target.value)
   }
 
-  const HandleChangeImg = (event) => {
-    setImg(event.target.value)
+  const HandleChangeImg = (e) => {
+    const file = e.target.files[0]
+    const formData = new FormData()
+    formData.append("image", file)
+    if (img === "none") {
+      axios
+        .post("http://localhost:4242/tmpImage", formData)
+        .then(({ data }) => console.info(data) || setImg(data))
+    } else {
+      axios.delete("http://localhost:4242/deleteTmpImage", {
+        data: {
+          img_src: img,
+        },
+      })
+      axios
+        .post("http://localhost:4242/tmpImage", formData)
+        .then(({ data }) => console.info(data) || setImg(data))
+    }
   }
 
   const passwordLimits = `The password must contain at least :\n
@@ -268,14 +285,20 @@ export default function SignUp({
                       ))
                   : null}
               </div>
-              <div className="labelInput">
+              <div className="labelInput labelInputFileAvatar">
                 <label htmlFor="img">Choose your profile picture</label>
+                <label className="button-import-image" htmlFor="img">
+                  <img
+                    src={img === "none" ? avatar : img}
+                    alt="Image avatar"
+                    title="Click to choose your avatar"
+                  />
+                </label>
                 <input
+                  className="inputFileAvatar"
                   id="img"
                   type="file"
                   name="img"
-                  accept="image/png, image/jpeg"
-                  value={img}
                   onChange={HandleChangeImg}
                 />
               </div>

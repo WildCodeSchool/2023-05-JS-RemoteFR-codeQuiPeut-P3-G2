@@ -414,7 +414,7 @@ export default function FormNewScenario({
           <div className="params">
             <div className="form-flexRow">
               <div className="form-flexColumn">
-                <p>Role Game / universe :</p>
+                <p>Role Game / universe </p>
                 <select className="inputSelect" onChange={handleChangeRoleGame}>
                   <option>---</option>
                   {roleGame.map((univer) => (
@@ -426,7 +426,7 @@ export default function FormNewScenario({
               </div>
 
               <div className="form-flexColumn">
-                <p>Theme :</p>
+                <p>Theme</p>
                 <select className="inputSelect" onChange={handleChangeTheme}>
                   <option>---</option>
                   {themes.map((theme) => (
@@ -440,7 +440,7 @@ export default function FormNewScenario({
 
             <div className="form-flexRow">
               <div className="form-flexColumn">
-                <p>Title :</p>
+                <p>Title</p>
                 <input
                   className="inputText"
                   type="text"
@@ -450,7 +450,7 @@ export default function FormNewScenario({
               </div>
 
               <div className="form-flexColumn">
-                <p>Difficulty :</p>
+                <p>Difficulty</p>
                 <select className="inputSelect" onChange={handleChangeLevel}>
                   <option>---</option>
                   {difficulty.map((grade) => (
@@ -463,41 +463,39 @@ export default function FormNewScenario({
             </div>
 
             <div className="form-flexRow">
-              <p className="p-numberPlayer">Number of players :</p>
-              <div>
-                <div className="form-flexColumn">
-                  <p>Minimum</p>
-                  <select
-                    className="NumberPlayer"
-                    onChange={handleChangeNbPlayerMin}
-                  >
-                    <option>---</option>
-                    {numberPlayers.map((number) => (
-                      <option value={number.rank} key={number.id}>
-                        {number.rank}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="form-flexColumn">
-                  <p>Maximum</p>
-                  <select
-                    className="NumberPlayer"
-                    onChange={handleChangeNbPlayerMax}
-                  >
-                    <option>---</option>
-                    {numberPlayers.map((number) => (
-                      <option value={number.rank} key={number.id}>
-                        {number.rank}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+              <p className="p-numberPlayer">Number of players</p>
+              <div className="form-flexColumn">
+                <p>Minimum</p>
+                <select
+                  className="NumberPlayer"
+                  onChange={handleChangeNbPlayerMin}
+                >
+                  <option>---</option>
+                  {numberPlayers.map((number) => (
+                    <option value={number.rank} key={number.id}>
+                      {number.rank}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="form-flexColumn">
+                <p>Maximum</p>
+                <select
+                  className="NumberPlayer"
+                  onChange={handleChangeNbPlayerMax}
+                >
+                  <option>---</option>
+                  {numberPlayers.map((number) => (
+                    <option value={number.rank} key={number.id}>
+                      {number.rank}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
 
             <div className="param-pictureScenar">
-              <p>Presentation picture of the scenario :</p>
+              <p>Scenario's picture</p>
 
               <div className="form-chooseApicture">
                 <label htmlFor="inputFileFormNewScenario">Choose a file</label>
@@ -517,7 +515,7 @@ export default function FormNewScenario({
             </div>
 
             <div className="form-container-synopsis">
-              <p>Scenario synopsys :</p>
+              <p>Scenario synopsys</p>
               <textarea
                 placeholder="Resume here"
                 maxLength="2000"

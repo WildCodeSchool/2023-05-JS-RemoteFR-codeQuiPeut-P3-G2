@@ -34,6 +34,8 @@ const scenarioCommentControllers = require("./controllers/scenarioCommentControl
 const campagnesMultiControllers = require("./controllers/campagnesMultiControllers")
 const forumCategoriesControllers = require("./controllers/forumCategoriesControllers")
 const campaignFavoriteControllers = require("./controllers/campaignFavoriteControllers")
+const vuesCampagnesControllers = require("./controllers/vuesCampagnesControllers")
+const vuesScenariosControllers = require("./controllers/vuesScenariosControllers")
 const multer = require("./middleware/multer-config")
 const {
   deleteImage,
@@ -88,7 +90,7 @@ router.get(
   utilisateursControllers.usersWhoAreFollowers
 )
 router.get("/utilisateurs/:id", utilisateursControllers.read)
-router.get("/auteurFollowers/:id", utilisateursControllers.usersWhoAreFollowers)
+router.get("/followers/:auteurId", utilisateursControllers.usersWhoAreFollowers)
 router.post("/utilisateurs", utilisateursControllers.add)
 router.put("/utilisateurs/:id", utilisateursControllers.edit)
 router.put("/password/:id", utilisateursControllers.changePassword)
@@ -286,5 +288,11 @@ router.get(
 )
 
 router.get("/forumCategories", forumCategoriesControllers.browse)
+
+router.post("/vuesScenarios", vuesScenariosControllers.add)
+router.put("/vuesScenarios", vuesScenariosControllers.edit)
+
+router.post("/vuesCampagnes", vuesCampagnesControllers.add)
+router.put("/vuesCampagnes", vuesCampagnesControllers.edit)
 
 module.exports = router
