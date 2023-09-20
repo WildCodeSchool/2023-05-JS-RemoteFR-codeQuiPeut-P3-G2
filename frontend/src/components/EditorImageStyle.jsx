@@ -152,7 +152,7 @@ export default function EditorTextStyle({
         setOpacity(itemStyle.opacity)
       }
     }
-  }, [images])
+  }, [images, mounted])
 
   // --------------------------------------------------------------------
   // -----FONCTIONS SECTION - POSITION DU COMPOSANT---------------------
