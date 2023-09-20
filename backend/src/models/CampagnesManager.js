@@ -98,6 +98,17 @@ class CampagnesManager extends AbstractManager {
       ) > 1`
     )
   }
+
+  verifyNumberOfSameImageBetweenCampagnesAndScenarios(img) {
+    return this.database.query(
+      `SELECT COUNT(*) as countImage FROM (
+      SELECT img FROM scenarios
+      UNION ALL
+      SELECT img FROM campagnes
+  ) as combined WHERE img = ?`,
+      [img]
+    )
+  }
 }
 
 module.exports = CampagnesManager

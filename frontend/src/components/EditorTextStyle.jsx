@@ -286,7 +286,7 @@ export default function EditorTextStyle({
         })
       }
     }
-  }, [textes])
+  }, [textes, mounted])
 
   // --------------------------------------------------------------------
   // -----FONCTIONS SECTION - POSITION DU COMPOSANT---------------------
