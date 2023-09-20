@@ -55,13 +55,19 @@ function CardScenario({ scenario, user }) {
   const handleClickFollowAutor = () => {
     if (user !== null) {
       if (
-        followedAutors.find((item) => item.auteurs_id === scenario.auteurs_id)
+        followedAutors.find(
+          (item) =>
+            item.auteurs_id === scenario.auteurId ||
+            item.auteurs_id === scenario.auteurs_id
+        )
       ) {
         axios
           .delete(`http://localhost:4242/autorFavorite`, {
             data: {
               utilisateurID: user.id,
-              auteurID: scenario.auteurs_id,
+              auteurID: scenario.auteurId
+                ? scenario.auteurId
+                : scenario.auteurs_id,
             },
           })
           .then(() => {
@@ -74,7 +80,9 @@ function CardScenario({ scenario, user }) {
         axios
           .post(`http://localhost:4242/autorFavorite`, {
             utilisateurID: user.id,
-            auteurID: scenario.auteurs_id,
+            auteurID: scenario.auteurId
+              ? scenario.auteurId
+              : scenario.auteurs_id,
           })
           .then(() => {
             axios
@@ -106,7 +114,7 @@ function CardScenario({ scenario, user }) {
         <div className="borderTitle"></div>
         <div className="viewer">
           <p>{scenario.nb_avis} avis</p>
-          <p>96 vues</p>
+          <p>{scenario.nbVues} vues</p>
         </div>
         <p className="description">
           {" "}
@@ -123,7 +131,9 @@ function CardScenario({ scenario, user }) {
             onClick={handleClickFollowAutor}
             className={
               followedAutors.find(
-                (item) => item.auteurs_id === scenario.auteurs_id
+                (item) =>
+                  item.auteurs_id === scenario.auteurId ||
+                  item.auteurs_id === scenario.auteurs_id
               )
                 ? "followAutor"
                 : ""
@@ -131,7 +141,9 @@ function CardScenario({ scenario, user }) {
             type="button"
           >
             {followedAutors.find(
-              (item) => item.auteurs_id === scenario.auteurs_id
+              (item) =>
+                item.auteurs_id === scenario.auteurId ||
+                item.auteurs_id === scenario.auteurs_id
             )
               ? "Auteur suivi"
               : "Suivre l'auteur"}

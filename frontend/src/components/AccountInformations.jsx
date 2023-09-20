@@ -32,6 +32,7 @@ export default function AccountInformations() {
         firstname,
         login,
         email,
+        img: user.img,
       })
       .then(() => {
         axios

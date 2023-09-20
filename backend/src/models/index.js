@@ -54,6 +54,8 @@ const ScenarioCommentManager = require("./ScenarioCommentManager")
 const ForumCategoriesManager = require("./ForumCategoriesManager")
 const AuteursFavorisManager = require("./AuteursFavorisManager")
 const CampaignFavoriteManager = require("./CampaignFavoriteManager")
+const VuesCampagnesManager = require("./VuesCampagnesManager")
+const VuesScenariosManager = require("./VuesScenariosManager")
 
 models.scenarios = new ScenariosManager()
 models.scenarios.setDatabase(pool)
@@ -132,6 +134,12 @@ models.auteursFavoris.setDatabase(pool)
 
 models.campaignFavorite = new CampaignFavoriteManager()
 models.campaignFavorite.setDatabase(pool)
+
+models.vuesScenarios = new VuesScenariosManager()
+models.vuesScenarios.setDatabase(pool)
+
+models.vuesCampagnes = new VuesCampagnesManager()
+models.vuesCampagnes.setDatabase(pool)
 
 // bonus: use a proxy to personalize error message,
 // when asking for a non existing model

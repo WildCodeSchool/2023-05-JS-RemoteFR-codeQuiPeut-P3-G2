@@ -63,11 +63,17 @@ function Scripts() {
       .filter((item, index) => index < 2)
 
     setCampagnes(newCampaigns)
+    setThemes((prevstate) =>
+      prevstate.map((item) => ({ ...item, selected: false }))
+    )
   }
 
   const handleClickAll = () => {
     setScenarios(originalScenarios)
     setCampagnes(originalCampagnes)
+    setThemes((prevstate) =>
+      prevstate.map((item) => ({ ...item, selected: false }))
+    )
   }
   const handleScenariosFilter = () => {
     //  const newScenarios = originalScenarios
@@ -83,7 +89,7 @@ function Scripts() {
         (scenario) => scenario.auteurId === auteurID
       )
       newCampaigns = newCampaigns.filter(
-        (campagne) => campagne.auteurId === auteurID
+        (campagne) => campagne.auteurs_id === auteurID
       )
     }
 
@@ -107,13 +113,18 @@ function Scripts() {
       } else {
         newScenarios = newScenarios.filter(
           (scenario) =>
-            parseInt(scenario.nb_players_min, 10) ===
-            parseInt(valueNumberPlayer, 10)
+            parseInt(scenario.nb_player_min, 10) <=
+              parseInt(valueNumberPlayer, 10) &&
+            parseInt(scenario.nb_player_max, 10) >=
+              parseInt(valueNumberPlayer, 10)
         )
+
         newCampaigns = newCampaigns.filter(
           (campagne) =>
-            parseInt(campagne.nb_players_min, 10) ===
-            parseInt(valueNumberPlayer, 10)
+            parseInt(campagne.nb_player_min, 10) <=
+              parseInt(valueNumberPlayer, 10) &&
+            parseInt(campagne.nb_player_max, 10) >=
+              parseInt(valueNumberPlayer, 10)
         )
       }
     }
@@ -133,12 +144,24 @@ function Scripts() {
       )
     }
 
-    if (valueTheme !== null) {
-      newScenarios = newScenarios.filter(
-        (scenario) => scenario.theme === valueTheme
+    // if (valueTheme !== null) {
+    //   newScenarios = newScenarios.filter(
+    //     (scenario) => scenario.theme === valueTheme
+    //   )
+    //   newCampaigns = newCampaigns.filter(
+    //     (campagne) => campagne.theme === valueTheme
+    //   )
+    // }
+
+    let themeFilter = themes.filter((theme) => theme.selected)
+
+    if (themeFilter.length > 0) {
+      themeFilter = themeFilter.map((theme) => theme.name)
+      newScenarios = newScenarios.filter((scenario) =>
+        themeFilter.includes(scenario.theme)
       )
-      newCampaigns = newCampaigns.filter(
-        (campagne) => campagne.theme === valueTheme
+      newCampaigns = newCampaigns.filter((campaign) =>
+        themeFilter.includes(campaign.theme)
       )
     }
 
@@ -160,7 +183,10 @@ function Scripts() {
 
     axios
       .get("http://localhost:4242/themes")
-      .then(({ data }) => setThemes(data))
+      .then(({ data }) => {
+        const newThemes = data.map((item) => ({ ...item, selected: false }))
+        setThemes(newThemes)
+      })
       .catch((err) => console.error(err))
 
     axios
@@ -179,7 +205,7 @@ function Scripts() {
     valueDifficulty,
     valueNumberPlayer,
     valueRoleGame,
-    valueTheme,
+    themes,
     valueType,
   ])
   // ------------------------------------------------------------------------------------------------
@@ -255,7 +281,7 @@ function Scripts() {
               </select>
             </div>
             <div className="nombre">
-              <p>Number of player min.</p>
+              <p>Number of player</p>
               <select
                 value={valueNumberPlayer}
                 onChange={handleChangeNumberPlayer}

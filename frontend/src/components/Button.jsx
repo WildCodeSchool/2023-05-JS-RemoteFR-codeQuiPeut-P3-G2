@@ -16,6 +16,12 @@ function Button({
 
     setFilteredScenarios(filtered)
     setValueTheme(name)
+
+    setThemes((prevState) =>
+      prevState.map((theme) =>
+        theme.id === id ? { ...theme, selected: !theme.selected } : theme
+      )
+    )
   }
 
   return (
@@ -24,6 +30,11 @@ function Button({
         <div key={theme.id} className="allButtonGenre">
           <button
             className="ButtonGenre"
+            style={
+              theme.selected
+                ? { backgroundColor: "#ffbd59", color: "black" }
+                : null
+            }
             onClick={() => handleClickGender(theme.id, theme.name)}
           >
             {theme.name}
