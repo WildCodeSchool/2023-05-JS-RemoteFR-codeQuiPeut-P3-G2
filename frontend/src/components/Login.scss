@@ -6,6 +6,7 @@ $colorWhite: #ffffff;
 $fontSizeP: 1.2rem;
 $fontSizeBouton: 1.3rem;
 $fontSizeTitre: 1.5rem;
+$colorInput: #070a09;
 
 .popUp {
   width: 100vw;
@@ -17,6 +18,11 @@ $fontSizeTitre: 1.5rem;
   justify-content: center;
   align-items: center;
   z-index: 5;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(7.9px);
+  -webkit-backdrop-filter: blur(7.9px);
   .logIn {
     width: 600px;
     height: 550px;
@@ -102,7 +108,7 @@ $fontSizeTitre: 1.5rem;
             border-color: $blueColor;
             display: flex;
             justify-content: center;
-            background-color: $colorDark;
+            background-color: $colorInput;
             color: $colorWhite;
           }
         }
