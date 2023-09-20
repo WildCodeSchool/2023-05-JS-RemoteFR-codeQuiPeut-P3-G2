@@ -10,8 +10,7 @@ $colorYellow: #ffbd59;
     height: 100%;
     margin-top: 20px;
     margin-bottom: 20px;
-    display:flex;
- 
+    display: flex;
 
     p {
       font-size: 7rem;
@@ -20,7 +19,7 @@ $colorYellow: #ffbd59;
       // height: 100%;
       // // object-fit: fill;
       animation: Scroll 20s linear infinite;
-      text-shadow: 0 0 5px  #4c60ae,
+      text-shadow: 0 0 5px #4c60ae;
     }
 
     @keyframes Scroll {
@@ -28,7 +27,7 @@ $colorYellow: #ffbd59;
         transform: translateX(-100%);
       }
 
-      100%{
+      100% {
         transform: translateX(0%);
       }
     }
@@ -56,13 +55,13 @@ $colorYellow: #ffbd59;
       .Type {
         display: flex;
         align-items: baseline;
-        p{
+        p {
           font-size: x-large;
         }
       }
       .containerSelect {
         width: 65%;
-        p{
+        p {
           font-size: x-large;
           display: flex;
           justify-content: center;
@@ -81,9 +80,9 @@ $colorYellow: #ffbd59;
       display: flex;
       justify-content: center;
       font-size: x-large;
-      color:  #ffff;
+      color: #ffff;
       text-decoration: underline;
-      text-decoration-color:#4c60ae;
+      text-decoration-color: #4c60ae;
     }
 
     .try {
@@ -102,11 +101,11 @@ $colorYellow: #ffbd59;
     display: flex;
     justify-content: flex-start;
     gap: 20px;
-      p {
-        color: white;
-        position: relative;
-        top: 10px;
-      }
+    p {
+      color: white;
+      position: relative;
+      top: 10px;
+    }
   }
 
   .conseiller {
@@ -125,9 +124,9 @@ $colorYellow: #ffbd59;
       background-color: #070a09;
     }
 
-    button:hover{
-        text-decoration: underline;
-        text-decoration-color: #ffbd59;
+    button:hover {
+      text-decoration: underline;
+      text-decoration-color: #ffbd59;
     }
   }
 
@@ -135,11 +134,11 @@ $colorYellow: #ffbd59;
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
-    
+
     p {
       color: #ffff;
       text-decoration: underline;
-      text-decoration-color:#4c60ae;
+      text-decoration-color: #4c60ae;
     }
   }
   .auteur {
@@ -150,7 +149,7 @@ $colorYellow: #ffbd59;
     p {
       color: #ffff;
       text-decoration: underline;
-      text-decoration-color:#4c60ae;
+      text-decoration-color: #4c60ae;
     }
   }
 
@@ -162,7 +161,7 @@ $colorYellow: #ffbd59;
     p {
       color: #ffff;
       text-decoration: underline;
-      text-decoration-color:#4c60ae;
+      text-decoration-color: #4c60ae;
     }
   }
 
@@ -172,9 +171,9 @@ $colorYellow: #ffbd59;
     flex-direction: column;
 
     p {
-      color:  #ffff;
+      color: #ffff;
       text-decoration: underline;
-      text-decoration-color:#4c60ae;
+      text-decoration-color: #4c60ae;
     }
   }
 }
