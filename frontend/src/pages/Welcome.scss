@@ -108,7 +108,34 @@ $fontSizeTitre: 1.5rem;
     flex-direction: column;
     width: 60%;
     margin: auto;
+    margin-bottom: 32px;
     color: $colorWhite;
     font-size: 32px;
+    .AnimLaptop {
+      width: 700px;
+      height: 700px;
+      img {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        animation: levitationLaptop 2.5s ease-in-out infinite;
+      }
+    }
+    .textMock {
+      margin-bottom: 20px;
+    }
+  }
+}
+
+@keyframes levitationLaptop {
+  0% {
+    top: 10px;
+  }
+  50% {
+    top: 30px;
+  }
+  100% {
+    top: 10px;
   }
 }
