@@ -147,6 +147,10 @@ export default function FormNewCampaign(props) {
     }
   }
 
+  const HandleClickClose = () => {
+    setShowNewCampaign(false)
+  }
+
   const handleChangeDescription = (e) => {
     setSynopsis(e.target.value)
   }
@@ -456,43 +460,41 @@ export default function FormNewCampaign(props) {
             </div>
 
             <div className="form-flexRow">
-              <p className="p-numberPlayer">Number of players :</p>
-              <div>
-                <div className="form-flexColumn">
-                  <p>Minimum</p>
-                  <select
-                    className="NumberPlayer"
-                    onChange={handleChangeNbPlayerMin}
-                    value={playerNumberMin}
-                  >
-                    <option>---</option>
-                    {numberPlayers.map((number) => (
-                      <option value={number.rank} key={number.id}>
-                        {number.rank}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="form-flexColumn">
-                  <p>Maximum</p>
-                  <select
-                    className="NumberPlayer"
-                    onChange={handleChangeNbPlayerMax}
-                    value={playerNumberMax}
-                  >
-                    <option>---</option>
-                    {numberPlayers.map((number) => (
-                      <option value={number.rank} key={number.id}>
-                        {number.rank}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+              <p className="p-numberPlayer">Number of players </p>
+              <div className="form-flexColumn">
+                <p>Minimum</p>
+                <select
+                  className="NumberPlayer"
+                  onChange={handleChangeNbPlayerMin}
+                  value={playerNumberMin}
+                >
+                  <option>---</option>
+                  {numberPlayers.map((number) => (
+                    <option value={number.rank} key={number.id}>
+                      {number.rank}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="form-flexColumn">
+                <p>Maximum</p>
+                <select
+                  className="NumberPlayer"
+                  onChange={handleChangeNbPlayerMax}
+                  value={playerNumberMax}
+                >
+                  <option>---</option>
+                  {numberPlayers.map((number) => (
+                    <option value={number.rank} key={number.id}>
+                      {number.rank}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
 
             <div className="param-pictureScenar">
-              <p>Campaign's picture :</p>
+              <p>Campaign's picture</p>
 
               <div className="form-chooseApicture">
                 <label htmlFor="inputFileFormNewScenario">Choose a file</label>
@@ -524,6 +526,9 @@ export default function FormNewCampaign(props) {
           <div className="submitScenar">
             <button type="button" onClick={handleSubmit}>
               Send
+            </button>
+            <button type="button" onClick={HandleClickClose}>
+              Cancel
             </button>
           </div>
         </div>

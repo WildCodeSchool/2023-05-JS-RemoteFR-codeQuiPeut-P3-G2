@@ -113,6 +113,10 @@ export default function FormNewScenario({
   //   )
   // }
 
+  const HandleClickClose = () => {
+    setShowNewScenario(false)
+  }
+
   const handleChangeRoleGame = (e) => {
     setRoleGame((prevState) =>
       prevState.map((game) =>
@@ -526,6 +530,9 @@ export default function FormNewScenario({
           <div className="submitScenar">
             <button type="button" onClick={handleSubmit}>
               Send
+            </button>
+            <button type="button" onClick={HandleClickClose}>
+              Cancel
             </button>
           </div>
         </div>
