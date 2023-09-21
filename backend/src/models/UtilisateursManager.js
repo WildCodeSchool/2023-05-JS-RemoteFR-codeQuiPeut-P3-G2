@@ -81,10 +81,20 @@ where email = ?`,
     )
   }
 
+  // findWithoutPassword(id) {
+  //   return this.database.query(
+  //     `SELECT id, lastname, firstname, login, email, img, inscription_date FROM  ${this.table} WHERE  id = ?`,
+  //     // `SELECT * FROM  ${this.table} WHERE  id = ?`,   //  Pour test !!!!!!!!!!!!!
+  //     [id]
+  //   )
+  // }
+
   findWithoutPassword(id) {
     return this.database.query(
-      `SELECT id, lastname, firstname, login, email, img, inscription_date FROM  ${this.table} WHERE  id = ?`,
-      // `SELECT * FROM  ${this.table} WHERE  id = ?`,   //  Pour test !!!!!!!!!!!!!
+      `SELECT utilisateurs.id, lastname, firstname, login, email, img, inscription_date, auteurs.id AS auteurs_id, auteurs.name AS auteurs_name 
+      FROM ${this.table} 
+      LEFT JOIN auteurs ON auteurs.utilisateurs_id = utilisateurs.id 
+      WHERE utilisateurs.id = ?`,
       [id]
     )
   }

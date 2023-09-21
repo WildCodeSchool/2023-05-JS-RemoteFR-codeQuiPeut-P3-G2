@@ -207,6 +207,16 @@ router.get(
   campagnesControllers.readCampagneDetailedScenarios
 ) // recherche les scenarios associés à une campagne (retourne : id, scenarioName)
 
+router.get(
+  "/campagnesFavorites/utilisateur/:id",
+  campagnesControllers.findUserFavoriteCampagnesWithDetails
+)
+
+router.get(
+  "/campagnesDetailed/auteur/:id",
+  campagnesControllers.findAuthorCampagnesWithDetails
+)
+
 router.get("/campagnesMulti", campagnesMultiControllers.findCampagnes)
 
 router.get("/pages", pagesControllers.browse)

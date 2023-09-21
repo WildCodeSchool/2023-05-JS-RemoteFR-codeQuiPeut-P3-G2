@@ -1,5 +1,6 @@
 import axios from "axios"
 import { useState, useEffect, useContext } from "react"
+import { useLocation } from "react-router"
 import MyContext from "../components/MyContext"
 import EditorPage from "../components/EditorPage"
 import saveDisquette from "../assets/images/saveDisquette.svg"
@@ -19,6 +20,8 @@ import FormEditCampaign from "../components/FormEditCampaign"
 import FormNewCampaign from "../components/FormNewCampaign"
 
 export default function Editor() {
+  const location = useLocation()
+  const campagneImportedID = location.state
   // const [user, setUser] = useState({}) // à SUPPRIMER par la suite, à récupérer via un context
   const { user } = useContext(MyContext)
 
@@ -693,7 +696,10 @@ export default function Editor() {
     setShowMenuOpen(false)
   }
 
-  const handleClickOpenCampagne = (idCampagne) => {
+  const handleClickOpenCampagne = (
+    idCampagne,
+    importedCampagnesUtilisateur
+  ) => {
     // on sauvegarde la page (textes et images) avant de la quitter
     handleSave()
     // on efface l'historique car on ne veut pas pouvoir récupérer dans la nouvelle page les textes et images de la page précédante
@@ -701,10 +707,19 @@ export default function Editor() {
     setPageFuture([])
 
     setShowMenuOpen(false)
-    const newEditedCampagne = campagnesUtilisateur.filter(
-      (campagne) => campagne.id === idCampagne
-    )[0]
-    setEditedCampagne(newEditedCampagne)
+
+    let newEditedCampagne
+    if (importedCampagnesUtilisateur === undefined) {
+      newEditedCampagne = campagnesUtilisateur.filter(
+        (campagne) => campagne.id === idCampagne
+      )[0]
+      setEditedCampagne(newEditedCampagne)
+    } else {
+      newEditedCampagne = importedCampagnesUtilisateur.filter(
+        (campagne) => campagne.id === idCampagne
+      )[0]
+      setEditedCampagne(newEditedCampagne)
+    }
 
     axios
       .get(`http://localhost:4242/campagnes/${idCampagne}/scenarios`) // on va chercher les scénarios liés à la campagne et on se place sur le 1er
@@ -1000,6 +1015,34 @@ export default function Editor() {
         .catch((err) => console.error(err))
     }
   }, [user])
+
+  // fonction pour ouverture d'une campagne si ouverture du mode création via une CardCreation du profil
+  useEffect(() => {
+    if (mounted && campagneImportedID !== null) {
+      axios
+        .get(`http://localhost:4242/auteurs/user/${user.id}`)
+        .then(({ data }) => {
+          setAuthor(data)
+          return data
+        })
+        .then((author) => {
+          axios
+            .get(`http://localhost:4242/auteurs/${author.id}/campagnes`) // A MODIFIER - NE FONCTIONNE PAS ?? (sur de ça ? a verifier)
+            .then(({ data }) => {
+              setCampagnesUtilisateur(data)
+              return data
+            })
+            .then((importedCampagnesUtilisateur) => {
+              handleClickOpenCampagne(
+                campagneImportedID,
+                importedCampagnesUtilisateur
+              )
+            })
+            .catch((err) => console.error(err))
+        })
+        .catch((err) => console.error(err))
+    }
+  }, [mounted])
 
   // ----------------------------------------------------------------------------
   // ------FONCTIONS POUR la GESTION DES RACCOURCIS CLAVIER----
