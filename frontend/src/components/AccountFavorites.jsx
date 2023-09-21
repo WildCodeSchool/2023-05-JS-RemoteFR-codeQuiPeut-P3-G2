@@ -41,9 +41,36 @@ export default function AccountFavorites() {
   return (
     <div className="containerFavorites">
       <ul>
-        <li onClick={() => showTap(1)}>My favorites ones</li>
-        <li onClick={() => showTap(2)}>My view</li>
-        <li onClick={() => showTap(3)}>My comments</li>
+        <li
+          onClick={() => showTap(1)}
+          style={
+            ongletActif === 1
+              ? { backgroundColor: "#ffbd59", color: "black" }
+              : null
+          }
+        >
+          My favorites ones
+        </li>
+        <li
+          onClick={() => showTap(2)}
+          style={
+            ongletActif === 2
+              ? { backgroundColor: "#ffbd59", color: "black" }
+              : null
+          }
+        >
+          My view
+        </li>
+        <li
+          onClick={() => showTap(3)}
+          style={
+            ongletActif === 3
+              ? { backgroundColor: "#ffbd59", color: "black" }
+              : null
+          }
+        >
+          My comments
+        </li>
       </ul>
 
       <div className="containTab">

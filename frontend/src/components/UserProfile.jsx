@@ -47,9 +47,36 @@ export default function UserProfile({
         </div>
         <div className="containerProfile">
           <ul>
-            <li onClick={() => showTap(1)}>Favorite</li>
-            <li onClick={() => showTap(2)}>Creations Finished</li>
-            <li onClick={() => showTap(3)}>Followers</li>
+            <li
+              onClick={() => showTap(1)}
+              style={
+                ongletActif === 1
+                  ? { backgroundColor: "#ffbd59", color: "black" }
+                  : null
+              }
+            >
+              Favorite
+            </li>
+            <li
+              onClick={() => showTap(2)}
+              style={
+                ongletActif === 2
+                  ? { backgroundColor: "#ffbd59", color: "black" }
+                  : null
+              }
+            >
+              Creations Finished
+            </li>
+            <li
+              onClick={() => showTap(3)}
+              style={
+                ongletActif === 3
+                  ? { backgroundColor: "#ffbd59", color: "black" }
+                  : null
+              }
+            >
+              Followers
+            </li>
           </ul>
 
           <div className="containTab">
@@ -66,6 +93,8 @@ export default function UserProfile({
               <UserProfileCreations
                 // scenariosUserFavorite={scenariosUserFavorite}
                 user={user}
+                followerID={followerID}
+                followersProfile={followersProfile}
               />
             )}
             {ongletActif === 3 && (

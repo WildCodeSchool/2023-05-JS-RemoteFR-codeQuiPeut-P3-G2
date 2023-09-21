@@ -56,8 +56,26 @@ export default function AccountFavorites() {
   return (
     <div className="containerCreations">
       <ul>
-        <li onClick={() => showTap(1)}>Work in progress</li>
-        <li onClick={() => showTap(2)}>Finished</li>
+        <li
+          onClick={() => showTap(1)}
+          style={
+            ongletActif === 1
+              ? { backgroundColor: "#ffbd59", color: "black" }
+              : null
+          }
+        >
+          Work in progress
+        </li>
+        <li
+          onClick={() => showTap(2)}
+          style={
+            ongletActif === 2
+              ? { backgroundColor: "#ffbd59", color: "black" }
+              : null
+          }
+        >
+          Finished
+        </li>
       </ul>
 
       <div className="containTab">

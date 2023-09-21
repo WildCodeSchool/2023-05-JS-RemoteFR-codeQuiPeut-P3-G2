@@ -12,11 +12,21 @@ export default function CardCampaignCreation({ campagne, user }) {
     return `Started on : ${day}/${month}/${year}`
   }
 
-  // console.log(scenario)
+  // pour être rediriger vers le campaign au clic de l'image
+  const handleGoToCampaignSelected = () => {
+    if (user.auteurId !== campagne.auteurs_id) {
+      navigate("/resumeCampagne", { state: campagne.id })
+    }
+  }
+
   return (
     <main className="Scenario">
       <div className="containerimg">
-        <img src={campagne.img} alt="illustration" />
+        <img
+          src={campagne.img}
+          alt="illustration"
+          onClick={handleGoToCampaignSelected}
+        />
       </div>
       <div className="Card">
         <div className="title">
@@ -36,7 +46,9 @@ export default function CardCampaignCreation({ campagne, user }) {
           <p>{handleFormatDate(campagne.start_writing_date)}</p>
         </div>
       </div>
-      <img src={pen} alt="crayon pour modifier" className="pen-modify" />
+      {user.auteurId === campagne.auteurs_id && (
+        <img src={pen} alt="crayon pour modifier" className="pen-modify" />
+      )}
     </main>
   )
 }

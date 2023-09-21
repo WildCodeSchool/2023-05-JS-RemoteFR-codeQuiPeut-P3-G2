@@ -14,14 +14,19 @@ function CardScenarioCreation({ scenario, user }) {
 
   // pour être rediriger vers le scenario au clic de l'image
   const handleGoToScenarioSelected = () => {
-    navigate("/resumescenario", { state: scenario })
+    if (user.auteurId !== scenario.auteurId) {
+      navigate("/resumescenario", { state: scenario })
+    }
   }
 
-  // console.log(scenario)
   return (
     <main className="Scenario">
-      <div onClick={handleGoToScenarioSelected} className="containerimg">
-        <img src={scenario.img} alt="illustration" />
+      <div className="containerimg">
+        <img
+          src={scenario.img}
+          alt="illustration"
+          onClick={handleGoToScenarioSelected}
+        />
       </div>
       <div className="Card">
         <div className="title">
@@ -41,7 +46,9 @@ function CardScenarioCreation({ scenario, user }) {
           <p>{handleFormatDate(scenario.start_writing_date)}</p>
         </div>
       </div>
-      <img src={pen} alt="crayon pour modifier" className="pen-modify" />
+      {user.auteurId === scenario.auteurId && (
+        <img src={pen} alt="crayon pour modifier" className="pen-modify" />
+      )}
     </main>
   )
 }

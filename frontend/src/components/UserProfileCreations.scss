@@ -9,6 +9,24 @@ $fontSizeTitre: 1.5rem;
 
 .containerUserCreations {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  .div-switch {
+    width: 300px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    color: white;
+    margin-top: -8px;
+    margin-bottom: 24px;
+    // border: 1px solid white;
+  }
+
   .boardCards {
     display: flex;
     justify-content: center;
