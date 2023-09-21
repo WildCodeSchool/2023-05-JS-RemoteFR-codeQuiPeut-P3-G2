@@ -214,8 +214,8 @@ $fontSizeTitre: 1.5rem;
       overflow-wrap: break-word;
       margin: 2px;
       padding: 10px;
-      border: 1px solid $blueColor;
-      border-bottom: 3px solid $colorYellow;
+      border-radius: 16px;
+      border-bottom: 1px solid $blueColor;
       box-sizing: border-box;
 
       // background-color: lightcoral;
@@ -226,6 +226,9 @@ $fontSizeTitre: 1.5rem;
         height: 150px;
         overflow-wrap: break-word;
         font-size: $fontSizeP;
+        color: black;
+        background-color: $blueColor;
+        border: solid 2px $blueColor;
       }
 
       .resumePageScenarButtonsEditing {
@@ -241,8 +244,15 @@ $fontSizeTitre: 1.5rem;
         button {
           width: 125px;
           height: 35px;
+          color: $colorYellow;
+          border: 2px solid $colorYellow;
+          background-color: black;
           border-radius: 10px;
           font-size: $fontSizeP;
+          &:hover {
+            color: black;
+            background-color: $colorYellow;
+          }
         }
       }
     }
@@ -254,8 +264,7 @@ $fontSizeTitre: 1.5rem;
       height: auto;
       display: flex;
       flex-direction: column;
-      border: 1px solid $blueColor;
-      border-bottom: 3px solid $colorYellow;
+      border-bottom: 1px solid $blueColor;
 
       border-radius: 15px;
       overflow-wrap: break-word;
@@ -284,13 +293,22 @@ $fontSizeTitre: 1.5rem;
           flex-direction: row;
           justify-content: space-around;
           // background-color: green;
-
-          button {
-            width: 125px;
-            height: 35px;
-            border-radius: 10px;
-            font-size: 1.2em;
+          img {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
           }
+
+          .pen {
+            width: 60px;
+            height: 60px;
+          }
+          // button {
+          //   width: 125px;
+          //   height: 35px;
+          //   border-radius: 10px;
+          //   font-size: 1.2em;
+          // }
         }
       }
     }
@@ -302,8 +320,7 @@ $fontSizeTitre: 1.5rem;
       box-sizing: border-box;
       // height: 15vh;
       height: auto;
-      border: 1px solid $blueColor;
-      border-bottom: 5px solid $colorYellow;
+      border-bottom: 1px solid $blueColor;
       border-radius: 15px;
       overflow-wrap: break-word;
       margin: 5px;
@@ -322,6 +339,7 @@ $fontSizeTitre: 1.5rem;
 
     .scInLowAll:hover {
       background-color: $blueColor;
+      border-bottom: 1px solid $colorYellow;
     }
 
     .scInLowAll {

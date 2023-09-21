@@ -10,6 +10,7 @@ import axios from "axios"
 import { useState, useEffect, useContext } from "react"
 import CardCampaign from "../components/CardCampaign"
 import MyContext from "../components/MyContext"
+import Footer from "../components/Footer"
 import de from "../assets/images/de.svg"
 
 const Welcome = () => {
@@ -52,74 +53,92 @@ const Welcome = () => {
           <img className="BookFall" src={LivreAccueil} />
         </header>
 
-        <div className="containerImg">
-          <img src={de} alt="dé" />
-        </div>
-        <div className="find_create ">
-          <div className="FindScrip one">
-            <h2>FIND YOUR PERFECT SCRIPT</h2>
-            <div className="conteneurSVG">
-              <svg>
-                <line x1="0" x2="200" y1="0" y2="0" />
-              </svg>
+        <section className="contents">
+          <div className="find_create ">
+            <div className="borderHome borderFind">
+              <div className="FindScrip one">
+                <h2>FIND YOUR PERFECT SCRIPT</h2>
+                <div className="conteneurSVG">
+                  <svg>
+                    <line x1="0" x2="200" y1="0" y2="0" />
+                  </svg>
+                </div>
+                <p>
+                  Explore a plethora of captivating stories just waiting for you
+                  to delve into. Whether you're seeking an epic adventure, a
+                  hilarious comedy, or a heartfelt narrative, our diverse
+                  collection of scenarios is tailored to satisfy all tastes.
+                  Dive into a world of endless possibilities and discover the
+                  perfect script that aligns with your creativity. Let yourself
+                  be inspired, create, and share your vision with the world.
+                  Your journey begins here!
+                </p>
+                <button className="Explo" type="button">
+                  Explore
+                </button>
+              </div>
             </div>
-            <p>
-              Explore a plethora of captivating stories just waiting for you to
-              delve into. Whether you're seeking an epic adventure, a hilarious
-              comedy, or a heartfelt narrative, our diverse collection of
-              scenarios is tailored to satisfy all tastes. Dive into a world of
-              endless possibilities and discover the perfect script that aligns
-              with your creativity. Let yourself be inspired, create, and share
-              your vision with the world. Your journey begins here!
-            </p>
-            <button className="Explo" type="button">
-              Explore
-            </button>
-          </div>
-          <div className="CreateScrip">
-            <h2>CREATE YOUR PERFECT SCRIPT</h2>
-            <div className="conteneurSVG">
-              <svg>
-                <line x1="0" x2="200" y1="0" y2="0" />
-              </svg>
-            </div>
-            <p className="TextContain">
-              Expand your imagination and bring your ideas to life with our
-              intuitive scenario creation tool. Whether you're a seasoned
-              screenwriter or just starting your creative journey, our platform
-              provides you with the resources and features you need to craft the
-              script of your dreams. Build worlds, develop characters, and write
-              memorable dialogue with ease. Your story begins here!
-            </p>
-            <button className="Create" type="button">
-              Create
-            </button>
-          </div>
-        </div>
 
-        <div className="mokeUp">
-          <h3>SIMPLE INTERFACE</h3>
-          <div className="AnimLaptop">
-            <img src={mokeUp} alt="" />
+            <div className="deCreate">
+              <div className="containerImg">
+                <img src={de} alt="dé" />
+              </div>
+              <div className="CreateScrip">
+                <h2>CREATE YOUR PERFECT SCRIPT</h2>
+                <div className="conteneurSVG">
+                  <svg>
+                    <line x1="0" x2="200" y1="0" y2="0" />
+                  </svg>
+                </div>
+                <p className="TextContain">
+                  Expand your imagination and bring your ideas to life with our
+                  intuitive scenario creation tool. Whether you're a seasoned
+                  screenwriter or just starting your creative journey, our
+                  platform provides you with the resources and features you need
+                  to craft the script of your dreams. Build worlds, develop
+                  characters, and write memorable dialogue with ease. Your story
+                  begins here!
+                </p>
+                <button className="Create" type="button">
+                  Create
+                </button>
+              </div>
+            </div>
           </div>
-          <p>
-            Explore a world of epic adventures and immersive narratives in our
-            outstanding selection of campaigns. Whether you're a seasoned Game
-            Master or a player seeking new experiences, our campaigns offer a
-            variety of choices to satisfy your thirst for adventure!
-          </p>
-        </div>
-        <div className="sliders">
-          <h2 className="popularScript">POPULAR SCRIPT</h2>
-          <Slider {...sliderSettings}>
-            {campagnes.map((campaign) => (
-              <CardCampaign key={campaign.id} user={user} campaign={campaign} />
-            ))}
-          </Slider>
-        </div>
-        <div className="co-writers">
-          <h2>FIND YOUR CO-WRITERS</h2>
-        </div>
+
+          <div className="containerMokeUp">
+            <div className="borderHome borderMokeUp">
+              <div className="contentMokeUp">
+                <h3>SIMPLE INTERFACE</h3>
+                <div className="AnimLaptop">
+                  <img src={mokeUp} alt="" />
+                </div>
+                <p>
+                  Explore a world of epic adventures and immersive narratives in
+                  our outstanding selection of campaigns. Whether you're a
+                  seasoned Game Master or a player seeking new experiences, our
+                  campaigns offer a variety of choices to satisfy your thirst
+                  for adventure!
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="sliders">
+            <div className="borderHome borderSliders">
+              <h2 className="popularScript">POPULAR SCRIPT</h2>
+              <Slider {...sliderSettings}>
+                {campagnes.map((campaign) => (
+                  <CardCampaign
+                    key={campaign.id}
+                    user={user}
+                    campaign={campaign}
+                  />
+                ))}
+              </Slider>
+            </div>
+          </div>
+        </section>
+        <Footer />
       </main>
     </>
   )

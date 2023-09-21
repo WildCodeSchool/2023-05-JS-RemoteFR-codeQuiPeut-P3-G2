@@ -1,0 +1,55 @@
+.footerFront {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100vw;
+  height: 128px;
+  background-color: #4c60ae;
+  margin-top: 100px;
+  p {
+    font-size: 1.5rem;
+    color: #ffffff;
+    margin-left: 40px;
+  }
+  .logoScripter {
+    display: flex;
+    height: 100px;
+    width: 100px;
+    img {
+      object-fit: cover;
+      height: 100px;
+      width: 100px;
+    }
+  }
+  .logoSoc {
+    width: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 100%;
+    img {
+      height: 60px;
+      width: 60px;
+      transition: transform 2s ease;
+      cursor: pointer;
+
+      &:hover {
+        position: relative;
+        animation: levitationSoc 2s ease infinite;
+      }
+    }
+  }
+}
+
+@keyframes levitationSoc {
+  0% {
+    bottom: 5px;
+  }
+  50% {
+    bottom: 10px;
+  }
+  100% {
+    bottom: 5px;
+  }
+}

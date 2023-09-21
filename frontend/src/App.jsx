@@ -16,6 +16,7 @@ import AccountFollowers from "./components/AccountFollowers"
 import AccountFavorites from "./components/AccountFavorites"
 import ScenarioReading from "./pages/ScenarioReading"
 import ForumPageComments from "./pages/ForumPageComments"
+import Cursor from "./components/Cursor"
 
 function App() {
   // users sera l'ensemble des utilisateurs de mon site
@@ -49,6 +50,7 @@ function App() {
 
   return (
     <div className="App">
+      <Cursor />
       <MyContext.Provider value={valeursFourniesDansMyContextProvider}>
         <Routes>
           <Route path="/" element={<Welcome />} />
