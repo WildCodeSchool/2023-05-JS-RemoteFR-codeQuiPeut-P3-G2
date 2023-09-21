@@ -19,6 +19,10 @@ function CardScenarioCreation({ scenario, user }) {
     }
   }
 
+  const handleOpenCreator = () => {
+    navigate("/editor", { state: scenario.campagnes_id })
+  }
+
   return (
     <main className="Scenario">
       <div className="containerimg">
@@ -47,7 +51,12 @@ function CardScenarioCreation({ scenario, user }) {
         </div>
       </div>
       {user.auteurId === scenario.auteurId && (
-        <img src={pen} alt="crayon pour modifier" className="pen-modify" />
+        <img
+          src={pen}
+          alt="crayon pour modifier"
+          className="pen-modify"
+          onClick={handleOpenCreator}
+        />
       )}
     </main>
   )

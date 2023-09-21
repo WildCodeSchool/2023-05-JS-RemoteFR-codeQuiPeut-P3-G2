@@ -19,6 +19,10 @@ export default function CardCampaignCreation({ campagne, user }) {
     }
   }
 
+  const handleOpenCreator = () => {
+    navigate("/editor", { state: campagne.id })
+  }
+
   return (
     <main className="Scenario">
       <div className="containerimg">
@@ -47,7 +51,12 @@ export default function CardCampaignCreation({ campagne, user }) {
         </div>
       </div>
       {user.auteurId === campagne.auteurs_id && (
-        <img src={pen} alt="crayon pour modifier" className="pen-modify" />
+        <img
+          src={pen}
+          alt="crayon pour modifier"
+          className="pen-modify"
+          onClick={handleOpenCreator}
+        />
       )}
     </main>
   )
