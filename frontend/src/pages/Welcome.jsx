@@ -1,5 +1,5 @@
-import "slick-carousel/slick/slick.css"
-import "slick-carousel/slick/slick-theme.css"
+import "slick-carousel/slick/slick.scss"
+import "slick-carousel/slick/slick-theme.scss"
 import "./Welcome.scss"
 import TitreAccueil from "../assets/TitreAccueil.png"
 import LivreAccueil from "../assets/LivreAccueil.png"
@@ -10,6 +10,7 @@ import axios from "axios"
 import { useState, useEffect, useContext } from "react"
 import CardCampaign from "../components/CardCampaign"
 import MyContext from "../components/MyContext"
+import de from "../assets/images/de.svg"
 
 const Welcome = () => {
   const [campagnes, setCampagnes] = useState([])
@@ -51,8 +52,11 @@ const Welcome = () => {
           <img className="BookFall" src={LivreAccueil} />
         </header>
 
-        <div className="find_create">
-          <div className="FindScrip">
+        <div className="containerImg">
+          <img src={de} alt="dé" />
+        </div>
+        <div className="find_create ">
+          <div className="FindScrip one">
             <h2>FIND YOUR PERFECT SCRIPT</h2>
             <div className="conteneurSVG">
               <svg>
@@ -104,17 +108,17 @@ const Welcome = () => {
             Master or a player seeking new experiences, our campaigns offer a
             variety of choices to satisfy your thirst for adventure!
           </p>
-          <div className="sliderHome">
-            <Slider {...sliderSettings}>
-              {campagnes.map((campaign) => (
-                <CardCampaign
-                  key={campaign.id}
-                  user={user}
-                  campaign={campaign}
-                />
-              ))}
-            </Slider>
-          </div>
+        </div>
+        <div className="sliders">
+          <h2 className="popularScript">POPULAR SCRIPT</h2>
+          <Slider {...sliderSettings}>
+            {campagnes.map((campaign) => (
+              <CardCampaign key={campaign.id} user={user} campaign={campaign} />
+            ))}
+          </Slider>
+        </div>
+        <div className="co-writers">
+          <h2>FIND YOUR CO-WRITERS</h2>
         </div>
       </main>
     </>
