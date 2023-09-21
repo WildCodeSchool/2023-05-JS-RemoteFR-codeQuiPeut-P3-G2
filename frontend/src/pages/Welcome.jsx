@@ -10,6 +10,7 @@ import axios from "axios"
 import { useState, useEffect, useContext } from "react"
 import CardCampaign from "../components/CardCampaign"
 import MyContext from "../components/MyContext"
+import Footer from "../components/Footer"
 
 const Welcome = () => {
   const [campagnes, setCampagnes] = useState([])
@@ -116,6 +117,7 @@ const Welcome = () => {
             </Slider>
           </div>
         </div>
+        <Footer />
       </main>
     </>
   )
