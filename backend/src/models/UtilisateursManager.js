@@ -68,9 +68,7 @@ class UtilisateursManager extends AbstractManager {
 
   sendUserWhoHasGoodEmailAndPassword(email) {
     return this.database.query(
-      `select utilisateurs.id, lastname, firstname, login, email, img, inscription_date, auteurs.id auteurId from ${this.table}
-left join auteurs ON utilisateurs.id=auteurs.utilisateurs_id
-where email = ?`,
+      `select utilisateurs.id, lastname, firstname, login, email, img, inscription_date, auteurs.id auteurId from ${this.table} left join auteurs ON utilisateurs.id=auteurs.utilisateurs_id where email = ?`,
       [email]
     )
   }
@@ -84,7 +82,6 @@ where email = ?`,
   findWithoutPassword(id) {
     return this.database.query(
       `SELECT id, lastname, firstname, login, email, img, inscription_date FROM  ${this.table} WHERE  id = ?`,
-      // `SELECT * FROM  ${this.table} WHERE  id = ?`,   //  Pour test !!!!!!!!!!!!!
       [id]
     )
   }

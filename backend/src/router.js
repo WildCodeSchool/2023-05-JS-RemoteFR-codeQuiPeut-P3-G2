@@ -4,9 +4,8 @@ const router = express.Router()
 
 const { hashPassword, verifyPassword } = require("./services/authentification")
 const {
-  // validateDataUsersNoCheckPassword,
-  // validateDataUsersCheckOnlyPassword,
-  validateUserData,
+  validateUserDataSignup,
+  validateUserDataLogin,
 } = require("./middleware/validateDataUsers")
 
 const scenariosControllers = require("./controllers/scenariosControllers")
@@ -97,15 +96,17 @@ router.put("/password/:id", utilisateursControllers.changePassword)
 router.delete("/utilisateurs/:id", utilisateursControllers.destroy)
 router.post(
   "/login",
+  validateUserDataLogin,
   utilisateursControllers.readUserByEmailWithPassword,
   verifyPassword,
   utilisateursControllers.sendUserWhoHasGoodEmailAndPassword
 )
 router.post(
   "/signup",
-  utilisateursControllers.verifyEmail,
-  utilisateursControllers.verifyLogin,
-  validateUserData,
+  validateUserDataSignup,
+  // utilisateursControllers.verifyEmail,
+  // utilisateursControllers.verifyLogin,
+  utilisateursControllers.verifyEmailAndLogin,
   hashPassword,
   utilisateursControllers.add
 )

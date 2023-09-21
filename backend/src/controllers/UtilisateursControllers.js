@@ -130,7 +130,8 @@ const verifyEmail = (req, res, next) => {
     })
     .catch((err) => {
       console.error(err)
-      res.status(500).json({ errorMessage: "Mail déjà existant" }) // inutile a cet endroit
+      // res.status(500).json({ errorMessage: "Mail déjà existant" }) // inutile a cet endroit
+      res.status(500)
     })
 }
 
@@ -141,13 +142,43 @@ const verifyLogin = (req, res, next) => {
       if (rows[0] == null) {
         next()
       } else {
-        // res.send(rows[0])
         res.status(422).json({ errorMessage: "Login déjà existant" })
       }
     })
     .catch((err) => {
       console.error(err)
-      res.status(500).json({ errorMessage: "Login déjà existant" }) // inutile a cet endroit
+      // res.status(500).json({ errorMessage: "Login déjà existant" }) // inutile a cet endroit
+      res.status(500)
+    })
+}
+
+const verifyEmailAndLogin = (req, res, next) => {
+  const emailPromise = models.utilisateurs.readUserByEmailNoPassword(
+    req.body.email
+  )
+  const loginPromise = models.utilisateurs.readUserByLogin(req.body.login)
+
+  Promise.all([emailPromise, loginPromise])
+    .then(([emailResult, loginResult]) => {
+      const errors = []
+
+      if (emailResult[0].length) {
+        errors.push("Mail déjà existant")
+      }
+
+      if (loginResult[0].length) {
+        errors.push("Login déjà existant")
+      }
+
+      if (errors.length > 0) {
+        res.status(422).json({ errorMessage: errors })
+      } else {
+        next()
+      }
+    })
+    .catch((err) => {
+      console.error(err)
+      res.status(500)
     })
 }
 
@@ -215,4 +246,5 @@ module.exports = {
   sendUserWhoHasGoodEmailAndPassword,
   changePassword,
   usersWhoAreFollowers,
+  verifyEmailAndLogin,
 }
