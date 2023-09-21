@@ -394,7 +394,7 @@ export default function FormNewCampaign(props) {
           <div className="params">
             <div className="form-flexRow">
               <div className="form-flexColumn">
-                <p>Role Game / universe :</p>
+                <p>Role Game / universe</p>
                 <select
                   className="inputSelect"
                   onChange={handleChangeRoleGame}
@@ -410,7 +410,7 @@ export default function FormNewCampaign(props) {
               </div>
 
               <div className="form-flexColumn">
-                <p>Theme :</p>
+                <p>Theme</p>
                 <select
                   className="inputSelect"
                   onChange={handleChangeTheme}
@@ -428,7 +428,7 @@ export default function FormNewCampaign(props) {
 
             <div className="form-flexRow">
               <div className="form-flexColumn">
-                <p>Title :</p>
+                <p>Title</p>
                 <input
                   className="inputText"
                   type="text"
@@ -439,7 +439,7 @@ export default function FormNewCampaign(props) {
               </div>
 
               <div className="form-flexColumn">
-                <p>Difficulty :</p>
+                <p>Difficulty</p>
                 <select
                   className="inputSelect"
                   onChange={handleChangeLevel}
@@ -492,7 +492,7 @@ export default function FormNewCampaign(props) {
             </div>
 
             <div className="param-pictureScenar">
-              <p>Presentation picture of the scenario :</p>
+              <p>Campaign's picture :</p>
 
               <div className="form-chooseApicture">
                 <label htmlFor="inputFileFormNewScenario">Choose a file</label>
@@ -512,7 +512,7 @@ export default function FormNewCampaign(props) {
             </div>
 
             <div className="form-container-synopsis">
-              <p>Scenario synopsys :</p>
+              <p>Campaign synopsys </p>
               <textarea
                 placeholder="Resume here"
                 maxLength="2000"

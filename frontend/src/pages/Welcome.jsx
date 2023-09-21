@@ -1,5 +1,5 @@
-import "slick-carousel/slick/slick.css"
-import "slick-carousel/slick/slick-theme.css"
+import "slick-carousel/slick/slick.scss"
+import "slick-carousel/slick/slick-theme.scss"
 import "./Welcome.scss"
 import TitreAccueil from "../assets/TitreAccueil.png"
 import LivreAccueil from "../assets/LivreAccueil.png"
@@ -10,6 +10,7 @@ import axios from "axios"
 import { useState, useEffect, useContext } from "react"
 import CardCampaign from "../components/CardCampaign"
 import MyContext from "../components/MyContext"
+import de from "../assets/images/de.svg"
 
 const Welcome = () => {
   const [campagnes, setCampagnes] = useState([])
@@ -51,8 +52,11 @@ const Welcome = () => {
           <img className="BookFall" src={LivreAccueil} />
         </header>
 
-        <div className="find_create">
-          <div className="FindScrip">
+        <div className="containerImg">
+          <img src={de} alt="dé" />
+        </div>
+        <div className="find_create ">
+          <div className="FindScrip one">
             <h2>FIND YOUR PERFECT SCRIPT</h2>
             <div className="conteneurSVG">
               <svg>
@@ -60,10 +64,13 @@ const Welcome = () => {
               </svg>
             </div>
             <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-              Laboriosam eius animi, sunt est harum delectus corporis repellat
-              perspiciatis quas, minus voluptate minima rerum quos cupiditate
-              maiores. Illo ducimus accusamus aliquid!
+              Explore a plethora of captivating stories just waiting for you to
+              delve into. Whether you're seeking an epic adventure, a hilarious
+              comedy, or a heartfelt narrative, our diverse collection of
+              scenarios is tailored to satisfy all tastes. Dive into a world of
+              endless possibilities and discover the perfect script that aligns
+              with your creativity. Let yourself be inspired, create, and share
+              your vision with the world. Your journey begins here!
             </p>
             <button className="Explo" type="button">
               Explore
@@ -77,10 +84,12 @@ const Welcome = () => {
               </svg>
             </div>
             <p className="TextContain">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Consequuntur eum ullam repellat? Qui, repellendus nihil sit
-              commodi enim facilis natus, consequatur possimus atque sed
-              voluptates nam quam iure, cumque quo!
+              Expand your imagination and bring your ideas to life with our
+              intuitive scenario creation tool. Whether you're a seasoned
+              screenwriter or just starting your creative journey, our platform
+              provides you with the resources and features you need to craft the
+              script of your dreams. Build worlds, develop characters, and write
+              memorable dialogue with ease. Your story begins here!
             </p>
             <button className="Create" type="button">
               Create
@@ -93,17 +102,23 @@ const Welcome = () => {
           <div className="AnimLaptop">
             <img src={mokeUp} alt="" />
           </div>
-          <p className="textMock">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Consequuntur eum ullam repellat? Qui, repellendus nihil sit commodi
-            enim facilis natus, consequatur possimus atque sed voluptates nam
-            quam iure, cumque quo!
+          <p>
+            Explore a world of epic adventures and immersive narratives in our
+            outstanding selection of campaigns. Whether you're a seasoned Game
+            Master or a player seeking new experiences, our campaigns offer a
+            variety of choices to satisfy your thirst for adventure!
           </p>
+        </div>
+        <div className="sliders">
+          <h2 className="popularScript">POPULAR SCRIPT</h2>
           <Slider {...sliderSettings}>
             {campagnes.map((campaign) => (
               <CardCampaign key={campaign.id} user={user} campaign={campaign} />
             ))}
           </Slider>
+        </div>
+        <div className="co-writers">
+          <h2>FIND YOUR CO-WRITERS</h2>
         </div>
       </main>
     </>
