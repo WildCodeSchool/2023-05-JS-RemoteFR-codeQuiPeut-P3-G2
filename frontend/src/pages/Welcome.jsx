@@ -98,8 +98,7 @@ const Welcome = () => {
           <div className="AnimLaptop">
             <img src={mokeUp} alt="" />
           </div>
-          <div className="textMock">
-            <p>
+          <p>
               Explore a world of epic adventures and immersive narratives in our
               outstanding selection of campaigns. Whether you're a seasoned Game
               Master or a player seeking new experiences, our campaigns offer a
@@ -116,7 +115,6 @@ const Welcome = () => {
                 ))}
               </Slider>
             </div>
-          </div>
         </div>
       </main>
     </>
