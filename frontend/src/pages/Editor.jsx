@@ -1469,6 +1469,8 @@ export default function Editor() {
         <FormNewCampaign
           setShowNewCampaign={setShowNewCampaign}
           authorID={author.id}
+          setAuthor={setAuthor}
+          author={author}
           setScenariosOfEditedCampagne={setScenariosOfEditedCampagne}
           scenariosOfEditedCampagne={scenariosOfEditedCampagne}
           setPagesOfScenarioSelected={setPagesOfScenarioSelected}
