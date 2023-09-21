@@ -46,8 +46,11 @@ a:active {
         justify-content: center;
         .containImg {
           position: relative;
-          width: auto;
-          height: 100%;
+          width: 11vh;
+          height: 11vh;
+          // width: auto;
+          // height: 100%;
+
           border-radius: 50%;
           background-color: #4c60ae;
           .containLogoModify {
@@ -60,13 +63,14 @@ a:active {
               width: 100%;
               height: 100%;
               cursor: pointer;
+              object-fit: cover;
             }
           }
           .imgPhoto {
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            object-fit: contain;
+            // object-fit: cover;
           }
         }
       }

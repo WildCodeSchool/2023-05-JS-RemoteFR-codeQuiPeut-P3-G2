@@ -9,6 +9,20 @@ $fontSizeTitre: 1.5rem;
 
 .containerMyFavorites {
   width: 100%;
+
+  .div-switch {
+    width: 300px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    color: white;
+    margin-top: -8px;
+    margin-bottom: 24px;
+    // border: 1px solid white;
+  }
+
   .boardCards {
     display: flex;
     flex-wrap: wrap;

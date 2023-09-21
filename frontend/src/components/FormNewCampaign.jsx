@@ -1,5 +1,6 @@
 import axios from "axios"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
+import MyContext from "./MyContext"
 
 import imgDefaultScenario from "../assets/images/defoscenario.png"
 
@@ -77,6 +78,8 @@ export default function FormNewCampaign(props) {
   const {
     setShowNewCampaign,
     authorID,
+    setAuthor,
+    author,
     setScenariosOfEditedCampagne,
     setPagesOfScenarioSelected,
     setImages,
@@ -87,6 +90,7 @@ export default function FormNewCampaign(props) {
     setCampagnesUtilisateur,
   } = props
 
+  const { user, setUser } = useContext(MyContext)
   // const [author, setAuthor] = useState("Undefined")
   const [roleGame, setRoleGame] = useState([])
   const [valueRoleGame, setValueRoleGame] = useState()
@@ -272,14 +276,42 @@ export default function FormNewCampaign(props) {
     return `${year}-${month}-${day}`
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    let newAuthor = { utilisateurs_id: user.id, name: "" }
+
+    if (Object.keys(author).length === 0) {
+      const newAuthorName = prompt(
+        "It is your first scenario. \n\n Please enter an author name : "
+      )
+      newAuthor = { ...newAuthor, name: newAuthorName }
+
+      await axios
+        .post("http://localhost:4242/auteurs", {
+          utilisateurs_id: newAuthor.utilisateurs_id,
+          name: newAuthor.name,
+        })
+        .then(async () => {
+          await axios
+            .get(`http://localhost:4242/auteurs/user/${user.id}`)
+            .then(({ data }) => {
+              setAuthor(data)
+              newAuthor = data
+            })
+        })
+        .then(() => {
+          axios
+            .get(`http://localhost:4242/utilisateurs/${user.id}`)
+            .then(({ data }) => setUser(data))
+        })
+    }
+
     const roleGameID = roleGame.filter((game) => game.name === valueRoleGame)[0]
       .id
     const themeID = themes.filter((theme) => theme.name === valueTheme)[0].id
 
     axios
       .post(`http://localhost:4242/campagnes`, {
-        auteurs_id: authorID, // author
+        auteurs_id: Object.keys(author).length === 0 ? newAuthor.id : authorID, // author
         jeux_de_role_id: roleGameID,
         name: campaignName,
         nb_player_min: playerNumberMin,
@@ -299,7 +331,11 @@ export default function FormNewCampaign(props) {
         })
 
         axios
-          .get(`http://localhost:4242/auteurs/${authorID}/campagnes`)
+          .get(
+            `http://localhost:4242/auteurs/${
+              Object.keys(author).length === 0 ? newAuthor.id : authorID
+            }/campagnes`
+          )
           .then(({ data }) => {
             setCampagnesUtilisateur(data)
             const newEditedCampagne = data.filter(
@@ -310,7 +346,8 @@ export default function FormNewCampaign(props) {
             /// ///////////////////////////////////////////////////////////////////
             axios
               .post("http://localhost:4242/scenarios", {
-                auteurs_id: authorID, // author
+                auteurs_id:
+                  Object.keys(author).length === 0 ? newAuthor.id : authorID, // author
                 jeux_de_role_id: roleGameID,
                 campagnes_id: newCampaignID, // A faire plus tard => campagneId
                 name: campaignName,
@@ -335,16 +372,6 @@ export default function FormNewCampaign(props) {
                 axios
                   .get(`http://localhost:4242/scenarios/${data}`)
                   .then(({ data }) => {
-                    // let newScenariosOfEditedCampagne =
-                    //   scenariosOfEditedCampagne.map((scenario) => ({
-                    //     ...scenario,
-                    //     selected: false,
-                    //   }))
-                    // data.selected = true
-                    // newScenariosOfEditedCampagne = [
-                    //   ...newScenariosOfEditedCampagne,
-                    //   data,
-                    // ]
                     data.selected = true
                     const newScenariosOfEditedCampagne = [data]
                     setScenariosOfEditedCampagne(newScenariosOfEditedCampagne)
@@ -394,7 +421,7 @@ export default function FormNewCampaign(props) {
           <div className="params">
             <div className="form-flexRow">
               <div className="form-flexColumn">
-                <p>Role Game / universe :</p>
+                <p>Role Game / universe</p>
                 <select
                   className="inputSelect"
                   onChange={handleChangeRoleGame}
@@ -410,7 +437,7 @@ export default function FormNewCampaign(props) {
               </div>
 
               <div className="form-flexColumn">
-                <p>Theme :</p>
+                <p>Theme</p>
                 <select
                   className="inputSelect"
                   onChange={handleChangeTheme}
@@ -428,7 +455,7 @@ export default function FormNewCampaign(props) {
 
             <div className="form-flexRow">
               <div className="form-flexColumn">
-                <p>Title :</p>
+                <p>Title</p>
                 <input
                   className="inputText"
                   type="text"
@@ -439,7 +466,7 @@ export default function FormNewCampaign(props) {
               </div>
 
               <div className="form-flexColumn">
-                <p>Difficulty :</p>
+                <p>Difficulty</p>
                 <select
                   className="inputSelect"
                   onChange={handleChangeLevel}
@@ -492,7 +519,7 @@ export default function FormNewCampaign(props) {
             </div>
 
             <div className="param-pictureScenar">
-              <p>Presentation picture of the scenario :</p>
+              <p>Campaign's picture :</p>
 
               <div className="form-chooseApicture">
                 <label htmlFor="inputFileFormNewScenario">Choose a file</label>
@@ -512,7 +539,7 @@ export default function FormNewCampaign(props) {
             </div>
 
             <div className="form-container-synopsis">
-              <p>Scenario synopsys :</p>
+              <p>Campaign synopsys </p>
               <textarea
                 placeholder="Resume here"
                 maxLength="2000"
