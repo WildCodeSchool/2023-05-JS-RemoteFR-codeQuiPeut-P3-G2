@@ -173,20 +173,25 @@ $fontSizeTitre: 1.5rem;
       }
     }
 
-    button {
-      margin-top: 15px;
-      margin-bottom: 15px;
-      width: 150px;
-      height: 50px;
-      border-radius: 16px;
-      font-size: $fontSizeP;
-      background-color: $blueColor;
-      color: white;
-      cursor: pointer;
+    .submitScenar {
+      width: 400px;
+      display: flex;
+      justify-content: space-around;
+      button {
+        margin-top: 15px;
+        margin-bottom: 15px;
+        width: 150px;
+        height: 50px;
+        border-radius: 16px;
+        font-size: $fontSizeP;
+        background-color: $blueColor;
+        color: white;
+        cursor: pointer;
 
-      &:hover {
-        background-color: $colorYellow;
-        color: black;
+        &:hover {
+          background-color: $colorYellow;
+          color: black;
+        }
       }
     }
   }
