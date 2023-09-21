@@ -6,19 +6,18 @@ $colorYellow: #ffbd59;
   width: 100vw;
 
   header {
-    width: 100%;
-    height: 100%;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    overflow: hidden;
+    margin-top: 0;
+    margin-bottom: 0;
     display:flex;
  
 
     p {
-      font-size: 7rem;
+      font-size: 6rem;
       color: #070a09;
       white-space: nowrap;
       // height: 100%;
-      // // object-fit: fill;
+      // object-fit: fill;
       animation: Scroll 20s linear infinite;
       text-shadow: 0 0 5px  #4c60ae,
     }
@@ -57,7 +56,7 @@ $colorYellow: #ffbd59;
         display: flex;
         align-items: baseline;
         p{
-          font-size: x-large;
+          font-size: 1.8rem;
         }
       }
       .containerSelect {

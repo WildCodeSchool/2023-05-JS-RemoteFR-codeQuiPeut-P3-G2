@@ -9,7 +9,7 @@ import axios from "axios"
 import CardScenario from "../components/CardScenario"
 import FilterSelect from "../components/FilterSelect"
 
-import TitleScripts from "../assets/SCRIPTS.png"
+// import TitleScripts from "../assets/SCRIPTS.png"
 
 import { difficulty, numberPlayers } from "../assets/variables/variables"
 import CardCampaign from "../components/CardCampaign"
@@ -60,6 +60,26 @@ function Scripts() {
     setScenarios(newScenarios)
     newCampaigns = newCampaigns
       .sort((a, b) => b.id - a.id)
+      .filter((item, index) => index < 2)
+
+    setCampagnes(newCampaigns)
+    setThemes((prevstate) =>
+      prevstate.map((item) => ({ ...item, selected: false }))
+    )
+  }
+
+  const handleMostPopular = () => {
+    let newScenarios = JSON.parse(JSON.stringify(originalScenarios))
+    let newCampaigns = JSON.parse(JSON.stringify(originalCampagnes))
+
+    newScenarios = newScenarios
+      .sort((a, b) => b.nb_vue - a.nb_vue)
+      .filter((item, index) => index < 4)
+
+    setScenarios(newScenarios)
+
+    newCampaigns = newCampaigns
+      .sort((a, b) => b.nb_vue - a.nb_vue)
       .filter((item, index) => index < 2)
 
     setCampagnes(newCampaigns)
@@ -216,8 +236,8 @@ function Scripts() {
       <header>
         {/* <img src={TitleScripts}></img>
         <img src={TitleScripts}></img> */}
-        <p>SCRIPTS-SCRIPTS-SCRIPTS-SCRIPTS- </p>
-        <p>SCRIPTS-SCRIPTS-SCRIPTS-SCRIPTS-</p>
+        <p>SCRIPTS-SCRIPTS-SCRIPTS-SCRIPTS-SCRIPTS-</p>
+        <p>SCRIPTS-SCRIPTS-SCRIPTS-SCRIPTS-SCRIPTS-</p>
       </header>
       <div className="all">
         <div className="Filter">
@@ -240,7 +260,7 @@ function Scripts() {
           </div>
           <div className="conseiller">
             <button onClick={handleNewest}>The news</button>
-            <button>The most popular</button>
+            <button onClick={handleMostPopular}>The most popular</button>
             <button onClick={handleClickAll}>
               {scenariosCampaignType === "one shot"
                 ? "All scenarios"
