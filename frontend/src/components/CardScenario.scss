@@ -27,6 +27,19 @@ $fontSizeTitre: 1.5rem;
     cursor: pointer;
   }
 
+  .icon-publish {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 50px;
+    right: 0px;
+    cursor: pointer;
+  }
+
+  .animate {
+    animation: move 2s linear forwards;
+  }
+
   p {
     color: white;
   }
@@ -182,3 +195,14 @@ $fontSizeTitre: 1.5rem;
 //     transform: rotate(10deg);
 //   }
 // }
+
+@keyframes move {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-300px) translateX(300px);
+    opacity: 0;
+  }
+}
