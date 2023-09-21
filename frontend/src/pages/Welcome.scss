@@ -13,7 +13,7 @@ $fontSizeTitre: 1.5rem;
   .TitleContain {
     margin-top: 150px;
     width: 100vw;
-    height: calc(100vh - 100px);
+    height: calc(100vh - 150px);
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -122,8 +122,8 @@ $fontSizeTitre: 1.5rem;
         animation: levitationLaptop 2.5s ease infinite;
       }
     }
-    .textMock {
-      margin-bottom: 20px;
+    .sliderHome {
+      margin-top: 64px;
     }
   }
 }
