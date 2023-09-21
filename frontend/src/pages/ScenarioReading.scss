@@ -10,6 +10,7 @@ $fontSizeTitre: 1.5rem;
   flex-direction: row;
   justify-content: center;
   gap: 50px;
+  position: relative;
 
   .mobile-summary {
     position: fixed;
@@ -26,7 +27,7 @@ $fontSizeTitre: 1.5rem;
     position: fixed;
     top: 10px;
     left: 10px;
-    z-index: 20;
+    z-index: 200;
 
     .img-showMenu {
       width: 70px;
@@ -44,6 +45,7 @@ $fontSizeTitre: 1.5rem;
 
   .section-sommaireReading {
     position: sticky;
+    z-index: 200;
     top: 10px;
     width: 100vw;
     max-width: 300px;
