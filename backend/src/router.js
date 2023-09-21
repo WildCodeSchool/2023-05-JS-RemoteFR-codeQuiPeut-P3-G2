@@ -212,6 +212,11 @@ router.get(
   campagnesControllers.findUserFavoriteCampagnesWithDetails
 )
 
+router.get(
+  "/campagnesDetailed/auteur/:id",
+  campagnesControllers.findAuthorCampagnesWithDetails
+)
+
 router.get("/campagnesMulti", campagnesMultiControllers.findCampagnes)
 
 router.get("/pages", pagesControllers.browse)

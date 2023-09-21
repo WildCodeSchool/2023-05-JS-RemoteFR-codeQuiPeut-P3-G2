@@ -166,6 +166,20 @@ const findUserFavoriteCampagnesWithDetails = (req, res) => {
     })
 }
 
+const findAuthorCampagnesWithDetails = (req, res) => {
+  const auteurId = req.params.id
+
+  models.campagnes
+    .findAuthorCampagnesWithDetails(auteurId)
+    .then(([rows]) => {
+      res.send(rows)
+    })
+    .catch((err) => {
+      console.error(err)
+      res.sendStatus(500)
+    })
+}
+
 module.exports = {
   browse,
   add,
@@ -177,4 +191,5 @@ module.exports = {
   readCampagneDetailedScenarios,
   findCampagnesWithDetails,
   findUserFavoriteCampagnesWithDetails,
+  findAuthorCampagnesWithDetails,
 }
