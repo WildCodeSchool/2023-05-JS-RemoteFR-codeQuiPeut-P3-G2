@@ -159,6 +159,10 @@ export default function FormEditScenario({
     setDescriptionScenario(e.target.value)
   }
 
+  const HandleClickClose = () => {
+    setShowEditScenario(false)
+  }
+
   const handleSubmit = (e) => {
     const roleGameID = roleGame.filter((game) => game.name === valueRoleGame)[0]
       .id
@@ -295,37 +299,35 @@ export default function FormEditScenario({
 
             <div className="form-flexRow">
               <p className="p-numberPlayer">Number of players :</p>
-              <div>
-                <div className="form-flexColumn">
-                  <p>Minimum</p>
-                  <select
-                    className="NumberPlayer"
-                    onChange={handleChangeNbPlayerMin}
-                    value={playerNumberMin}
-                  >
-                    <option>---</option>
-                    {numberPlayers.map((number) => (
-                      <option value={number.rank} key={number.id}>
-                        {number.rank}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="form-flexColumn">
-                  <p>Maximum</p>
-                  <select
-                    className="NumberPlayer"
-                    onChange={handleChangeNbPlayerMax}
-                    value={playerNumberMax}
-                  >
-                    <option>---</option>
-                    {numberPlayers.map((number) => (
-                      <option value={number.rank} key={number.id}>
-                        {number.rank}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+              <div className="form-flexColumn">
+                <p>Minimum</p>
+                <select
+                  className="NumberPlayer"
+                  onChange={handleChangeNbPlayerMin}
+                  value={playerNumberMin}
+                >
+                  <option>---</option>
+                  {numberPlayers.map((number) => (
+                    <option value={number.rank} key={number.id}>
+                      {number.rank}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="form-flexColumn">
+                <p>Maximum</p>
+                <select
+                  className="NumberPlayer"
+                  onChange={handleChangeNbPlayerMax}
+                  value={playerNumberMax}
+                >
+                  <option>---</option>
+                  {numberPlayers.map((number) => (
+                    <option value={number.rank} key={number.id}>
+                      {number.rank}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
 
@@ -362,6 +364,9 @@ export default function FormEditScenario({
           <div className="submitScenar">
             <button type="button" onClick={handleSubmit}>
               Send
+            </button>
+            <button type="button" onClick={HandleClickClose}>
+              Cancel
             </button>
           </div>
         </div>

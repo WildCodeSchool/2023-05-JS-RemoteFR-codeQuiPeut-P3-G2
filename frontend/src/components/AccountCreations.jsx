@@ -13,7 +13,8 @@ export default function AccountFavorites() {
   const { user } = useContext(MyContext)
   const [scenariosFavorite, setScenariosFavorite] = useState([])
   const [scenariosAvis, setScenariosAvis] = useState([])
-  const [campagnes, setCampagnes] = useState([])
+  const [campagnesInProgress, setCampagnesInProgress] = useState([])
+  const [campagnesFinished, setCampagnesFinished] = useState([])
   const [ongletActif, setOngletActif] = useState(1)
   const [originalScenarios, setOriginalScenarios] = useState([])
   const [scenariosInProgress, setScenariosInProgress] = useState([])
@@ -27,38 +28,68 @@ export default function AccountFavorites() {
     axios
       .get(`http://localhost:4242/scenariosInProgress/utilisateur/${user.id}`)
       .then((res) => {
-        setScenariosInProgress(res.data)
+        const inProgress = res.data.filter(
+          (item) => parseInt(item.publication_date.slice(0, 4), 10) > 2990
+        )
+        setScenariosInProgress(inProgress)
+        const finished = res.data.filter(
+          (item) => parseInt(item.publication_date.slice(0, 4), 10) < 2990
+        )
+        setScenariosFinished(finished)
       })
 
     axios
-      .get(`http://localhost:4242/scenariosFinished/utilisateur/:id${user.id}`)
-      .then((res) => {
-        setScenariosFinished(res.data)
+      .get(`http://localhost:4242/campagnesDetailed/auteur/${user.auteurId}`)
+      .then(({ data }) => {
+        const inProgress = data.filter(
+          (item) => parseInt(item.publication_date.slice(0, 4), 10) > 2990
+        )
+        setCampagnesInProgress(inProgress)
+        const finished = data.filter(
+          (item) => parseInt(item.publication_date.slice(0, 4), 10) < 2990
+        )
+        setCampagnesFinished(finished)
       })
-
-    axios
-      .get("http://localhost:4242/campagnesMulti")
-      .then(({ data }) => setCampagnes(data))
       .catch((err) => console.error(err))
   }, [])
 
   return (
     <div className="containerCreations">
       <ul>
-        <li onClick={() => showTap(1)}>Work in progress</li>
-        <li onClick={() => showTap(2)}>Finished</li>
+        <li
+          onClick={() => showTap(1)}
+          style={
+            ongletActif === 1
+              ? { backgroundColor: "#ffbd59", color: "black" }
+              : null
+          }
+        >
+          Work in progress
+        </li>
+        <li
+          onClick={() => showTap(2)}
+          style={
+            ongletActif === 2
+              ? { backgroundColor: "#ffbd59", color: "black" }
+              : null
+          }
+        >
+          Finished
+        </li>
       </ul>
 
       <div className="containTab">
         {ongletActif === 1 && (
           <AccountCreationsInProgress
             scenariosInProgress={scenariosInProgress}
+            campagnesInProgress={campagnesInProgress}
             user={user}
           />
         )}
         {ongletActif === 2 && (
           <AccountCreationsFinished
             scenariosFinished={scenariosFinished}
+            campagnesFinished={campagnesFinished}
             user={user}
           />
         )}

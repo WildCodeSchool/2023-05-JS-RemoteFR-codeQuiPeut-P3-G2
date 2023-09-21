@@ -4,8 +4,8 @@ const router = express.Router()
 
 const { hashPassword, verifyPassword } = require("./services/authentification")
 const {
-  validateDataUsersNoCheckPassword,
-  validateDataUsersCheckOnlyPassword,
+  validateUserDataSignup,
+  validateUserDataLogin,
 } = require("./middleware/validateDataUsers")
 
 const scenariosControllers = require("./controllers/scenariosControllers")
@@ -96,16 +96,17 @@ router.put("/password/:id", utilisateursControllers.changePassword)
 router.delete("/utilisateurs/:id", utilisateursControllers.destroy)
 router.post(
   "/login",
+  validateUserDataLogin,
   utilisateursControllers.readUserByEmailWithPassword,
   verifyPassword,
   utilisateursControllers.sendUserWhoHasGoodEmailAndPassword
 )
 router.post(
   "/signup",
-  utilisateursControllers.verifyEmail,
-  utilisateursControllers.verifyLogin,
-  validateDataUsersNoCheckPassword,
-  validateDataUsersCheckOnlyPassword,
+  validateUserDataSignup,
+  // utilisateursControllers.verifyEmail,
+  // utilisateursControllers.verifyLogin,
+  utilisateursControllers.verifyEmailAndLogin,
   hashPassword,
   utilisateursControllers.add
 )
@@ -206,6 +207,16 @@ router.get(
   "/campagnes/:id/detailedScenarios",
   campagnesControllers.readCampagneDetailedScenarios
 ) // recherche les scenarios associés à une campagne (retourne : id, scenarioName)
+
+router.get(
+  "/campagnesFavorites/utilisateur/:id",
+  campagnesControllers.findUserFavoriteCampagnesWithDetails
+)
+
+router.get(
+  "/campagnesDetailed/auteur/:id",
+  campagnesControllers.findAuthorCampagnesWithDetails
+)
 
 router.get("/campagnesMulti", campagnesMultiControllers.findCampagnes)
 

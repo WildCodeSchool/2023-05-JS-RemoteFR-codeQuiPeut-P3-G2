@@ -13,17 +13,17 @@ $fontSizeTitre: 1.5rem;
   .TitleContain {
     margin-top: 150px;
     width: 100vw;
-    height: calc(100vh - 100px);
+    height: calc(100vh - 150px);
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     .images_header {
-      width: 50%;
+      width: 1000px;
       display: flex;
       flex-direction: column;
       gap: 64px;
       .title {
-        width: 100%;
+        width: 1000px;
       }
       .SubTitCon {
         display: flex;
@@ -38,77 +38,224 @@ $fontSizeTitre: 1.5rem;
     }
   }
 
-  .find_create {
+  .contents {
     display: flex;
-    justify-content: center;
-    gap: 200px;
-    font-size: 24px;
-    h2 {
-      text-align: center;
-    }
-    .conteneurSVG {
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+
+    .find_create {
+      width: 70%;
       display: flex;
-      justify-content: center;
-      object-fit: cover;
-      width: 30%;
-      svg {
-        width: 100%;
-        height: 5px;
-        stroke: #ffffff;
+      justify-content: space-between;
+      align-items: center;
+      gap: 200px;
+      font-size: 24px;
+      h2 {
+        text-align: center;
+      }
+      .conteneurSVG {
+        display: flex;
+        justify-content: center;
+        object-fit: cover;
+        width: 30%;
+        svg {
+          width: 100%;
+          height: 5px;
+          stroke: #ffffff;
+        }
+      }
+      p {
+        text-align: justify;
+      }
+      button {
+        width: 250px;
+        height: 80px;
+        border-radius: 42px;
+        background-color: #ffffff;
+        color: $colorDark;
+        font-size: 32px;
+      }
+
+      .borderFind {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        align-self: flex-end;
+        width: 930px;
+        height: 850px;
+        padding-right: 64px;
+        border-top: 2px solid $blueColor;
+        border-right: 2px solid $blueColor;
+        border-bottom: 2px solid $blueColor;
+        .FindScrip {
+          width: 600px;
+          height: 700px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          color: white;
+          box-shadow: 0 0 20px 3px $blueColor;
+          border-radius: 32px;
+          background-color: $colorDark;
+          box-sizing: border-box;
+          padding: 64px;
+        }
+      }
+
+      .deCreate {
+        position: relative;
+        top: 250px;
+        .containerImg {
+          position: relative;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          margin-bottom: 120px;
+          // transition: transform 2.5s ease;
+          img {
+            position: relative;
+            width: 100px;
+            animation: rotateDe 8s infinite;
+            &:hover {
+              animation: fallde 8s linear;
+            }
+          }
+        }
+
+        .CreateScrip {
+          width: 450px;
+          height: 750px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          color: white;
+          box-shadow: 0 0 20px 3px $colorYellow;
+          border-radius: 32px;
+          background-color: $colorDark;
+          box-sizing: border-box;
+          margin: 36px;
+          padding: 46px;
+        }
       }
     }
-    p {
-      text-align: justify;
-    }
-    button {
-      width: 250px;
-      height: 80px;
-      border-radius: 42px;
-      background-color: #ffffff;
-      color: $colorDark;
-      font-size: 32px;
-    }
-    .FindScrip {
-      width: 30%;
-      height: 80vh;
+
+    .containerMokeUp {
       display: flex;
+      align-items: flex-start;
       flex-direction: column;
-      align-items: center;
-      color: white;
-      box-shadow: 0 0 20px 3px $blueColor;
-      border-radius: 32px;
-      background-color: $colorDark;
-      box-sizing: border-box;
-      margin: 36px;
-      padding: 64px;
+      width: 70%;
+      .borderMokeUp {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        border-left: 2px solid $blueColor;
+        border-bottom: 2px solid $blueColor;
+        .contentMokeUp {
+          width: 90%;
+          display: flex;
+          justify-content: flex-end;
+          flex-direction: column;
+          color: $colorWhite;
+          padding-left: 150px;
+          padding-bottom: 42px;
+          font-size: 32px;
+          h3 {
+            font-size: 64px;
+            color: black;
+            font-family: Lustria;
+            text-shadow: 0 0 5px $colorYellow, 0 0 5px $colorYellow;
+          }
+          .AnimLaptop {
+            width: 700px;
+            height: 700px;
+            img {
+              position: relative;
+              width: 100%;
+              height: 100%;
+              object-fit: contain;
+              animation: levitationLaptop 2.5s ease infinite;
+            }
+          }
+        }
+        .sliderHome {
+          margin-top: 64px;
+        }
+      }
     }
 
-    .CreateScrip {
-      width: 20%;
-      position: relative;
-      top: 200px;
-      height: 70vh;
+    .sliders {
       display: flex;
+      justify-content: center;
       flex-direction: column;
-      align-items: center;
-      color: white;
-      box-shadow: 0 0 20px 3px $colorYellow;
-      border-radius: 32px;
-      background-color: $colorDark;
-      box-sizing: border-box;
-      margin: 36px;
-      padding: 46px;
+      width: 70%;
+      margin: auto;
+      margin-bottom: 32px;
+      color: $colorWhite;
+      .borderSliders {
+        width: 100%;
+        border-right: 2px solid $blueColor;
+        .popularScript {
+          text-align: center;
+          font-size: 64px;
+          color: black;
+          font-family: Lustria;
+          text-shadow: 0 0 5px $blueColor, 0 0 5px $blueColor,
+            0 0 5px $blueColor;
+        }
+      }
     }
   }
 
-  .mokeUp {
-    padding-left: 100px;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    width: 60%;
-    margin: auto;
-    color: $colorWhite;
-    font-size: 32px;
+  @keyframes levitationLaptop {
+    0% {
+      top: 10px;
+    }
+    50% {
+      top: 30px;
+    }
+    100% {
+      top: 10px;
+    }
+  }
+
+  @keyframes rotateDe {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes fallde {
+    0% {
+      top: 10px;
+    }
+    20% {
+      top: 30px;
+    }
+    25% {
+      top: 10px;
+    }
+    30% {
+      top: 30px;
+    }
+    35% {
+      top: 10px;
+    }
+    40% {
+      top: 30px;
+    }
+    45% {
+      top: 10px;
+    }
+    50% {
+      left: 0px;
+    }
+    70% {
+      left: 1000px;
+    }
+    100% {
+      left: 1000px;
+    }
   }
 }
