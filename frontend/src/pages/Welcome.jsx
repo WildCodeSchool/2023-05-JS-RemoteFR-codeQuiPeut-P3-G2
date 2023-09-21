@@ -99,22 +99,22 @@ const Welcome = () => {
             <img src={mokeUp} alt="" />
           </div>
           <p>
-              Explore a world of epic adventures and immersive narratives in our
-              outstanding selection of campaigns. Whether you're a seasoned Game
-              Master or a player seeking new experiences, our campaigns offer a
-              variety of choices to satisfy your thirst for adventure!
-            </p>
-            <div className="sliderHome">
-              <Slider {...sliderSettings}>
-                {campagnes.map((campaign) => (
-                  <CardCampaign
-                    key={campaign.id}
-                    user={user}
-                    campaign={campaign}
-                  />
-                ))}
-              </Slider>
-            </div>
+            Explore a world of epic adventures and immersive narratives in our
+            outstanding selection of campaigns. Whether you're a seasoned Game
+            Master or a player seeking new experiences, our campaigns offer a
+            variety of choices to satisfy your thirst for adventure!
+          </p>
+          <div className="sliderHome">
+            <Slider {...sliderSettings}>
+              {campagnes.map((campaign) => (
+                <CardCampaign
+                  key={campaign.id}
+                  user={user}
+                  campaign={campaign}
+                />
+              ))}
+            </Slider>
+          </div>
         </div>
       </main>
     </>
