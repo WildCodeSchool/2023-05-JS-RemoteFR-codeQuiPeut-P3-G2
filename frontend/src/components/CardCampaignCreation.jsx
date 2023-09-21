@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom"
 import "./CardScenarioCreation.scss"
 import pen from "../assets/images/Pen.svg"
 
-function CardScenarioCreation({ scenario, user }) {
+export default function CardCampaignCreation({ campagne, user }) {
   const navigate = useNavigate()
 
   const handleFormatDate = (myDate) => {
@@ -12,45 +12,45 @@ function CardScenarioCreation({ scenario, user }) {
     return `Started on : ${day}/${month}/${year}`
   }
 
-  // pour être rediriger vers le scenario au clic de l'image
-  const handleGoToScenarioSelected = () => {
-    if (user.auteurId !== scenario.auteurId) {
-      navigate("/resumescenario", { state: scenario })
+  // pour être rediriger vers le campaign au clic de l'image
+  const handleGoToCampaignSelected = () => {
+    if (user.auteurId !== campagne.auteurs_id) {
+      navigate("/resumeCampagne", { state: campagne.id })
     }
   }
 
   const handleOpenCreator = () => {
-    navigate("/editor", { state: scenario.campagnes_id })
+    navigate("/editor", { state: campagne.id })
   }
 
   return (
     <main className="Scenario">
       <div className="containerimg">
         <img
-          src={scenario.img}
+          src={campagne.img}
           alt="illustration"
-          onClick={handleGoToScenarioSelected}
+          onClick={handleGoToCampaignSelected}
         />
       </div>
       <div className="Card">
         <div className="title">
-          <h2>{scenario.title}</h2>
+          <h2>{campagne.name}</h2>
         </div>
         <div className="borderTitle"></div>
         <p className="description">
           {" "}
-          {scenario.description.slice(0, 150) + "..."}{" "}
+          {campagne.synopsis.slice(0, 150) + "..."}{" "}
         </p>
         <div className="theme">
-          <p className="univers">{scenario.universe}</p>
-          <p className="genre">{scenario.theme}</p>
+          <p className="univers">{campagne.jeux_de_role}</p>
+          <p className="genre">{campagne.theme}</p>
         </div>
         <div className="borderSmall"></div>
         <div className="publicationDate">
-          <p>{handleFormatDate(scenario.start_writing_date)}</p>
+          <p>{handleFormatDate(campagne.start_writing_date)}</p>
         </div>
       </div>
-      {user.auteurId === scenario.auteurId && (
+      {user.auteurId === campagne.auteurs_id && (
         <img
           src={pen}
           alt="crayon pour modifier"
@@ -61,4 +61,3 @@ function CardScenarioCreation({ scenario, user }) {
     </main>
   )
 }
-export default CardScenarioCreation

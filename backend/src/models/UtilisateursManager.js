@@ -68,7 +68,7 @@ class UtilisateursManager extends AbstractManager {
 
   sendUserWhoHasGoodEmailAndPassword(email) {
     return this.database.query(
-      `select utilisateurs.id, lastname, firstname, login, email, img, inscription_date, auteurs.id auteurId from ${this.table}
+      `select utilisateurs.id, lastname, firstname, login, email, img, inscription_date, COALESCE(auteurs.id, NULL) AS auteurId, COALESCE(auteurs.id, NULL) AS auteurs_id , COALESCE(auteurs.name, NULL) AS auteurs_name from ${this.table}
 left join auteurs ON utilisateurs.id=auteurs.utilisateurs_id
 where email = ?`,
       [email]
@@ -81,10 +81,20 @@ where email = ?`,
     )
   }
 
+  // findWithoutPassword(id) {
+  //   return this.database.query(
+  //     `SELECT id, lastname, firstname, login, email, img, inscription_date FROM  ${this.table} WHERE  id = ?`,
+  //     // `SELECT * FROM  ${this.table} WHERE  id = ?`,   //  Pour test !!!!!!!!!!!!!
+  //     [id]
+  //   )
+  // }
+
   findWithoutPassword(id) {
     return this.database.query(
-      `SELECT id, lastname, firstname, login, email, img, inscription_date FROM  ${this.table} WHERE  id = ?`,
-      // `SELECT * FROM  ${this.table} WHERE  id = ?`,   //  Pour test !!!!!!!!!!!!!
+      `SELECT utilisateurs.id, lastname, firstname, login, email, img, inscription_date, COALESCE(auteurs.id, NULL) AS auteurId, COALESCE(auteurs.id, NULL) AS auteurs_id , COALESCE(auteurs.name, NULL) AS auteurs_name 
+      FROM ${this.table} 
+      LEFT JOIN auteurs ON auteurs.utilisateurs_id = utilisateurs.id 
+      WHERE utilisateurs.id = ?`,
       [id]
     )
   }
