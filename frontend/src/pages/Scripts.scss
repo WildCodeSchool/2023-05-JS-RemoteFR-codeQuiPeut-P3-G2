@@ -39,7 +39,8 @@ $colorYellow: #ffbd59;
     align-items: flex-start;
     font-family: Lustria;
     font-weight: bold;
-
+    
+   
     .Filter {
       // margin-top:10%;
       position: sticky;
@@ -52,12 +53,32 @@ $colorYellow: #ffbd59;
       align-items: center;
       padding: 32px;
 
-      .Type {
+      .buttonReset {
+        background-color: #070a09;
+        border: none;
+        margin-top: 10%;
+      }
+      .containerType{
+        width: 100%;
         display: flex;
-        align-items: baseline;
-        p{
-          font-size: 1.8rem;
+        justify-content: center;
+
+        .Type {
+
+          gap: 20px; 
+          display:flex;
+          flex-direction: nowrap;
+          align-items: center;
+
+            p {
+              color: white;
+              font-size: xx-large;
+             
+        
+
+            }
         }
+
       }
       .containerSelect {
         width: 65%;
@@ -97,16 +118,7 @@ $colorYellow: #ffbd59;
       }
     }
   }
-  .Type {
-    display: flex;
-    justify-content: flex-start;
-    gap: 20px;
-      p {
-        color: white;
-        position: relative;
-        top: 10px;
-      }
-  }
+  
 
   .conseiller {
     margin-top: 25px;
@@ -178,52 +190,36 @@ $colorYellow: #ffbd59;
   }
 }
 //--------------------------------------------------------------------------------------------------------------
-/* The switch - the box around the slider */
-.switch {
-  font-size: 1rem;
-  position: relative;
-  display: inline-block;
-  width: 4em;
-  height: 2em;
-}
+@media screen and ( max-width: 960px) {
+  .all{
+    display:flex;
+    flex-direction: column;
+    font-weight: initial;
+  }
+  .containerScripts .all .Filter {
+    // margin-left: 0;
+    position: initial;
+    width: 100%;
+    height: 30%;
+    box-shadow: 0px 10px 6px -5px $blueColor;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin-bottom: 60px;
+      .containerType .Type p{
+        font-size: larger;
+  }
+  }
+  .containerScripts .all .try{
+    width: 100%;
+    height: 60%;
+    display: flex;
+    flex-direction: row;
 
-/* Hide default HTML checkbox */
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
+  }
 
-/* The slider */
-.slider {
-  position: absolute;
-  cursor: pointer;
-  inset: 0;
-  background-color: #eee;
-  transition: 0.4s;
-  border-radius: 0.5em;
-  box-shadow: 0 0.2em #dfd9d9;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 1.5em;
-  width: 1.4em;
-  border-radius: 0.3em;
-  left: 0.3em;
-  bottom: 0.7em;
-  background-color: rgb(255, 189, 89);
-  transition: 0.4s;
-  box-shadow: 0 0.4em #bcb4b4;
-}
-
-.slider:hover::before {
-  box-shadow: 0 0.2em #bcb4b4;
-  bottom: 0.5em;
-}
-
-input:checked + .slider:before {
-  transform: translateX(2em);
-  background: rgb(255, 189, 89);
+ 
 }
