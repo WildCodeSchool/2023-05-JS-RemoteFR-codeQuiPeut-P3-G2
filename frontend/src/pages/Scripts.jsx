@@ -9,9 +9,10 @@ import axios from "axios"
 import CardScenario from "../components/CardScenario"
 import FilterSelect from "../components/FilterSelect"
 
-import TitleScripts from "../assets/SCRIPTS.png"
+// import TitleScripts from "../assets/SCRIPTS.png"
 
 import { difficulty, numberPlayers } from "../assets/variables/variables"
+import Reset from "../assets/reset.png"
 import CardCampaign from "../components/CardCampaign"
 
 function Scripts() {
@@ -55,11 +56,31 @@ function Scripts() {
 
     newScenarios = newScenarios
       .sort((a, b) => b.id - a.id)
-      .filter((item, index) => index < 4)
+      .filter((item, index) => index < 5)
 
     setScenarios(newScenarios)
     newCampaigns = newCampaigns
       .sort((a, b) => b.id - a.id)
+      .filter((item, index) => index < 3)
+
+    setCampagnes(newCampaigns)
+    setThemes((prevstate) =>
+      prevstate.map((item) => ({ ...item, selected: false }))
+    )
+  }
+
+  const handleMostPopular = () => {
+    let newScenarios = JSON.parse(JSON.stringify(originalScenarios))
+    let newCampaigns = JSON.parse(JSON.stringify(originalCampagnes))
+
+    newScenarios = newScenarios
+      .sort((a, b) => b.nbVues - a.nbVues)
+      .filter((item, index) => index < 4)
+
+    setScenarios(newScenarios)
+
+    newCampaigns = newCampaigns
+      .sort((a, b) => b.nbVues - a.nbVues)
       .filter((item, index) => index < 2)
 
     setCampagnes(newCampaigns)
@@ -169,6 +190,15 @@ function Scripts() {
     setCampagnes(newCampaigns)
   }
 
+  const handleReset = () => {
+    setValueAuteur("---")
+    setValueNumberPlayer("---")
+    setValueDifficulty("---")
+    setValueRoleGame("---")
+    setThemes((prevstate) =>
+      prevstate.map((item) => ({ ...item, selected: false }))
+    )
+  }
   // -----------------------------------------------------------------------------------
   useEffect(() => {
     axios.get("http://localhost:4242/scenariosOneshot").then((res) => {
@@ -216,31 +246,33 @@ function Scripts() {
       <header>
         {/* <img src={TitleScripts}></img>
         <img src={TitleScripts}></img> */}
-        <p>SCRIPTS-SCRIPTS-SCRIPTS-SCRIPTS- </p>
-        <p>SCRIPTS-SCRIPTS-SCRIPTS-SCRIPTS-</p>
+        <p>SCRIPTS-SCRIPTS-SCRIPTS-SCRIPTS-SCRIPTS-</p>
+        <p>SCRIPTS-SCRIPTS-SCRIPTS-SCRIPTS-SCRIPTS-</p>
       </header>
       <div className="all">
         <div className="Filter">
-          <div className="Type">
-            <p>One Shot</p>
-            <Switch
-              scenarios={scenarios}
-              setValueType={setValueType}
-              valueType={valueType}
-              type={type}
-              setType={setType}
-              typeScenarios={typeScenarios}
-              setTypeScenarios={setTypeScenarios}
-              setCampagnes={setCampagnes}
-              campagnes={campagnes}
-              scenariosCampaignType={scenariosCampaignType}
-              setScenariosCampaignType={setScenariosCampaignType}
-            />
-            <p>Campaign</p>
+          <div className="containerType">
+            <div className="Type">
+              <p>One Shot</p>
+              <Switch
+                scenarios={scenarios}
+                setValueType={setValueType}
+                valueType={valueType}
+                type={type}
+                setType={setType}
+                typeScenarios={typeScenarios}
+                setTypeScenarios={setTypeScenarios}
+                setCampagnes={setCampagnes}
+                campagnes={campagnes}
+                scenariosCampaignType={scenariosCampaignType}
+                setScenariosCampaignType={setScenariosCampaignType}
+              />
+              <p>Campaign</p>
+            </div>
           </div>
           <div className="conseiller">
             <button onClick={handleNewest}>The news</button>
-            <button>The most popular</button>
+            <button onClick={handleMostPopular}>The most popular</button>
             <button onClick={handleClickAll}>
               {scenariosCampaignType === "one shot"
                 ? "All scenarios"
@@ -305,6 +337,9 @@ function Scripts() {
               setValueTheme={setValueTheme}
             />
           </div>
+          <button className="buttonReset" type="button" onClick={handleReset}>
+            <img src={Reset}></img>
+          </button>
         </div>
         <div className="try">
           <div className="filtered-scenarios">

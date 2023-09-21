@@ -24,7 +24,7 @@ function Switch({
   }
 
   return (
-    <>
+    <div className="containerSwitch">
       <label className="switch">
         <input
           type="checkbox"
@@ -34,7 +34,7 @@ function Switch({
         />
         <span className="slider"></span>
       </label>
-    </>
+    </div>
   )
 }
 
