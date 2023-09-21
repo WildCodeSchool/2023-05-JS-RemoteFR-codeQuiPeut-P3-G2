@@ -142,6 +142,10 @@ export default function FormEditCampaign({
     setSynopsis(e.target.value)
   }
 
+  const HandleClickClose = () => {
+    setShowEditCampaign(false)
+  }
+
   const handleSubmit = (e) => {
     const roleGameID = roleGame.filter((game) => game.name === valueRoleGame)[0]
       .id
@@ -223,7 +227,7 @@ export default function FormEditCampaign({
           <div className="params">
             <div className="form-flexRow">
               <div className="form-flexColumn">
-                <p>Role Game / universe :</p>
+                <p>Role Game / universe</p>
                 <select
                   className="inputSelect"
                   onChange={handleChangeRoleGame}
@@ -239,7 +243,7 @@ export default function FormEditCampaign({
               </div>
 
               <div className="form-flexColumn">
-                <p>Theme :</p>
+                <p>Theme</p>
                 <select
                   className="inputSelect"
                   onChange={handleChangeTheme}
@@ -257,7 +261,7 @@ export default function FormEditCampaign({
 
             <div className="form-flexRow">
               <div className="form-flexColumn">
-                <p>Title :</p>
+                <p>Title</p>
                 <input
                   className="inputText"
                   type="text"
@@ -268,7 +272,7 @@ export default function FormEditCampaign({
               </div>
 
               <div className="form-flexColumn">
-                <p>Difficulty :</p>
+                <p>Difficulty</p>
                 <select
                   className="inputSelect"
                   onChange={handleChangeLevel}
@@ -285,43 +289,41 @@ export default function FormEditCampaign({
             </div>
 
             <div className="form-flexRow">
-              <p className="p-numberPlayer">Number of players :</p>
-              <div>
-                <div className="form-flexColumn">
-                  <p>Minimum</p>
-                  <select
-                    className="NumberPlayer"
-                    onChange={handleChangeNbPlayerMin}
-                    value={playerNumberMin}
-                  >
-                    <option>---</option>
-                    {numberPlayers.map((number) => (
-                      <option value={number.rank} key={number.id}>
-                        {number.rank}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="form-flexColumn">
-                  <p>Maximum</p>
-                  <select
-                    className="NumberPlayer"
-                    onChange={handleChangeNbPlayerMax}
-                    value={playerNumberMax}
-                  >
-                    <option>---</option>
-                    {numberPlayers.map((number) => (
-                      <option value={number.rank} key={number.id}>
-                        {number.rank}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+              <p className="p-numberPlayer">Number of players</p>
+              <div className="form-flexColumn">
+                <p>Minimum</p>
+                <select
+                  className="NumberPlayer"
+                  onChange={handleChangeNbPlayerMin}
+                  value={playerNumberMin}
+                >
+                  <option>---</option>
+                  {numberPlayers.map((number) => (
+                    <option value={number.rank} key={number.id}>
+                      {number.rank}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="form-flexColumn">
+                <p>Maximum</p>
+                <select
+                  className="NumberPlayer"
+                  onChange={handleChangeNbPlayerMax}
+                  value={playerNumberMax}
+                >
+                  <option>---</option>
+                  {numberPlayers.map((number) => (
+                    <option value={number.rank} key={number.id}>
+                      {number.rank}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
 
             <div className="param-pictureScenar">
-              <p>Presentation picture of the scenario :</p>
+              <p>Campaign's picture</p>
 
               <div className="form-chooseApicture">
                 <label htmlFor="inputFileFormNewScenario">Choose a file</label>
@@ -341,7 +343,7 @@ export default function FormEditCampaign({
             </div>
 
             <div className="form-container-synopsis">
-              <p>Scenario synopsys :</p>
+              <p>Scenario synopsys</p>
               <textarea
                 placeholder="Resume here"
                 maxLength="2000"
@@ -353,6 +355,9 @@ export default function FormEditCampaign({
           <div className="submitScenar">
             <button type="button" onClick={handleSubmit}>
               Send
+            </button>
+            <button type="button" onClick={HandleClickClose}>
+              Cancel
             </button>
           </div>
         </div>

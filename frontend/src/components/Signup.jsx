@@ -22,10 +22,6 @@ export default function SignUp({
   const [loginAlreadyUsed, setLoginAlreadyUsed] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [errorDataUser, setErrorDataUser] = useState([])
-  // const [errorFirstname, setErrorFirstname] = useState([])
-  // const [errorEmail, setErrorEmail] = useState([])
-  // const [errorLogin, setErrorLogin] = useState([])
-  // const [errorPassword, setErrorPassword] = useState([])
 
   const HandleClickShowPassword = () => {
     setShowPassword(!showPassword)
@@ -47,19 +43,18 @@ export default function SignUp({
         if (err.response) {
           const { data } = err.response
           setErrorDataUser(data)
-          // setErrorLastname(data)
-          // setErrorFirstname(data)
-          // setErrorEmail(data)
-          // setErrorLogin(data)
-          // setErrorPassword(data)
 
-          // if (data.errorMessage === "Mail déjà existant") {
-          //   setEmailAlreadyUsed(true)
-          //   // setLoginAlreadyUsed(false)
-          // } else if (data.errorMessage === "Login déjà existant") {
-          //   // setEmailAlreadyUsed(false)
-          //   setLoginAlreadyUsed(true)
-          // }
+          if (data.errorMessage.includes("Mail déjà existant")) {
+            let checkEmailAlreadyUsed = true
+            setEmailAlreadyUsed(checkEmailAlreadyUsed)
+            checkEmailAlreadyUsed = false
+          }
+
+          if (data.errorMessage.includes("Login déjà existant")) {
+            let checkLoginAlreadyUsed = true
+            setLoginAlreadyUsed(checkLoginAlreadyUsed)
+            checkLoginAlreadyUsed = false
+          }
         } else {
           console.error("Une erreur s'est produite : ", err.message)
         }
@@ -107,7 +102,7 @@ export default function SignUp({
     if (img === "none") {
       axios
         .post("http://localhost:4242/tmpImage", formData)
-        .then(({ data }) => console.info(data) || setImg(data))
+        .then(({ data }) => setImg(data))
     } else {
       axios.delete("http://localhost:4242/deleteTmpImage", {
         data: {
@@ -116,7 +111,7 @@ export default function SignUp({
       })
       axios
         .post("http://localhost:4242/tmpImage", formData)
-        .then(({ data }) => console.info(data) || setImg(data))
+        .then(({ data }) => setImg(data))
     }
   }
 
@@ -159,7 +154,7 @@ export default function SignUp({
                   />
                   {errorDataUser.length !== 0
                     ? errorDataUser.validationErrors
-                        .filter((error) => error.message.includes("lastname"))
+                        ?.filter((error) => error.message.includes("lastname"))
                         .map((err) => (
                           <p className="signUpErrors" key={err.context.key}>
                             {err.message}
@@ -179,7 +174,7 @@ export default function SignUp({
                   />
                   {errorDataUser.length !== 0
                     ? errorDataUser.validationErrors
-                        .filter((error) => error.message.includes("firstname"))
+                        ?.filter((error) => error.message.includes("firstname"))
                         .map((err) => (
                           <p className="signUpErrors" key={err.context.key}>
                             {err.message}
@@ -189,7 +184,7 @@ export default function SignUp({
                 </div>
               </div>
               <div className="labelInput">
-                <label htmlFor="login">Choose a login</label>
+                <label htmlFor="login">Login</label>
                 <input
                   id="login"
                   type="text"
@@ -198,10 +193,12 @@ export default function SignUp({
                   value={login}
                   onChange={HandleChangeLogin}
                 />
-                {loginAlreadyUsed && <p>Login already used</p>}
+                {loginAlreadyUsed && (
+                  <p className="signUpErrors">Login already used</p>
+                )}
                 {errorDataUser.length !== 0
                   ? errorDataUser.validationErrors
-                      .filter((error) => error.message.includes("login"))
+                      ?.filter((error) => error.message.includes("login"))
                       .map((err) => (
                         <p className="signUpErrors" key={err.context.key}>
                           {err.message}
@@ -218,10 +215,12 @@ export default function SignUp({
                   value={email}
                   onChange={HandleChangeEmail}
                 />
-                {emailAlreadyUsed && <p>Email already used</p>}
+                {emailAlreadyUsed && (
+                  <p className="signUpErrors">Email already used</p>
+                )}
                 {errorDataUser.length !== 0
                   ? errorDataUser.validationErrors
-                      .filter((error) => error.message.includes("email"))
+                      ?.filter((error) => error.message.includes("email"))
                       .map((err) => (
                         <p className="signUpErrors" key={err.context.key}>
                           {err.message}
@@ -259,10 +258,9 @@ export default function SignUp({
                     />
                   </div>
                 </div>
-                {console.info("pass__Good ?", errorDataUser.validationErrors)}
                 {errorDataUser.length !== 0
                   ? errorDataUser.validationErrors
-                      .filter((error) => error.message.includes("password"))
+                      ?.filter((error) => error.message.includes("password"))
                       .map((err) => (
                         <p
                           className="signUpErrors sUEPassword"
@@ -274,7 +272,7 @@ export default function SignUp({
                   : null}
                 {errorDataUser.length !== 0
                   ? errorDataUser.validationErrors
-                      .filter((error) => error.message.includes("value"))
+                      ?.filter((error) => error.message.includes("value"))
                       .map((err) => (
                         <p
                           className="signUpErrors sUEPassword"

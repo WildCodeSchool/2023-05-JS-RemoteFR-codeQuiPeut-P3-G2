@@ -22,6 +22,10 @@ export default function Login({
   }
 
   const HandleSubmitlogin = () => {
+    console.info("user", user)
+    console.info("email", email)
+    console.info("passWord", passWord)
+
     axios
       .post("http://localhost:4242/login", {
         user,
@@ -30,18 +34,22 @@ export default function Login({
       })
       .then(({ data }) => {
         setUser(data)
+        console.info("data_all", data)
+        console.info("data_id", data.id)
 
         axios
           .get(`http://localhost:4242/autorFavorite/${data.id}`)
           .then(({ data }) => setFollowedAutors(data))
-          .catch((err) => console.error(err))
+          .catch((err1) => console.error(err1) || console.info("err1", err1))
 
         // Sauvegarde des informations de l'utilisateur dans le localStorage
         localStorage.setItem("user", JSON.stringify(data))
       })
       .then(() => setOpenForm(false))
-      .catch(() => {
+      .catch((err2) => {
         setWrongEmailOrPassword(true)
+        console.error(err2)
+        console.info("err2", err2)
       })
 
     setChangeClassToOpenMenu(false)
@@ -77,7 +85,7 @@ export default function Login({
           />
         </div>
         <div className="containerForm">
-          <h2>Connectez vous</h2>
+          <h2>Log in</h2>
           <div className="conteneurSVG">
             <svg>
               <line x1="0" x2="200" y1="0" y2="0" />
@@ -85,7 +93,7 @@ export default function Login({
           </div>
           <div className="EmailPassword">
             <div className="labelInput">
-              <label htmlFor="email">Adresse email</label>
+              <label htmlFor="email">Email</label>
               <input
                 id="email"
                 type="email"
@@ -96,7 +104,7 @@ export default function Login({
             </div>
 
             <div className="labelInput">
-              <label htmlFor="passWord">Mot de passe</label>
+              <label htmlFor="passWord">Password</label>
               <div className="inputPassword">
                 <input
                   id="passWord"
@@ -128,12 +136,14 @@ export default function Login({
             )}
           </div>
           <button type="button" onClick={HandleSubmitlogin}>
-            Se connecter
+            Log In
           </button>
 
           <p>
-            Si vous n'avez pas de compte,{" "}
-            <span onClick={HandleCloseFormLoginOpenSignup}>créez le ici</span>
+            If you don't have an account,{" "}
+            <span onClick={HandleCloseFormLoginOpenSignup}>
+              create one here
+            </span>
           </p>
         </div>
       </form>

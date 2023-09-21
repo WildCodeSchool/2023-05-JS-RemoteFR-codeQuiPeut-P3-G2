@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { useLocation } from "react-router-dom"
 import ReadingPage from "../components/ReadingPage"
 import SommaireReading from "../components/SommaireReading"
-import summary from "../assets/images/summary2.png"
+import summary from "../assets/images/sommaire.svg"
 import axios from "axios"
 
 export default function ScenarioReading() {

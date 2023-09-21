@@ -7,12 +7,18 @@ $fontSizeP: 1.4rem;
 $fontSizeBouton: 1.3rem;
 $fontSizeTitre: 1.5rem;
 
-.containerUserFavorite {
-  width: 100%;
-  .boardCards {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 54px;
+.main-UserProfileFollowers {
+  width: 70%;
+  max-height: 600px;
+  overflow-y: auto;
+
+  .containerUserFavorite {
+    width: 100%;
+    .boardCards {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 54px;
+    }
   }
 }

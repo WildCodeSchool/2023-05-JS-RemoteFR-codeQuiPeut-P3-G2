@@ -6,6 +6,8 @@ import Navbar from "../components/Navbar"
 import axios from "axios"
 import fullStar from "../assets/images/etoile-pleine.png"
 import emptyStar from "../assets/images/etoile-vide.png"
+import pen from "../assets/images/Pen.svg"
+import iconSupprimerYellow from "../assets/images/iconSupprimer_yellow.svg"
 
 const ResumePageScenario = () => {
   // const scenario = location.state
@@ -360,20 +362,18 @@ const ResumePageScenario = () => {
                   <p>{avi.commentaire}</p>
                   <div className="resumePageScenarButtonsConsultation">
                     <div>
-                      <button
-                        type="button"
+                      <img
+                        src={iconSupprimerYellow}
                         value={avi.id}
                         onClick={handleDeleteComment}
-                      >
-                        Remove
-                      </button>
-                      <button
-                        type="button"
+                      />
+                      <img
+                        className="pen"
+                        src={pen}
+                        alt="crayon pour modifier"
                         value={avi.id}
                         onClick={() => handleClickInput(avi.id)}
-                      >
-                        Edit
-                      </button>
+                      />
                     </div>
                   </div>
                 </div>
