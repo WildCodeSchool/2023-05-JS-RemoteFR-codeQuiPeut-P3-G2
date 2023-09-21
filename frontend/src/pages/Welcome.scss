@@ -38,6 +38,22 @@ $fontSizeTitre: 1.5rem;
     }
   }
 
+  .containerImg {
+    position: relative;
+    top: 200px;
+    width: 70%;
+    display: flex;
+    justify-content: flex-end;
+    transition: transform 2.5s ease;
+    img {
+      position: relative;
+      animation: rotateDe 8s infinite;
+      &:hover {
+        animation: fallde 3s ease;
+      }
+    }
+  }
+
   .find_create {
     display: flex;
     justify-content: center;
@@ -86,7 +102,7 @@ $fontSizeTitre: 1.5rem;
     .CreateScrip {
       width: 20%;
       position: relative;
-      top: 200px;
+      top: 450px;
       height: 70vh;
       display: flex;
       flex-direction: column;
@@ -108,9 +124,14 @@ $fontSizeTitre: 1.5rem;
     flex-direction: column;
     width: 60%;
     margin: auto;
-    margin-bottom: 32px;
     color: $colorWhite;
     font-size: 32px;
+    h3 {
+      font-size: 64px;
+      color: black;
+      font-family: Lustria;
+      text-shadow: 0 0 5px $colorYellow, 0 0 5px $colorYellow;
+    }
     .AnimLaptop {
       width: 700px;
       height: 700px;
@@ -126,16 +147,72 @@ $fontSizeTitre: 1.5rem;
       margin-bottom: 20px;
     }
   }
-}
 
-@keyframes levitationLaptop {
-  0% {
-    top: 10px;
+  .sliders {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 60%;
+    margin: auto;
+    margin-bottom: 32px;
+    color: $colorWhite;
+    .popularScript {
+      text-align: center;
+      font-size: 64px;
+      color: black;
+      font-family: Lustria;
+      text-shadow: 0 0 5px $blueColor, 0 0 5px $blueColor, 0 0 5px $blueColor;
+    }
   }
-  50% {
-    top: 30px;
+
+  @keyframes levitationLaptop {
+    0% {
+      top: 10px;
+    }
+    50% {
+      top: 30px;
+    }
+    100% {
+      top: 10px;
+    }
   }
-  100% {
-    top: 10px;
+
+  @keyframes rotateDe {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes fallde {
+    0% {
+      top: 10px;
+    }
+    20% {
+      top: 30px;
+    }
+    30% {
+      top: 10px;
+    }
+    40% {
+      top: 30px;
+    }
+    50% {
+      top: 10px;
+    }
+    60% {
+      top: 30px;
+    }
+    70% {
+      top: 10px;
+    }
+    80% {
+      left: 0px;
+    }
+    90% {
+      left: 1200px;
+    }
+    100% {
+      left: 1200px;
+    }
   }
 }
