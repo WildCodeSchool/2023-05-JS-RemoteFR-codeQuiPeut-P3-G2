@@ -73,9 +73,14 @@ $fontSizeTitre: 1.5rem;
         width: 250px;
         height: 80px;
         border-radius: 42px;
-        background-color: #ffffff;
-        color: $colorDark;
-        font-size: 32px;
+        font-size: calc($fontSizeBouton*1.55);
+        background-color: $blueColor;
+        color: $colorWhite;
+
+        &:hover {
+          background-color: $colorYellow;
+          color: $blueColor;
+        }
       }
 
       .borderFind {
@@ -89,6 +94,7 @@ $fontSizeTitre: 1.5rem;
         border-top: 2px solid $blueColor;
         border-right: 2px solid $blueColor;
         border-bottom: 2px solid $blueColor;
+
         .FindScrip {
           width: 600px;
           height: 700px;

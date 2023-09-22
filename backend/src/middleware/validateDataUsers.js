@@ -27,7 +27,7 @@ const userSchemaLogin = Joi.object({
 
 const userSchemaPassword = Joi.string()
   .pattern(
-    /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,45}$/
+    /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
     // "Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre, un caractère spécial et avoir une longueur minimale de 8 caractères."
   )
   .message(
