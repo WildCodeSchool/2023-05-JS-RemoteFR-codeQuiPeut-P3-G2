@@ -3,7 +3,7 @@ import MyContext from "../components/MyContext"
 import Button from "../components/Button"
 import Navbar from "../components/Navbar"
 import Switch from "../components/Switch"
-
+import Footer from "../components/Footer"
 import "./Scripts.scss"
 import axios from "axios"
 import CardScenario from "../components/CardScenario"
@@ -357,6 +357,7 @@ function Scripts() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }
