@@ -148,7 +148,7 @@ export default function SignUp({
                     id="lastname"
                     type="text"
                     name="lastname"
-                    placeholder="Required, max 100 characters"
+                    placeholder="100 characters max"
                     value={lastname}
                     onChange={HandleChangeLastname}
                   />
@@ -168,7 +168,7 @@ export default function SignUp({
                     id="firstname"
                     type="text"
                     name="firstname"
-                    placeholder="Required, max 100 characters"
+                    placeholder="100 characters max"
                     value={firstname}
                     onChange={HandleChangeFirstname}
                   />
@@ -189,7 +189,7 @@ export default function SignUp({
                   id="login"
                   type="text"
                   name="login"
-                  placeholder="Required, max 100 characters"
+                  placeholder="100 characters max"
                   value={login}
                   onChange={HandleChangeLogin}
                 />
@@ -212,6 +212,7 @@ export default function SignUp({
                   id="email"
                   type="email"
                   name="email"
+                  placeholder="ex: jane.doe@exemple.com"
                   value={email}
                   onChange={HandleChangeEmail}
                 />
