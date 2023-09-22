@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import FormNewForumTopic from "../components/FormNewForumTopic"
+import Footer from "../components/Footer"
 
 export default function Forum() {
   const navigate = useNavigate()
@@ -229,6 +230,7 @@ export default function Forum() {
           </section>
         )}
       </main>
+      <Footer />
     </>
   )
 }
