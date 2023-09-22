@@ -8,6 +8,7 @@ import Navbar from "../components/Navbar"
 import Slider from "react-slick"
 import axios from "axios"
 import { useState, useEffect, useContext } from "react"
+import { Link } from "react-router-dom"
 import CardCampaign from "../components/CardCampaign"
 import MyContext from "../components/MyContext"
 import Footer from "../components/Footer"
@@ -73,9 +74,11 @@ const Welcome = () => {
                   be inspired, create, and share your vision with the world.
                   Your journey begins here!
                 </p>
-                <button className="Explo" type="button">
-                  Explore
-                </button>
+                <Link to="/scripts">
+                  <button className="Explo" type="button">
+                    Explore
+                  </button>
+                </Link>
               </div>
             </div>
 
@@ -99,9 +102,11 @@ const Welcome = () => {
                   characters, and write memorable dialogue with ease. Your story
                   begins here!
                 </p>
-                <button className="Create" type="button">
-                  Create
-                </button>
+                <Link to="/editor">
+                  <button className="Create" type="button">
+                    Create
+                  </button>
+                </Link>
               </div>
             </div>
           </div>
