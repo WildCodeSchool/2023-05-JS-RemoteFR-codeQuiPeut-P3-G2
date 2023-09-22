@@ -50,7 +50,8 @@ function Scripts() {
     setValueRoleGame(e.target.value)
   }
 
-  const handleNewest = () => {
+  const handleNewest = async () => {
+    await handleReset()
     let newScenarios = JSON.parse(JSON.stringify(originalScenarios))
     let newCampaigns = JSON.parse(JSON.stringify(originalCampagnes))
 
@@ -64,12 +65,13 @@ function Scripts() {
       .filter((item, index) => index < 3)
 
     setCampagnes(newCampaigns)
-    setThemes((prevstate) =>
-      prevstate.map((item) => ({ ...item, selected: false }))
-    )
+    // setThemes((prevstate) =>
+    //   prevstate.map((item) => ({ ...item, selected: false }))
+    // )
   }
 
-  const handleMostPopular = () => {
+  const handleMostPopular = async () => {
+    await handleReset()
     let newScenarios = JSON.parse(JSON.stringify(originalScenarios))
     let newCampaigns = JSON.parse(JSON.stringify(originalCampagnes))
 
@@ -84,17 +86,15 @@ function Scripts() {
       .filter((item, index) => index < 2)
 
     setCampagnes(newCampaigns)
-    setThemes((prevstate) =>
-      prevstate.map((item) => ({ ...item, selected: false }))
-    )
+    // setThemes((prevstate) =>
+    //   prevstate.map((item) => ({ ...item, selected: false }))
+    // )
   }
 
   const handleClickAll = () => {
+    handleReset()
     setScenarios(originalScenarios)
     setCampagnes(originalCampagnes)
-    setThemes((prevstate) =>
-      prevstate.map((item) => ({ ...item, selected: false }))
-    )
   }
   const handleScenariosFilter = () => {
     //  const newScenarios = originalScenarios
