@@ -89,6 +89,7 @@ $fontSizeTitre: 1.5rem;
         border-top: 2px solid $blueColor;
         border-right: 2px solid $blueColor;
         border-bottom: 2px solid $blueColor;
+        transition: transform 2.5s ease;
         .FindScrip {
           width: 600px;
           height: 700px;
