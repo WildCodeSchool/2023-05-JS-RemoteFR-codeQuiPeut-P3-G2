@@ -22,6 +22,7 @@ $fontSizeTitre: 1.5rem;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(7.9px);
   -webkit-backdrop-filter: blur(7.9px);
+
   .signUp {
     width: 1000px;
     height: 700px;
@@ -34,6 +35,7 @@ $fontSizeTitre: 1.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
+
     .imgcontainer {
       display: flex;
       justify-content: flex-end;
@@ -47,27 +49,32 @@ $fontSizeTitre: 1.5rem;
       display: flex;
       justify-content: center;
       align-items: center;
+
       .containerForm {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         margin-top: -45px;
+
         span {
           color: $colorYellow;
           cursor: pointer;
         }
+
         .conteneurSVG {
           display: flex;
           justify-content: center;
           object-fit: cover;
           width: 20%;
+
           svg {
             width: 100%;
             height: 5px;
             stroke: #ffffff;
           }
         }
+
         .containInformation {
           display: flex;
           flex-direction: column;
@@ -104,9 +111,12 @@ $fontSizeTitre: 1.5rem;
           .inputPassword {
             display: flex;
             justify-content: row;
+
             .containerImg {
+
               width: 30px;
               margin-left: 16px;
+
               img {
                 width: 100%;
                 height: 100%;
@@ -120,20 +130,28 @@ $fontSizeTitre: 1.5rem;
             display: flex;
             flex-direction: column;
             margin-bottom: 16px;
+
             label {
               display: flex;
               justify-content: center;
               margin-bottom: 8px;
             }
+
             input {
-              font-size: $fontSizeP;
               width: 100%;
               height: 30px;
-              border-color: $blueColor;
               display: flex;
               justify-content: center;
+              font-size: $fontSizeP;
+              border-color: $blueColor;
               background-color: $colorDark;
               color: $colorWhite;
+
+              &:hover,
+              &:focus {
+                background-color: $colorYellow;
+                color: $colorDark;
+              }
             }
           }
 
@@ -160,17 +178,18 @@ $fontSizeTitre: 1.5rem;
             }
           }
         }
+
         button {
           width: 250px;
           height: 50px;
           border-radius: 42px;
-          background-color: #ffffff;
-          color: $colorDark;
+          background-color: $blueColor;
+          color: $colorWhite;
           font-size: $fontSizeBouton;
 
           &:hover {
-            background-color: $blueColor;
-            color: $colorWhite;
+            background-color: $colorYellow;
+            color: $blueColor;
           }
         }
       }

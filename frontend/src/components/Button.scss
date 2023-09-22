@@ -1,3 +1,11 @@
+$colorYellow: #ffbd59;
+$colorDark: #070a09;
+$blueColor: #4c60ae;
+$colorWhite: #ffffff;
+$fontSizeP: 1.2rem;
+$fontSizeBouton: 1.3rem;
+$fontSizeTitre: 1.5rem;
+
 .container-button {
   // display: grid;
   // grid-template-columns: 1fr 1fr 1fr;
@@ -11,15 +19,16 @@
   .ButtonGenre {
     width: 160px;
     padding: 6px;
-    font-size: 0.9rem;
+    // font-size: 0.9rem;
+    font-size: calc($fontSizeBouton/1.45);
     border: 2px;
     border-radius: 58px;
-    background-color: rgb(76, 96, 174);
-    color: rgb(255, 255, 255);
+    background-color: $blueColor;
+    color: $colorWhite;
   }
 
   .ButtonGenre:hover {
-    background-color: rgb(255, 255, 255);
-    color: rgb(76, 96, 174);
+    background-color: $colorYellow;
+    color: $colorDark;
   }
 }
