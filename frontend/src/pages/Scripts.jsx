@@ -3,14 +3,12 @@ import MyContext from "../components/MyContext"
 import Button from "../components/Button"
 import Navbar from "../components/Navbar"
 import Switch from "../components/Switch"
-
 import "./Scripts.scss"
 import axios from "axios"
 import CardScenario from "../components/CardScenario"
 import FilterSelect from "../components/FilterSelect"
-
+import Footer from "../components/Footer"
 // import TitleScripts from "../assets/SCRIPTS.png"
-
 import { difficulty, numberPlayers } from "../assets/variables/variables"
 import Reset from "../assets/reset.png"
 import CardCampaign from "../components/CardCampaign"
@@ -357,6 +355,7 @@ function Scripts() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }
