@@ -161,7 +161,7 @@ function Scripts() {
       )
       newCampaigns = newCampaigns.filter(
         (campagne) =>
-          parseInt(campagne.jeux_de_roleId, 10) === parseInt(roleGameID, 10)
+          parseInt(campagne.jeux_de_role_id, 10) === parseInt(roleGameID, 10)
       )
     }
 

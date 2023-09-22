@@ -121,7 +121,9 @@ function CardScenario({ scenario, user }) {
           {scenario.description.slice(0, 150) + "..."}{" "}
         </p>
         <div className="theme">
-          <p className="univers">{scenario.universe}</p>
+          <p className="univers">
+            {scenario.universe ? scenario.universe : scenario.jeux_de_role}
+          </p>
           <p className="genre">{scenario.theme}</p>
         </div>
         <div className="borderSmall"></div>
