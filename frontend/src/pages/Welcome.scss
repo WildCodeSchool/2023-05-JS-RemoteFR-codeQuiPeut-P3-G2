@@ -45,10 +45,6 @@ $fontSizeTitre: 1.5rem;
     flex-direction: column;
     width: 100%;
 
-    .borderHome{
-      animation: borderWidth 8s ease infinite;
-    }
-
     .find_create {
       width: 70%;
       display: flex;
@@ -90,9 +86,9 @@ $fontSizeTitre: 1.5rem;
         width: 930px;
         height: 850px;
         padding-right: 64px;
-        border-top:  solid $blueColor;
-        border-right:  solid $blueColor;
-        border-bottom:  solid $blueColor;
+        border-top: 2px solid $blueColor;
+        border-right: 2px solid $blueColor;
+        border-bottom: 2px solid $blueColor;
         transition: transform 2.5s ease;
         .FindScrip {
           width: 600px;
@@ -261,18 +257,6 @@ $fontSizeTitre: 1.5rem;
     }
     100% {
       left: 1000px;
-    }
-  }
-
-  @keyframes borderWidth {
-    0% {
-      border-width: 2px;
-    }
-    50% {
-      border-width: 4px;
-    }
-    100% {
-      border-width: 2px;
     }
   }
 }
