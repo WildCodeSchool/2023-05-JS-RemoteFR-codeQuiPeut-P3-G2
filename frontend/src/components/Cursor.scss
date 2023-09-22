@@ -1,0 +1,81 @@
+// .cursor-outline-1 {
+//   width: 40px;
+//   height: 40px;
+//   border: 4px solid #4c60ae;
+// }
+
+// .cursor-outline-2 {
+//   width: 60px;
+//   height: 60px;
+//   border: 4px solid #4c60ae;
+// }
+
+// .cursor-outline-3 {
+//   width: 80px;
+//   height: 80px;
+//   border: 4px solid #4c60ae;
+// }
+
+// .cursor-dot {
+//   width: 5px;
+//   height: 5px;
+//   background-color: #4c60ae;
+// }
+
+// .cursor-dot,
+// .cursor-outline-1,
+// .cursor-outline-2,
+// .cursor-outline-3 {
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   transform: translate(-50%, -50%);
+//   border-radius: 50%;
+//   z-index: 1000;
+//   pointer-events: none;
+// }
+
+.cursor-outline-1 {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #4c60ae;
+}
+
+.cursor-outline-2 {
+  width: 60px;
+  height: 60px;
+  border: 4px solid #4c60ae;
+}
+
+.cursor-outline-3 {
+  width: 80px;
+  height: 80px;
+  border: 4px solid #4c60ae;
+}
+
+.cursor-dot {
+  width: 5px;
+  height: 5px;
+  background-color: #4c60ae;
+}
+
+.cursor-dot,
+.cursor-outline-1,
+.cursor-outline-2,
+.cursor-outline-3 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+/* Add the styles for the 'hovered' class */
+.hovered {
+  //  background-color: #ffbd59 !important; /* Change the background color to #ffbd59 */
+
+  // border: 6px solid #ff8859 !important;
+  border: 8px solid #ff8921 !important;
+}

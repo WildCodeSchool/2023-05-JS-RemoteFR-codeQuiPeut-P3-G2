@@ -10,6 +10,7 @@ import axios from "axios"
 import { useState, useEffect, useContext } from "react"
 import CardCampaign from "../components/CardCampaign"
 import MyContext from "../components/MyContext"
+import Footer from "../components/Footer"
 import de from "../assets/images/de.svg"
 
 const Welcome = () => {
@@ -137,6 +138,7 @@ const Welcome = () => {
             </div>
           </div>
         </section>
+        <Footer />
       </main>
     </>
   )
