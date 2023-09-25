@@ -16,7 +16,7 @@ export default function SommaireReading(props) {
   const navigate = useNavigate()
 
   const handleClickLogoScripter = () => {
-    navigate("/")
+    navigate("/scripts")
   }
 
   // ----------------------------------------------------------------------
