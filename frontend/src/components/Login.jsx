@@ -22,10 +22,6 @@ export default function Login({
   }
 
   const HandleSubmitlogin = () => {
-    console.info("user", user)
-    console.info("email", email)
-    console.info("passWord", passWord)
-
     axios
       .post("http://localhost:4242/login", {
         user,
@@ -34,22 +30,18 @@ export default function Login({
       })
       .then(({ data }) => {
         setUser(data)
-        console.info("data_all", data)
-        console.info("data_id", data.id)
-
         axios
           .get(`http://localhost:4242/autorFavorite/${data.id}`)
           .then(({ data }) => setFollowedAutors(data))
-          .catch((err1) => console.error(err1) || console.info("err1", err1))
+          .catch((err) => console.error(err))
 
         // Sauvegarde des informations de l'utilisateur dans le localStorage
         localStorage.setItem("user", JSON.stringify(data))
       })
       .then(() => setOpenForm(false))
-      .catch((err2) => {
+      .catch((err) => {
         setWrongEmailOrPassword(true)
-        console.error(err2)
-        console.info("err2", err2)
+        console.error(err)
       })
 
     setChangeClassToOpenMenu(false)
