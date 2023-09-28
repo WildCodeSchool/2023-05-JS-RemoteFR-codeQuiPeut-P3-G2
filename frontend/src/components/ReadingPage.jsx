@@ -91,6 +91,37 @@ export default function ReadingPage(props) {
             />
           ))}
 
+          {/* {images.map((item) => (
+              <div style={{
+                  position: "absolute",
+                  boxSizing: item.style.boxSizing,
+                  top: item.style.top,
+                  left: item.style.left,
+                  zIndex: item.style.zIndex -1,
+                  width: item.style.width,
+                  height: item.style.height,
+                  borderStyle: item.style.borderStyle,
+                  borderColor: item.style.borderColor,
+                  boxShadow: item.style.boxShadow,
+                  opacity: item.style.opacity,
+                    padding: adjustPxSize(item.style.padding),
+                    borderRadius: adjustPxSize(item.style.borderRadius),
+                    borderWidth: adjustPxSize(item.style.borderWidth),
+              }}>
+
+                <img
+                  src={item.img_src}
+                  alt="image"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    borderRadius: adjustPxSize(item.style.borderRadius),
+                  }}
+                  key={item.id}
+                />
+              </div>
+          ))} */}
+
           {pageNumber > 1 && (
             <button
               type="button"

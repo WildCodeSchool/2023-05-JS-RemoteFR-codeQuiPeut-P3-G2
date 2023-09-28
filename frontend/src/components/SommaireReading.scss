@@ -23,6 +23,7 @@ $fontSizeTitre: 1.5rem;
   .container-campagne-scenario-page {
     height: calc(96vh - 160px);
     overflow-y: auto;
+    position: relative;
     // border: 1px solid yellow;
 
     .section-scenarios,
