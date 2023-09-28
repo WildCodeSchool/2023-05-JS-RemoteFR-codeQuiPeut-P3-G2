@@ -66,8 +66,8 @@ export default function SommaireReading(props) {
     <main className="main-sommaire-reading">
       <img
         src={scriptLogo}
-        alt="back to home"
-        title="back to home"
+        alt="back to Scripts"
+        title="back to Scripts"
         className="sommaire-logo-home"
         onClick={handleClickLogoScripter}
         draggable
