@@ -84,7 +84,7 @@ a:visited {
         cursor: pointer;
 
         &:hover {
-          color: #ffbd59;
+          color: $colorYellow;
         }
       }
     }
@@ -174,17 +174,17 @@ a:visited {
       width: 160px;
       max-width: 45%;
       height: 50px;
-      border-color: #4c60ae;
-      background-color: #070a09;
+      border-color: $blueColor;
+      background-color: $colorDark;
       border-radius: 10px;
       margin: 0;
       font-family: Julius Sans One;
       font-size: 1.5rem;
-      color: #4c60ae;
+      color: $blueColor;
       cursor: pointer;
       &:hover {
-        background-color: #4c60ae;
-        color: #ffffff;
+        background-color: $blueColor;
+        color: $colorWhite;
       }
     }
   }

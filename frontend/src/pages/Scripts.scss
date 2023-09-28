@@ -1,6 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Lustria&display=swap");
 $blueColor: #4c60ae;
 $colorYellow: #ffbd59;
+$colorDark: #070a09;
+$colorWhite: #ffffff;
+$fontSizeP: 1.2rem;
+$fontSizeBouton: 1.3rem;
+$fontSizeTitre: 1.5rem;
 
 .containerScripts {
   width: 100vw;
@@ -13,12 +18,12 @@ $colorYellow: #ffbd59;
 
     p {
       font-size: 6rem;
-      color: #070a09;
+      color: $colorDark;
       white-space: nowrap;
       // height: 100%;
       // object-fit: fill;
       animation: Scroll 20s linear infinite;
-      text-shadow: 0 0 7px #4c60ae;
+      text-shadow: 0 0 7px $blueColor;
     }
 
     @keyframes Scroll {
@@ -31,6 +36,7 @@ $colorYellow: #ffbd59;
       }
     }
   }
+
   .all {
     width: 100%;
     height: 100%;
@@ -52,10 +58,11 @@ $colorYellow: #ffbd59;
       padding: 32px;
 
       .buttonReset {
-        background-color: #070a09;
+        background-color: $colorDark;
         border: none;
         margin-top: 10%;
       }
+
       .containerType {
         width: 100%;
         display: flex;
@@ -68,22 +75,25 @@ $colorYellow: #ffbd59;
           align-items: center;
 
           p {
-            color: white;
+            color: $colorWhite;
             font-size: xx-large;
           }
         }
       }
+
       .containerSelect {
         width: 65%;
+
         p {
           font-size: x-large;
           display: flex;
           justify-content: center;
         }
+
         select {
           // border-radius: 50px;
-          background-color: #070a09;
-          border-color: #4c60ae;
+          background-color: $colorDark;
+          border-color: $blueColor;
           color: #eee;
           width: 100%;
         }
@@ -96,7 +106,7 @@ $colorYellow: #ffbd59;
       font-size: x-large;
       color: #ffff;
       text-decoration: underline;
-      text-decoration-color: #4c60ae;
+      text-decoration-color: $blueColor;
     }
 
     .try {
@@ -111,10 +121,12 @@ $colorYellow: #ffbd59;
       }
     }
   }
+
   .Type {
     display: flex;
     justify-content: flex-start;
     gap: 20px;
+
     p {
       color: white;
       position: relative;
@@ -132,15 +144,15 @@ $colorYellow: #ffbd59;
     align-items: center;
 
     button {
-      color: #ffbd59;
+      color: $colorYellow;
       font-size: xx-large;
       border: none;
-      background-color: #070a09;
+      background-color: $colorDark;
     }
 
     button:hover {
       text-decoration: underline;
-      text-decoration-color: #ffbd59;
+      text-decoration-color: $colorYellow;
     }
   }
 
@@ -152,9 +164,10 @@ $colorYellow: #ffbd59;
     p {
       color: #ffff;
       text-decoration: underline;
-      text-decoration-color: #4c60ae;
+      text-decoration-color: $blueColor;
     }
   }
+
   .auteur {
     display: flex;
     justify-content: flex-start;
@@ -163,7 +176,7 @@ $colorYellow: #ffbd59;
     p {
       color: #ffff;
       text-decoration: underline;
-      text-decoration-color: #4c60ae;
+      text-decoration-color: $blueColor;
     }
   }
 
@@ -175,7 +188,7 @@ $colorYellow: #ffbd59;
     p {
       color: #ffff;
       text-decoration: underline;
-      text-decoration-color: #4c60ae;
+      text-decoration-color: $blueColor;
     }
   }
 
@@ -187,11 +200,13 @@ $colorYellow: #ffbd59;
     p {
       color: #ffff;
       text-decoration: underline;
-      text-decoration-color: #4c60ae;
+      text-decoration-color: $blueColor;
     }
   }
 }
+
 //--------------------------------------------------------------------------------------------------------------
+
 @media screen and (max-width: 960px) {
   .all {
     display: flex;

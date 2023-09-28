@@ -41,8 +41,9 @@ $fontSizeTitre: 1.5rem;
   }
 
   p {
-    color: white;
+    color: $colorWhite;
   }
+
   .containerimg {
     width: 170px;
     height: 230px;
@@ -71,7 +72,7 @@ $fontSizeTitre: 1.5rem;
 
     .title {
       width: 100%;
-      color: white;
+      color: $colorWhite;
       display: flex;
       justify-content: space-around;
       margin-top: 16px;
@@ -104,7 +105,8 @@ $fontSizeTitre: 1.5rem;
       gap: 10%;
       margin: 0;
       font-size: 0.75rem;
-      color: white;
+      color: $colorWhite;
+
       p {
         margin: 8px 0px 8px 0px;
       }
@@ -116,6 +118,7 @@ $fontSizeTitre: 1.5rem;
       margin: 0;
       text-align: justify;
     }
+
     .theme {
       font-size: 0.75rem;
       display: flex;
@@ -124,10 +127,11 @@ $fontSizeTitre: 1.5rem;
       text-align: center;
 
       .univers {
-        color: rgb(255, 189, 89);
+        color: $colorYellow;
       }
+
       .genre {
-        color: rgb(76, 96, 174);
+        color: $blueColor;
       }
     }
 
@@ -136,6 +140,7 @@ $fontSizeTitre: 1.5rem;
       border-bottom: 1px solid white;
       margin-bottom: 8px;
     }
+
     .auteur {
       width: 100%;
       height: 50px;
@@ -147,7 +152,7 @@ $fontSizeTitre: 1.5rem;
       align-items: center;
 
       p {
-        color: white;
+        color: $colorWhite;
         margin-right: 16px;
       }
 
@@ -155,19 +160,19 @@ $fontSizeTitre: 1.5rem;
         width: 100px;
         height: 30px;
         border-radius: 58px;
-        color: white;
-        background-color: rgb(76, 96, 174);
+        color: $colorWhite;
+        background-color: $blueColor;
         border: 2px;
+
+        &:hover {
+          background-color: $colorWhite;
+          color: $blueColor;
+        }
       }
 
       .followAutor {
         background-color: $colorYellow;
         color: $colorDark;
-      }
-
-      button:hover {
-        color: rgb(76, 96, 174);
-        background-color: white;
       }
     }
   }
