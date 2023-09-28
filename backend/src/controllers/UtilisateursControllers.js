@@ -14,7 +14,6 @@ const browse = (req, res) => {
 
 const add = (req, res) => {
   const utilisateurs = req.body
-  // console.info("RB__ADD", utilisateurs)
 
   // TODO validations (length, format...)
 
