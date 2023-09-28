@@ -5,11 +5,13 @@ import "./CardScenario.scss"
 import etoileVide from "../assets/images/etoile-vide.png"
 import etoilePleine from "../assets/images/etoile-pleine.png"
 import MyContext from "./MyContext"
+import ErrorMessageFavorite from "./ErrorMessageFavorite"
 
 function CardScenario({ scenario, user }) {
   const { followedAutors, setFollowedAutors } = useContext(MyContext)
 
   const [favorite, setfavorite] = useState(false)
+  const [changeClassToShowError, setChangeClassToShowError] = useState(false)
 
   const navigate = useNavigate()
 
@@ -48,7 +50,8 @@ function CardScenario({ scenario, user }) {
         })
       }
     } else {
-      alert("Please log in to add favorites")
+      // alert("Please log in to add favorites")
+      setChangeClassToShowError(true)
     }
   }
 
@@ -111,6 +114,11 @@ function CardScenario({ scenario, user }) {
             alt="favoris"
           />
         </div>
+        {changeClassToShowError && (
+          <ErrorMessageFavorite
+            setChangeClassToShowError={setChangeClassToShowError}
+          />
+        )}
         <div className="borderTitle"></div>
         <div className="viewer">
           <p>{scenario.nb_avis} avis</p>

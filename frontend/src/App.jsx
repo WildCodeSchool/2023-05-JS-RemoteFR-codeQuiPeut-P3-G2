@@ -17,6 +17,7 @@ import AccountFavorites from "./components/AccountFavorites"
 import ScenarioReading from "./pages/ScenarioReading"
 import ForumPageComments from "./pages/ForumPageComments"
 import Cursor from "./components/Cursor"
+import Login from "./components/Login"
 
 function App() {
   // users sera l'ensemble des utilisateurs de mon site
@@ -68,6 +69,7 @@ function App() {
           </Route>
           <Route path="/resumescenario" element={<ResumePageScenario />} />
           <Route path="/resumeCampagne" element={<ResumePageCampaign />} />
+          {/* <Route path="/login" element={<Login />} /> */}
         </Routes>
       </MyContext.Provider>
     </div>
