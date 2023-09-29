@@ -244,6 +244,8 @@ router.post("/textes", textesControllers.add)
 router.put("/textes/:id", textesControllers.edit)
 router.delete("/textes/:id", textesControllers.destroy)
 router.post("/pages/:id/newtexte", textesControllers.createNew)
+router.post("/pages/:id/texteCopy", textesControllers.createCopy)
+
 router.post(
   "/pages/:id/newtexteAtPageCreation",
   textesControllers.createNewSpecific
@@ -267,6 +269,12 @@ router.post(
   "/pages/:id/newImage",
   multer,
   imagesControllers.createNew,
+  imagesControllers.getLast
+)
+
+router.post(
+  "/pages/:id/imageCopy",
+  imagesControllers.createCopy,
   imagesControllers.getLast
 )
 

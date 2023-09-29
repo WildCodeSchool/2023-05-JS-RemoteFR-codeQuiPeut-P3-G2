@@ -80,6 +80,24 @@ const createNew = (req, res, next) => {
     })
 }
 
+const createCopy = (req, res, next) => {
+  //   const imageUrl = `${req.protocol}://${req.get("host")}/src/images/${
+  //     req.file.filename
+  //   }`
+  const copy = req.body
+
+  models.images
+    .createCopy(copy, req.params.id)
+    .then(() => {
+      //   res.json(result)
+      next()
+    })
+    .catch((err) => {
+      console.error(err)
+      res.sendStatus(500)
+    })
+}
+
 // const createNewSpecific = (req, res) => {
 //   const properties = req.body // doit contenir pageID, width, height, left, top, placeholder
 
@@ -153,6 +171,7 @@ module.exports = {
   read,
   destroy,
   createNew,
+  createCopy,
   //   createNewSpecific,
   //   recreatePrevious,
   getLast,

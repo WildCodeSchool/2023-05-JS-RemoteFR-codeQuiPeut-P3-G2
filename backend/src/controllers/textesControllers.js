@@ -95,6 +95,20 @@ const createNew = (req, res) => {
     })
 }
 
+const createCopy = (req, res) => {
+  const copy = req.body // doit contenir sst_left et top
+
+  models.textes
+    .createCopy(copy, req.params.id)
+    .then((result) => {
+      res.json(result)
+    })
+    .catch((err) => {
+      console.error(err)
+      res.sendStatus(500)
+    })
+}
+
 const createNewSpecific = (req, res) => {
   const properties = req.body // doit contenir pageID, width, height, left, top, placeholder
 
@@ -181,4 +195,5 @@ module.exports = {
   createNewSpecific,
   recreatePrevious,
   getLast,
+  createCopy,
 }

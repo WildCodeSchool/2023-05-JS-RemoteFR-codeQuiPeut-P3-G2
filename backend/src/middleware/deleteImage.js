@@ -12,14 +12,31 @@ const deleteImage = (req, res, next) => {
   const absolutePath = path.join(__dirname, "..", "..", relativePath)
 
   // Supprimer le fichier
-  fs.unlink(absolutePath, (err) => {
-    if (err) {
-      console.error(err)
-    } else {
-      console.info("Image supprimée avec succès")
-      next()
-    }
-  })
+  if (verifyNumberOfSameImageInTableImages(absolutePath) === true) {
+    fs.unlink(absolutePath, (err) => {
+      if (err) {
+        console.error(err)
+      } else {
+        console.info("Image supprimée avec succès")
+        next()
+      }
+    })
+  } else {
+    next()
+  }
+}
+
+const verifyNumberOfSameImageInTableImages = (absolutePath) => {
+  models.images
+    .verifyNumberOfSameImageInTableImages(absolutePath)
+    .then(([result]) => {
+      const countImage = result[0].countImage
+      if (countImage === 1) {
+        return true
+      } else {
+        return false
+      }
+    })
 }
 
 const destroyStyleFromImageID = (req, res, next) => {
