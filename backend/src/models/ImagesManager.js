@@ -53,7 +53,7 @@ class ImagesManager extends AbstractManager {
   async createCopy(copy, pageID) {
     // on insere dans la table page_images une nouvelle image
     const [results] = await this.database.query(
-      `insert into ${this.table} (pages_id, img_src, realImageWidth, realImageHeight) values (?,?)`,
+      `insert into ${this.table} (pages_id, img_src, realImageWidth, realImageHeight) values (?,?,?,?)`,
       [pageID, copy.img_src, copy.realImageWidth, copy.realImageHeight]
     )
     const newImageID = results.insertId
