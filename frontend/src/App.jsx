@@ -26,6 +26,8 @@ function App() {
   const [user, setUser] = useState(null)
   // le state followedAutors contiendra les infos de tous les auteurs suivis
   const [followedAutors, setFollowedAutors] = useState([])
+  // le state paperPrint sert à stocker des textes ou images du mode editeur grace à ctrl + C
+  const [paperPrint, setPaperPrint] = useState({})
 
   // pour conserver l'utilisateur connecté même en cas de raffraichissement
   useEffect(() => {
@@ -44,8 +46,19 @@ function App() {
       setUsers,
       followedAutors,
       setFollowedAutors,
+      paperPrint,
+      setPaperPrint,
     }),
-    [user, setUser, users, setUsers, followedAutors, setFollowedAutors]
+    [
+      user,
+      setUser,
+      users,
+      setUsers,
+      followedAutors,
+      setFollowedAutors,
+      paperPrint,
+      setPaperPrint,
+    ]
   )
 
   return (

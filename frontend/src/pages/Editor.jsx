@@ -23,7 +23,7 @@ export default function Editor() {
   const location = useLocation()
   const campagneImportedID = location.state
   // const [user, setUser] = useState({}) // à SUPPRIMER par la suite, à récupérer via un context
-  const { user } = useContext(MyContext)
+  const { user, paperPrint, setPaperPrint } = useContext(MyContext)
 
   const [author, setAuthor] = useState({}) // (id, authorName)
   const [campagnesUtilisateur, setCampagnesUtilisateur] = useState([]) // (id, campagneName)
@@ -1048,6 +1048,56 @@ export default function Editor() {
   // ------FONCTIONS POUR la GESTION DES RACCOURCIS CLAVIER----
   // ---------------------------------------------------------------------------
 
+  const handleCopy = () => {
+    const selectedText = textes.find((texte) => texte.selected === true)
+    const selectedImage = images.find((image) => image.selected === true)
+    const selectedElement = selectedText || selectedImage || {}
+    setPaperPrint(selectedElement)
+  }
+
+  const handlePaste = () => {
+    const pageSelected = pagesOfScenarioSelected.find(
+      (page) => page.selected === true
+    )
+    const selectedText = textes.find((texte) => texte.selected === true)
+
+    if (pageSelected && !selectedText) {
+      if (paperPrint.placeHolder) {
+        axios
+          .post(
+            `http://localhost:4242/pages/${pageSelected.id}/texteCopy`,
+            paperPrint
+          )
+          .then(() => {
+            axios
+              .get(`http://localhost:4242/lasttexte`) // on va chercher les textes de la page sélectionnée
+              .then(({ data }) => {
+                const newTextes = [...textes, data]
+                setTextes(newTextes)
+              })
+          })
+          .catch(function (error) {
+            console.error(error)
+          })
+      } else if (paperPrint.img_src) {
+        // axios pour poster image avec style
+
+        axios
+          .post(
+            `http://localhost:4242/pages/${pageSelected.id}/imageCopy`,
+            paperPrint
+          )
+          .then(({ data }) => {
+            const newImages = [...images, data]
+            setImages(newImages)
+          })
+          .catch((error) => {
+            console.error(error)
+          })
+      }
+    }
+  }
+
   useEffect(() => {
     // annulation avec la combinaison de touche ctrl + z
 
@@ -1055,6 +1105,10 @@ export default function Editor() {
       if (event.ctrlKey && event.key === "z") {
         // console.log("undo")
         handleClickUndo() // non appelé... pourquoi ?
+      } else if (event.ctrlKey && event.key === "c") {
+        handleCopy()
+      } else if (event.ctrlKey && event.key === "v") {
+        handlePaste()
       } else if (event.ctrlKey && event.key === "y") {
         // console.log("redo")
         handleClickRedo() // non appelé... pourquoi ?
@@ -1070,7 +1124,7 @@ export default function Editor() {
     return () => {
       document.removeEventListener("keydown", handleKeyDownEditor)
     }
-  }, [])
+  }, [textes, images, pagesOfScenarioSelected, paperPrint])
   // ----FIN SECTION--------------------------------------------------
 
   return (
