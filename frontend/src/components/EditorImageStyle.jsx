@@ -61,6 +61,13 @@ export default function EditorTextStyle({
         setCoordZ(itemStyle.zIndex)
         setItemWidth(parseInt(itemStyle.width, 10))
 
+        if (itemStyle.height === "auto") {
+          setAutoHeight(true)
+        } else {
+          setAutoHeight(false)
+          setItemHeight(parseInt(itemStyle.height, 10))
+        }
+
         if (itemStyle.borderStyle === "none") {
           setBorderActived(false)
           setappliedBorderStyle("none")
@@ -285,6 +292,39 @@ export default function EditorTextStyle({
 
   const handleChangeAutoHeight = (e) => {
     setAutoHeight(!autoHeight)
+
+    // si autoHeight était en auto (true) --> on calcule la taille relative de l'image et on l'injecte dans itemHeight et l'image sélectionnée
+    if (autoHeight === true) {
+      // NOTE : largeur page = 1000px et hauteur page = 1414px
+      const selectedImage = images.find((image) => image.selected === true)
+      const imageHeightWidthRatio =
+        selectedImage.realImageHeight / selectedImage.realImageWidth
+      const pageHeightWidthRatio = 1414 / 1000
+      const imageWidth = parseInt(selectedImage.style.width, 10)
+
+      const newHeight =
+        (imageWidth * imageHeightWidthRatio) / pageHeightWidthRatio
+
+      setImages((prevState) =>
+        prevState.map((item) =>
+          item.selected === true
+            ? { ...item, style: { ...item.style, height: newHeight + "%" } }
+            : item
+        )
+      )
+
+      setItemHeight(newHeight)
+    } else {
+      setImages((prevState) =>
+        prevState.map((item) =>
+          item.selected === true
+            ? { ...item, style: { ...item.style, height: "auto" } }
+            : item
+        )
+      )
+    }
+
+    // si autoheight était à false on passe image selected.style.height = auto
   }
 
   const handleChangeOpacity = (e) => {
@@ -735,7 +775,7 @@ export default function EditorTextStyle({
             />
           </div>
 
-          <div className="dimensionH">
+          <div className="dimensionHimage">
             <p>H :</p>
 
             {!autoHeight && (

@@ -59,7 +59,8 @@ $fontSizeTitre: 1.5rem;
     .positionY,
     .positionZ,
     .dimensionW,
-    .dimensionH {
+    .dimensionH,
+    .dimensionHimage {
       width: 90px;
       display: flex;
       flex-direction: row;
@@ -77,11 +78,38 @@ $fontSizeTitre: 1.5rem;
         height: 24px;
         width: 48px;
         border: none;
+        cursor: pointer;
 
         &:hover,
         &:focus {
           background-color: #4c60ae5f;
         }
+      }
+    }
+
+    .dimensionHimage {
+      width: 135px;
+      justify-content: space-around;
+
+      p,
+      input {
+        color: black;
+        font-size: $fontSizeP;
+        min-width: 24px;
+      }
+
+      input {
+        height: 24px;
+        width: 48px;
+        border: none;
+      }
+
+      .checkboxDimensionH {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-left: -32px;
       }
     }
   }
