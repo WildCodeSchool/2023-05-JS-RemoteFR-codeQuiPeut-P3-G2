@@ -142,7 +142,7 @@ const ResumePageScenario = () => {
       .put(`http://localhost:4242/scenarcomm/${id}`, {
         utilisateurID: user.id,
         scenarioID: scenario.id,
-        textcomment: `${editComment} (modifié !)`,
+        textcomment: editComment,
       })
       .then(() =>
         axios

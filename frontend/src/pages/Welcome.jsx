@@ -45,10 +45,15 @@ const Welcome = () => {
           <div className="images_header">
             <img className="title" src={TitreAccueil} />
             <h1 className="SubTitCon">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Incidunt
-              aliquid perferendis eveniet. Consectetur, quis voluptatibus!
-              Aspernatur repellat accusantium beatae! Repellendus atque nobis
-              quod amet voluptatem ex cum asperiores! Enim, reprehenderit!
+              Explore a dedicated space for role-playing enthusiasts in search
+              of inspiration! Our scenario-sharing website is the perfect place
+              for enthusiasts eager to bring their fantastical adventures to
+              life. You can share your own creations while delving into a rich
+              library of scenarios crafted by fellow community members. Find
+              inspiration for your next epic journeys and contribute to
+              enriching the world of role-playing by sharing your unique ideas.
+              Join us to experience the ultimate adventure in the realm of
+              role-playing!
             </h1>
           </div>
           <img className="BookFall" src={LivreAccueil} />

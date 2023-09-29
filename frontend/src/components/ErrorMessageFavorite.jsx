@@ -29,7 +29,7 @@ const ErrorMessageFavorite = ({ setChangeClassToShowError }) => {
           </div>
           <div className="ErrorMessage">
             <div className="ErrMessage">
-              <p>Please log in to add favorites</p>
+              <p>Please log in to add favorites or follow autor</p>
             </div>
           </div>
           {/* <Link to="/login">

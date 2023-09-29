@@ -95,7 +95,7 @@ function CardScenario({ scenario, user }) {
           })
       }
     } else {
-      alert("Please log in to add favorites")
+      setChangeClassToShowError(true)
     }
   }
 
