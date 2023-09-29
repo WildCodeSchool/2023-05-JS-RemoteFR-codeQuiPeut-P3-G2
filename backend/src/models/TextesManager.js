@@ -58,6 +58,48 @@ class TextesManager extends AbstractManager {
     return [newTextId, newStyleID]
   }
 
+  /// //////////////////
+  async createCopy(copy, id) {
+    // on insere dans la table page_textes un nouveau texte
+    const [results] = await this.database.query(
+      `insert into ${this.table} (pages_id, data) values (?,?)`,
+      [id, copy.text]
+    )
+    const newTextId = results.insertId
+    // on insère dans la table text_style un nouveau style avec page_textes_id = newText.id
+    const [styleResult] = await this.database.query(
+      `INSERT INTO text_style (page_textes_id, width, height, top, sst_left, z_index, border_style, border_color, border_width, border_radius, box_shadow, background_color, font_size, font_style, font_weight, font_family, color, padding, back_drop_filter, text_decoration, text_align) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+      [
+        newTextId,
+        copy.style.width,
+        copy.style.height,
+        "50%",
+        "5%",
+        0,
+        copy.style.borderStyle,
+        copy.style.borderColor,
+        copy.style.borderWidth,
+        copy.style.borderRadius,
+        copy.style.boxShadow,
+        copy.style.backgroundColor,
+        copy.style.fontSize,
+        copy.style.fontStyle,
+        copy.style.fontWeight,
+        copy.style.fontFamily,
+        copy.style.color,
+        copy.style.padding,
+        copy.style.backdropFilter,
+        copy.style.textDecoration,
+        copy.style.textAlign,
+      ]
+    )
+
+    const newStyleID = styleResult.insertId
+    return [newTextId, newStyleID]
+  }
+
+  /// /////////////////
+
   async createNewSpecific(properties, id) {
     // on insere dans la table page_textes un nouveau texte
     const [results] = await this.database.query(
