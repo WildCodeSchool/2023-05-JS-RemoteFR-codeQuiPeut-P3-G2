@@ -21,7 +21,7 @@ const ErrorMessageFavorite = ({ setChangeClassToShowError }) => {
           />
         </div>
         <div className="containerForm">
-          <h2>Error !</h2>
+          <h2>Caution</h2>
           <div className="conteneurSVG">
             <svg>
               <line x1="0" x2="200" y1="0" y2="0" />
@@ -32,9 +32,9 @@ const ErrorMessageFavorite = ({ setChangeClassToShowError }) => {
               <p>Please log in to add favorites</p>
             </div>
           </div>
-          <Link to="/login">
+          {/* <Link to="/login">
             <button type="button">Go to Log In</button>
-          </Link>
+          </Link> */}
           <button type="button" onClick={HandleclosFormErrorMessage}>
             Close
           </button>

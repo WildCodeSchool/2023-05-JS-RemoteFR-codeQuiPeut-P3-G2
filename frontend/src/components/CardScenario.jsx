@@ -114,11 +114,6 @@ function CardScenario({ scenario, user }) {
             alt="favoris"
           />
         </div>
-        {changeClassToShowError && (
-          <ErrorMessageFavorite
-            setChangeClassToShowError={setChangeClassToShowError}
-          />
-        )}
         <div className="borderTitle"></div>
         <div className="viewer">
           <p>{scenario.nb_avis} avis</p>
@@ -160,6 +155,11 @@ function CardScenario({ scenario, user }) {
           </button>
         </div>
       </div>
+      {changeClassToShowError && (
+        <ErrorMessageFavorite
+          setChangeClassToShowError={setChangeClassToShowError}
+        />
+      )}
     </div>
   )
 }

@@ -82,7 +82,6 @@ function App() {
           </Route>
           <Route path="/resumescenario" element={<ResumePageScenario />} />
           <Route path="/resumeCampagne" element={<ResumePageCampaign />} />
-          {/* <Route path="/login" element={<Login />} /> */}
         </Routes>
       </MyContext.Provider>
     </div>
