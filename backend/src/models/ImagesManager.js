@@ -19,11 +19,11 @@ class ImagesManager extends AbstractManager {
     )
   }
 
-  async createNew(imageUrl, pageID) {
+  async createNew(imageUrl, pageID, realImageWidth, realImageHeight) {
     // on insere dans la table page_images une nouvelle image
     const [results] = await this.database.query(
-      `insert into ${this.table} (pages_id, img_src) values (?,?)`,
-      [pageID, imageUrl]
+      `insert into ${this.table} (pages_id, img_src, realImageWidth, realImageHeight) values (?,?,?,?)`,
+      [pageID, imageUrl, realImageWidth, realImageHeight]
     )
     const newImageID = results.insertId
     // on insère dans la table text_style un nouveau style avec page_images_id = newText.id
@@ -53,8 +53,8 @@ class ImagesManager extends AbstractManager {
   async createCopy(copy, pageID) {
     // on insere dans la table page_images une nouvelle image
     const [results] = await this.database.query(
-      `insert into ${this.table} (pages_id, img_src) values (?,?)`,
-      [pageID, copy.img_src]
+      `insert into ${this.table} (pages_id, img_src, realImageWidth, realImageHeight) values (?,?)`,
+      [pageID, copy.img_src, copy.realImageWidth, copy.realImageHeight]
     )
     const newImageID = results.insertId
     // on insère dans la table text_style un nouveau style avec page_images_id = newText.id
@@ -176,7 +176,7 @@ class ImagesManager extends AbstractManager {
     // console.log("lastID", lastID);
 
     const [rows] = await this.database.query(
-      `select pi.id,s.id AS style_id ,pi.pages_id ,pi.img_src ,s.width,s.height,s.top,s.ssi_left ,s.\`z-index\` AS z_index,s.border_style,s.border_color,s.border_width,s.border_radius,s.box_shadow,s.opacity,s.padding FROM page_images AS pi INNER JOIN image_style as s ON s.page_images_id = pi.id WHERE pi.id = ?`,
+      `select pi.id,s.id AS style_id ,pi.pages_id ,pi.img_src, pi.realImageWidth, pi.realImageHeight ,s.width,s.height,s.top,s.ssi_left ,s.\`z-index\` AS z_index,s.border_style,s.border_color,s.border_width,s.border_radius,s.box_shadow,s.opacity,s.padding FROM page_images AS pi INNER JOIN image_style as s ON s.page_images_id = pi.id WHERE pi.id = ?`,
       [lastID]
     )
 

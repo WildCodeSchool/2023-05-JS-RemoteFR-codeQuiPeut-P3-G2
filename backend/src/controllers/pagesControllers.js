@@ -140,6 +140,8 @@ const readPageImages = (req, res) => {
           pages_id: item.pages_id,
           style_id: item.style_id,
           img_src: item.img_src,
+          realImageWidth: item.realImageWidth,
+          realImageHeight: item.realImageHeight,
           selected: false,
           style: {
             position: "absolute",
