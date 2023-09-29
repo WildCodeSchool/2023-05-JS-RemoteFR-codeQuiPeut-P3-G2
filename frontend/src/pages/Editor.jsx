@@ -750,6 +750,12 @@ export default function Editor() {
               .then(({ data }) => {
                 setTextes(data)
               })
+
+            axios
+              .get(`http://localhost:4242/pages/${idPageSelected}/images`) // on va chercher les textes de la page sélectionnée
+              .then(({ data }) => {
+                setImages(data)
+              })
           })
       })
   }
