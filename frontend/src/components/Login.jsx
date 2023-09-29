@@ -94,7 +94,6 @@ export default function Login({
                 onChange={HandleChangeEmail}
               />
             </div>
-
             <div className="labelInput">
               <label htmlFor="passWord">Password</label>
               <div className="inputPassword">

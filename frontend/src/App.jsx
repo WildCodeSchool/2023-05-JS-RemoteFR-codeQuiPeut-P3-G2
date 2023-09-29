@@ -17,6 +17,7 @@ import AccountFavorites from "./components/AccountFavorites"
 import ScenarioReading from "./pages/ScenarioReading"
 import ForumPageComments from "./pages/ForumPageComments"
 import Cursor from "./components/Cursor"
+import Login from "./components/Login"
 
 function App() {
   // users sera l'ensemble des utilisateurs de mon site
