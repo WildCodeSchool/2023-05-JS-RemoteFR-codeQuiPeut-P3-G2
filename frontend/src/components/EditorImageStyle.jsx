@@ -23,6 +23,8 @@ export default function EditorTextStyle({
   const [coordY, setCoordY] = useState(0)
   const [coordZ, setCoordZ] = useState(0)
   const [itemWidth, setItemWidth] = useState(0)
+  const [itemHeight, setItemHeight] = useState(0)
+  const [autoHeight, setAutoHeight] = useState(true)
   const [opacity, setOpacity] = useState(1)
   const [borderActived, setBorderActived] = useState(false)
   const [appliedBorderStyle, setappliedBorderStyle] = useState("none")
@@ -265,6 +267,24 @@ export default function EditorTextStyle({
           : item
       )
     )
+  }
+
+  const handleChangeItemHeight = (e) => {
+    setItemHeight(e.target.value)
+
+    const newHeight = e.target.value + "%"
+
+    setImages((prevState) =>
+      prevState.map((item) =>
+        item.selected === true
+          ? { ...item, style: { ...item.style, height: newHeight } }
+          : item
+      )
+    )
+  }
+
+  const handleChangeAutoHeight = (e) => {
+    setAutoHeight(!autoHeight)
   }
 
   const handleChangeOpacity = (e) => {
@@ -648,7 +668,7 @@ export default function EditorTextStyle({
 
   return (
     <main className="main-editorTextStyle">
-      <p>Image position & width</p>
+      <p>Image position & dimensions</p>
       <div className="positions-composant">
         <img
           src={positionGauche}
@@ -713,6 +733,30 @@ export default function EditorTextStyle({
               value={itemWidth}
               onChange={handleChangeItemWidth}
             />
+          </div>
+
+          <div className="dimensionH">
+            <p>H :</p>
+
+            {!autoHeight && (
+              <input
+                type="number"
+                min={0}
+                max={100}
+                value={itemHeight}
+                onChange={handleChangeItemHeight}
+              />
+            )}
+
+            <div className="checkboxDimensionH">
+              <label htmlFor="checkboxDimensionH-imageStyle">Auto</label>
+              <input
+                type="checkbox"
+                id="checkboxDimensionH-imageStyle"
+                checked={autoHeight}
+                onChange={handleChangeAutoHeight}
+              />
+            </div>
           </div>
         </div>
       </section>
