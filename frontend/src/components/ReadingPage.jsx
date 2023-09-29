@@ -1,4 +1,5 @@
 // import { useEffect } from "react"
+import React from "react"
 
 export default function ReadingPage(props) {
   const {
@@ -71,8 +72,17 @@ export default function ReadingPage(props) {
                 borderWidth: adjustPxSize(item.style.borderWidth),
               }}
             >
-              <p style={{ textAlign: item.style.textAlign, margin: 0 }}>
+              {/* <p style={{ textAlign: item.style.textAlign, margin: 0 }}>
                 {item.text}
+              </p> */}
+
+              <p style={{ textAlign: item.style.textAlign, margin: 0 }}>
+                {item.text.split("\n").map((line, index) => (
+                  <React.Fragment key={index}>
+                    {line}
+                    <br />
+                  </React.Fragment>
+                ))}
               </p>
             </div>
           ))}
