@@ -89,22 +89,22 @@ const Cursor = () => {
     <>
       <div
         style={cursorStyle}
-        // className={`cursor-outline-1 ${isHovered ? "hovered" : ""}`}
-        className="cursor-outline-1"
+        className={`cursor-outline-1 ${isHovered ? "hovered-line" : ""}`}
+        // className="cursor-outline-1"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       ></div>
       <div
         style={cursorStyle}
-        // className={`cursor-outline-2 ${isHovered ? "hovered" : ""}`}
-        className="cursor-outline-2"
+        className={`cursor-outline-2 ${isHovered ? "hovered-line" : ""}`}
+        // className="cursor-outline-2"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       ></div>
       <div
         style={cursorStyle}
-        // className={`cursor-outline-3 ${isHovered ? "hovered" : ""}`}
-        className="cursor-outline-3"
+        className={`cursor-outline-3 ${isHovered ? "hovered-line" : ""}`}
+        // className="cursor-outline-3"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       ></div>
