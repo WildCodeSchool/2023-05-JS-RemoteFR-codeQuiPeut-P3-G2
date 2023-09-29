@@ -6,6 +6,8 @@ $fontSizeBouton: 1.3rem;
 $fontSizeTitre: 1.5rem;
 
 .fausse-navbar {
+  position: relative;
+  z-index: 200;
   width: 100vw;
   height: 100px;
   background-color: $colorDark;
@@ -14,7 +16,7 @@ $fontSizeTitre: 1.5rem;
 .editor-bandeau-superieur {
   position: sticky;
   top: 0;
-  z-index: 2;
+  z-index: 200;
   width: 100vw;
   background-color: $colorDark;
   padding: 8px 24px;
@@ -200,7 +202,7 @@ $fontSizeTitre: 1.5rem;
             width: 30%;
             height: 50px;
             cursor: pointer;
-            overflow-y: auto;
+            overflow: hidden;
             font-size: $fontSizeP;
 
             &:hover {
@@ -307,6 +309,7 @@ $fontSizeTitre: 1.5rem;
             background-color: white;
             width: 45%;
             height: 50px;
+            overflow: hidden;
 
             p {
               color: black;
@@ -404,6 +407,7 @@ $fontSizeTitre: 1.5rem;
           width: 45%;
           height: 50px;
           font-size: $fontSizeP;
+          overflow: hidden;
           cursor: pointer;
 
           p {
