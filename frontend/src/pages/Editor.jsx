@@ -1102,14 +1102,26 @@ export default function Editor() {
     // annulation avec la combinaison de touche ctrl + z
 
     const handleKeyDownEditor = (event) => {
-      if (event.ctrlKey && event.key === "z") {
+      if (
+        (event.ctrlKey && event.key === "z") ||
+        (event.metaKey && event.key === "z")
+      ) {
         // console.log("undo")
         handleClickUndo() // non appelé... pourquoi ?
-      } else if (event.ctrlKey && event.key === "c") {
+      } else if (
+        (event.ctrlKey && event.key === "c") ||
+        (event.metaKey && event.key === "c")
+      ) {
         handleCopy()
-      } else if (event.ctrlKey && event.key === "v") {
+      } else if (
+        (event.ctrlKey && event.key === "v") ||
+        (event.metaKey && event.key === "v")
+      ) {
         handlePaste()
-      } else if (event.ctrlKey && event.key === "y") {
+      } else if (
+        (event.ctrlKey && event.key === "y") ||
+        (event.metaKey && event.key === "y")
+      ) {
         // console.log("redo")
         handleClickRedo() // non appelé... pourquoi ?
       } else if (event.ctrlKey && event.key === "Delete") {

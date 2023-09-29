@@ -1,4 +1,5 @@
 const models = require("../models")
+const sharp = require("sharp")
 
 const browse = (req, res) => {
   models.images
@@ -68,15 +69,25 @@ const createNew = (req, res, next) => {
     req.file.filename
   }`
 
-  models.images
-    .createNew(imageUrl, req.params.id)
-    .then(() => {
-      //   res.json(result)
-      next()
-    })
-    .catch((err) => {
-      console.error(err)
-      res.sendStatus(500)
+  let realImageWidth
+  let realImageHeight
+
+  sharp(req.file.path)
+    .metadata()
+    .then(({ width, height }) => {
+      realImageWidth = width
+      realImageHeight = height
+
+      models.images
+        .createNew(imageUrl, req.params.id, realImageWidth, realImageHeight)
+        .then(() => {
+          //   res.json(result)
+          next()
+        })
+        .catch((err) => {
+          console.error(err)
+          res.sendStatus(500)
+        })
     })
 }
 
@@ -138,6 +149,8 @@ const getLast = (req, res) => {
           pages_id: item.pages_id,
           style_id: item.style_id,
           img_src: item.img_src,
+          realImageWidth: item.realImageWidth,
+          realImageHeight: item.realImageHeight,
           selected: false,
           style: {
             position: "absolute",

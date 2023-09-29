@@ -40,7 +40,7 @@ class PagesManager extends AbstractManager {
 
   readPageImages(id) {
     return this.database.query(
-      `select pi.id,s.id AS style_id ,pi.pages_id ,pi.img_src ,s.width,s.height,s.top,s.ssi_left ,s.\`z-index\` AS z_index,s.border_style,s.border_color,s.border_width,s.border_radius,s.box_shadow,s.opacity,s.padding FROM ${this.table} INNER JOIN page_images AS pi ON pi.pages_id = pages.id INNER JOIN image_style as s ON s.page_images_id = pi.id  where pages.id = ?`,
+      `select pi.id,s.id AS style_id ,pi.pages_id ,pi.img_src, pi.realImageWidth, pi.realImageHeight ,s.width,s.height,s.top,s.ssi_left ,s.\`z-index\` AS z_index,s.border_style,s.border_color,s.border_width,s.border_radius,s.box_shadow,s.opacity,s.padding FROM ${this.table} INNER JOIN page_images AS pi ON pi.pages_id = pages.id INNER JOIN image_style as s ON s.page_images_id = pi.id  where pages.id = ?`,
       [id]
     )
   }
