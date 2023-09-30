@@ -835,20 +835,37 @@ export default function SommaireEditor(props) {
             src={nouvellePage}
             alt="Ajouter une nouvelle page"
             title="Ajouter une nouvelle page"
+            className="cursorHover"
             onClick={handleClickNouvellePage}
           />
           {showButtons && (
             <div className="div-boutons-nouvelle-page">
-              <button type="button" onClick={handleClickButtonScript}>
+              <button
+                type="button"
+                onClick={handleClickButtonScript}
+                className="cursorHover"
+              >
                 Script
               </button>
-              <button type="button" onClick={handleClickButtonPersonnage}>
+              <button
+                type="button"
+                onClick={handleClickButtonPersonnage}
+                className="cursorHover"
+              >
                 Personnage
               </button>
-              <button type="button" onClick={handleClickButtonObject}>
+              <button
+                type="button"
+                onClick={handleClickButtonObject}
+                className="cursorHover"
+              >
                 Objet
               </button>
-              <button type="button" onClick={handleClickButtonLieu}>
+              <button
+                type="button"
+                onClick={handleClickButtonLieu}
+                className="cursorHover"
+              >
                 Lieu
               </button>
             </div>
@@ -864,6 +881,7 @@ export default function SommaireEditor(props) {
               <p>{editedCampagne.name}</p>
               <img
                 src={dotsCircle}
+                className="cursorHover"
                 onClick={handleClickOpenFormEditCampaign}
                 alt="Informations détaillées de la campagne"
                 title="Informations détaillées de la campagne"
@@ -879,6 +897,7 @@ export default function SommaireEditor(props) {
               {scenariosOfEditedCampagne.map((scenario) => (
                 <div key={scenario.id}>
                   <p
+                    className="cursorHover"
                     onClick={() => handleClickSelectScenario(scenario.id)}
                     style={
                       scenario.selected
@@ -895,6 +914,7 @@ export default function SommaireEditor(props) {
                     src={dotsCircle}
                     alt="Informations détaillées du scénario"
                     title="Informations détaillées du scénario"
+                    className="cursorHover"
                     onClick={() =>
                       handleClickButtonEditInfoScenario(scenario.id)
                     }
@@ -945,6 +965,7 @@ export default function SommaireEditor(props) {
                           />
                         ) : (
                           <p
+                            className="cursorHover"
                             onClick={() => handleClickSelectpage(page.id)}
                             onContextMenu={(event) =>
                               handleContextMenuPage(event, page.id)
@@ -967,12 +988,14 @@ export default function SommaireEditor(props) {
                           <div className="container-menu-EditorPage">
                             <button
                               type="button"
+                              className="cursorHover"
                               onClick={() => handleClickPageRename(page.id)}
                             >
                               Rename
                             </button>
                             <button
                               type="button"
+                              className="cursorHover"
                               onClick={() =>
                                 handleClickPageDelete(page.id, page.number)
                               }
@@ -1012,6 +1035,7 @@ export default function SommaireEditor(props) {
                           />
                         ) : (
                           <p
+                            className="cursorHover"
                             onClick={() => handleClickSelectpage(page.id)}
                             onContextMenu={(event) =>
                               handleContextMenuPage(event, page.id)
@@ -1034,12 +1058,14 @@ export default function SommaireEditor(props) {
                           <div className="container-menu-EditorPage">
                             <button
                               type="button"
+                              className="cursorHover"
                               onClick={() => handleClickPageRename(page.id)}
                             >
                               Rename
                             </button>
                             <button
                               type="button"
+                              className="cursorHover"
                               onClick={() =>
                                 handleClickPageDelete(page.id, page.number)
                               }
@@ -1079,6 +1105,7 @@ export default function SommaireEditor(props) {
                           />
                         ) : (
                           <p
+                            className="cursorHover"
                             onClick={() => handleClickSelectpage(page.id)}
                             onContextMenu={(event) =>
                               handleContextMenuPage(event, page.id)
@@ -1101,12 +1128,14 @@ export default function SommaireEditor(props) {
                           <div className="container-menu-EditorPage">
                             <button
                               type="button"
+                              className="cursorHover"
                               onClick={() => handleClickPageRename(page.id)}
                             >
                               Rename
                             </button>
                             <button
                               type="button"
+                              className="cursorHover"
                               onClick={() =>
                                 handleClickPageDelete(page.id, page.number)
                               }
@@ -1146,6 +1175,7 @@ export default function SommaireEditor(props) {
                           />
                         ) : (
                           <p
+                            className="cursorHover"
                             onClick={() => handleClickSelectpage(page.id)}
                             onContextMenu={(event) =>
                               handleContextMenuPage(event, page.id)
@@ -1168,12 +1198,14 @@ export default function SommaireEditor(props) {
                           <div className="container-menu-EditorPage">
                             <button
                               type="button"
+                              className="cursorHover"
                               onClick={() => handleClickPageRename(page.id)}
                             >
                               Rename
                             </button>
                             <button
                               type="button"
+                              className="cursorHover"
                               onClick={() =>
                                 handleClickPageDelete(page.id, page.number)
                               }

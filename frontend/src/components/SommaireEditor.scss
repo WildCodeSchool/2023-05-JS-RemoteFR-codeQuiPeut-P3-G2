@@ -19,7 +19,7 @@ $fontSizeTitre: 1.5rem;
     img {
       width: 50px;
       height: auto;
-      cursor: auto;
+      cursor: none;
 
       &:hover {
         box-shadow: 0 0 20px 5px $colorYellow;
@@ -47,7 +47,7 @@ $fontSizeTitre: 1.5rem;
         border-radius: 16px;
         font-size: $fontSizeP;
         border: 4px outset #6573ac;
-        cursor: auto;
+        cursor: none;
 
         &:hover {
           box-shadow: 0 0 20px 5px $colorYellow;
@@ -68,7 +68,7 @@ $fontSizeTitre: 1.5rem;
     .section-scenarios,
     .section-pages {
       p {
-        cursor: auto;
+        cursor: none;
       }
     }
 
@@ -149,7 +149,7 @@ $fontSizeTitre: 1.5rem;
           width: 25px;
           height: 25px;
           border-radius: 50%;
-          cursor: auto;
+          cursor: none;
 
           &:hover {
             box-shadow: 0px 0px 20px 3px $colorYellow;
