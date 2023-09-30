@@ -56,18 +56,20 @@
 .cursor-dot {
   width: 5px;
   height: 5px;
-  background-color: #4c60ae;
+  // background-color: #4c60ae;
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .cursor-mouse {
-  width: 40px;
+  width: 45px;
   height: 45px;
   position: fixed;
   top: 0;
   left: 0;
-  transform: translate(-3px, 0);
+  // transform: translate(-1px, -1px);
   border-radius: 50%;
   z-index: 1000;
+  overflow: visible;
   pointer-events: none;
 }
 
@@ -90,6 +92,7 @@
 
   // border: 6px solid #ff8859 !important;
   border: 2px solid #ff8921 !important;
+  background-color: #ff892190;
   box-shadow: 0px 0px 25px 15px #ff8921;
 }
 .hovered-line {

@@ -16,6 +16,7 @@ const ErrorMessageFavorite = ({ setChangeClassToShowError }) => {
         <div className="imgcontainer">
           <img
             src={croix}
+            className="cursorHover"
             alt="fermer la fenetre"
             onClick={HandleclosFormErrorMessage}
           />
@@ -35,7 +36,11 @@ const ErrorMessageFavorite = ({ setChangeClassToShowError }) => {
           {/* <Link to="/login">
             <button type="button">Go to Log In</button>
           </Link> */}
-          <button type="button" onClick={HandleclosFormErrorMessage}>
+          <button
+            type="button"
+            onClick={HandleclosFormErrorMessage}
+            className="cursorHover"
+          >
             Close
           </button>
         </div>

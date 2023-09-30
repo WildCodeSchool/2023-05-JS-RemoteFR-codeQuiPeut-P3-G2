@@ -326,7 +326,12 @@ export default function FormEditCampaign({
               <p>Campaign's picture</p>
 
               <div className="form-chooseApicture">
-                <label htmlFor="inputFileFormNewScenario">Choose a file</label>
+                <label
+                  htmlFor="inputFileFormNewScenario"
+                  className="cursorHover"
+                >
+                  Choose a file
+                </label>
                 <input
                   type="file"
                   accept="image/jpeg, image/jpg, image/png"
@@ -353,10 +358,18 @@ export default function FormEditCampaign({
             </div>
           </div>
           <div className="submitScenar">
-            <button type="button" onClick={handleSubmit}>
+            <button
+              type="button"
+              onClick={handleSubmit}
+              className="cursorHover"
+            >
               Send
             </button>
-            <button type="button" onClick={HandleClickClose}>
+            <button
+              type="button"
+              onClick={HandleClickClose}
+              className="cursorHover"
+            >
               Cancel
             </button>
           </div>

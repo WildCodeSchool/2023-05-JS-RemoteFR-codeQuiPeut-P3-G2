@@ -82,7 +82,7 @@ $fontSizeTitre: 1.5rem;
           height: 30px;
           border-radius: 8px;
           margin: 0;
-          cursor: auto;
+          cursor: none;
           font-size: $fontSizeP;
           background-color: $colorDark;
           color: $colorWhite;
@@ -94,7 +94,7 @@ $fontSizeTitre: 1.5rem;
           height: 30px;
           border-radius: 8px;
           margin: 0;
-          cursor: auto;
+          cursor: none;
           font-size: $fontSizeP;
           background-color: $colorDark;
           color: $colorWhite;
@@ -154,7 +154,7 @@ $fontSizeTitre: 1.5rem;
           padding: 8px 16px;
           border-radius: 16px;
           font-size: $fontSizeP;
-          cursor: auto;
+          cursor: none;
 
           &:hover {
             background-color: $colorYellow;
@@ -186,7 +186,7 @@ $fontSizeTitre: 1.5rem;
         font-size: $fontSizeP;
         background-color: $blueColor;
         color: white;
-        cursor: auto;
+        cursor: none;
 
         &:hover {
           background-color: $colorYellow;

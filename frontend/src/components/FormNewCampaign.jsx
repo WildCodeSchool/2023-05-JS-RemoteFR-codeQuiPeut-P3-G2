@@ -420,7 +420,7 @@ export default function FormNewCampaign(props) {
       <main className="mainFormNewScenario">
         <div className="formGlobal">
           <div className="titleh2">
-            <h2>Campaign Starting</h2>
+            <h2>Campaign Starting - First scenario informations</h2>
           </div>
           <div className="params">
             <div className="form-flexRow">
@@ -524,7 +524,12 @@ export default function FormNewCampaign(props) {
               <p>Campaign's picture</p>
 
               <div className="form-chooseApicture">
-                <label htmlFor="inputFileFormNewScenario">Choose a file</label>
+                <label
+                  htmlFor="inputFileFormNewScenario"
+                  className="cursorHover"
+                >
+                  Choose a file
+                </label>
                 <input
                   type="file"
                   accept="image/jpeg, image/jpg, image/png"
@@ -551,10 +556,18 @@ export default function FormNewCampaign(props) {
             </div>
           </div>
           <div className="submitScenar">
-            <button type="button" onClick={handleSubmit}>
+            <button
+              type="button"
+              onClick={handleSubmit}
+              className="cursorHover"
+            >
               Send
             </button>
-            <button type="button" onClick={HandleClickClose}>
+            <button
+              type="button"
+              onClick={HandleClickClose}
+              className="cursorHover"
+            >
               Cancel
             </button>
           </div>

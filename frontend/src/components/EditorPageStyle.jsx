@@ -128,7 +128,7 @@ export default function EditorPageStyle(props) {
     <main className="main-editorPageStyle">
       <p>Couleur de fond de la page</p>
 
-      <div className="text-color" onClick={handleClickDivBackColor}>
+      <div className="text-color cursorHover" onClick={handleClickDivBackColor}>
         <div
           className="choix-color"
           style={{ backgroundColor: backColor }}
@@ -167,7 +167,11 @@ export default function EditorPageStyle(props) {
         />
       </div>
 
-      <button type="button" onClick={handleClickSaveStyle}>
+      <button
+        type="button"
+        onClick={handleClickSaveStyle}
+        className="cursorHover"
+      >
         Sauvegarder ce style
       </button>
     </main>

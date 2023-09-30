@@ -262,6 +262,7 @@ const ResumePageScenario = () => {
           </div>
           <img
             id="isFavorite"
+            className="cursorHover"
             src={isFavorite ? fullStar : emptyStar}
             alt="isFavorite"
             title={
@@ -284,12 +285,14 @@ const ResumePageScenario = () => {
           <div className="scenarInteractionsHight">
             <input
               type="button"
+              className="cursorHover"
               value="Read the Scenario"
               title="Click to go see the scenario"
               onClick={handleGoToScenario}
             />
             <input
               type="button"
+              className="cursorHover"
               value="Leave a Comment"
               id="buttonAddComment"
               title={
@@ -313,6 +316,7 @@ const ResumePageScenario = () => {
                 onChange={handleWriteComment}
               ></textarea>
               <input
+                className="cursorHover"
                 type="button"
                 value="Submit"
                 onClick={handleClickSubmitComment}
@@ -336,6 +340,7 @@ const ResumePageScenario = () => {
                   />
                   <div className="resumePageScenarButtonsEditing">
                     <button
+                      className="cursorHover"
                       type="button"
                       value={avi.id}
                       onClick={handleEditComment}
@@ -343,6 +348,7 @@ const ResumePageScenario = () => {
                       Save
                     </button>
                     <button
+                      className="cursorHover"
                       type="button"
                       value={avi.id}
                       onClick={handleNoEditComment}
@@ -363,12 +369,13 @@ const ResumePageScenario = () => {
                   <div className="resumePageScenarButtonsConsultation">
                     <div>
                       <img
+                        className="cursorHover"
                         src={iconSupprimerYellow}
                         value={avi.id}
                         onClick={handleDeleteComment}
                       />
                       <img
-                        className="pen"
+                        className="pen cursorHover"
                         src={pen}
                         alt="crayon pour modifier"
                         value={avi.id}

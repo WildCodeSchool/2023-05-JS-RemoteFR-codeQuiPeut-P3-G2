@@ -35,7 +35,8 @@
 
 import "./Cursor.scss"
 import React, { useState, useEffect } from "react"
-import sourisScripter from "../assets/images/sourisScripter.png"
+// import sourisScripter from "../assets/images/sourisScripter.png"
+import sourisPlume from "../assets/images/sourisPlume4.png"
 
 const Cursor = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 })
@@ -93,7 +94,7 @@ const Cursor = () => {
   return (
     <>
       <img
-        src={sourisScripter}
+        src={sourisPlume}
         alt="mouse"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
