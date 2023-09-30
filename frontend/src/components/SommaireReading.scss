@@ -17,7 +17,7 @@ $fontSizeTitre: 1.5rem;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 50px;
-    cursor: pointer;
+    cursor: none;
   }
 
   .container-campagne-scenario-page {
@@ -29,7 +29,7 @@ $fontSizeTitre: 1.5rem;
     .section-scenarios,
     .section-pages {
       p {
-        cursor: pointer;
+        cursor: none;
       }
     }
 
@@ -110,7 +110,7 @@ $fontSizeTitre: 1.5rem;
           width: 25px;
           height: 25px;
           border-radius: 50%;
-          cursor: pointer;
+          cursor: none;
 
           &:hover {
             box-shadow: 0px 0px 20px 3px $colorYellow;

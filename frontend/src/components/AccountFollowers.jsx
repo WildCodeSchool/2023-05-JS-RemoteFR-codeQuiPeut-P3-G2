@@ -41,13 +41,14 @@ export default function AccountFollowers() {
             </div>
             <p>{follower.nbAvis} avis</p>
             <button
+              className="cursorHover"
               onClick={() =>
                 handleClickShowPopupProfile(follower.utilisateurId)
               }
             >
               Voir le profil
             </button>
-            <button>Proposer co-écriture</button>
+            <button className="cursorHover">Proposer co-écriture</button>
           </div>
         </div>
       ))}

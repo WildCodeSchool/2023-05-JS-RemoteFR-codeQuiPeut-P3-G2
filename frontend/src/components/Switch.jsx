@@ -32,7 +32,7 @@ function Switch({
           checked={isChecked}
           onChange={checkHandler}
         />
-        <span className="slider"></span>
+        <span className="slider cursorHover"></span>
       </label>
     </div>
   )

@@ -1040,18 +1040,21 @@ export default function EditorTextStyle({
       <div className="positions-composant">
         <img
           src={positionGauche}
+          className="cursorHover"
           alt="position gauche"
           title="Positionner l'élément à gauche"
           onClick={handleClickTextareaOnLeft}
         />
         <img
           src={positionCentre}
+          className="cursorHover"
           alt="position centre"
           title="Centrer l'élément dans la page"
           onClick={handleClickTextareaOnCenter}
         />
         <img
           src={positionDroite}
+          className="cursorHover"
           alt="position droite"
           title="Positionner l'élément à droite"
           onClick={handleClickTextareaOnRight}
@@ -1119,6 +1122,7 @@ export default function EditorTextStyle({
       <div className="positions-composant">
         <img
           src={positionGauche}
+          className="cursorHover"
           alt="alignement gauche"
           title="Aligner le texte à gauche"
           onClick={handleClickAlignLeft}
@@ -1128,6 +1132,7 @@ export default function EditorTextStyle({
         />
         <img
           src={positionCentre}
+          className="cursorHover"
           alt="alignement centre"
           title="Centrer le texte"
           onClick={handleClickAlignCenter}
@@ -1137,6 +1142,7 @@ export default function EditorTextStyle({
         />
         <img
           src={positionDroite}
+          className="cursorHover"
           alt="alignement droite"
           title="Aligner le texte à droite"
           onClick={handleClickAlignRight}
@@ -1146,6 +1152,7 @@ export default function EditorTextStyle({
         />
         <img
           src={positionJustify}
+          className="cursorHover"
           alt="alignement justifié"
           title="Justifier le texte"
           onClick={handleClickAlignJustify}
@@ -1158,6 +1165,7 @@ export default function EditorTextStyle({
       <section className="style-texte">
         <img
           src={miseEnGras}
+          className="cursorHover"
           alt="Mettre en gras"
           title="Mettre en gras"
           onClick={handleClickBold}
@@ -1165,6 +1173,7 @@ export default function EditorTextStyle({
         />
         <img
           src={miseEnItalic}
+          className="cursorHover"
           alt="Mettre en italique"
           title="Mettre en italique"
           onClick={handleClickItalic}
@@ -1172,6 +1181,7 @@ export default function EditorTextStyle({
         />
         <img
           src={soulignage}
+          className="cursorHover"
           alt="Souligner"
           title="Souligner"
           onClick={handleClickUnderline}
@@ -1183,6 +1193,7 @@ export default function EditorTextStyle({
 
       <section className="police-couleur-texte">
         <select
+          className="cursorHover"
           value={font}
           onChange={handleChangeFont}
           style={{ fontFamily: font }}
@@ -1255,7 +1266,10 @@ export default function EditorTextStyle({
           onChange={handleClickFontSize}
         />
 
-        <div className="text-color" onClick={handleClickDivTextColor}>
+        <div
+          className="text-color cursorHover"
+          onClick={handleClickDivTextColor}
+        >
           <div className="choix-color">
             <p>A</p>
             <div style={{ backgroundColor: textColor }}></div>
@@ -1284,12 +1298,14 @@ export default function EditorTextStyle({
             alt="bordure on"
             title="Ajouter une bordure à l'élément - Cliquez plusieurs fois pour changer le style"
             onClick={handleClickAjoutBordure}
+            className="cursorHover"
             style={
               borderActived ? { boxShadow: "0px 0px 20px 5px #ffbd59" } : {}
             }
           />
           <img
             src={bordureOff}
+            className="cursorHover"
             alt="bordure off"
             title="Supprimer la bordure"
             onClick={handleClickBorderOff}
@@ -1308,7 +1324,10 @@ export default function EditorTextStyle({
             value={borderThickness}
             onChange={handleChangeBorderThickness}
           />
-          <div className="text-color" onClick={handleClickDivBorderColor}>
+          <div
+            className="text-color cursorHover"
+            onClick={handleClickDivBorderColor}
+          >
             <div className="choix-color">
               <img className="imgChoixColor" src={bordureOn} alt="bordure on" />
               <div style={{ backgroundColor: borderColor }}></div>
@@ -1366,6 +1385,7 @@ export default function EditorTextStyle({
           <div className="images-ombre">
             <img
               src={ombre}
+              className="cursorHover"
               alt="presence ombre"
               title="Ajouter une ombre à l'élément"
               onClick={handleClickShadowOn}
@@ -1375,6 +1395,7 @@ export default function EditorTextStyle({
             />
             <img
               src={ombreOff}
+              className="cursorHover"
               alt="pas d'ombre"
               title="Supprimer l'ombre"
               onClick={handleClickShadowOff}
@@ -1386,7 +1407,10 @@ export default function EditorTextStyle({
             />
           </div>
 
-          <div className="text-color" onClick={handleClickDivShadowColor}>
+          <div
+            className="text-color cursorHover"
+            onClick={handleClickDivShadowColor}
+          >
             <div className="choix-color">
               <img className="imgChoixColor" src={ombre} alt="couleur ombre" />
               <div style={{ backgroundColor: shadowColor }}></div>
@@ -1462,7 +1486,10 @@ export default function EditorTextStyle({
           />
         </div>
 
-        <div className="text-color" onClick={handleClickDivBackColor}>
+        <div
+          className="text-color cursorHover"
+          onClick={handleClickDivBackColor}
+        >
           <div
             className="choix-color"
             style={{ backgroundColor: backColor }}
@@ -1485,7 +1512,11 @@ export default function EditorTextStyle({
         </div>
       </section>
 
-      <button type="button" onClick={handleClickSaveStyle}>
+      <button
+        type="button"
+        onClick={handleClickSaveStyle}
+        className="cursorHover"
+      >
         Sauvegarder ce style
       </button>
     </main>

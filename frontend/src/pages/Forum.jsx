@@ -116,6 +116,7 @@ export default function Forum() {
               src={plusDansRond}
               alt="Button add new Topic"
               onClick={handleClickAddNewTopic}
+              className="cursorHover"
             />
           </div>
 
@@ -133,7 +134,7 @@ export default function Forum() {
                     className="category-color"
                     style={{ backgroundColor: category.color }}
                   ></div>
-                  <h2>{category.categoryName}</h2>
+                  <h2 className="cursorHover">{category.categoryName}</h2>
                 </div>
               ))}
 
@@ -145,7 +146,7 @@ export default function Forum() {
                 className="category-color"
                 style={{ backgroundColor: "rgb(240,240,240)" }}
               ></div>
-              <h2>Every category</h2>
+              <h2 className="cursorHover">Every category</h2>
             </div>
           </div>
 
@@ -177,7 +178,11 @@ export default function Forum() {
           <div className="masque"></div>
 
           <div className="div-research">
-            <button type="button" onClick={handleClickRecentTopics}>
+            <button
+              type="button"
+              onClick={handleClickRecentTopics}
+              className="cursorHover"
+            >
               See the most recent topics
             </button>
             <input
@@ -194,7 +199,7 @@ export default function Forum() {
               categories[0] &&
               topics.map((topic) => (
                 <div
-                  className="topic"
+                  className="topic cursorHover"
                   key={topic.id}
                   onClick={() => handleNavigateToComments(topic)}
                 >

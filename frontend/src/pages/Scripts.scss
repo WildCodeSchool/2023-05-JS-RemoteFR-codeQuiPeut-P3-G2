@@ -61,6 +61,7 @@ $fontSizeTitre: 1.5rem;
         background-color: $colorDark;
         border: none;
         margin-top: 10%;
+        cursor: none;
       }
 
       .containerType {
@@ -96,6 +97,7 @@ $fontSizeTitre: 1.5rem;
           border-color: $blueColor;
           color: #eee;
           width: 100%;
+          cursor: none;
         }
       }
     }
@@ -148,6 +150,7 @@ $fontSizeTitre: 1.5rem;
       font-size: xx-large;
       border: none;
       background-color: $colorDark;
+      cursor: none;
     }
 
     button:hover {

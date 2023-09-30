@@ -77,6 +77,7 @@ export default function CardCampaignCreation({ campagne, user }) {
           src={campagne.img}
           alt="illustration"
           onClick={handleGoToCampaignSelected}
+          className="cursorHover"
         />
       </div>
       <div className="Card">
@@ -101,7 +102,7 @@ export default function CardCampaignCreation({ campagne, user }) {
         <img
           src={pen}
           alt="crayon pour modifier"
-          className="pen-modify"
+          className="pen-modify cursorHover"
           onClick={handleOpenCreator}
         />
       )}
@@ -111,7 +112,7 @@ export default function CardCampaignCreation({ campagne, user }) {
         yearPublication > 2990 && (
           <img
             src={colorPublish ? publish : publishBleu}
-            className={`icon-publish ${isClicked ? "animate" : ""}`}
+            className={`icon-publish cursorHover ${isClicked ? "animate" : ""}`}
             alt="Icon publish"
             title="Click to publish your scenario"
             onMouseEnter={() => setColorPublish(false)}

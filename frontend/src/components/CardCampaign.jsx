@@ -100,7 +100,10 @@ export default function CardCampaign({ campaign, user }) {
   // console.log(campaign)
   return (
     <div className="Scenario">
-      <div onClick={handleGoToCampaignSelected} className="containerimg">
+      <div
+        onClick={handleGoToCampaignSelected}
+        className="containerimg cursorHover"
+      >
         <img src={campaign.img} alt="illustration" />
       </div>
       <div className="Card">
@@ -110,6 +113,7 @@ export default function CardCampaign({ campaign, user }) {
             onClick={handleClickPutFavorite}
             src={favorite ? etoilePleine : etoileVide}
             alt="favoris"
+            className="cursorHover"
           />
         </div>
         <div className="borderTitle"></div>
@@ -133,8 +137,8 @@ export default function CardCampaign({ campaign, user }) {
               followedAutors.find(
                 (item) => item.auteurs_id === campaign.auteurs_id
               )
-                ? "followAutor"
-                : ""
+                ? "followAutor cursorHover"
+                : "cursorHover"
             }
             type="button"
           >

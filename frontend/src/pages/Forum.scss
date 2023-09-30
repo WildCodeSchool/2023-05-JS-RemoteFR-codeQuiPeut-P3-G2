@@ -41,7 +41,7 @@ $fontSizeTitre: 1.5rem;
       img {
         width: 30px;
         height: auto;
-        cursor: pointer;
+        cursor: none;
         border-radius: 50%;
 
         &:hover {
@@ -64,7 +64,7 @@ $fontSizeTitre: 1.5rem;
         justify-content: flex-start;
         gap: 24px;
         align-items: center;
-        cursor: pointer;
+        cursor: none;
 
         .category-color {
           width: 30px;
@@ -134,7 +134,7 @@ $fontSizeTitre: 1.5rem;
         font-size: $fontSizeP;
         font-weight: bold;
         border-radius: 32px;
-        cursor: pointer;
+        cursor: none;
         min-width: 35%;
 
         &:hover {
@@ -169,7 +169,7 @@ $fontSizeTitre: 1.5rem;
         padding: 16px;
         border-radius: 16px;
         border-bottom: 1px solid $blueColor;
-        cursor: pointer;
+        cursor: none;
         box-sizing: border-box;
 
         &:hover {
@@ -346,7 +346,7 @@ $fontSizeTitre: 1.5rem;
             border-radius: 20px;
             background-color: $blueColor;
             color: white;
-            cursor: pointer;
+            cursor: none;
 
             &:hover {
               background-color: $colorYellow;

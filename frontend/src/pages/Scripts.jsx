@@ -269,9 +269,13 @@ function Scripts() {
             </div>
           </div>
           <div className="conseiller">
-            <button onClick={handleNewest}>The news</button>
-            <button onClick={handleMostPopular}>The most popular</button>
-            <button onClick={handleClickAll}>
+            <button onClick={handleNewest} className="cursorHover">
+              The news
+            </button>
+            <button onClick={handleMostPopular} className="cursorHover">
+              The most popular
+            </button>
+            <button onClick={handleClickAll} className="cursorHover">
               {scenariosCampaignType === "one shot"
                 ? "All scenarios"
                 : "All campaigns"}
@@ -281,7 +285,11 @@ function Scripts() {
           <div className="containerSelect">
             <div className="univers">
               <p>Universe</p>
-              <select value={valueRoleGame} onChange={handleChangeRoleGame}>
+              <select
+                value={valueRoleGame}
+                onChange={handleChangeRoleGame}
+                className="cursorHover"
+              >
                 <option>---</option>
                 {roleGames[0] &&
                   roleGames.map((roleGame) => (
@@ -303,7 +311,11 @@ function Scripts() {
             </div>
             <div className="Difficultes">
               <p>Difficulty</p>
-              <select value={valueDifficulty} onChange={handleChangeDifficulty}>
+              <select
+                value={valueDifficulty}
+                onChange={handleChangeDifficulty}
+                className="cursorHover"
+              >
                 <option>---</option>
                 {difficulty.map((item) => (
                   <option key={item.id}>{item.nameDiff}</option>
@@ -315,6 +327,7 @@ function Scripts() {
               <select
                 value={valueNumberPlayer}
                 onChange={handleChangeNumberPlayer}
+                className="cursorHover"
               >
                 <option>---</option>
                 {numberPlayers.map((item) => (
@@ -335,7 +348,11 @@ function Scripts() {
               setValueTheme={setValueTheme}
             />
           </div>
-          <button className="buttonReset" type="button" onClick={handleReset}>
+          <button
+            className="buttonReset cursorHover"
+            type="button"
+            onClick={handleReset}
+          >
             <img src={Reset}></img>
           </button>
         </div>

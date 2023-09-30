@@ -115,6 +115,7 @@ export default function AccountInformations() {
             {modifyInfo ? (
               <button
                 type="button"
+                className="cursorHover"
                 onClick={() => {
                   HandleClickPutInformations()
                 }}
@@ -122,7 +123,12 @@ export default function AccountInformations() {
                 Save
               </button>
             ) : (
-              <img src={pen} alt="pen for modify" onClick={HandletoModify} />
+              <img
+                src={pen}
+                alt="pen for modify"
+                onClick={HandletoModify}
+                className="cursorHover"
+              />
             )}
           </div>
           <div className="containInformation">
@@ -213,6 +219,7 @@ export default function AccountInformations() {
               {modifyPassword ? (
                 <button
                   type="button"
+                  className="cursorHover"
                   onClick={() => {
                     HandleClickPutPassWord()
                   }}
@@ -224,6 +231,7 @@ export default function AccountInformations() {
                   src={pen}
                   alt="pen for modify"
                   onClick={HandletoModifyPassword}
+                  className="cursorHover"
                 />
               )}
             </div>
@@ -242,6 +250,7 @@ export default function AccountInformations() {
                 <div className="containerImg" onClick={HandleClickShowPassword}>
                   <img
                     src={showPassword ? eyeOff : eye}
+                    className="cursorHover"
                     title={
                       showPassword
                         ? "masquer le mot de passe"

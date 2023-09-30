@@ -80,7 +80,7 @@ const Welcome = () => {
                   Your journey begins here!
                 </p>
                 <Link to="/scripts">
-                  <button className="Explo" type="button">
+                  <button className="Explo cursorHover" type="button">
                     Explore
                   </button>
                 </Link>
@@ -108,7 +108,7 @@ const Welcome = () => {
                   begins here!
                 </p>
                 <Link to="/editor">
-                  <button className="Create" type="button">
+                  <button className="Create cursorHover" type="button">
                     Create
                   </button>
                 </Link>

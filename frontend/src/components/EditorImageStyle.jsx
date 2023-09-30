@@ -712,18 +712,21 @@ export default function EditorTextStyle({
       <div className="positions-composant">
         <img
           src={positionGauche}
+          className="cursorHover"
           alt="position gauche"
           title="Positionner l'élément à gauche"
           onClick={handleClickTextareaOnLeft}
         />
         <img
           src={positionCentre}
+          className="cursorHover"
           alt="position centre"
           title="Centrer l'élément dans la page"
           onClick={handleClickTextareaOnCenter}
         />
         <img
           src={positionDroite}
+          className="cursorHover"
           alt="position droite"
           title="Positionner l'élément à droite"
           onClick={handleClickTextareaOnRight}
@@ -792,6 +795,7 @@ export default function EditorTextStyle({
               <label htmlFor="checkboxDimensionH-imageStyle">Auto</label>
               <input
                 type="checkbox"
+                className="cursorHover"
                 id="checkboxDimensionH-imageStyle"
                 checked={autoHeight}
                 onChange={handleChangeAutoHeight}
@@ -806,6 +810,7 @@ export default function EditorTextStyle({
         <div className="section-bordures-ligne1">
           <img
             src={bordureOn}
+            className="cursorHover"
             alt="bordure on"
             title="Ajouter une bordure à l'élément - Cliquez plusieurs fois pour changer le style"
             onClick={handleClickAjoutBordure}
@@ -815,6 +820,7 @@ export default function EditorTextStyle({
           />
           <img
             src={bordureOff}
+            className="cursorHover"
             alt="bordure off"
             title="Supprimer la bordure"
             onClick={handleClickBorderOff}
@@ -833,7 +839,10 @@ export default function EditorTextStyle({
             value={borderThickness}
             onChange={handleChangeBorderThickness}
           />
-          <div className="text-color" onClick={handleClickDivBorderColor}>
+          <div
+            className="text-color cursorHover"
+            onClick={handleClickDivBorderColor}
+          >
             <div className="choix-color">
               <img className="imgChoixColor" src={bordureOn} alt="bordure on" />
               <div style={{ backgroundColor: borderColor }}></div>
@@ -891,6 +900,7 @@ export default function EditorTextStyle({
           <div className="images-ombre">
             <img
               src={ombre}
+              className="cursorHover"
               alt="presence ombre"
               title="Ajouter une ombre à l'élément"
               onClick={handleClickShadowOn}
@@ -900,6 +910,7 @@ export default function EditorTextStyle({
             />
             <img
               src={ombreOff}
+              className="cursorHover"
               alt="pas d'ombre"
               title="Supprimer l'ombre"
               onClick={handleClickShadowOff}
@@ -911,7 +922,10 @@ export default function EditorTextStyle({
             />
           </div>
 
-          <div className="text-color" onClick={handleClickDivShadowColor}>
+          <div
+            className="text-color cursorHover"
+            onClick={handleClickDivShadowColor}
+          >
             <div className="choix-color">
               <img className="imgChoixColor" src={ombre} alt="couleur ombre" />
               <div style={{ backgroundColor: shadowColor }}></div>
@@ -984,7 +998,11 @@ export default function EditorTextStyle({
         />
       </section>
 
-      <button type="button" onClick={handleClickSaveStyle}>
+      <button
+        type="button"
+        onClick={handleClickSaveStyle}
+        className="cursorHover"
+      >
         Sauvegarder ce style
       </button>
     </main>

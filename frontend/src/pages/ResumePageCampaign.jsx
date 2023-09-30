@@ -123,6 +123,7 @@ export default function ResumePageCampaign() {
               </div>
               <img
                 id="isFavorite"
+                className="cursorHover"
                 src={isFavorite ? fullStar : emptyStar}
                 alt="isFavorite"
                 title={

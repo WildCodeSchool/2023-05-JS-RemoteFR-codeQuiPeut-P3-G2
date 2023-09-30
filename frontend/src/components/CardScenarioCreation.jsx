@@ -80,6 +80,7 @@ function CardScenarioCreation({ scenario, user }) {
           src={scenario.img}
           alt="illustration"
           onClick={handleGoToScenarioSelected}
+          className="cursorHover"
         />
       </div>
       <div className="Card">
@@ -105,7 +106,7 @@ function CardScenarioCreation({ scenario, user }) {
           src={pen}
           alt="crayon pour modifier"
           title="Click to edit your scenario"
-          className="pen-modify"
+          className="pen-modify cursorHover"
           onClick={handleOpenCreator}
         />
       )}
@@ -115,7 +116,7 @@ function CardScenarioCreation({ scenario, user }) {
         yearPublication > 2990 && (
           <img
             src={colorPublish ? publish : publishBleu}
-            className={`icon-publish ${isClicked ? "animate" : ""}`}
+            className={`icon-publish cursorHover ${isClicked ? "animate" : ""}`}
             alt="Icon publish"
             title="Click to publish your scenario"
             onMouseEnter={() => setColorPublish(false)}

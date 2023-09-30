@@ -68,7 +68,7 @@ export default function SommaireReading(props) {
         src={scriptLogo}
         alt="back to Scripts"
         title="back to Scripts"
-        className="sommaire-logo-home"
+        className="sommaire-logo-home cursorHover"
         onClick={handleClickLogoScripter}
         draggable
       />
@@ -90,6 +90,7 @@ export default function SommaireReading(props) {
                 .map((page) => (
                   <div key={page.id}>
                     <p
+                      className="cursorHover"
                       onClick={() => handleClickSelectpage(page.id)}
                       style={
                         page.selected
@@ -116,6 +117,7 @@ export default function SommaireReading(props) {
                 .map((page) => (
                   <div key={page.id}>
                     <p
+                      className="cursorHover"
                       onClick={() => handleClickSelectpage(page.id)}
                       style={
                         page.selected
@@ -142,6 +144,7 @@ export default function SommaireReading(props) {
                 .map((page) => (
                   <div key={page.id}>
                     <p
+                      className="cursorHover"
                       onClick={() => handleClickSelectpage(page.id)}
                       style={
                         page.selected
@@ -168,6 +171,7 @@ export default function SommaireReading(props) {
                 .map((page) => (
                   <div key={page.id}>
                     <p
+                      className="cursorHover"
                       onClick={() => handleClickSelectpage(page.id)}
                       style={
                         page.selected

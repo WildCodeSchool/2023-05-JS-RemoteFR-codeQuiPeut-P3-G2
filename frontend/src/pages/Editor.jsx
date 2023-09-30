@@ -1153,13 +1153,18 @@ export default function Editor() {
 
       <section className="editor-bandeau-superieur">
         <div className="editor-bandeau-gauche">
-          <img src={saveDisquette} alt="save" onClick={handleSave} />
+          <img
+            src={saveDisquette}
+            alt="save"
+            onClick={handleSave}
+            className="cursorHover"
+          />
 
           <div className="div-menu-open">
             <button
               type="button"
               onClick={handleClickMenuNew}
-              className="button-editor-bandeau-gauche"
+              className="button-editor-bandeau-gauche cursorHover"
             >
               New
             </button>
@@ -1170,13 +1175,17 @@ export default function Editor() {
                   <button
                     type="button"
                     onClick={handleClickNouveauScenario}
-                    className="button-new-scenario"
+                    className="button-new-scenario cursorHover"
                   >
                     New scenario <br /> <span>(in current campaign)</span>
                   </button>
                 )}
 
-                <button type="button" onClick={handleClickNewCampaign}>
+                <button
+                  type="button"
+                  onClick={handleClickNewCampaign}
+                  className="cursorHover"
+                >
                   New campaign
                 </button>
               </div>
@@ -1186,7 +1195,7 @@ export default function Editor() {
           <div className="div-menu-open">
             <button
               type="button"
-              className="button-editor-bandeau-gauche"
+              className="button-editor-bandeau-gauche cursorHover"
               onClick={handleClickOpen}
             >
               Open
@@ -1197,6 +1206,7 @@ export default function Editor() {
                   <button
                     type="button"
                     key={item.id}
+                    className="cursorHover"
                     onClick={() => handleClickOpenCampagne(item.id)}
                   >
                     {item.name}
@@ -1208,11 +1218,13 @@ export default function Editor() {
             src={undo}
             alt="annuler"
             onClick={handleClickUndo}
+            className="cursorHover"
             title="Annuler suppression d'élément (ctrl + z)"
           />
           <img
             src={redo}
             alt="Rétablir"
+            className="cursorHover"
             onClick={handleClickRedo}
             title="Rétablir suppression d'élément (ctrl + y)"
           />
@@ -1224,6 +1236,7 @@ export default function Editor() {
               src={addText}
               alt="new textarea"
               onClick={handleClickNewTextZone}
+              className="cursorHover"
               title="Ajouter une zone de texte"
             />
 
@@ -1233,7 +1246,10 @@ export default function Editor() {
               className="button-import-image"
               onChange={handleChangeFileImage}
             />
-            <label htmlFor="file-input" className="button-import-image-label">
+            <label
+              htmlFor="file-input"
+              className="button-import-image-label cursorHover"
+            >
               {" "}
             </label>
             {/* <img
@@ -1245,6 +1261,7 @@ export default function Editor() {
             <img
               src={iconSupprimer}
               alt="supprimer élément"
+              className="cursorHover"
               onClick={handleClickDeleteElement}
               title="Supprimer l'élement sélectionné (ctrl + suppr)"
             />
@@ -1262,7 +1279,7 @@ export default function Editor() {
                   )
                   .map((item, index) => (
                     <button
-                      className="saved-style"
+                      className="saved-style cursorHover"
                       onClick={() => handleClickApplyTextStyle(item.styleCss)}
                       onContextMenu={(event) =>
                         handleContextMenuStyleText(event, index)
@@ -1276,7 +1293,7 @@ export default function Editor() {
                       {savedTextStyles[index].showDelete && (
                         <input
                           type="button"
-                          className="button-suppression-style"
+                          className="button-suppression-style cursorHover"
                           onClick={() => handleDeleteStyleText(index)}
                           onMouseLeave={() =>
                             handleLeaveContextMenuStyleText(index)
@@ -1290,13 +1307,13 @@ export default function Editor() {
             </div>
             <div className="arrowButton-container">
               <button
-                className="arrowButton"
+                className="arrowButton cursorHover"
                 onClick={handleClickPreviousStylesText}
               >
                 <div className="arrowButtonPrevious"></div>{" "}
               </button>
               <button
-                className="arrowButton"
+                className="arrowButton cursorHover"
                 onClick={handleClickNextStylesText}
               >
                 <div className="arrowButtonNext"></div>{" "}
@@ -1318,7 +1335,7 @@ export default function Editor() {
                   )
                   .map((item, index) => (
                     <button
-                      className="saved-style"
+                      className="saved-style cursorHover"
                       onClick={() => handleClickApplyImageStyle(item.styleCss)}
                       onContextMenu={(event) =>
                         handleContextMenuStyleImage(event, index)
@@ -1332,7 +1349,7 @@ export default function Editor() {
                       {savedImageStyles[index].showDelete && (
                         <input
                           type="button"
-                          className="button-suppression-style"
+                          className="button-suppression-style cursorHover"
                           onClick={() => handleDeleteStyleImage(index)}
                           onMouseLeave={() =>
                             handleLeaveContextMenuStyleImage(index)
@@ -1349,13 +1366,13 @@ export default function Editor() {
 
             <div className="arrowButton-container">
               <button
-                className="arrowButton"
+                className="arrowButton cursorHover"
                 onClick={handleClickPreviousStylesImage}
               >
                 <div className="arrowButtonPrevious"></div>{" "}
               </button>
               <button
-                className="arrowButton"
+                className="arrowButton cursorHover"
                 onClick={handleClickNextStylesImage}
               >
                 <div className="arrowButtonNext"></div>{" "}
@@ -1377,7 +1394,7 @@ export default function Editor() {
                 )
                 .map((item, index) => (
                   <button
-                    className="saved-style"
+                    className="saved-style cursorHover"
                     onClick={() => handleClickApplyPageStyle(item.styleCss)}
                     onContextMenu={(event) =>
                       handleContextMenuStylePage(event, index)
@@ -1389,7 +1406,7 @@ export default function Editor() {
                     {savedPageStyles[index].showDelete && (
                       <input
                         type="button"
-                        className="button-suppression-style"
+                        className="button-suppression-style cursorHover"
                         onClick={() => handleDeleteStylePage(index)}
                         onMouseLeave={() =>
                           handleLeaveContextMenuStylePage(index)
@@ -1406,12 +1423,15 @@ export default function Editor() {
 
           <div className="arrowButton-container">
             <button
-              className="arrowButton"
+              className="arrowButton cursorHover"
               onClick={handleClickPreviousStylesPage}
             >
               <div className="arrowButtonPrevious"></div>{" "}
             </button>
-            <button className="arrowButton" onClick={handleClickNextStylesPage}>
+            <button
+              className="arrowButton cursorHover"
+              onClick={handleClickNextStylesPage}
+            >
               <div className="arrowButtonNext"></div>{" "}
             </button>
           </div>
