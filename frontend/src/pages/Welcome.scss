@@ -86,6 +86,7 @@ $fontSizeTitre: 1.5rem;
         font-size: calc($fontSizeBouton * 1.55);
         background-color: $blueColor;
         color: $colorWhite;
+        cursor: none;
 
         &:hover {
           background-color: $colorYellow;

@@ -24,7 +24,7 @@ $fontSizeTitre: 1.5rem;
     position: absolute;
     top: -30px;
     right: -5px;
-    cursor: pointer;
+    cursor: none;
   }
 
   .icon-publish {
@@ -33,7 +33,7 @@ $fontSizeTitre: 1.5rem;
     position: absolute;
     top: 50px;
     right: 0px;
-    cursor: pointer;
+    cursor: none;
   }
 
   .animate {
@@ -86,7 +86,7 @@ $fontSizeTitre: 1.5rem;
       img {
         width: 10%;
         object-fit: contain;
-        cursor: pointer;
+        cursor: none;
       }
       img:hover {
         transform: none;
@@ -163,6 +163,7 @@ $fontSizeTitre: 1.5rem;
         color: $colorWhite;
         background-color: $blueColor;
         border: 2px;
+        cursor: none;
 
         &:hover {
           background-color: $colorWhite;

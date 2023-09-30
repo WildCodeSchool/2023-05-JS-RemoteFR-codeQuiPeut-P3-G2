@@ -170,7 +170,7 @@ export default function ForumPageComments() {
               <div className="div-prevNext">
                 <button
                   type="button"
-                  className="buttonChangeOrder"
+                  className="buttonChangeOrder cursorHover"
                   onClick={handleChangeOrder}
                   title="Change order"
                 >
@@ -181,6 +181,7 @@ export default function ForumPageComments() {
                   id="selectNbCommentPerPage"
                   value={numberCommentPerPage}
                   onChange={handleChangeNumberCommentPerPage}
+                  className="cursorHover"
                 >
                   <option>3</option>
                   <option>5</option>
@@ -191,7 +192,7 @@ export default function ForumPageComments() {
                 {indexToShow.min > 0 && (
                   <button
                     type="button"
-                    className="arrowPrev"
+                    className="arrowPrev cursorHover"
                     onClick={handleClickPrevious}
                   ></button>
                 )}
@@ -199,7 +200,7 @@ export default function ForumPageComments() {
                 {indexToShow.max < comments.length - 1 && (
                   <button
                     type="button"
-                    className="arrowNext"
+                    className="arrowNext cursorHover"
                     onClick={handleClickNext}
                   ></button>
                 )}
@@ -209,7 +210,11 @@ export default function ForumPageComments() {
                 {showInputNewComment === false &&
                   user.id &&
                   indexToShow.max >= comments.length - 1 && (
-                    <button type="button" onClick={handleClickAddComment}>
+                    <button
+                      type="button"
+                      onClick={handleClickAddComment}
+                      className="cursorHover"
+                    >
                       Add a comment
                     </button>
                   )}
@@ -221,10 +226,18 @@ export default function ForumPageComments() {
                       placeholder="Type your comment"
                     />
                     <div className="buttons-newComment">
-                      <button type="button" onClick={handleClickSendComment}>
+                      <button
+                        type="button"
+                        onClick={handleClickSendComment}
+                        className="cursorHover"
+                      >
                         Send
                       </button>
-                      <button type="button" onClick={handleClickAddComment}>
+                      <button
+                        type="button"
+                        onClick={handleClickAddComment}
+                        className="cursorHover"
+                      >
                         Cancel
                       </button>
                     </div>
@@ -264,7 +277,7 @@ export default function ForumPageComments() {
               <div className="div-prevNext">
                 <button
                   type="button"
-                  className="buttonChangeOrder"
+                  className="buttonChangeOrder cursorHover"
                   onClick={handleChangeOrder}
                   title="Change order"
                 >
@@ -275,6 +288,7 @@ export default function ForumPageComments() {
                   id="selectNbCommentPerPage"
                   value={numberCommentPerPage}
                   onChange={handleChangeNumberCommentPerPage}
+                  className="cursorHover"
                 >
                   <option>3</option>
                   <option>5</option>
@@ -285,7 +299,7 @@ export default function ForumPageComments() {
                 {indexToShow.min > 0 && (
                   <button
                     type="button"
-                    className="arrowPrev"
+                    className="arrowPrev cursorHover"
                     onClick={handleClickPrevious}
                   ></button>
                 )}
@@ -293,7 +307,7 @@ export default function ForumPageComments() {
                 {indexToShow.max < comments.length - 1 && (
                   <button
                     type="button"
-                    className="arrowNext"
+                    className="arrowNext cursorHover"
                     onClick={handleClickNext}
                   ></button>
                 )}
@@ -303,7 +317,11 @@ export default function ForumPageComments() {
                 {showInputNewComment === false &&
                   user.id &&
                   indexToShow.min === 0 && (
-                    <button type="button" onClick={handleClickAddComment}>
+                    <button
+                      type="button"
+                      onClick={handleClickAddComment}
+                      className="cursorHover"
+                    >
                       Add a comment
                     </button>
                   )}
@@ -315,10 +333,18 @@ export default function ForumPageComments() {
                       placeholder="Type your comment"
                     />
                     <div className="buttons-newComment">
-                      <button type="button" onClick={handleClickSendComment}>
+                      <button
+                        type="button"
+                        onClick={handleClickSendComment}
+                        className="cursorHover"
+                      >
                         Send
                       </button>
-                      <button type="button" onClick={handleClickAddComment}>
+                      <button
+                        type="button"
+                        onClick={handleClickAddComment}
+                        className="cursorHover"
+                      >
                         Cancel
                       </button>
                     </div>

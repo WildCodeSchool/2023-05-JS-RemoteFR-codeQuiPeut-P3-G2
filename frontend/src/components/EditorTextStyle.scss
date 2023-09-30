@@ -33,7 +33,7 @@ $fontSizeTitre: 1.5rem;
       width: 40px;
       height: 40px;
       border-radius: 4px;
-      cursor: pointer;
+      cursor: auto;
 
       &:hover {
         box-shadow: 0 0 20px 5px $colorYellow;
@@ -78,7 +78,7 @@ $fontSizeTitre: 1.5rem;
         height: 24px;
         width: 48px;
         border: none;
-        cursor: pointer;
+        cursor: auto;
 
         &:hover,
         &:focus {
@@ -222,7 +222,7 @@ $fontSizeTitre: 1.5rem;
         width: 40px;
         height: 40px;
         border-radius: 4px;
-        cursor: pointer;
+        cursor: auto;
 
         &:hover {
           box-shadow: 0 0 20px 5px $colorYellow;
@@ -369,7 +369,7 @@ $fontSizeTitre: 1.5rem;
           height: 40px;
           border-radius: 4px;
           margin-right: 32px;
-          cursor: pointer;
+          cursor: auto;
 
           &:hover {
             box-shadow: 0 0 20px 5px $colorYellow;

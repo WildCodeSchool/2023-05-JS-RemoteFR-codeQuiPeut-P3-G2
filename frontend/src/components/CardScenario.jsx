@@ -102,7 +102,10 @@ function CardScenario({ scenario, user }) {
   // console.log(scenario)
   return (
     <div className="Scenario">
-      <div onClick={handleGoToScenarioSelected} className="containerimg">
+      <div
+        onClick={handleGoToScenarioSelected}
+        className="containerimg cursorHover"
+      >
         <img src={scenario.img} alt="illustration" />
       </div>
       <div className="Card">
@@ -112,6 +115,7 @@ function CardScenario({ scenario, user }) {
             onClick={handleClickPutFavorite}
             src={favorite ? etoilePleine : etoileVide}
             alt="favoris"
+            className="cursorHover"
           />
         </div>
         <div className="borderTitle"></div>
@@ -140,8 +144,8 @@ function CardScenario({ scenario, user }) {
                   item.auteurs_id === scenario.auteurId ||
                   item.auteurs_id === scenario.auteurs_id
               )
-                ? "followAutor"
-                : ""
+                ? "followAutor cursorHover"
+                : "cursorHover"
             }
             type="button"
           >

@@ -72,6 +72,7 @@ export default function Login({
         <div className="imgcontainer">
           <img
             src={croix}
+            className="cursorHover"
             alt="fermer la fenetre"
             onClick={HandleclosFormLogin}
           />
@@ -107,6 +108,7 @@ export default function Login({
                 <div className="containerImg" onClick={HandleClickShowPassword}>
                   <img
                     src={showPassword ? eyeOff : eye}
+                    className="cursorHover"
                     title={
                       showPassword
                         ? "masquer le mot de passe"
@@ -126,13 +128,20 @@ export default function Login({
               <p className="wrongLogin">Wrong Email or PassWord</p>
             )}
           </div>
-          <button type="button" onClick={HandleSubmitlogin}>
+          <button
+            type="button"
+            onClick={HandleSubmitlogin}
+            className="cursorHover"
+          >
             Log In
           </button>
 
           <p>
             If you don't have an account,{" "}
-            <span onClick={HandleCloseFormLoginOpenSignup}>
+            <span
+              onClick={HandleCloseFormLoginOpenSignup}
+              className="cursorHover"
+            >
               create one here
             </span>
           </p>

@@ -130,6 +130,7 @@ export default function SignUp({
             src={croix}
             alt="fermer la fenetre"
             onClick={HandleclosFormSignUp}
+            className="cursorHover"
           />
         </div>
         <div className="mainContainer">
@@ -246,6 +247,7 @@ export default function SignUp({
                   >
                     <img
                       src={showPassword ? eyeOff : eye}
+                      className="cursorHover"
                       title={
                         showPassword
                           ? "masquer le mot de passe"
@@ -291,6 +293,7 @@ export default function SignUp({
                     src={img === "none" ? avatar : img}
                     alt="Image avatar"
                     title="Click to choose your avatar"
+                    className="cursorHover"
                   />
                 </label>
                 <input
@@ -302,12 +305,19 @@ export default function SignUp({
                 />
               </div>
             </div>
-            <button type="button" onClick={HandleSubmitSignUp}>
+            <button
+              type="button"
+              onClick={HandleSubmitSignUp}
+              className="cursorHover"
+            >
               Confirme registration
             </button>
             <p>
               If you already have an account,{" "}
-              <span onClick={HandleCloseFormSignOpenLog}>
+              <span
+                onClick={HandleCloseFormSignOpenLog}
+                className="cursorHover"
+              >
                 please log in here.
               </span>
             </p>

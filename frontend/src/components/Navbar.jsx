@@ -46,29 +46,29 @@ const Navbar = () => {
 
   return (
     <nav className="ContainNav" alt="Navigation">
-      <figcaption className="FeatherBox" alt="logo">
+      <figcaption className="FeatherBox cursorHover" alt="logo">
         <img src={ScripLogo}></img>
       </figcaption>
       <ul className="ContainLink">
-        <Link to="/" className="li-container">
+        <Link to="/" className="li-container cursorHover">
           <li className="link" alt="Home">
             HOME
           </li>
         </Link>
-        <Link to="/scripts" className="li-container">
+        <Link to="/scripts" className="li-container cursorHover">
           <li className="link" alt="Scripts">
             SCRIPTS
           </li>
         </Link>
 
         {user !== null && (
-          <Link to="/editor" className="li-container">
+          <Link to="/editor" className="li-container cursorHover">
             <li className="link" alt="Create">
               CREATE
             </li>
           </Link>
         )}
-        <Link to="/forum" className="li-container">
+        <Link to="/forum" className="li-container cursorHover">
           <li className="link" alt="Forum">
             FORUM
           </li>
@@ -77,11 +77,15 @@ const Navbar = () => {
       <div className="PushContain">
         {user === null ? (
           <>
-            <button className="push" type="button" onClick={HandleClickOpenLog}>
+            <button
+              className="push cursorHover"
+              type="button"
+              onClick={HandleClickOpenLog}
+            >
               LOG IN
             </button>
             <button
-              className={user === null ? "push" : "hidden"}
+              className={user === null ? "push cursorHover" : "hidden"}
               type="button"
               onClick={HandleClickOpenLogSignUp}
             >
@@ -91,7 +95,7 @@ const Navbar = () => {
         ) : (
           <div className="loginContainer">
             <button
-              className="userConnect"
+              className="userConnect cursorHover"
               type="button"
               onClick={HandleChangeClassTopOpenMenu}
             >
@@ -102,7 +106,7 @@ const Navbar = () => {
               onMouseLeave={handleLeaveMenu}
               className={
                 changeClassToOpenMenu
-                  ? "scrollingMenu"
+                  ? "scrollingMenu cursorHover"
                   : "scrollingMenu displayNone"
               }
             >

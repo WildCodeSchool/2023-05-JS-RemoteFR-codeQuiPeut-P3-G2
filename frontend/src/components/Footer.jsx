@@ -12,13 +12,17 @@ const Footer = () => {
       <div className="footerFront" alt="footer">
         <p> @WildCodeSchool, inc</p>
         <div className="logoScripter">
-          <img src={ScripLogo}></img>
+          <img src={ScripLogo} alt="logo scripter"></img>
         </div>
         <div className="logoSoc">
-          <img src={facebook} alt=""></img>
-          <img src={tikTok} alt=""></img>
-          <img src={twitter} alt=""></img>
-          <img src={instagram} alt=""></img>
+          <img src={facebook} alt="logo facebook" className="cursorHover"></img>
+          <img src={tikTok} alt="logo tiktok" className="cursorHover"></img>
+          <img src={twitter} alt="logo twitter" className="cursorHover"></img>
+          <img
+            src={instagram}
+            alt="logo instagram"
+            className="cursorHover"
+          ></img>
         </div>
       </div>
     </main>

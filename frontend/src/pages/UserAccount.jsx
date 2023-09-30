@@ -103,7 +103,7 @@ export default function UserAccount() {
                   <img src={pen} alt="modifier image" />
                 </div> */}
                 <label
-                  className="containLogoModify"
+                  className="containLogoModify cursorHover"
                   htmlFor="inputModifyImageUserAccount"
                 >
                   <img src={pen} alt="modifier image" />
@@ -112,28 +112,28 @@ export default function UserAccount() {
             </div>
             <div className="containMenu">
               <NavLink
-                className="buttonMenu"
+                className="buttonMenu cursorHover"
                 activeClassName="active"
                 to="/useraccount/"
               >
                 <h2>Informations</h2>
               </NavLink>
               <NavLink
-                className="buttonMenu"
+                className="buttonMenu cursorHover"
                 activeClassName="active"
                 to="/useraccount/favorites"
               >
                 <h2>Favorites</h2>
               </NavLink>
               <NavLink
-                className="buttonMenu"
+                className="buttonMenu cursorHover"
                 activeClassName="active"
                 to="/useraccount/creations"
               >
                 <h2>Creations</h2>
               </NavLink>
               <NavLink
-                className="buttonMenu"
+                className="buttonMenu cursorHover"
                 activeClassName="active"
                 to="/useraccount/followers"
               >

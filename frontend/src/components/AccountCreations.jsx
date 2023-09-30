@@ -58,6 +58,7 @@ export default function AccountFavorites() {
       <ul>
         <li
           onClick={() => showTap(1)}
+          className="cursorHover"
           style={
             ongletActif === 1
               ? { backgroundColor: "#ffbd59", color: "black" }
@@ -68,6 +69,7 @@ export default function AccountFavorites() {
         </li>
         <li
           onClick={() => showTap(2)}
+          className="cursorHover"
           style={
             ongletActif === 2
               ? { backgroundColor: "#ffbd59", color: "black" }

@@ -59,6 +59,18 @@
   background-color: #4c60ae;
 }
 
+.cursor-mouse {
+  width: 40px;
+  height: 45px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: translate(-3px, 0);
+  border-radius: 50%;
+  z-index: 1000;
+  pointer-events: none;
+}
+
 .cursor-dot,
 .cursor-outline-1,
 .cursor-outline-2,
@@ -78,7 +90,7 @@
 
   // border: 6px solid #ff8859 !important;
   border: 2px solid #ff8921 !important;
-  box-shadow: 0px 0px 20px 10px #ff8921;
+  box-shadow: 0px 0px 25px 15px #ff8921;
 }
 .hovered-line {
   display: none;

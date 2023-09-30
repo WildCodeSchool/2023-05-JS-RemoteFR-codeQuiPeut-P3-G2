@@ -35,6 +35,7 @@
 
 import "./Cursor.scss"
 import React, { useState, useEffect } from "react"
+import sourisScripter from "../assets/images/sourisScripter.png"
 
 const Cursor = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 })
@@ -62,11 +63,15 @@ const Cursor = () => {
 
   useEffect(() => {
     const handleMouseMove = (event) => {
-      const targetElement = event.target
-      const targetElementStyle = window.getComputedStyle(targetElement)
-      const cursorStyle = targetElementStyle.getPropertyValue("cursor")
+      // const targetElement = event.target
+      // const hasCursorHoverClass = targetElement.classList.contains('cursorHover');
 
-      if (cursorStyle === "pointer" || cursorStyle === "default") {
+      const targetElement = event.target.closest(".cursorHover")
+      const hasCursorHoverClass = Boolean(targetElement)
+
+      // event.target.closest('.cursorHover') renvoie l’élément lui-même ou l’ancêtre le plus proche avec la classe cursorHover, ou null si aucun élément correspondant n’a été trouvé. Ensuite, Boolean(targetElement) convertit cette valeur en un booléen, qui est true si un élément correspondant a été trouvé et false sinon.
+
+      if (hasCursorHoverClass) {
         setIsHovered(true)
       } else {
         setIsHovered(false)
@@ -87,7 +92,15 @@ const Cursor = () => {
 
   return (
     <>
-      <div
+      <img
+        src={sourisScripter}
+        alt="mouse"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        style={cursorStyle}
+        className="cursor-mouse"
+      />
+      {/* <div
         style={cursorStyle}
         className={`cursor-outline-1 ${isHovered ? "hovered-line" : ""}`}
         // className="cursor-outline-1"
@@ -107,7 +120,7 @@ const Cursor = () => {
         // className="cursor-outline-3"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-      ></div>
+      ></div> */}
       <div
         style={cursorStyle}
         // className="cursor-dot"

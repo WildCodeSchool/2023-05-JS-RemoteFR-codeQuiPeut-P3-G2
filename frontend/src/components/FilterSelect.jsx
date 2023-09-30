@@ -32,7 +32,7 @@ function FilterSelect({
 
   return (
     <select
-      className="autorSelect"
+      className="autorSelect cursorHover"
       onChange={handleSelectAuteur}
       value={valueAuteur}
     >
