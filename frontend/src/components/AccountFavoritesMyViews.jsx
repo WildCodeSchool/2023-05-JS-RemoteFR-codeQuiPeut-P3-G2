@@ -1,18 +1,25 @@
 import CardScenario from "./CardScenario"
 import "./AccountFavoritesMyViews.scss"
+import { useEffect, useState } from "react"
+import axios from "axios"
 
 export default function AccountFavoritesMyViews({ scenariosFavorite, user }) {
+  const [readScenarios, setReadScenarios] = useState([])
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:4242/readScenarios/utilisateur/${user.id}`)
+      .then(({ data }) => setReadScenarios(data))
+  })
+
   return (
     <div className="containerMyViews">
       <div className="boardCards">
-        {/* {scenariosFavorite.map((scenario) => (
+        {readScenarios.map((scenario) => (
           <div className="containerCard" key={scenario.id}>
             <CardScenario user={user} scenario={scenario} />
           </div>
-        ))} */}
-        <h1 style={{ color: "red", textAlign: "center", fontSize: "2rem" }}>
-          Page under construction
-        </h1>
+        ))}
       </div>
     </div>
   )

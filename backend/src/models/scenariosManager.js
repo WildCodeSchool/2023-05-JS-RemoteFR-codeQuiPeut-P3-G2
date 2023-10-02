@@ -112,6 +112,24 @@ GROUP BY scenarios.id, auteurs.name, auteurs.id, scenarios.name, scenarios.nb_pl
     )
   }
 
+  findUserReadScenarios(utilisateurID) {
+    return this.database.query(
+      `SELECT scenarios.id, auteurs.id as auteurId, auteurs.name as autor, scenarios.name AS title, scenarios.nb_player_min, scenarios.nb_player_max, scenarios.type, scenarios.level, scenarios.start_writing_date, scenarios.publication_date, scenarios.img, scenarios.description, jeux_de_role.id as jeux_de_roleId, jeux_de_role.name AS universe, themes.id as themeId, themes.name as theme, count(utilisateurs_vuesscenarios.scenarios_id)as nb_favoris, count(avis_scenario.scenarios_id)as nb_avis, COALESCE(vs.nbVuesScenario, 0) AS nbVues, COALESCE(vc.nbVuesCampagne, 0) AS nbVuesCampagne
+FROM ${this.table}
+JOIN jeux_de_role ON scenarios.jeux_de_role_id = jeux_de_role.id
+JOIN auteurs ON scenarios.auteurs_id = auteurs.id
+JOIN scenarios_themes ON scenarios.id = scenarios_themes.scenarios_id
+JOIN themes ON scenarios_themes.themes_id = themes.id 
+LEFT JOIN utilisateurs_vuesscenarios ON utilisateurs_vuesscenarios.scenarios_id = scenarios.id
+LEFT JOIN avis_scenario ON avis_scenario.scenarios_id = scenarios.id
+LEFT JOIN vues_scenarios AS vs ON vs.scenarios_id = scenarios.id
+LEFT JOIN vues_campagnes AS vc ON vc.campagnes_id = scenarios.campagnes_id
+WHERE utilisateurs_vuesscenarios.utilisateurs_id = ?
+GROUP BY scenarios.id, auteurs.name, auteurs.id, scenarios.name, scenarios.nb_player_min, scenarios.nb_player_max, scenarios.type, scenarios.level, scenarios.start_writing_date, scenarios.publication_date, scenarios.img, scenarios.description, jeux_de_role.id, jeux_de_role.name, themes.id, themes.name,utilisateurs_vuesscenarios.scenarios_id, utilisateurs_vuesscenarios.utilisateurs_id, nbVues, nbVuesCampagne`,
+      [utilisateurID]
+    )
+  }
+
   findUserScenariosAvis(utilisateurID) {
     return this.database.query(
       `SELECT scenarios.id, auteurs.id as auteurId, auteurs.name as autor, scenarios.name AS title, scenarios.nb_player_min, scenarios.nb_player_max, scenarios.type, scenarios.level, scenarios.start_writing_date, scenarios.publication_date, scenarios.img, scenarios.description, jeux_de_role.id as jeux_de_roleId, jeux_de_role.name AS universe, themes.id as themeId, themes.name as theme, scenarios_favoris.scenarios_id as scenarioIdFavorite, scenarios_favoris.utilisateurs_id as utilisateursIdFavorite, avis_scenario.utilisateurs_id as utilisateursIdAvis, count(scenarios_favoris.scenarios_id)as nb_favoris, count(avis_scenario.scenarios_id)as nb_avis

@@ -23,6 +23,7 @@ const ResumePageScenario = () => {
   const [comment, setComment] = useState()
   const [writingDateComment, setWritingDateComment] = useState()
   const [editComment, setEditComment] = useState()
+  const [readScenarios, setReadScenarios] = useState([])
 
   const getDateOfDay = () => {
     const today = new Date()
@@ -86,7 +87,22 @@ const ResumePageScenario = () => {
         campagneId: scenario.campagnes_id,
       })
     }
+
+    if (user !== null) {
+      const scenarioAlreadyRead = readScenarios.find(
+        (item) =>
+          item.utilisateurs_id === user.id && item.scenarios_id === scenario.id
+      )
+
+      if (!scenarioAlreadyRead) {
+        axios.post(`http://localhost:4242/utilisateur/vuesScenarios`, {
+          userID: user.id,
+          scenarioID: scenario.id,
+        })
+      }
+    }
   }
+
   const handleClickAddComment = () => {
     setAddComment(!addComment)
   }
@@ -204,6 +220,14 @@ const ResumePageScenario = () => {
       })
       .catch(() => setAvis([]))
   }, [])
+
+  useEffect(() => {
+    if (user !== null) {
+      axios
+        .get(`http://localhost:4242/allUsersReadScenarios`)
+        .then(({ data }) => setReadScenarios(data))
+    }
+  })
 
   return (
     <>

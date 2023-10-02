@@ -214,6 +214,19 @@ const browseScenariosOneshot = (req, res) => {
     })
 }
 
+const findUserReadScenarios = (req, res) => {
+  const userID = req.params.id
+  models.scenarios
+    .findUserReadScenarios(userID)
+    .then(([rows]) => {
+      res.send(rows)
+    })
+    .catch((err) => {
+      console.error(err)
+      res.sendStatus(500)
+    })
+}
+
 module.exports = {
   browse,
   read,
@@ -228,4 +241,5 @@ module.exports = {
   findScenariosInProgress,
   findScenariosFinished,
   browseScenariosOneshot,
+  findUserReadScenarios,
 }
