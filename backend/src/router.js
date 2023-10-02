@@ -89,6 +89,10 @@ router.get(
   utilisateursControllers.usersWhoAreFollowers
 )
 router.get("/utilisateurs/:id", utilisateursControllers.read)
+router.get(
+  "/utilisateurs/:id/comments",
+  utilisateursControllers.findUserComments
+)
 router.get("/followers/:auteurId", utilisateursControllers.usersWhoAreFollowers)
 router.post("/utilisateurs", utilisateursControllers.add)
 router.put("/utilisateurs/:id", utilisateursControllers.edit)

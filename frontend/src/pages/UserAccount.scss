@@ -32,10 +32,14 @@ a:active {
   }
 
   .menu {
+    position: relative;
     width: 30vw;
     color: $colorWhite;
     .photoAndMenu {
+      position: fixed;
+      top: 25vh;
       width: 100%;
+      max-width: 30vw;
       height: 50vh;
       box-shadow: 7px 0px 4px -4px $blueColor;
       .photoProfil {

@@ -111,6 +111,16 @@ where email = ?`,
       [auteurId]
     )
   }
+
+  findUserComments(userID) {
+    return this.database.query(
+      `SELECT avis.*,s.name AS scenarioName FROM ${this.table} AS u 
+    INNER JOIN avis_scenario AS avis ON avis.utilisateurs_id = u.id 
+    INNER JOIN scenarios AS s ON s.id = avis.scenarios_id
+    WHERE u.id = ?`,
+      [userID]
+    )
+  }
 }
 
 module.exports = UtilisateursManager
