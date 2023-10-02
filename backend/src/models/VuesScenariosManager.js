@@ -18,6 +18,17 @@ class VuesScenariosManager extends AbstractManager {
       [nbVues, scenarioId]
     )
   }
+
+  addUserReadScenario(userID, scenarioId) {
+    return this.database.query(
+      `INSERT INTO utilisateurs_vuesscenarios (utilisateurs_id, scenarios_id) VALUES (?,?)`,
+      [userID, scenarioId]
+    )
+  }
+
+  browseUserReadScenarios() {
+    return this.database.query(`SELECT * FROM utilisateurs_vuesscenarios`)
+  }
 }
 
 module.exports = VuesScenariosManager

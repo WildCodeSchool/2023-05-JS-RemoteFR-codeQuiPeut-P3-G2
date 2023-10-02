@@ -73,6 +73,11 @@ router.get(
   scenariosControllers.findScenariosFinished
 )
 
+router.get(
+  "/readScenarios/utilisateur/:id",
+  scenariosControllers.findUserReadScenarios
+)
+
 router.get("/themesScenarios", scenarioThemesControllers.browse)
 router.put("/themesScenarios/:id", scenarioThemesControllers.edit)
 router.post("/themesScenarios", scenarioThemesControllers.add)
@@ -313,6 +318,15 @@ router.get(
 router.get("/forumCategories", forumCategoriesControllers.browse)
 
 router.post("/vuesScenarios", vuesScenariosControllers.add)
+router.post(
+  "/utilisateur/vuesScenarios",
+  vuesScenariosControllers.addUserReadScenario
+)
+router.get(
+  "/allUsersReadScenarios",
+  vuesScenariosControllers.browseUserReadScenarios
+)
+
 router.put("/vuesScenarios", vuesScenariosControllers.edit)
 
 router.post("/vuesCampagnes", vuesCampagnesControllers.add)
