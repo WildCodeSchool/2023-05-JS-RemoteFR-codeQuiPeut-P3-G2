@@ -232,6 +232,18 @@ const usersWhoAreFollowers = (req, res) => {
     })
 }
 
+const findUserComments = (req, res) => {
+  models.utilisateurs
+    .findUserComments(req.params.id)
+    .then(([rows]) => {
+      res.send(rows)
+    })
+    .catch((err) => {
+      console.error(err)
+      res.sendStatus(500)
+    })
+}
+
 module.exports = {
   browse,
   add,
@@ -246,4 +258,5 @@ module.exports = {
   changePassword,
   usersWhoAreFollowers,
   verifyEmailAndLogin,
+  findUserComments,
 }
