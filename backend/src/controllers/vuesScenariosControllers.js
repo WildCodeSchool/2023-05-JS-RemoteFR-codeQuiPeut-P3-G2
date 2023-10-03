@@ -36,7 +36,38 @@ const edit = (req, res) => {
     })
 }
 
+const addUserReadScenario = (req, res) => {
+  const userID = req.body.userID
+  const scenarioID = req.body.scenarioID
+
+  // TODO validations (length, format...)
+
+  models.vuesScenarios
+    .addUserReadScenario(userID, scenarioID)
+    .then(([result]) => {
+      res.sendStatus(200)
+    })
+    .catch((err) => {
+      console.error(err)
+      res.sendStatus(500)
+    })
+}
+
+const browseUserReadScenarios = (req, res) => {
+  models.vuesScenarios
+    .browseUserReadScenarios()
+    .then(([rows]) => {
+      res.send(rows)
+    })
+    .catch((err) => {
+      console.error(err)
+      res.sendStatus(500)
+    })
+}
+
 module.exports = {
   add,
   edit,
+  addUserReadScenario,
+  browseUserReadScenarios,
 }
