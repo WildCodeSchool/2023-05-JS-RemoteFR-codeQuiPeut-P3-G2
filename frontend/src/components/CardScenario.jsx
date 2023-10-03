@@ -11,7 +11,10 @@ function CardScenario({ scenario, user }) {
   const { followedAutors, setFollowedAutors } = useContext(MyContext)
 
   const [favorite, setfavorite] = useState(false)
-  const [changeClassToShowError, setChangeClassToShowError] = useState(false)
+  const [changeClassToShowErrorFavorite, setChangeClassToShowErrorFavorite] =
+    useState(false)
+  const [changeClassToShowErrorFollow, setChangeClassToShowErrorFollow] =
+    useState(false)
 
   const navigate = useNavigate()
 
@@ -51,7 +54,7 @@ function CardScenario({ scenario, user }) {
       }
     } else {
       // alert("Please log in to add favorites")
-      setChangeClassToShowError(true)
+      setChangeClassToShowErrorFavorite(true)
     }
   }
 
@@ -95,7 +98,7 @@ function CardScenario({ scenario, user }) {
           })
       }
     } else {
-      setChangeClassToShowError(true)
+      setChangeClassToShowErrorFollow(true)
     }
   }
 
@@ -159,9 +162,18 @@ function CardScenario({ scenario, user }) {
           </button>
         </div>
       </div>
-      {changeClassToShowError && (
+      {changeClassToShowErrorFavorite && (
         <ErrorMessageFavorite
-          setChangeClassToShowError={setChangeClassToShowError}
+          setChangeClassToShowErrorFavorite={setChangeClassToShowErrorFavorite}
+          setChangeClassToShowErrorFollow={setChangeClassToShowErrorFollow}
+          message={"add favorites"}
+        />
+      )}
+      {changeClassToShowErrorFollow && (
+        <ErrorMessageFavorite
+          setChangeClassToShowErrorFavorite={setChangeClassToShowErrorFavorite}
+          setChangeClassToShowErrorFollow={setChangeClassToShowErrorFollow}
+          message={"follow autor"}
         />
       )}
     </div>

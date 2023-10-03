@@ -5,9 +5,14 @@ import croix from "../assets/images/Close.svg"
 
 import "./ErrorMessageFavorite.scss"
 
-const ErrorMessageFavorite = ({ setChangeClassToShowError }) => {
-  const HandleclosFormErrorMessage = () => {
-    setChangeClassToShowError(false)
+const ErrorMessageFavorite = ({
+  setChangeClassToShowErrorFollow,
+  setChangeClassToShowErrorFavorite,
+  message,
+}) => {
+  const HandleCloseFormErrorMessage = () => {
+    setChangeClassToShowErrorFavorite(false)
+    setChangeClassToShowErrorFollow(false)
   }
 
   return (
@@ -18,7 +23,7 @@ const ErrorMessageFavorite = ({ setChangeClassToShowError }) => {
             src={croix}
             className="cursorHover"
             alt="fermer la fenetre"
-            onClick={HandleclosFormErrorMessage}
+            onClick={HandleCloseFormErrorMessage}
           />
         </div>
         <div className="containerForm">
@@ -30,7 +35,7 @@ const ErrorMessageFavorite = ({ setChangeClassToShowError }) => {
           </div>
           <div className="ErrorMessage">
             <div className="ErrMessage">
-              <p>Please log in to add favorites or follow autor</p>
+              <p>Please log in to {message}</p>
             </div>
           </div>
           {/* <Link to="/login">
@@ -38,7 +43,7 @@ const ErrorMessageFavorite = ({ setChangeClassToShowError }) => {
           </Link> */}
           <button
             type="button"
-            onClick={HandleclosFormErrorMessage}
+            onClick={HandleCloseFormErrorMessage}
             className="cursorHover"
           >
             Close
