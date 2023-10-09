@@ -56,6 +56,7 @@ const AuteursFavorisManager = require("./AuteursFavorisManager")
 const CampaignFavoriteManager = require("./CampaignFavoriteManager")
 const VuesCampagnesManager = require("./VuesCampagnesManager")
 const VuesScenariosManager = require("./VuesScenariosManager")
+const InvitationsManager = require("./InvitationsManager")
 
 models.scenarios = new ScenariosManager()
 models.scenarios.setDatabase(pool)
@@ -140,6 +141,9 @@ models.vuesScenarios.setDatabase(pool)
 
 models.vuesCampagnes = new VuesCampagnesManager()
 models.vuesCampagnes.setDatabase(pool)
+
+models.invitations = new InvitationsManager()
+models.invitations.setDatabase(pool)
 
 // bonus: use a proxy to personalize error message,
 // when asking for a non existing model

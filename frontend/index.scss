@@ -1,4 +1,6 @@
 // @import "./src/library";
+@import url("https://fonts.googleapis.com/css2?family=Lustria&display=swap");
+
 @import "./src/App.scss";
 @import "./src/pages/Home.scss";
 @import "./src/pages/Scripts.scss";
@@ -15,6 +17,8 @@
 @import "./src/components/ReadingPage.scss";
 @import "./src/pages/Forum.scss";
 @import "./src/pages/ForumPageComments.scss";
+@import "./src/components//FormInvitationCollaboration.scss";
+@import "./src/components//AccountCreationsMyShares.scss";
 
 $colorYellow: #ffbd59;
 $colorDark: #070a09;

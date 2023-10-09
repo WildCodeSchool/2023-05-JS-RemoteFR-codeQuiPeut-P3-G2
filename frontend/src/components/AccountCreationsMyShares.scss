@@ -1,0 +1,134 @@
+.main-myShares {
+  font-family: lustria;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  .section-invitation {
+    border-bottom: 1px solid $blueColor;
+    height: auto;
+    width: 95%;
+    border-radius: 24px;
+
+    p {
+      color: white;
+      font-size: $fontSizeP;
+
+      span {
+        color: $colorYellow;
+        font-weight: bold;
+      }
+    }
+
+    .invitation_statusAndModification {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 48px;
+
+      .div-status,
+      .div-modification {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+
+        div {
+          padding: 8px 16px;
+          border-radius: 16px;
+        }
+
+        select {
+          cursor: none;
+          font-size: $fontSizeP;
+          width: 200px;
+          padding: 8px;
+          border-radius: 16px;
+        }
+      }
+    }
+
+    .deleteCollaboration {
+      background-color: rgb(173, 3, 3);
+      padding: 8px 16px;
+      font-size: $fontSizeBouton;
+      color: white;
+      border-radius: 32px;
+      margin: 24px;
+      font-weight: bold;
+      cursor: none;
+
+      &:hover {
+        background-color: rgb(255, 66, 66);
+        color: black;
+      }
+    }
+
+    .messageAndAnswer {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      width: 70%;
+
+      .arrowButton {
+        // width: 100%;
+        // height: 50%;
+        padding: 8px;
+        background-color: $colorDark;
+        border: none;
+        cursor: none;
+
+        &:hover {
+          background-color: #38363e;
+        }
+
+        .arrowButtonNext {
+          width: 18px;
+          height: 10px;
+          background-color: $colorYellow;
+          clip-path: polygon(50% 60%, 80% 0, 100% 0, 50% 100%, 0 0, 20% 0);
+        }
+
+        .arrowButtonPrevious {
+          width: 18px;
+          height: 10px;
+          background-color: $colorYellow;
+
+          clip-path: polygon(
+            50% 20%,
+            80% 100%,
+            100% 100%,
+            50% 0,
+            0 100%,
+            20% 100%
+          );
+        }
+      }
+
+      .div-message {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 5%;
+        width: 100%;
+
+        .p1 {
+          width: 25%;
+        }
+
+        .p2 {
+          width: 70%;
+          border: 1px solid $blueColor;
+          padding: 8px;
+          border-radius: 8px;
+          min-height: 32px;
+        }
+      }
+    }
+  }
+}

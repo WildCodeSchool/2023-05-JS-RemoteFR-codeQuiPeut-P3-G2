@@ -1,0 +1,85 @@
+.main-FormInvitationCollaboration {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(7.9px);
+  -webkit-backdrop-filter: blur(7.9px);
+
+  form {
+    position: relative;
+    width: 800px;
+    height: 800px;
+    box-sizing: border-box;
+    box-shadow: 0 0 20px 3px $blueColor;
+    background-color: $colorDark;
+    color: $colorWhite;
+    font-family: Lustria;
+    font-size: $fontSizeP;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+
+    h1 {
+      color: $colorYellow;
+    }
+
+    label {
+      cursor: none;
+    }
+
+    textarea {
+      width: 70%;
+      height: 150px;
+      padding: 16px;
+      box-sizing: border-box;
+      font-size: $fontSizeP;
+      border-radius: 8px;
+    }
+
+    select {
+      box-sizing: border-box;
+      font-size: $fontSizeP;
+      height: 32px;
+      width: 70%;
+      padding: 0 16px;
+      border-radius: 8px;
+      cursor: none;
+    }
+
+    .div-buttons {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      gap: 48px;
+      margin-top: 32px;
+      width: 70%;
+
+      input {
+        cursor: none;
+        width: 250px;
+        height: 50px;
+        border-radius: 25px;
+        background-color: $blueColor;
+        color: white;
+        font-size: $fontSizeP;
+
+        &:hover {
+          background-color: $colorYellow;
+          color: black;
+        }
+      }
+    }
+  }
+}

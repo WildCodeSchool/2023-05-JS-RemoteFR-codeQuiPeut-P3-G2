@@ -35,6 +35,8 @@ const forumCategoriesControllers = require("./controllers/forumCategoriesControl
 const campaignFavoriteControllers = require("./controllers/campaignFavoriteControllers")
 const vuesCampagnesControllers = require("./controllers/vuesCampagnesControllers")
 const vuesScenariosControllers = require("./controllers/vuesScenariosControllers")
+const invitationsControllers = require("./controllers/invitationsControllers")
+
 const multer = require("./middleware/multer-config")
 const {
   deleteImage,
@@ -44,6 +46,14 @@ const {
   imageURLProvider,
   deleteImageForm,
 } = require("./middleware/imageURLProvider")
+
+router.post("/invitation", invitationsControllers.add)
+router.get("/invitations/auteur/:id", invitationsControllers.readMyPropositions)
+router.get(
+  "/invitations/utilisateur/:id",
+  invitationsControllers.readMyInvitations
+)
+router.put("/invitation/:id", invitationsControllers.update)
 
 // router.get("/scenarios", scenariosControllers.browse)
 router.get("/scenarios", scenariosControllers.browseScenarios)
