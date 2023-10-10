@@ -1,0 +1,115 @@
+.main-invitationPannel {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(7.9px);
+  -webkit-backdrop-filter: blur(7.9px);
+
+  .section-invitationPannel {
+    width: 1000px;
+    max-width: 90vw;
+    min-height: 50vh;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+    box-shadow: 0 0 20px 3px $blueColor;
+    background-color: $colorDark;
+    color: $colorWhite;
+    font-family: Lustria;
+    font-size: $fontSizeP;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    p {
+      color: white;
+      font-size: $fontSizeP;
+
+      span {
+        color: $colorYellow;
+        font-weight: bold;
+      }
+    }
+
+    .div-invitation {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      width: 85%;
+      border-bottom: 1px solid $blueColor;
+      border-radius: 16px;
+
+      .div-message,
+      .div-answer {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 5%;
+        width: 100%;
+
+        .p1 {
+          width: 25%;
+        }
+
+        .p2 {
+          width: 70%;
+          border: 1px solid $blueColor;
+          padding: 8px;
+          border-radius: 8px;
+          min-height: 32px;
+        }
+
+        .p3 {
+          width: 70%;
+          border: 1px solid $blueColor;
+          padding: 8px;
+          border-radius: 8px;
+          height: 64px;
+          font-size: $fontSizeP;
+        }
+      }
+
+      .div-button {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 64px;
+        margin: 32px;
+      }
+    }
+
+    .buttonClose {
+      margin: 32px;
+    }
+
+    h1 {
+      color: $colorYellow;
+    }
+  }
+
+  button {
+    padding: 8px 24px;
+    font-size: $fontSizeP;
+    background-color: $blueColor;
+    color: white;
+    border-radius: 32px;
+    cursor: none;
+
+    &:hover {
+      background-color: $colorYellow;
+      color: black;
+    }
+  }
+}

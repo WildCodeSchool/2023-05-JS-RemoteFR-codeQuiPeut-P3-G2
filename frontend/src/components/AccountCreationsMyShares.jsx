@@ -99,7 +99,10 @@ export default function AccountCreationsMyShares() {
                         invitation.etat === "emitted"
                           ? { backgroundColor: "#4c60ae", color: "white" }
                           : invitation.etat === "accepted"
-                          ? { backgroundColor: "#ffbd59", color: "black" }
+                          ? {
+                              backgroundColor: "rgb(3, 173, 3)",
+                              color: "white",
+                            }
                           : { backgroundColor: "red", color: "black" }
                       }
                     >

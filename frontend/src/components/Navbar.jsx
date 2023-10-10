@@ -6,12 +6,16 @@ import ScripLogo from "../assets/ScripLogo.png"
 import Login from "./Login"
 import logout from "../assets/images/Logout.svg"
 import SignUp from "./Signup"
+import axios from "axios"
+import InvitationPannel from "./InvitationPannel"
 
 const Navbar = () => {
   const { user, setUser, setFollowedAutors } = useContext(MyContext)
   const [openForm, setOpenForm] = useState(false)
   const [openFormSignUp, setOpenFormSignUp] = useState(false)
   const [changeClassToOpenMenu, setChangeClassToOpenMenu] = useState(false)
+  const [notifications, setNotifications] = useState([])
+  const [showNotifications, setShowNotifications] = useState(false)
 
   const HandleChangeClassTopOpenMenu = () => {
     setChangeClassToOpenMenu(!changeClassToOpenMenu)
@@ -36,6 +40,10 @@ const Navbar = () => {
     setChangeClassToOpenMenu(false)
   }
 
+  const handleClickButtonNotification = () => {
+    setShowNotifications(true)
+  }
+
   useEffect(() => {
     if (openForm) {
       document.querySelector("nav").classList.add("nav-no-scroll")
@@ -43,6 +51,17 @@ const Navbar = () => {
       document.querySelector("nav").classList.remove("nav-no-scroll")
     }
   }, [openForm])
+
+  useEffect(() => {
+    if (user !== null) {
+      axios
+        .get(`http://localhost:4242/invitations/utilisateur/${user.id}`)
+        .then(({ data }) => {
+          const emitted = data.filter((item) => item.etat === "emitted")
+          setNotifications(emitted)
+        })
+    }
+  }, [user])
 
   return (
     <nav className="ContainNav" alt="Navigation">
@@ -94,6 +113,16 @@ const Navbar = () => {
           </>
         ) : (
           <div className="loginContainer">
+            {user !== null && notifications.length > 0 && (
+              <button
+                className="button-notifications cursorHover"
+                title={`You got ${notifications.length} invitatations.`}
+                onClick={handleClickButtonNotification}
+              >
+                {notifications.length}{" "}
+              </button>
+            )}
+
             <button
               className="userConnect cursorHover"
               type="button"
@@ -146,6 +175,14 @@ const Navbar = () => {
             setOpenFormSignUp={setOpenFormSignUp}
             setOpenForm={setOpenForm}
             setChangeClassToOpenMenu={setChangeClassToOpenMenu}
+          />
+        )}
+
+        {showNotifications && (
+          <InvitationPannel
+            invitations={notifications}
+            setInvitations={setNotifications}
+            setShowNotifications={setShowNotifications}
           />
         )}
       </div>
