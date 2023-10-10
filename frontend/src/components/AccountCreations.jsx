@@ -9,6 +9,7 @@ import AccountFavoritesMyComments from "./AccountFavoritesMyComments"
 import AccountCreationsInProgress from "./AccountCreationsInProgress"
 import AccountCreationsFinished from "./AccountCreationsFinished"
 import AccountCreationsMyShares from "./AccountCreationsMyShares"
+import AccountCreationContributions from "./AccountCreationContributions"
 
 export default function AccountFavorites() {
   const { user } = useContext(MyContext)
@@ -128,13 +129,7 @@ export default function AccountFavorites() {
           />
         )}
 
-        {ongletActif === 4 && (
-          <AccountCreationsFinished
-            scenariosFinished={scenariosFinished}
-            campagnesFinished={campagnesFinished}
-            user={user}
-          />
-        )}
+        {ongletActif === 4 && <AccountCreationContributions />}
       </div>
     </div>
   )

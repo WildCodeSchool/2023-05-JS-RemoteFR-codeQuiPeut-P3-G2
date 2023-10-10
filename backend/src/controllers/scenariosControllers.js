@@ -227,6 +227,22 @@ const findUserReadScenarios = (req, res) => {
     })
 }
 
+const findUserContributionScenarios = (req, res) => {
+  const userID = req.params.id
+  models.scenarios
+    .findUserContributionScenarios(userID)
+    .then(([rows]) => {
+      const inProgress = rows.filter(
+        (item) => item.publication_date.getFullYear() > 2990
+      )
+      res.send(inProgress)
+    })
+    .catch((err) => {
+      console.error(err)
+      res.sendStatus(500)
+    })
+}
+
 module.exports = {
   browse,
   read,
@@ -242,4 +258,5 @@ module.exports = {
   findScenariosFinished,
   browseScenariosOneshot,
   findUserReadScenarios,
+  findUserContributionScenarios,
 }

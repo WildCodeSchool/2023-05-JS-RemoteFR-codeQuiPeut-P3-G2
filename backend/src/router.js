@@ -88,6 +88,11 @@ router.get(
   scenariosControllers.findUserReadScenarios
 )
 
+router.get(
+  "/contributionScenarios/utilisateur/:id",
+  scenariosControllers.findUserContributionScenarios
+)
+
 router.get("/themesScenarios", scenarioThemesControllers.browse)
 router.put("/themesScenarios/:id", scenarioThemesControllers.edit)
 router.post("/themesScenarios", scenarioThemesControllers.add)
