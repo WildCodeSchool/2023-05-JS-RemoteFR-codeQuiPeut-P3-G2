@@ -1,14 +1,20 @@
 import { useNavigate } from "react-router-dom"
 import "./CardScenarioCreation.scss"
 import pen from "../assets/images/Pen.svg"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import axios from "axios"
 
 function CardScenarioContribution({ scenario, user }) {
   const navigate = useNavigate()
 
   const handleOpenCreator = () => {
-    navigate("/editor", { state: scenario.campagnes_id })
+    if (scenario.collaborationType === "chat") {
+      navigate("/readscenario", {
+        state: { scenario, followerID: user.id },
+      })
+    } else if (scenario.collaborationType === "co-writing") {
+      console.info("co-writing collaboration pas encore mis en place")
+    }
   }
 
   return (

@@ -5,7 +5,6 @@ import CardScenarioContribution from "./CardScenarioContribution"
 
 export default function AccountCreationContributions() {
   const { user } = useContext(MyContext)
-
   const [scenarios, setScenarios] = useState([])
 
   useEffect(() => {

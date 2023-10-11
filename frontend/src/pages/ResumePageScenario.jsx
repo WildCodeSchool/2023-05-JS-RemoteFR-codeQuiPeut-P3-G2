@@ -62,7 +62,7 @@ const ResumePageScenario = () => {
   }
 
   const handleGoToScenario = () => {
-    navigate("/readscenario", { state: scenario })
+    navigate("/readscenario", { state: { scenario } })
 
     if (scenario.nbVues === 0) {
       axios.post(`http://localhost:4242/vuesScenarios`, {

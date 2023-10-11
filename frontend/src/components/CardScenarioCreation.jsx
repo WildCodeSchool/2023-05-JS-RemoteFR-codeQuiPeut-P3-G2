@@ -40,7 +40,7 @@ function CardScenarioCreation({ scenario, user }) {
   // pour être rediriger vers le scenario au clic de l'image
   const handleGoToScenarioSelected = () => {
     if (user.auteurId !== scenario.auteurId) {
-      navigate("/resumescenario", { state: scenario })
+      navigate("/resumescenario", { state: { scenario } })
     }
   }
 

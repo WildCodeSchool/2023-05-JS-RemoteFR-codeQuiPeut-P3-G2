@@ -64,7 +64,7 @@ export default function ChatBox({ setShowChat, scenario }) {
   return (
     <main className="main-chatBox">
       <section className="bandeau-superieur">
-        <h1>{scenario.name}</h1>
+        <h1>{scenario.name ? scenario.name : scenario.title}</h1>
         <img
           src={croix}
           alt="close"
