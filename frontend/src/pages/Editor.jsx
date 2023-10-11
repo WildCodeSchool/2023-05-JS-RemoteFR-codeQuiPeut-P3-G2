@@ -8,6 +8,7 @@ import addText from "../assets/images/addText.svg"
 // import addImg from "../assets/images/addImg.svg"
 import undo from "../assets/images/undo.png"
 import redo from "../assets/images/redo.png"
+import iconChat from "../assets/images/icon_chat.png"
 import iconSupprimer from "../assets/images/iconSupprimer.svg"
 import EditorTextStyle from "../components/EditorTextStyle"
 import EditorPageStyle from "../components/EditorPageStyle"
@@ -18,6 +19,7 @@ import FormNewScenario from "./FormNewScenario"
 import FormEditScenario from "./FormEditScenario"
 import FormEditCampaign from "../components/FormEditCampaign"
 import FormNewCampaign from "../components/FormNewCampaign"
+import ChatBox from "../components/ChatBox"
 
 export default function Editor() {
   const location = useLocation()
@@ -29,6 +31,7 @@ export default function Editor() {
   const [campagnesUtilisateur, setCampagnesUtilisateur] = useState([]) // (id, campagneName)
   const [editedCampagne, setEditedCampagne] = useState({})
   const [scenariosOfEditedCampagne, setScenariosOfEditedCampagne] = useState([])
+  const [selectedScenario, setSelectedScenario] = useState(null)
   const [scenarioForInfoEdit, setScenarioForInfoEdit] = useState({})
   const [pagesOfScenarioSelected, setPagesOfScenarioSelected] = useState([])
   const [selectedElementType, setSelectedElementType] = useState("none")
@@ -53,6 +56,7 @@ export default function Editor() {
   const [showEditScenario, setShowEditScenario] = useState(false)
   const [showEditCampaign, setShowEditCampaign] = useState(false)
   const [showMenuButtonNew, setShowMenuButtonNew] = useState(false)
+  const [showChat, setShowChat] = useState(false)
   const [indexAfficheStyleText, setIndexAfficheStyleText] = useState({
     min: 0,
     max: 2,
@@ -1145,6 +1149,16 @@ export default function Editor() {
   }, [textes, images, pagesOfScenarioSelected, paperPrint])
   // ----FIN SECTION--------------------------------------------------
 
+  useEffect(() => {
+    if (scenariosOfEditedCampagne[0]) {
+      setSelectedScenario(
+        scenariosOfEditedCampagne.find((scenario) => scenario.selected === true)
+      )
+    } else {
+      setSelectedScenario(null)
+    }
+  }, [scenariosOfEditedCampagne])
+
   return (
     <>
       <div className="fausse-navbar">
@@ -1522,6 +1536,20 @@ export default function Editor() {
             }
           />
         </div>
+
+        {showChat ? (
+          <ChatBox setShowChat={setShowChat} scenario={selectedScenario} />
+        ) : (
+          selectedScenario !== null && (
+            <img
+              src={iconChat}
+              alt="open the chat"
+              className="cursorHover icon-chat"
+              title="Click to chat"
+              onClick={() => setShowChat(true)}
+            />
+          )
+        )}
       </main>
 
       {showNewScenario && (

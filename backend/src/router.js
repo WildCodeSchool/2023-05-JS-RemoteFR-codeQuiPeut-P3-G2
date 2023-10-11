@@ -36,6 +36,7 @@ const campaignFavoriteControllers = require("./controllers/campaignFavoriteContr
 const vuesCampagnesControllers = require("./controllers/vuesCampagnesControllers")
 const vuesScenariosControllers = require("./controllers/vuesScenariosControllers")
 const invitationsControllers = require("./controllers/invitationsControllers")
+const chatCreationControllers = require("./controllers/chatCreationControllers")
 
 const multer = require("./middleware/multer-config")
 const {
@@ -346,5 +347,8 @@ router.put("/vuesScenarios", vuesScenariosControllers.edit)
 
 router.post("/vuesCampagnes", vuesCampagnesControllers.add)
 router.put("/vuesCampagnes", vuesCampagnesControllers.edit)
+
+router.get("/chat/scenario/:id", chatCreationControllers.readFromScenarioId)
+router.post("/chat", chatCreationControllers.add)
 
 module.exports = router

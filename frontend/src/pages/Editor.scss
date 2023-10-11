@@ -483,6 +483,20 @@ $fontSizeTitre: 1.5rem;
   background-color: $colorDark;
   box-sizing: border-box;
 
+  .icon-chat {
+    position: fixed;
+    z-index: 100;
+    bottom: 5px;
+    right: 30px;
+    width: 40px;
+    height: auto;
+    border-radius: 20%;
+
+    &:hover {
+      box-shadow: 0px 0px 20px 3px $colorYellow;
+    }
+  }
+
   .sommaire-editeur {
     position: absolute;
     top: 0;
