@@ -14,6 +14,7 @@ function CardScenarioContribution({ scenario, user }) {
       })
     } else if (scenario.collaborationType === "co-writing") {
       console.info("co-writing collaboration pas encore mis en place")
+      navigate("/editorCollaboration", { state: { scenario } })
     }
   }
 

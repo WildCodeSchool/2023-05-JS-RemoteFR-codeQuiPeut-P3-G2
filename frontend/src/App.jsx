@@ -1,6 +1,7 @@
 import Welcome from "./pages/Welcome"
 import MyContext from "./components/MyContext"
 import Editor from "./pages/Editor"
+import EditorCollaboration from "./pages/EditorCollaboration"
 import Forum from "./pages/Forum"
 import Scripts from "./pages/Scripts"
 import FormNewScenario from "./pages/FormNewScenario"
@@ -69,6 +70,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Welcome />} />
           <Route path="/editor" element={<Editor />} />
+          <Route
+            path="/editorCollaboration"
+            element={<EditorCollaboration />}
+          />
           <Route path="/forum" element={<Forum />} />
           <Route path="/ForumPageComments" element={<ForumPageComments />} />
           <Route path="/scripts" element={<Scripts />} />
