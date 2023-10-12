@@ -13,24 +13,26 @@ import iconSupprimer from "../assets/images/iconSupprimer.svg"
 import EditorTextStyle from "../components/EditorTextStyle"
 import EditorPageStyle from "../components/EditorPageStyle"
 import EditorImageStyle from "../components/EditorImageStyle"
-import SommaireEditor from "../components/SommaireEditor"
+// import SommaireEditor from "../components/SommaireEditor"
+import SommaireCollaboration from "../components/SommaireCollaboration"
 import Navbar from "../components/Navbar"
-import FormNewScenario from "./FormNewScenario"
-import FormEditScenario from "./FormEditScenario"
-import FormEditCampaign from "../components/FormEditCampaign"
-import FormNewCampaign from "../components/FormNewCampaign"
 import ChatBox from "../components/ChatBox"
 
-export default function Editor() {
+export default function EditorCollaboration() {
   const location = useLocation()
   const campagneImportedID = location.state
-  // const [user, setUser] = useState({}) // à SUPPRIMER par la suite, à récupérer via un context
+  let scenariosOfEditedCampagne = location.state.scenario
+  scenariosOfEditedCampagne = { ...scenariosOfEditedCampagne, selected: true }
   const { user, paperPrint, setPaperPrint } = useContext(MyContext)
 
-  const [author, setAuthor] = useState({}) // (id, authorName)
+  const [author, setAuthor] = useState({
+    id: scenariosOfEditedCampagne.auteurId,
+  }) // (id, authorName)
   const [campagnesUtilisateur, setCampagnesUtilisateur] = useState([]) // (id, campagneName)
-  const [editedCampagne, setEditedCampagne] = useState({})
-  const [scenariosOfEditedCampagne, setScenariosOfEditedCampagne] = useState([])
+  const [editedCampagne, setEditedCampagne] = useState({
+    name: scenariosOfEditedCampagne.campagnes_name,
+  })
+  //   const [scenariosOfEditedCampagne, setScenariosOfEditedCampagne] = useState([])
   const [selectedScenario, setSelectedScenario] = useState(null)
   const [scenarioForInfoEdit, setScenarioForInfoEdit] = useState({})
   const [pagesOfScenarioSelected, setPagesOfScenarioSelected] = useState([])
@@ -76,21 +78,21 @@ export default function Editor() {
   // puis de l'auteur (pas à supprimer)
   // puis de ses campagnes
 
-  useEffect(() => {
-    axios
-      .get(`http://localhost:4242/auteurs/user/${user.id}`)
-      .then(({ data }) => {
-        setAuthor(data)
-        return data
-      })
-      .then((author) => {
-        axios
-          .get(`http://localhost:4242/auteurs/${author.id}/campagnes`) // A MODIFIER - NE FONCTIONNE PAS ?? (sur de ça ? a verifier)
-          .then(({ data }) => setCampagnesUtilisateur(data))
-          .catch((err) => console.error(err))
-      })
-      .catch((err) => console.error(err))
-  }, [])
+  //   useEffect(() => {
+  //     axios
+  //       .get(`http://localhost:4242/auteurs/user/${user.id}`)
+  //       .then(({ data }) => {
+  //         setAuthor(data)
+  //         return data
+  //       })
+  //       .then((author) => {
+  //         axios
+  //           .get(`http://localhost:4242/auteurs/${author.id}/campagnes`) // A MODIFIER - NE FONCTIONNE PAS ?? (sur de ça ? a verifier)
+  //           .then(({ data }) => setCampagnesUtilisateur(data))
+  //           .catch((err) => console.error(err))
+  //       })
+  //       .catch((err) => console.error(err))
+  //   }, [])
 
   // --------------------------------------------------------------
   // --------AJOUT DE NOUVEAUX ELEMENTS DANS LA PAGE--------------
@@ -670,103 +672,6 @@ export default function Editor() {
   // ----FIN SECTION--------------------------------------------------
 
   // ----------------------------------------------------------------------------
-  // ------FONCTIONS POUR OUVRIR ou AJOUTER / CREER UN NOUVEAU SCENARIO----
-  // ---------------------------------------------------------------------------
-  const handleClickMenuNew = () => {
-    setShowMenuButtonNew(!showMenuButtonNew)
-  }
-
-  const handleClickNouveauScenario = () => {
-    handleSave()
-    setShowNewScenario(!showNewScenario)
-    // const scenarioName = prompt("Entrez un nom pour votre scénario")
-  }
-
-  const handleClickNewCampaign = () => {
-    handleSave()
-    setShowNewCampaign(!showNewCampaign)
-  }
-
-  const handleLeaveButtonNew = () => {
-    setShowMenuButtonNew(false)
-  }
-
-  const handleClickOpen = () => {
-    setShowMenuOpen(!showMenuOpen)
-    // console.log("scenariosOfEditedCampagne", scenariosOfEditedCampagne);
-  }
-
-  const handleLeaveOpen = () => {
-    setShowMenuOpen(false)
-  }
-
-  const handleClickOpenCampagne = (
-    idCampagne,
-    importedCampagnesUtilisateur
-  ) => {
-    // on sauvegarde la page (textes et images) avant de la quitter
-    handleSave()
-    // on efface l'historique car on ne veut pas pouvoir récupérer dans la nouvelle page les textes et images de la page précédante
-    setPageHistory([])
-    setPageFuture([])
-
-    setShowMenuOpen(false)
-
-    let newEditedCampagne
-    if (importedCampagnesUtilisateur === undefined) {
-      newEditedCampagne = campagnesUtilisateur.filter(
-        (campagne) => campagne.id === idCampagne
-      )[0]
-      setEditedCampagne(newEditedCampagne)
-    } else {
-      newEditedCampagne = importedCampagnesUtilisateur.filter(
-        (campagne) => campagne.id === idCampagne
-      )[0]
-      setEditedCampagne(newEditedCampagne)
-    }
-
-    axios
-      .get(`http://localhost:4242/campagnes/${idCampagne}/scenarios`) // on va chercher les scénarios liés à la campagne et on se place sur le 1er
-      .then(({ data }) => {
-        data[0].selected = true // on ajoute un champ selected à true pour que le 1er scenario soit sélectionné par défaut
-        setScenariosOfEditedCampagne(data)
-        return data // on va s'en servir pour récupérer les pages associées au scenario sélectionné
-      })
-      .then((scenarios) => {
-        const idScenarioSelected = scenarios.filter(
-          (item) => item.selected === true
-        )[0].id
-
-        axios
-          .get(`http://localhost:4242/scenarios/${idScenarioSelected}/pages`) // on va chercher les pages du scénario sélectionné et on se place sur la première
-          .then(({ data }) => {
-            data[0].selected = true
-            setPagesOfScenarioSelected(data)
-            return data
-          })
-          .then((pages) => {
-            const idPageSelected = pages.filter(
-              (item) => item.selected === true
-            )[0].id
-
-            axios
-              .get(`http://localhost:4242/pages/${idPageSelected}/textes`) // on va chercher les textes de la page sélectionnée
-              .then(({ data }) => {
-                setTextes(data)
-              })
-
-            axios
-              .get(`http://localhost:4242/pages/${idPageSelected}/images`) // on va chercher les textes de la page sélectionnée
-              .then(({ data }) => {
-                setImages(data)
-              })
-          })
-      })
-  }
-
-  // ----FIN SECTION--------------------------------------------------
-
-  // ----------------------------------------------------------------------------
   // ------FONCTIONS POUR GERER L'ANNULATION ET LE RETABLISSEMENT DES ACTIONS DANS LA PAGE----
   // ---------------------------------------------------------------------------
 
@@ -1027,32 +932,32 @@ export default function Editor() {
   }, [user])
 
   // fonction pour ouverture d'une campagne si ouverture du mode création via une CardCreation du profil
-  useEffect(() => {
-    if (mounted && campagneImportedID !== null) {
-      axios
-        .get(`http://localhost:4242/auteurs/user/${user.id}`)
-        .then(({ data }) => {
-          setAuthor(data)
-          return data
-        })
-        .then((author) => {
-          axios
-            .get(`http://localhost:4242/auteurs/${author.id}/campagnes`) // A MODIFIER - NE FONCTIONNE PAS ?? (sur de ça ? a verifier)
-            .then(({ data }) => {
-              setCampagnesUtilisateur(data)
-              return data
-            })
-            .then((importedCampagnesUtilisateur) => {
-              handleClickOpenCampagne(
-                campagneImportedID,
-                importedCampagnesUtilisateur
-              )
-            })
-            .catch((err) => console.error(err))
-        })
-        .catch((err) => console.error(err))
-    }
-  }, [mounted])
+  //   useEffect(() => {
+  //     if (mounted && campagneImportedID !== null) {
+  //       axios
+  //         .get(`http://localhost:4242/auteurs/user/${user.id}`)
+  //         .then(({ data }) => {
+  //           setAuthor(data)
+  //           return data
+  //         })
+  //         .then((author) => {
+  //           axios
+  //             .get(`http://localhost:4242/auteurs/${author.id}/campagnes`) // A MODIFIER - NE FONCTIONNE PAS ?? (sur de ça ? a verifier)
+  //             .then(({ data }) => {
+  //               setCampagnesUtilisateur(data)
+  //               return data
+  //             })
+  //             .then((importedCampagnesUtilisateur) => {
+  //               handleClickOpenCampagne(
+  //                 campagneImportedID,
+  //                 importedCampagnesUtilisateur
+  //               )
+  //             })
+  //             .catch((err) => console.error(err))
+  //         })
+  //         .catch((err) => console.error(err))
+  //     }
+  //   }, [mounted])
 
   // ----------------------------------------------------------------------------
   // ------FONCTIONS POUR la GESTION DES RACCOURCIS CLAVIER----
@@ -1150,14 +1055,49 @@ export default function Editor() {
   // ----FIN SECTION--------------------------------------------------
 
   useEffect(() => {
-    if (scenariosOfEditedCampagne[0]) {
-      setSelectedScenario(
-        scenariosOfEditedCampagne.find((scenario) => scenario.selected === true)
-      )
+    if (scenariosOfEditedCampagne) {
+      setSelectedScenario(scenariosOfEditedCampagne)
     } else {
       setSelectedScenario(null)
     }
-  }, [scenariosOfEditedCampagne])
+  }, [])
+
+  // récupération des pages, des textes et des images à l'ouverture
+  useEffect(() => {
+    axios
+      .get(
+        `http://localhost:4242/scenarios/${scenariosOfEditedCampagne.id}/pages`
+      )
+      .then(({ data }) => {
+        data[0].selected = true
+        setPagesOfScenarioSelected(data)
+        return data
+      })
+      .then((pages) => {
+        const idPageSelected = pages.filter((item) => item.selected === true)[0]
+          .id
+
+        axios
+          .get(`http://localhost:4242/pages/${idPageSelected}/textes`) // on va chercher les textes de la page sélectionnée
+          .then(({ data }) => {
+            setTextes(data)
+          })
+          .catch(() => {
+            // permet de jouer setTextes([]) s'il n'y a pas de données dans la BDD
+            setTextes([])
+          })
+
+        axios
+          .get(`http://localhost:4242/pages/${idPageSelected}/images`) // on va chercher les images de la page sélectionnée
+          .then(({ data }) => {
+            setImages(data)
+          })
+          .catch(() => {
+            // permet de jouer setImages([]) s'il n'y a pas de données dans la BDD
+            setImages([])
+          })
+      })
+  }, [])
 
   return (
     <>
@@ -1177,56 +1117,21 @@ export default function Editor() {
           <div className="div-menu-open">
             <button
               type="button"
-              onClick={handleClickMenuNew}
+              onClick={() => alert("Not available in collaboration mode")}
               className="button-editor-bandeau-gauche cursorHover"
             >
               New
             </button>
-
-            {showMenuButtonNew && (
-              <div className="menu-open" onMouseLeave={handleLeaveButtonNew}>
-                {editedCampagne.id && (
-                  <button
-                    type="button"
-                    onClick={handleClickNouveauScenario}
-                    className="button-new-scenario cursorHover"
-                  >
-                    New scenario <br /> <span>(in current campaign)</span>
-                  </button>
-                )}
-
-                <button
-                  type="button"
-                  onClick={handleClickNewCampaign}
-                  className="cursorHover"
-                >
-                  New campaign
-                </button>
-              </div>
-            )}
           </div>
 
           <div className="div-menu-open">
             <button
               type="button"
               className="button-editor-bandeau-gauche cursorHover"
-              onClick={handleClickOpen}
+              onClick={() => alert("Not available in collaboration mode")}
             >
               Open
             </button>
-            <div className="menu-open" onMouseLeave={handleLeaveOpen}>
-              {showMenuOpen &&
-                campagnesUtilisateur.map((item) => (
-                  <button
-                    type="button"
-                    key={item.id}
-                    className="cursorHover"
-                    onClick={() => handleClickOpenCampagne(item.id)}
-                  >
-                    {item.name}
-                  </button>
-                ))}
-            </div>
           </div>
           <img
             src={undo}
@@ -1455,13 +1360,13 @@ export default function Editor() {
       <main className="editor-main">
         <section className="sommaire-editeur">
           <div className="section-sommaire">
-            <SommaireEditor
+            <SommaireCollaboration
               editedCampagne={editedCampagne}
               setEditedCampagne={setEditedCampagne}
               setShowEditCampaign={setShowEditCampaign}
               showEditCampaign={showEditCampaign}
-              scenariosOfEditedCampagne={scenariosOfEditedCampagne}
-              setScenariosOfEditedCampagne={setScenariosOfEditedCampagne}
+              scenariosOfEditedCampagne={[scenariosOfEditedCampagne]}
+              //   setScenariosOfEditedCampagne={setScenariosOfEditedCampagne}
               pagesOfScenarioSelected={pagesOfScenarioSelected}
               setPagesOfScenarioSelected={setPagesOfScenarioSelected}
               textes={textes}
@@ -1538,7 +1443,10 @@ export default function Editor() {
         </div>
 
         {showChat ? (
-          <ChatBox setShowChat={setShowChat} scenario={selectedScenario} />
+          <ChatBox
+            setShowChat={setShowChat}
+            scenario={scenariosOfEditedCampagne}
+          />
         ) : (
           selectedScenario !== null && (
             <img
@@ -1551,57 +1459,6 @@ export default function Editor() {
           )
         )}
       </main>
-
-      {showNewScenario && (
-        <FormNewScenario
-          campaignID={editedCampagne.id}
-          authorID={author.id}
-          setScenariosOfEditedCampagne={setScenariosOfEditedCampagne}
-          scenariosOfEditedCampagne={scenariosOfEditedCampagne}
-          setPagesOfScenarioSelected={setPagesOfScenarioSelected}
-          setImages={setImages}
-          setPageFuture={setPageFuture}
-          setPageHistory={setPageHistory}
-          setTextes={setTextes}
-          setShowNewScenario={setShowNewScenario}
-        />
-      )}
-
-      {showEditScenario && (
-        <FormEditScenario
-          scenarioForInfoEdit={scenarioForInfoEdit}
-          setShowEditScenario={setShowEditScenario}
-          setScenariosOfEditedCampagne={setScenariosOfEditedCampagne}
-        />
-      )}
-
-      {showEditCampaign && (
-        <FormEditCampaign
-          campaignID={editedCampagne.id}
-          scenarioForInfoEdit={scenarioForInfoEdit}
-          setShowEditCampaign={setShowEditCampaign}
-          setScenariosOfEditedCampagne={setScenariosOfEditedCampagne}
-          setEditedCampagneEditor={setEditedCampagne}
-        />
-      )}
-
-      {showNewCampaign && (
-        <FormNewCampaign
-          setShowNewCampaign={setShowNewCampaign}
-          authorID={author.id}
-          setAuthor={setAuthor}
-          author={author}
-          setScenariosOfEditedCampagne={setScenariosOfEditedCampagne}
-          scenariosOfEditedCampagne={scenariosOfEditedCampagne}
-          setPagesOfScenarioSelected={setPagesOfScenarioSelected}
-          setImages={setImages}
-          setPageFuture={setPageFuture}
-          setPageHistory={setPageHistory}
-          setTextes={setTextes}
-          setCampagnesUtilisateur={setCampagnesUtilisateur}
-          setEditedCampagne={setEditedCampagne}
-        />
-      )}
     </>
   )
 }

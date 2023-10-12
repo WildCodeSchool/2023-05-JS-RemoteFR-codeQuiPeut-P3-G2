@@ -2,12 +2,17 @@ import { useState, useEffect } from "react"
 import { useLocation } from "react-router-dom"
 import ReadingPage from "../components/ReadingPage"
 import SommaireReading from "../components/SommaireReading"
+import ChatBox from "../components/ChatBox"
 import summary from "../assets/images/sommaire.svg"
+import iconChat from "../assets/images/icon_chat.png"
 import axios from "axios"
 
 export default function ScenarioReading() {
   const location = useLocation()
-  const scenario = location.state
+  // const scenario = location.state
+  const scenario = location.state.scenario
+  const followerID = location.state.followerID
+
   // const scenario = {
   //   // A REMPLACER PAR LE LOCATION CI DESSUS
   //   id: 1,
@@ -22,6 +27,7 @@ export default function ScenarioReading() {
   const [widthPage, setWidthPage] = useState("1000px")
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
   const [showSummary, setShowSummary] = useState(false)
+  const [showChat, setShowChat] = useState(false)
   const [offsets, setOffsets] = useState({ offsetX: 0, offsetY: 0 })
   const [coordLogoSummary, setCoordLogoSummary] = useState({
     top: "50px",
@@ -252,6 +258,21 @@ export default function ScenarioReading() {
             setPageNumber={setPageNumber}
           />
         </section>
+      )}
+
+      {showChat ? (
+        <ChatBox setShowChat={setShowChat} scenario={scenario} />
+      ) : (
+        followerID !== null &&
+        followerID !== undefined && (
+          <img
+            src={iconChat}
+            alt="open the chat"
+            className="cursorHover icon-chat"
+            title="Click to chat"
+            onClick={() => setShowChat(true)}
+          />
+        )
       )}
     </main>
   )

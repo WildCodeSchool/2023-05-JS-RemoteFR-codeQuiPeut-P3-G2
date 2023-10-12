@@ -4,6 +4,7 @@ import etoilePleine from "../assets/images/etoile-pleine.png"
 import "./AccountFollowers.scss"
 import axios from "axios"
 import UserProfile from "./userProfile"
+import FormInvitationCollaboration from "./FormInvitationCollaboration"
 
 export default function AccountFollowers() {
   const { user } = useContext(MyContext)
@@ -11,6 +12,8 @@ export default function AccountFollowers() {
   const [showPopUpProfile, setShowPopUpProfile] = useState(false)
   const [followerID, setFollowerId] = useState()
   const [followersProfile, setFollowersProfile] = useState([])
+  const [showFormProposeCoWriting, setShowFormProposeCoWriting] =
+    useState(false)
 
   const handleClickShowPopupProfile = (id) => {
     setFollowerId(id)
@@ -19,6 +22,11 @@ export default function AccountFollowers() {
     axios.get(`http://localhost:4242/utilisateurs/${id}`).then((res) => {
       setFollowersProfile(res.data)
     })
+  }
+
+  const handleClickProposeCoWriting = (id) => {
+    setFollowerId(id)
+    setShowFormProposeCoWriting(true)
   }
 
   useEffect(() => {
@@ -48,7 +56,14 @@ export default function AccountFollowers() {
             >
               Voir le profil
             </button>
-            <button className="cursorHover">Proposer co-écriture</button>
+            <button
+              className="cursorHover"
+              onClick={() =>
+                handleClickProposeCoWriting(follower.utilisateurId)
+              }
+            >
+              Proposer co-écriture
+            </button>
           </div>
         </div>
       ))}
@@ -58,6 +73,13 @@ export default function AccountFollowers() {
           setShowPopUpProfile={setShowPopUpProfile}
           followerID={followerID}
           followersProfile={followersProfile}
+        />
+      )}
+
+      {showFormProposeCoWriting && (
+        <FormInvitationCollaboration
+          followerID={followerID}
+          setShowFormProposeCoWriting={setShowFormProposeCoWriting}
         />
       )}
     </>

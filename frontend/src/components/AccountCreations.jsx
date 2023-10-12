@@ -8,6 +8,8 @@ import AccountFavoritesMyViews from "./AccountFavoritesMyViews"
 import AccountFavoritesMyComments from "./AccountFavoritesMyComments"
 import AccountCreationsInProgress from "./AccountCreationsInProgress"
 import AccountCreationsFinished from "./AccountCreationsFinished"
+import AccountCreationsMyShares from "./AccountCreationsMyShares"
+import AccountCreationContributions from "./AccountCreationContributions"
 
 export default function AccountFavorites() {
   const { user } = useContext(MyContext)
@@ -78,6 +80,30 @@ export default function AccountFavorites() {
         >
           Finished
         </li>
+
+        <li
+          onClick={() => showTap(3)}
+          className="cursorHover"
+          style={
+            ongletActif === 3
+              ? { backgroundColor: "#ffbd59", color: "black" }
+              : null
+          }
+        >
+          My shares
+        </li>
+
+        <li
+          onClick={() => showTap(4)}
+          className="cursorHover"
+          style={
+            ongletActif === 4
+              ? { backgroundColor: "#ffbd59", color: "black" }
+              : null
+          }
+        >
+          My contributions
+        </li>
       </ul>
 
       <div className="containTab">
@@ -95,6 +121,15 @@ export default function AccountFavorites() {
             user={user}
           />
         )}
+        {ongletActif === 3 && (
+          <AccountCreationsMyShares
+            scenariosFinished={scenariosFinished}
+            campagnesFinished={campagnesFinished}
+            user={user}
+          />
+        )}
+
+        {ongletActif === 4 && <AccountCreationContributions />}
       </div>
     </div>
   )
