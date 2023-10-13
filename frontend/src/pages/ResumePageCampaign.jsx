@@ -68,7 +68,11 @@ export default function ResumePageCampaign() {
 
     myApi.get(`/campagnes/${campagneID}/detailedScenarios`).then(({ data }) => {
       data = data.map((item) => ({ ...item, title: item.name }))
-      setScenariosOfSelectedCampagne(data)
+      const finished = data.filter(
+        (item) => parseInt(item.publication_date.slice(0, 4), 10) < 2990
+      )
+
+      setScenariosOfSelectedCampagne(finished)
     })
   }, [])
 

@@ -201,8 +201,11 @@ function Scripts() {
   // -----------------------------------------------------------------------------------
   useEffect(() => {
     myApi.get("/scenariosOneshot").then((res) => {
-      setScenarios(res.data)
-      setOriginalScenarios(res.data)
+      const finished = res.data.filter(
+        (item) => parseInt(item.publication_date.slice(0, 4), 10) < 2990
+      )
+      setScenarios(finished)
+      setOriginalScenarios(finished)
     })
 
     myApi
@@ -221,8 +224,11 @@ function Scripts() {
     myApi
       .get("/detailedCampagnes")
       .then(({ data }) => {
-        setCampagnes(data)
-        setOrginalCampagnes(data)
+        const finished = data.filter(
+          (item) => parseInt(item.publication_date.slice(0, 4), 10) < 2990
+        )
+        setCampagnes(finished)
+        setOrginalCampagnes(finished)
       })
       .catch((err) => console.error(err))
   }, [])
