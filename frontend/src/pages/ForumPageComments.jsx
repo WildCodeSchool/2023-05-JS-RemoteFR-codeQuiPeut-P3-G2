@@ -206,7 +206,7 @@ export default function ForumPageComments() {
 
               <div className="div-newComment">
                 {showInputNewComment === false &&
-                  user.id &&
+                  user !== null &&
                   indexToShow.max >= comments.length - 1 && (
                     <button
                       type="button"
@@ -313,7 +313,7 @@ export default function ForumPageComments() {
 
               <div className="div-newComment">
                 {showInputNewComment === false &&
-                  user.id &&
+                  user !== null &&
                   indexToShow.min === 0 && (
                     <button
                       type="button"

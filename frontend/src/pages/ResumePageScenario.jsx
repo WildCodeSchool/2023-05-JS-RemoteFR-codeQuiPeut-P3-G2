@@ -130,7 +130,7 @@ const ResumePageScenario = () => {
       })
       .then(() =>
         myApi.get(`/scenario/${scenario.id}/scenarcomm`).then(({ data }) => {
-          setAvis(data) || console.info("data", data)
+          setAvis(data)
         })
       )
       .catch((err) => console.error(err))
@@ -175,8 +175,7 @@ const ResumePageScenario = () => {
     })
   }
 
-  const handleDeleteComment = (e) => {
-    const id = e.target.value
+  const handleDeleteComment = (id) => {
     myApi
       .delete(`/scenarcomm/${id}`)
       .then(() => {
@@ -389,7 +388,7 @@ const ResumePageScenario = () => {
                         className="cursorHover"
                         src={iconSupprimerYellow}
                         value={avi.id}
-                        onClick={handleDeleteComment}
+                        onClick={() => handleDeleteComment(avi.id)}
                       />
                       <img
                         className="pen cursorHover"
