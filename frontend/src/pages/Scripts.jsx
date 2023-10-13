@@ -4,7 +4,6 @@ import Button from "../components/Button"
 import Navbar from "../components/Navbar"
 import Switch from "../components/Switch"
 import "./Scripts.scss"
-import axios from "axios"
 import myApi from "../services/myAPI"
 
 import CardScenario from "../components/CardScenario"
@@ -201,26 +200,26 @@ function Scripts() {
   }
   // -----------------------------------------------------------------------------------
   useEffect(() => {
-    axios.get("http://localhost:4242/scenariosOneshot").then((res) => {
+    myApi.get("/scenariosOneshot").then((res) => {
       setScenarios(res.data)
       setOriginalScenarios(res.data)
     })
 
-    axios
-      .get("http://localhost:4242/rolegames")
+    myApi
+      .get("/rolegames")
       .then(({ data }) => setRoleGames(data))
       .catch((err) => console.error(err))
 
-    axios
-      .get("http://localhost:4242/themes")
+    myApi
+      .get("/themes")
       .then(({ data }) => {
         const newThemes = data.map((item) => ({ ...item, selected: false }))
         setThemes(newThemes)
       })
       .catch((err) => console.error(err))
 
-    axios
-      .get("http://localhost:4242/detailedCampagnes")
+    myApi
+      .get("/detailedCampagnes")
       .then(({ data }) => {
         setCampagnes(data)
         setOrginalCampagnes(data)

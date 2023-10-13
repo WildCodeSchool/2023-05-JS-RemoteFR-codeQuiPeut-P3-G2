@@ -1,7 +1,6 @@
 import { useState, useContext } from "react"
 import MyContext from "./MyContext"
 import "./Login.scss"
-import axios from "axios"
 import myApi from "../services/myAPI"
 
 import croix from "../assets/images/Close.svg"
@@ -24,16 +23,16 @@ export default function Login({
   }
 
   const HandleSubmitlogin = () => {
-    axios
-      .post("http://localhost:4242/login", {
+    myApi
+      .post("/login", {
         user,
         email,
         password: passWord,
       })
       .then(({ data }) => {
         setUser(data)
-        axios
-          .get(`http://localhost:4242/autorFavorite/${data.id}`)
+        myApi
+          .get(`/autorFavorite/${data.id}`)
           .then(({ data }) => setFollowedAutors(data))
           .catch((err) => console.error(err))
 

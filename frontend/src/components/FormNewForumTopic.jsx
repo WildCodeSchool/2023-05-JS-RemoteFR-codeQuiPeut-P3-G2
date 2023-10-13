@@ -1,4 +1,3 @@
-import axios from "axios"
 import myApi from "../services/myAPI"
 
 import { useState } from "react"
@@ -40,16 +39,16 @@ export default function FormNewForumTopic({
       (category) => category.categoryName === valueCategory
     )[0].id
 
-    axios
-      .post("http://localhost:4242/sujet_forum", {
+    myApi
+      .post("/sujet_forum", {
         sujet: topic,
         openDate: getDateOfDay(),
         sujetForumCategoriesId: categoryID,
         firstComment: comment,
       })
       .then(() => {
-        axios
-          .get("http://localhost:4242/sujet_forum")
+        myApi
+          .get("/sujet_forum")
           .then(({ data }) => {
             setTopics(data)
             setOriginalTopics(data)

@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react"
-import axios from "axios"
 import myApi from "../services/myAPI"
 
 import CardScenario from "../components/CardScenario"
@@ -8,9 +7,7 @@ export default function Home() {
   const [characters, setCharacters] = useState([])
 
   useEffect(() => {
-    axios
-      .get("http://localhost:4242/characters")
-      .then((res) => setCharacters(res.data))
+    myApi.get("/characters").then((res) => setCharacters(res.data))
   }, [])
 
   return (

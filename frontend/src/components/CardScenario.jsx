@@ -1,6 +1,5 @@
 import { useState, useEffect, useContext } from "react"
 import { useNavigate } from "react-router-dom"
-import axios from "axios"
 import myApi from "../services/myAPI"
 
 import "./CardScenario.scss"
@@ -22,10 +21,8 @@ function CardScenario({ scenario, user }) {
 
   useEffect(() => {
     if (user !== null) {
-      axios
-        .get(
-          `http://localhost:4242/utilisateurs/${user.id}/scenarioFavorite/${scenario.id}`
-        )
+      myApi
+        .get(`/utilisateurs/${user.id}/scenarioFavorite/${scenario.id}`)
         .then(({ data }) => {
           setfavorite(true)
         })
@@ -42,14 +39,14 @@ function CardScenario({ scenario, user }) {
     if (user !== null) {
       setfavorite(!favorite)
       if (favorite) {
-        axios.delete(`http://localhost:4242/favorite`, {
+        myApi.delete(`/favorite`, {
           data: {
             utilisateurID: user.id,
             scenarioID: scenario.id,
           },
         })
       } else {
-        axios.post(`http://localhost:4242/favorite`, {
+        myApi.post(`/favorite`, {
           utilisateurID: user.id,
           scenarioID: scenario.id,
         })
@@ -69,8 +66,8 @@ function CardScenario({ scenario, user }) {
             item.auteurs_id === scenario.auteurs_id
         )
       ) {
-        axios
-          .delete(`http://localhost:4242/autorFavorite`, {
+        myApi
+          .delete(`/autorFavorite`, {
             data: {
               utilisateurID: user.id,
               auteurID: scenario.auteurId
@@ -79,22 +76,22 @@ function CardScenario({ scenario, user }) {
             },
           })
           .then(() => {
-            axios
-              .get(`http://localhost:4242/autorFavorite/${user.id}`)
+            myApi
+              .get(`/autorFavorite/${user.id}`)
               .then(({ data }) => setFollowedAutors(data))
               .catch((err) => console.error(err))
           })
       } else {
-        axios
-          .post(`http://localhost:4242/autorFavorite`, {
+        myApi
+          .post(`/autorFavorite`, {
             utilisateurID: user.id,
             auteurID: scenario.auteurId
               ? scenario.auteurId
               : scenario.auteurs_id,
           })
           .then(() => {
-            axios
-              .get(`http://localhost:4242/autorFavorite/${user.id}`)
+            myApi
+              .get(`/autorFavorite/${user.id}`)
               .then(({ data }) => setFollowedAutors(data))
               .catch((err) => console.error(err))
           })

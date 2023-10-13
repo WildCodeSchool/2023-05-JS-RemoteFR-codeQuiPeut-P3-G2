@@ -1,4 +1,3 @@
-import axios from "axios"
 import myApi from "../services/myAPI"
 import { useState, useEffect } from "react"
 
@@ -141,17 +140,17 @@ export default function FormEditScenario({
     const formData = new FormData()
     formData.append("image", file)
     if (pictureScenario === "none") {
-      axios
-        .post("http://localhost:4242/tmpImage", formData)
+      myApi
+        .post("/tmpImage", formData)
         .then(({ data }) => console.info(data) || setPictureScenario(data))
     } else {
-      axios.delete("http://localhost:4242/deleteTmpImage", {
+      myApi.delete("/deleteTmpImage", {
         data: {
           img_src: pictureScenario,
         },
       })
-      axios
-        .post("http://localhost:4242/tmpImage", formData)
+      myApi
+        .post("/tmpImage", formData)
         .then(({ data }) => console.info(data) || setPictureScenario(data))
     }
   }
@@ -171,8 +170,8 @@ export default function FormEditScenario({
     const startWritingdate = scenarioForInfoEdit.start_writing_date.slice(0, 10)
     const publicationDate = scenarioForInfoEdit.publication_date.slice(0, 10)
 
-    axios
-      .put(`http://localhost:4242/scenarios/${scenarioForInfoEdit.id}`, {
+    myApi
+      .put(`/scenarios/${scenarioForInfoEdit.id}`, {
         auteurs_id: scenarioForInfoEdit.auteurs_id, // author
         jeux_de_role_id: roleGameID,
         campagnes_id: scenarioForInfoEdit.campagnes_id, // A faire plus tard => campagneId
@@ -188,29 +187,24 @@ export default function FormEditScenario({
         model: 1, // a supprimer si table modifiée avec suppression de cette colonne
       })
       .then(() => {
-        axios
-          .get(
-            `http://localhost:4242/campagnes/${scenarioForInfoEdit.campagnes_id}/scenarios`
-          )
+        myApi
+          .get(`/campagnes/${scenarioForInfoEdit.campagnes_id}/scenarios`)
           .then(({ data }) => setScenariosOfEditedCampagne(data))
           .catch((err) => console.error(err))
       })
       .catch((err) => console.error(err))
 
-    axios.put(
-      `http://localhost:4242/themesScenarios/${scenarioForInfoEdit.id}`,
-      {
-        scenarios_id: scenarioForInfoEdit.id,
-        themes_id: themeID,
-      }
-    )
+    myApi.put(`/themesScenarios/${scenarioForInfoEdit.id}`, {
+      scenarios_id: scenarioForInfoEdit.id,
+      themes_id: themeID,
+    })
 
     setShowEditScenario(false)
   }
 
   useEffect(() => {
-    axios
-      .get("http://localhost:4242/rolegames")
+    myApi
+      .get("/rolegames")
       .then(({ data }) => {
         setRoleGame(data)
         setValueRoleGame(
@@ -221,8 +215,8 @@ export default function FormEditScenario({
       })
       .catch((err) => console.error(err))
 
-    axios
-      .get("http://localhost:4242/themes")
+    myApi
+      .get("/themes")
       .then(({ data }) => setThemes(data))
       .catch((err) => console.error(err))
   }, [])

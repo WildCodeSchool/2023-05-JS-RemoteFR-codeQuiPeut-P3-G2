@@ -58,7 +58,7 @@ router.get(
 router.put("/invitation/:id", invitationsControllers.update)
 
 // router.get("/scenarios", scenariosControllers.browse)
-router.get("/scenarios", authorization, scenariosControllers.browseScenarios)
+router.get("/scenarios", scenariosControllers.browseScenarios)
 router.get("/scenariosOneshot", scenariosControllers.browseScenariosOneshot)
 // router.get("/scenarios/:id", scenariosControllers.read)
 // router.get("/scenarios", scenariosControllers.browse)
@@ -222,7 +222,11 @@ router.delete("/auteurs/:id", auteursControllers.destroy)
 router.get("/auteurs/:id/campagnes", auteursControllers.readAuthorsCampagnes) // recherche les campagnes d'un auteur (retourne : id, campagneName)
 
 router.get("/campagnes", campagnesControllers.browse)
-router.get("/detailedCampagnes", campagnesControllers.findCampagnesWithDetails)
+router.get(
+  "/detailedCampagnes",
+  authorization,
+  campagnesControllers.findCampagnesWithDetails
+)
 router.get("/campagnes/:id", campagnesControllers.readWithTheme)
 router.post("/campagnes", campagnesControllers.add)
 router.put("/campagnes/:id", campagnesControllers.edit)

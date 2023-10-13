@@ -1,4 +1,3 @@
-import axios from "axios"
 import myApi from "../services/myAPI"
 
 import { useState, useEffect, useContext } from "react"
@@ -138,17 +137,17 @@ export default function FormNewCampaign(props) {
     const formData = new FormData()
     formData.append("image", file)
     if (pictureScenario === "none") {
-      axios
-        .post("http://localhost:4242/tmpImage", formData)
+      myApi
+        .post("/tmpImage", formData)
         .then(({ data }) => console.info(data) || setPictureScenario(data))
     } else {
-      axios.delete("http://localhost:4242/deleteTmpImage", {
+      myApi.delete("/deleteTmpImage", {
         data: {
           img_src: pictureScenario,
         },
       })
-      axios
-        .post("http://localhost:4242/tmpImage", formData)
+      myApi
+        .post("/tmpImage", formData)
         .then(({ data }) => console.info(data) || setPictureScenario(data))
     }
   }
@@ -177,8 +176,8 @@ export default function FormNewCampaign(props) {
     const pageNumber = 1
 
     // on post une nouvelle page dans la base de donnée (page_type_id = 1 car page script)
-    axios
-      .post(`http://localhost:4242/pages`, {
+    myApi
+      .post(`/pages`, {
         scenarios_id: scenarioID,
         page_types_id: 1,
         titre: pageName,
@@ -186,8 +185,8 @@ export default function FormNewCampaign(props) {
       })
       .then(() => {
         // on récupère la page de la base de donnée avec son id et on l'ajoute dans le state pagesOfScenarioSelected
-        axios
-          .get(`http://localhost:4242/scenarios/${scenarioID}/pages`)
+        myApi
+          .get(`/scenarios/${scenarioID}/pages`)
           .then(async ({ data }) => {
             data[data.length - 1].selected = true // on se place sur la page créée en la sélectionnant
             setPagesOfScenarioSelected(data)
@@ -249,20 +248,17 @@ export default function FormNewCampaign(props) {
     newTextes,
     pageName
   ) => {
-    await axios.post(
-      `http://localhost:4242/pages/${pageID}/newtexteAtPageCreation`,
-      {
-        top,
-        left,
-        width,
-        height,
-        fontSize,
-        fontWeight,
-        textAlign,
-      }
-    )
+    await myApi.post(`/pages/${pageID}/newtexteAtPageCreation`, {
+      top,
+      left,
+      width,
+      height,
+      fontSize,
+      fontWeight,
+      textAlign,
+    })
 
-    const { data } = await axios.get(`http://localhost:4242/lasttexte`)
+    const { data } = await myApi.get(`/lasttexte`)
     data.placeHolder = placeholder
     if (pageName) {
       data.text = pageName
@@ -291,22 +287,20 @@ export default function FormNewCampaign(props) {
       )
       newAuthor = { ...newAuthor, name: newAuthorName }
 
-      await axios
-        .post("http://localhost:4242/auteurs", {
+      await myApi
+        .post("/auteurs", {
           utilisateurs_id: newAuthor.utilisateurs_id,
           name: newAuthor.name,
         })
         .then(async () => {
-          await axios
-            .get(`http://localhost:4242/auteurs/user/${user.id}`)
-            .then(({ data }) => {
-              setAuthor(data)
-              newAuthor = data
-            })
+          await myApi.get(`/auteurs/user/${user.id}`).then(({ data }) => {
+            setAuthor(data)
+            newAuthor = data
+          })
         })
         .then(() => {
-          axios
-            .get(`http://localhost:4242/utilisateurs/${user.id}`)
+          myApi
+            .get(`/utilisateurs/${user.id}`)
             .then(({ data }) => setUser(data))
         })
     }
@@ -315,8 +309,8 @@ export default function FormNewCampaign(props) {
       .id
     const themeID = themes.filter((theme) => theme.name === valueTheme)[0].id
 
-    axios
-      .post(`http://localhost:4242/campagnes`, {
+    myApi
+      .post(`/campagnes`, {
         auteurs_id: Object.keys(author).length === 0 ? newAuthor.id : authorID, // author
         jeux_de_role_id: roleGameID,
         name: campaignName,
@@ -331,14 +325,14 @@ export default function FormNewCampaign(props) {
       .then(async (res) => {
         const newCampaignID = res.data
 
-        await axios.post(`http://localhost:4242/themesCampagnes`, {
+        await myApi.post(`/themesCampagnes`, {
           campagnes_id: newCampaignID,
           themes_id: themeID,
         })
 
-        axios
+        myApi
           .get(
-            `http://localhost:4242/auteurs/${
+            `/auteurs/${
               Object.keys(author).length === 0 ? newAuthor.id : authorID
             }/campagnes`
           )
@@ -350,8 +344,8 @@ export default function FormNewCampaign(props) {
             setEditedCampagne(newEditedCampagne)
 
             /// ///////////////////////////////////////////////////////////////////
-            axios
-              .post("http://localhost:4242/scenarios", {
+            myApi
+              .post("/scenarios", {
                 auteurs_id:
                   Object.keys(author).length === 0 ? newAuthor.id : authorID, // author
                 jeux_de_role_id: roleGameID,
@@ -369,14 +363,14 @@ export default function FormNewCampaign(props) {
               })
               .then(async ({ data }) => {
                 // post du theme du scenario
-                await axios.post(`http://localhost:4242/themesScenarios/`, {
+                await myApi.post(`/themesScenarios/`, {
                   scenarios_id: data,
                   themes_id: themeID,
                 })
 
                 // récupération du scénario avec son ID
-                axios
-                  .get(`http://localhost:4242/scenarios/${data}`)
+                myApi
+                  .get(`/scenarios/${data}`)
                   .then(({ data }) => {
                     data.selected = true
                     const newScenariosOfEditedCampagne = [data]
@@ -397,15 +391,15 @@ export default function FormNewCampaign(props) {
   }
 
   useEffect(() => {
-    axios
-      .get("http://localhost:4242/rolegames")
+    myApi
+      .get("/rolegames")
       .then(({ data }) => {
         setRoleGame(data)
       })
       .catch((err) => console.error(err))
 
-    axios
-      .get("http://localhost:4242/themes")
+    myApi
+      .get("/themes")
       .then(({ data }) => {
         setThemes(data)
       })

@@ -1,4 +1,3 @@
-import axios from "axios"
 import myApi from "../services/myAPI"
 import { useState, useEffect, useContext } from "react"
 import { useLocation } from "react-router"
@@ -78,15 +77,15 @@ export default function Editor() {
   // puis de ses campagnes
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:4242/auteurs/user/${user.id}`)
+    myApi
+      .get(`/auteurs/user/${user.id}`)
       .then(({ data }) => {
         setAuthor(data)
         return data
       })
       .then((author) => {
-        axios
-          .get(`http://localhost:4242/auteurs/${author.id}/campagnes`) // A MODIFIER - NE FONCTIONNE PAS ?? (sur de ça ? a verifier)
+        myApi
+          .get(`/auteurs/${author.id}/campagnes`) // A MODIFIER - NE FONCTIONNE PAS ?? (sur de ça ? a verifier)
           .then(({ data }) => setCampagnesUtilisateur(data))
           .catch((err) => console.error(err))
       })
@@ -122,14 +121,14 @@ export default function Editor() {
 
       // on crée un nouveau texte dans la base de donnée puis on le récupère pour l'injecter dans newtextarea
 
-      axios
-        .post(`http://localhost:4242/pages/${idPageSelected}/newtexte`, {
+      myApi
+        .post(`/pages/${idPageSelected}/newtexte`, {
           top: newTop,
           left: newLeft,
         })
         .then(() => {
-          axios
-            .get(`http://localhost:4242/lasttexte`) // on va chercher les textes de la page sélectionnée
+          myApi
+            .get(`/lasttexte`) // on va chercher les textes de la page sélectionnée
             .then(({ data }) => {
               // const newTextes = textes
               // newTextes.push(data)
@@ -569,11 +568,11 @@ export default function Editor() {
   const handleDeleteStyleText = (index) => {
     const styleID = savedTextStyles[index].id
 
-    axios
-      .delete(`http://localhost:4242/saved_style_text/${styleID}`)
+    myApi
+      .delete(`/saved_style_text/${styleID}`)
       .then(() => {
-        axios
-          .get(`http://localhost:4242/saved_style_text/utilisateur/${user.id}`)
+        myApi
+          .get(`/saved_style_text/utilisateur/${user.id}`)
           .then(({ data }) => setSavedTextStyles(data))
           .catch((err) => console.error(err))
       })
@@ -584,11 +583,11 @@ export default function Editor() {
   const handleDeleteStyleImage = (index) => {
     const styleID = savedImageStyles[index].id
 
-    axios
-      .delete(`http://localhost:4242/saved_style_image/${styleID}`)
+    myApi
+      .delete(`/saved_style_image/${styleID}`)
       .then(() => {
-        axios
-          .get(`http://localhost:4242/saved_style_image/utilisateur/${user.id}`)
+        myApi
+          .get(`/saved_style_image/utilisateur/${user.id}`)
           .then(({ data }) => setSavedImageStyles(data))
           .catch((err) => console.error(err))
       })
@@ -599,11 +598,11 @@ export default function Editor() {
   const handleDeleteStylePage = (index) => {
     const styleID = savedPageStyles[index].id
 
-    axios
-      .delete(`http://localhost:4242/saved_style_page/${styleID}`)
+    myApi
+      .delete(`/saved_style_page/${styleID}`)
       .then(() => {
-        axios
-          .get(`http://localhost:4242/saved_style_page/utilisateur/${user.id}`)
+        myApi
+          .get(`/saved_style_page/utilisateur/${user.id}`)
           .then(({ data }) => setSavedPageStyles(data))
           .catch((err) => console.error(err))
       })
@@ -639,14 +638,12 @@ export default function Editor() {
       idSelected = selectedText.id
       setTextes((prevState) => prevState.filter((text) => !text.selected))
 
-      axios
-        .delete(`http://localhost:4242/styleText/texte/${idSelected}`)
+      myApi
+        .delete(`/styleText/texte/${idSelected}`)
         .then(() => {
-          axios
-            .delete(`http://localhost:4242/textes/${idSelected}`)
-            .catch((err) => {
-              console.error(err)
-            })
+          myApi.delete(`/textes/${idSelected}`).catch((err) => {
+            console.error(err)
+          })
         })
         .catch((err) => {
           console.error(
@@ -726,8 +723,8 @@ export default function Editor() {
       setEditedCampagne(newEditedCampagne)
     }
 
-    axios
-      .get(`http://localhost:4242/campagnes/${idCampagne}/scenarios`) // on va chercher les scénarios liés à la campagne et on se place sur le 1er
+    myApi
+      .get(`/campagnes/${idCampagne}/scenarios`) // on va chercher les scénarios liés à la campagne et on se place sur le 1er
       .then(({ data }) => {
         data[0].selected = true // on ajoute un champ selected à true pour que le 1er scenario soit sélectionné par défaut
         setScenariosOfEditedCampagne(data)
@@ -738,8 +735,8 @@ export default function Editor() {
           (item) => item.selected === true
         )[0].id
 
-        axios
-          .get(`http://localhost:4242/scenarios/${idScenarioSelected}/pages`) // on va chercher les pages du scénario sélectionné et on se place sur la première
+        myApi
+          .get(`/scenarios/${idScenarioSelected}/pages`) // on va chercher les pages du scénario sélectionné et on se place sur la première
           .then(({ data }) => {
             data[0].selected = true
             setPagesOfScenarioSelected(data)
@@ -750,14 +747,14 @@ export default function Editor() {
               (item) => item.selected === true
             )[0].id
 
-            axios
-              .get(`http://localhost:4242/pages/${idPageSelected}/textes`) // on va chercher les textes de la page sélectionnée
+            myApi
+              .get(`/pages/${idPageSelected}/textes`) // on va chercher les textes de la page sélectionnée
               .then(({ data }) => {
                 setTextes(data)
               })
 
-            axios
-              .get(`http://localhost:4242/pages/${idPageSelected}/images`) // on va chercher les textes de la page sélectionnée
+            myApi
+              .get(`/pages/${idPageSelected}/images`) // on va chercher les textes de la page sélectionnée
               .then(({ data }) => {
                 setImages(data)
               })
@@ -827,8 +824,8 @@ export default function Editor() {
   const handleSave = () => {
     // sauvegarde des modifications des textes
     textes.map((texte) => {
-      axios
-        .put(`http://localhost:4242/textes/${texte.id}`, {
+      myApi
+        .put(`/textes/${texte.id}`, {
           pages_id: texte.pages_id,
           text: texte.text,
         })
@@ -839,37 +836,34 @@ export default function Editor() {
             (item) => item.selected === true
           )[0].id
 
-          axios.post(
-            `http://localhost:4242/pages/${idPageSelected}/ancientexte`,
-            {
-              page_textes_id: texte.page_textes_id,
-              data: texte.text,
-              width: texte.style.width,
-              height: texte.style.height,
-              top: texte.style.top,
-              sst_left: texte.style.left,
-              z_index: texte.style.zIndex,
-              border_style: texte.style.borderStyle,
-              border_color: texte.style.borderColor,
-              border_width: texte.style.borderWidth,
-              border_radius: texte.style.borderRadius,
-              box_shadow: texte.style.boxShadow,
-              background_color: texte.style.backgroundColor,
-              font_size: texte.style.fontSize,
-              font_style: texte.style.fontStyle,
-              font_weight: texte.style.fontWeight,
-              font_family: texte.style.fontFamily,
-              color: texte.style.color,
-              padding: texte.style.padding,
-              back_drop_filter: texte.style.backdropFilter,
-              text_decoration: texte.style.textDecoration,
-              text_align: texte.style.textAlign,
-            }
-          )
+          myApi.post(`/pages/${idPageSelected}/ancientexte`, {
+            page_textes_id: texte.page_textes_id,
+            data: texte.text,
+            width: texte.style.width,
+            height: texte.style.height,
+            top: texte.style.top,
+            sst_left: texte.style.left,
+            z_index: texte.style.zIndex,
+            border_style: texte.style.borderStyle,
+            border_color: texte.style.borderColor,
+            border_width: texte.style.borderWidth,
+            border_radius: texte.style.borderRadius,
+            box_shadow: texte.style.boxShadow,
+            background_color: texte.style.backgroundColor,
+            font_size: texte.style.fontSize,
+            font_style: texte.style.fontStyle,
+            font_weight: texte.style.fontWeight,
+            font_family: texte.style.fontFamily,
+            color: texte.style.color,
+            padding: texte.style.padding,
+            back_drop_filter: texte.style.backdropFilter,
+            text_decoration: texte.style.textDecoration,
+            text_align: texte.style.textAlign,
+          })
         })
 
       // sauvegarde des styles de textes dans la bdd
-      axios.put(`http://localhost:4242/styleText/texte/${texte.id}`, {
+      myApi.put(`/styleText/texte/${texte.id}`, {
         page_textes_id: texte.page_textes_id,
         width: texte.style.width,
         height: texte.style.height,
@@ -898,7 +892,7 @@ export default function Editor() {
 
     // suppression dans la bdd des images qui ont été supprimées
     deletedImages.map((image) =>
-      axios.delete(`http://localhost:4242/images/${image.id}`, {
+      myApi.delete(`/images/${image.id}`, {
         data: {
           img_src: image.img_src,
         },
@@ -907,7 +901,7 @@ export default function Editor() {
 
     // sauvegarde des styles des images
     images.map((image) =>
-      axios.put(`http://localhost:4242/styleImage/image/${image.id}`, {
+      myApi.put(`/styleImage/image/${image.id}`, {
         width: image.style.width,
         height: image.style.height,
         top: image.style.top,
@@ -932,7 +926,7 @@ export default function Editor() {
         (page) => page.selected === true
       )[0].style
 
-      axios.put(`http://localhost:4242/stylePage/page/${pageID}`, {
+      myApi.put(`/stylePage/page/${pageID}`, {
         pages_id: pageID,
         padding: pageStyle.padding,
         background_color: pageStyle.backgroundColor,
@@ -957,8 +951,8 @@ export default function Editor() {
     const formData = new FormData()
     formData.append("image", file)
 
-    axios
-      .post(`http://localhost:4242/pages/${idPageSelected}/newImage`, formData)
+    myApi
+      .post(`/pages/${idPageSelected}/newImage`, formData)
       .then(({ data }) => {
         const newImages = [...images, data]
         setImages(newImages)
@@ -1010,18 +1004,18 @@ export default function Editor() {
   // récupérarion des styles enregistrés de l'utilisateur à l'ouverture de la page
   useEffect(() => {
     if (user.id) {
-      axios
-        .get(`http://localhost:4242/saved_style_text/utilisateur/${user.id}`)
+      myApi
+        .get(`/saved_style_text/utilisateur/${user.id}`)
         .then(({ data }) => setSavedTextStyles(data))
         .catch((err) => console.error(err))
 
-      axios
-        .get(`http://localhost:4242/saved_style_image/utilisateur/${user.id}`)
+      myApi
+        .get(`/saved_style_image/utilisateur/${user.id}`)
         .then(({ data }) => setSavedImageStyles(data))
         .catch((err) => console.error(err))
 
-      axios
-        .get(`http://localhost:4242/saved_style_page/utilisateur/${user.id}`)
+      myApi
+        .get(`/saved_style_page/utilisateur/${user.id}`)
         .then(({ data }) => setSavedPageStyles(data))
         .catch((err) => console.error(err))
     }
@@ -1030,15 +1024,15 @@ export default function Editor() {
   // fonction pour ouverture d'une campagne si ouverture du mode création via une CardCreation du profil
   useEffect(() => {
     if (mounted && campagneImportedID !== null) {
-      axios
-        .get(`http://localhost:4242/auteurs/user/${user.id}`)
+      myApi
+        .get(`/auteurs/user/${user.id}`)
         .then(({ data }) => {
           setAuthor(data)
           return data
         })
         .then((author) => {
-          axios
-            .get(`http://localhost:4242/auteurs/${author.id}/campagnes`) // A MODIFIER - NE FONCTIONNE PAS ?? (sur de ça ? a verifier)
+          myApi
+            .get(`/auteurs/${author.id}/campagnes`) // A MODIFIER - NE FONCTIONNE PAS ?? (sur de ça ? a verifier)
             .then(({ data }) => {
               setCampagnesUtilisateur(data)
               return data
@@ -1074,14 +1068,11 @@ export default function Editor() {
 
     if (pageSelected && !selectedText) {
       if (paperPrint.placeHolder) {
-        axios
-          .post(
-            `http://localhost:4242/pages/${pageSelected.id}/texteCopy`,
-            paperPrint
-          )
+        myApi
+          .post(`/pages/${pageSelected.id}/texteCopy`, paperPrint)
           .then(() => {
-            axios
-              .get(`http://localhost:4242/lasttexte`) // on va chercher les textes de la page sélectionnée
+            myApi
+              .get(`/lasttexte`) // on va chercher les textes de la page sélectionnée
               .then(({ data }) => {
                 const newTextes = [...textes, data]
                 setTextes(newTextes)
@@ -1093,11 +1084,8 @@ export default function Editor() {
       } else if (paperPrint.img_src) {
         // axios pour poster image avec style
 
-        axios
-          .post(
-            `http://localhost:4242/pages/${pageSelected.id}/imageCopy`,
-            paperPrint
-          )
+        myApi
+          .post(`/pages/${pageSelected.id}/imageCopy`, paperPrint)
           .then(({ data }) => {
             const newImages = [...images, data]
             setImages(newImages)

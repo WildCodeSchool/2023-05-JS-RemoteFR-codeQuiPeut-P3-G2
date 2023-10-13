@@ -3,7 +3,6 @@ import CardScenarioCreation from "./CardScenarioCreation"
 import Switch from "./Switch"
 import "./UserProfileCreations.scss"
 import { useState, useEffect } from "react"
-import axios from "axios"
 import myApi from "../services/myAPI"
 
 export default function UserProfileCreations({
@@ -17,21 +16,15 @@ export default function UserProfileCreations({
   const [scenariosCampaignType, setScenariosCampaignType] = useState("one shot")
 
   useEffect(() => {
-    axios
-      .get(
-        `http://localhost:4242/scenariosInProgress/utilisateur/${followerID}`
+    myApi.get(`/scenariosInProgress/utilisateur/${followerID}`).then((res) => {
+      const finished = res.data.filter(
+        (item) => parseInt(item.publication_date.slice(0, 4), 10) < 2990
       )
-      .then((res) => {
-        const finished = res.data.filter(
-          (item) => parseInt(item.publication_date.slice(0, 4), 10) < 2990
-        )
-        setScenariosFinished(finished)
-      })
+      setScenariosFinished(finished)
+    })
 
-    axios
-      .get(
-        `http://localhost:4242/campagnesDetailed/auteur/${followersProfile.auteurs_id}`
-      )
+    myApi
+      .get(`/campagnesDetailed/auteur/${followersProfile.auteurs_id}`)
       .then(({ data }) => {
         const finished = data.filter(
           (item) => parseInt(item.publication_date.slice(0, 4), 10) < 2990

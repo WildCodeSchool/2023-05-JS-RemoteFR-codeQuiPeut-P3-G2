@@ -9,7 +9,6 @@ import bordureOff from "../assets/images/bordureOff.png"
 import marges from "../assets/images/marges.png"
 import { SketchPicker } from "react-color"
 import { React, useState, useEffect } from "react"
-import axios from "axios"
 import myApi from "../services/myAPI"
 
 export default function EditorTextStyle({
@@ -694,11 +693,11 @@ export default function EditorTextStyle({
 
     // on peut maintenant poster ce nouveau style puis récupérer l'ensemble des styles de images de l'utilisateur
 
-    axios
-      .post(`http://localhost:4242/saved_style_image`, newStyleCss)
+    myApi
+      .post(`/saved_style_image`, newStyleCss)
       .then(() => {
-        axios
-          .get(`http://localhost:4242/saved_style_image/utilisateur/${user.id}`)
+        myApi
+          .get(`/saved_style_image/utilisateur/${user.id}`)
           .then(({ data }) => setSavedImageStyles(data))
           .catch((err) => console.error(err))
       })

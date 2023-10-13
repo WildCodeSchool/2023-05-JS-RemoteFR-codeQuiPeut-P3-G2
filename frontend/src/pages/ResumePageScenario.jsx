@@ -3,7 +3,6 @@ import { useNavigate, useLocation } from "react-router-dom" // A decommenté qd 
 // import { useNavigate } from "react-router-dom"
 import MyContext from "../components/MyContext"
 import Navbar from "../components/Navbar"
-import axios from "axios"
 import myApi from "../services/myAPI"
 
 import fullStar from "../assets/images/etoile-pleine.png"
@@ -46,14 +45,14 @@ const ResumePageScenario = () => {
     if (user !== null) {
       setIsFAvorite(!isFavorite)
       if (isFavorite) {
-        axios.delete(`http://localhost:4242/favorite`, {
+        myApi.delete(`/favorite`, {
           data: {
             utilisateurID: user.id,
             scenarioID: scenario.id,
           },
         })
       } else {
-        axios.post(`http://localhost:4242/favorite`, {
+        myApi.post(`/favorite`, {
           utilisateurID: user.id,
           scenarioID: scenario.id,
         })
@@ -67,24 +66,24 @@ const ResumePageScenario = () => {
     navigate("/readscenario", { state: { scenario } })
 
     if (scenario.nbVues === 0) {
-      axios.post(`http://localhost:4242/vuesScenarios`, {
+      myApi.post(`/vuesScenarios`, {
         nbVues: 1,
         scenarioId: scenario.id,
       })
     } else {
-      axios.put(`http://localhost:4242/vuesScenarios`, {
+      myApi.put(`/vuesScenarios`, {
         nbVues: scenario.nbVues + 1,
         scenarioId: scenario.id,
       })
     }
 
     if (scenario.nbVuesCampagne === 0) {
-      axios.post(`http://localhost:4242/vuesCampagnes`, {
+      myApi.post(`/vuesCampagnes`, {
         nbVues: 1,
         campagneId: scenario.campagnes_id,
       })
     } else {
-      axios.put(`http://localhost:4242/vuesCampagnes`, {
+      myApi.put(`/vuesCampagnes`, {
         nbVues: scenario.nbVuesCampagne + 1,
         campagneId: scenario.campagnes_id,
       })
@@ -97,7 +96,7 @@ const ResumePageScenario = () => {
       )
 
       if (!scenarioAlreadyRead) {
-        axios.post(`http://localhost:4242/utilisateur/vuesScenarios`, {
+        myApi.post(`/utilisateur/vuesScenarios`, {
           userID: user.id,
           scenarioID: scenario.id,
         })
@@ -122,19 +121,17 @@ const ResumePageScenario = () => {
   }
 
   const handleClickSubmitComment = () => {
-    axios
-      .post(`http://localhost:4242/scenarcomm`, {
+    myApi
+      .post(`/scenarcomm`, {
         utilisateurID: user.id,
         scenarioID: scenario.id,
         textcomment: comment,
         datecomment: writingDateComment,
       })
       .then(() =>
-        axios
-          .get(`http://localhost:4242/scenario/${scenario.id}/scenarcomm`)
-          .then(({ data }) => {
-            setAvis(data) || console.info("data", data)
-          })
+        myApi.get(`/scenario/${scenario.id}/scenarcomm`).then(({ data }) => {
+          setAvis(data) || console.info("data", data)
+        })
       )
       .catch((err) => console.error(err))
 
@@ -156,39 +153,35 @@ const ResumePageScenario = () => {
   const handleEditComment = (e) => {
     const id = e.target.value
 
-    axios
-      .put(`http://localhost:4242/scenarcomm/${id}`, {
+    myApi
+      .put(`/scenarcomm/${id}`, {
         utilisateurID: user.id,
         scenarioID: scenario.id,
         textcomment: editComment,
       })
       .then(() =>
-        axios
-          .get(`http://localhost:4242/scenario/${scenario.id}/scenarcomm`)
-          .then(({ data }) => {
-            const newAvis = data.map((avi) => ({ ...avi, edit: false }))
-            setAvis(newAvis)
-          })
+        myApi.get(`/scenario/${scenario.id}/scenarcomm`).then(({ data }) => {
+          const newAvis = data.map((avi) => ({ ...avi, edit: false }))
+          setAvis(newAvis)
+        })
       )
       .catch((err) => console.error(err))
   }
 
   const handleNoEditComment = () => {
-    axios
-      .get(`http://localhost:4242/scenario/${scenario.id}/scenarcomm`)
-      .then(({ data }) => {
-        const closeAvis = data.map((avi) => ({ ...avi, edit: false }))
-        setAvis(closeAvis)
-      })
+    myApi.get(`/scenario/${scenario.id}/scenarcomm`).then(({ data }) => {
+      const closeAvis = data.map((avi) => ({ ...avi, edit: false }))
+      setAvis(closeAvis)
+    })
   }
 
   const handleDeleteComment = (e) => {
     const id = e.target.value
-    axios
-      .delete(`http://localhost:4242/scenarcomm/${id}`)
+    myApi
+      .delete(`/scenarcomm/${id}`)
       .then(() => {
-        axios
-          .get(`http://localhost:4242/scenario/${scenario.id}/scenarcomm`)
+        myApi
+          .get(`/scenario/${scenario.id}/scenarcomm`)
           .then(({ data }) => {
             setAvis(data)
           })
@@ -199,10 +192,8 @@ const ResumePageScenario = () => {
 
   useEffect(() => {
     if (user !== null) {
-      axios
-        .get(
-          `http://localhost:4242/utilisateurs/${user.id}/scenarioFavorite/${scenario.id}`
-        )
+      myApi
+        .get(`/utilisateurs/${user.id}/scenarioFavorite/${scenario.id}`)
         .then(({ data }) => {
           setIsFAvorite(true)
         })
@@ -215,8 +206,8 @@ const ResumePageScenario = () => {
   }, [])
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:4242/scenario/${scenario.id}/scenarcomm`)
+    myApi
+      .get(`/scenario/${scenario.id}/scenarcomm`)
       .then(({ data }) => {
         setAvis(data)
       })
@@ -225,8 +216,8 @@ const ResumePageScenario = () => {
 
   useEffect(() => {
     if (user !== null) {
-      axios
-        .get(`http://localhost:4242/allUsersReadScenarios`)
+      myApi
+        .get(`/allUsersReadScenarios`)
         .then(({ data }) => setReadScenarios(data))
     }
   })
