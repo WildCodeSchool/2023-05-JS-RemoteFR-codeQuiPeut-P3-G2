@@ -1,6 +1,8 @@
 import { useState, useEffect, useContext } from "react"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
+import myApi from "../services/myAPI"
+
 import "./CardScenario.scss"
 import etoileVide from "../assets/images/etoile-vide.png"
 import etoilePleine from "../assets/images/etoile-pleine.png"

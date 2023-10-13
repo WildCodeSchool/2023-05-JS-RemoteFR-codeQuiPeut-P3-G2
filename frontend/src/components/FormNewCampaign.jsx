@@ -1,4 +1,6 @@
 import axios from "axios"
+import myApi from "../services/myAPI"
+
 import { useState, useEffect, useContext } from "react"
 import MyContext from "./MyContext"
 

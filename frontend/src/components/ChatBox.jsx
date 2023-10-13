@@ -1,6 +1,8 @@
 import { useContext, useEffect, useState } from "react"
 import croix from "../assets/images/Close.svg"
 import axios from "axios"
+import myApi from "../services/myAPI"
+
 import MyContext from "./MyContext"
 
 export default function ChatBox({ setShowChat, scenario }) {

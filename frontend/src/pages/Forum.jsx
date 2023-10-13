@@ -4,6 +4,7 @@ import cadenas from "../assets/images/cadenas.png"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
+import myApi from "../services/myAPI"
 import FormNewForumTopic from "../components/FormNewForumTopic"
 import Footer from "../components/Footer"
 

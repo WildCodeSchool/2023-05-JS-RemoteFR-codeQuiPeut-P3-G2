@@ -4,6 +4,7 @@ import Switch from "./Switch"
 import "./UserProfileCreations.scss"
 import { useState, useEffect } from "react"
 import axios from "axios"
+import myApi from "../services/myAPI"
 
 export default function UserProfileCreations({
   scenariosUserFavorite,

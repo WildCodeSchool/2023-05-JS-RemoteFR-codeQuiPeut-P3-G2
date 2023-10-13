@@ -5,6 +5,8 @@ import Navbar from "../components/Navbar"
 import Switch from "../components/Switch"
 import "./Scripts.scss"
 import axios from "axios"
+import myApi from "../services/myAPI"
+
 import CardScenario from "../components/CardScenario"
 import FilterSelect from "../components/FilterSelect"
 import Footer from "../components/Footer"

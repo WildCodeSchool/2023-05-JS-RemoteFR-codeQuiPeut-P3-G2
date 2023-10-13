@@ -1,6 +1,8 @@
 import { useState } from "react"
 import "./SignUp.scss"
 import axios from "axios"
+import myApi from "../services/myAPI"
+
 import croix from "../assets/images/Close.svg"
 import eye from "../assets/images/eye.svg"
 import eyeOff from "../assets/images/eye_Off.svg"

@@ -1,4 +1,5 @@
 import axios from "axios"
+import myApi from "../services/myAPI"
 
 export default function InvitationPannel({
   invitations,

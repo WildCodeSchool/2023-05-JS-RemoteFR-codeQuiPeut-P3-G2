@@ -1,4 +1,5 @@
 const models = require("../models")
+const { encodeJWT } = require("../middleware/jwtCreator")
 
 const browse = (req, res) => {
   models.utilisateurs
@@ -188,6 +189,9 @@ const sendUserWhoHasGoodEmailAndPassword = (req, res) => {
       if (rows[0] == null) {
         res.sendStatus(404)
       } else {
+        const token = encodeJWT(rows[0])
+        // TODO : penser à passer secure: false à secure:true lors du déploiement du site
+        res.cookie("auth_token", token, { httpOnly: true, secure: false })
         res.send(rows[0])
       }
     })
@@ -195,6 +199,10 @@ const sendUserWhoHasGoodEmailAndPassword = (req, res) => {
       console.error(err)
       res.sendStatus(500)
     })
+}
+
+const logout = (req, res) => {
+  res.clearCookie("auth_token").sendStatus(200)
 }
 
 const changePassword = (req, res) => {
@@ -259,4 +267,5 @@ module.exports = {
   usersWhoAreFollowers,
   verifyEmailAndLogin,
   findUserComments,
+  logout,
 }

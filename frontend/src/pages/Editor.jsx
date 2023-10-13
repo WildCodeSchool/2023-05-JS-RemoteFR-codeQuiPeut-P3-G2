@@ -1,4 +1,5 @@
 import axios from "axios"
+import myApi from "../services/myAPI"
 import { useState, useEffect, useContext } from "react"
 import { useLocation } from "react-router"
 import MyContext from "../components/MyContext"

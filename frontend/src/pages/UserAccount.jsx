@@ -6,6 +6,7 @@ import profil from "../assets/images/pas_content.png"
 import pen from "../assets/images/Pen.svg"
 import MyContext from "../components/MyContext"
 import axios from "axios"
+import myApi from "../services/myAPI"
 
 export default function UserAccount() {
   const { user, setUser } = useContext(MyContext)

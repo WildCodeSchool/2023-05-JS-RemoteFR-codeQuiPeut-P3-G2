@@ -1,6 +1,8 @@
 import "./AccountFavoritesMyComments.scss"
 import { useEffect, useState } from "react"
 import axios from "axios"
+import myApi from "../services/myAPI"
+
 import pen from "../assets/images/Pen.svg"
 import iconSupprimerYellow from "../assets/images/iconSupprimer_yellow.svg"
 

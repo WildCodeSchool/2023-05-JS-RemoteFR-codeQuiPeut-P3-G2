@@ -3,6 +3,8 @@ import MyContext from "./MyContext"
 import etoilePleine from "../assets/images/etoile-pleine.png"
 import "./AccountFollowers.scss"
 import axios from "axios"
+import myApi from "../services/myAPI"
+
 import UserProfile from "./userProfile"
 import FormInvitationCollaboration from "./FormInvitationCollaboration"
 

@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar"
 import { useLocation } from "react-router-dom"
 import MyContext from "../components/MyContext"
 import axios from "axios"
+import myApi from "../services/myAPI"
 
 export default function ForumPageComments() {
   const location = useLocation()

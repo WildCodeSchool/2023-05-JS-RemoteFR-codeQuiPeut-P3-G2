@@ -1,4 +1,6 @@
 import axios from "axios"
+import myApi from "../services/myAPI"
+
 import scriptLogo from "../assets/images/ScripLogo.png"
 import { useNavigate } from "react-router-dom"
 // import { useState } from "react"

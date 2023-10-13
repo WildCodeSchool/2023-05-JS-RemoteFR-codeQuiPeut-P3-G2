@@ -3,6 +3,8 @@ import MyContext from "./MyContext"
 import "./AccountInformations.scss"
 import pen from "../assets/images/Pen.svg"
 import axios from "axios"
+import myApi from "../services/myAPI"
+
 import eye from "../assets/images/eye.svg"
 import eyeOff from "../assets/images/eye_Off.svg"
 

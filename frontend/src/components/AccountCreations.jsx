@@ -2,6 +2,8 @@ import CardScenario from "./CardScenario"
 import { useEffect, useContext, useState } from "react"
 import MyContext from "./MyContext"
 import axios from "axios"
+import myApi from "../services/myAPI"
+
 import "./AccountCreations.scss"
 import AccountFavoritesMyFavorites from "./AccountFavoritesMyFavorites"
 import AccountFavoritesMyViews from "./AccountFavoritesMyViews"

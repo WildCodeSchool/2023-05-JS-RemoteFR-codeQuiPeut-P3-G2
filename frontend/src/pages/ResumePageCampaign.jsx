@@ -3,6 +3,8 @@ import { useLocation } from "react-router-dom"
 import MyContext from "../components/MyContext"
 import Navbar from "../components/Navbar"
 import axios from "axios"
+import myApi from "../services/myAPI"
+
 import fullStar from "../assets/images/etoile-pleine.png"
 import emptyStar from "../assets/images/etoile-vide.png"
 import CardScenario from "../components/CardScenario"

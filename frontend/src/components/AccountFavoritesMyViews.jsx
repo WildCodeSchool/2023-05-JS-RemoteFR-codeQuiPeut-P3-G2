@@ -2,6 +2,7 @@ import CardScenario from "./CardScenario"
 import "./AccountFavoritesMyViews.scss"
 import { useEffect, useState } from "react"
 import axios from "axios"
+import myApi from "../services/myAPI"
 
 export default function AccountFavoritesMyViews({ scenariosFavorite, user }) {
   const [readScenarios, setReadScenarios] = useState([])

@@ -1,6 +1,8 @@
 import { SketchPicker } from "react-color"
 import { React, useState, useEffect } from "react"
 import axios from "axios"
+import myApi from "../services/myAPI"
+
 import marges from "../assets/images/marges.png"
 
 export default function EditorPageStyle(props) {

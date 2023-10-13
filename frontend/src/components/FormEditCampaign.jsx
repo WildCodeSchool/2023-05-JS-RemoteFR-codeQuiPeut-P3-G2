@@ -1,4 +1,6 @@
 import axios from "axios"
+import myApi from "../services/myAPI"
+
 import { useState, useEffect } from "react"
 
 import imgDefaultScenario from "../assets/images/defoscenario.png"

@@ -1,5 +1,7 @@
 import { useEffect } from "react"
 import axios from "axios"
+import myApi from "../services/myAPI"
+
 import "./FilterSelect.scss"
 
 function FilterSelect({

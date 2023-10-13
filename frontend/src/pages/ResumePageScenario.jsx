@@ -4,6 +4,8 @@ import { useNavigate, useLocation } from "react-router-dom" // A decommenté qd 
 import MyContext from "../components/MyContext"
 import Navbar from "../components/Navbar"
 import axios from "axios"
+import myApi from "../services/myAPI"
+
 import fullStar from "../assets/images/etoile-pleine.png"
 import emptyStar from "../assets/images/etoile-vide.png"
 import pen from "../assets/images/Pen.svg"

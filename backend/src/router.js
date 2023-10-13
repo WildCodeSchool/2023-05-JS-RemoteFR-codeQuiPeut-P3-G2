@@ -37,6 +37,7 @@ const vuesCampagnesControllers = require("./controllers/vuesCampagnesControllers
 const vuesScenariosControllers = require("./controllers/vuesScenariosControllers")
 const invitationsControllers = require("./controllers/invitationsControllers")
 const chatCreationControllers = require("./controllers/chatCreationControllers")
+const { authorization } = require("./middleware/authorization")
 
 const multer = require("./middleware/multer-config")
 const {
@@ -57,7 +58,7 @@ router.get(
 router.put("/invitation/:id", invitationsControllers.update)
 
 // router.get("/scenarios", scenariosControllers.browse)
-router.get("/scenarios", scenariosControllers.browseScenarios)
+router.get("/scenarios", authorization, scenariosControllers.browseScenarios)
 router.get("/scenariosOneshot", scenariosControllers.browseScenariosOneshot)
 // router.get("/scenarios/:id", scenariosControllers.read)
 // router.get("/scenarios", scenariosControllers.browse)
@@ -135,6 +136,8 @@ router.post(
   hashPassword,
   utilisateursControllers.add
 )
+
+router.get("/logout", utilisateursControllers.logout)
 
 router.get(
   "/utilisateurs/:userId/campagneFavorite/:campaignId",

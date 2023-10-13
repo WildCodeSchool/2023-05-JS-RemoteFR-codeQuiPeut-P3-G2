@@ -5,6 +5,7 @@ import publish from "../assets/images/icon-publish.png"
 import publishBleu from "../assets/images/icon-publishBleu.png"
 import { useState } from "react"
 import axios from "axios"
+import myApi from "../services/myAPI"
 
 function CardScenarioCreation({ scenario, user }) {
   const navigate = useNavigate()

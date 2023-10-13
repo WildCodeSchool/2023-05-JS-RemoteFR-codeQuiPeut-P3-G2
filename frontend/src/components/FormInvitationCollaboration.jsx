@@ -1,6 +1,7 @@
 import { useEffect, useState, useContext } from "react"
 import MyContext from "./MyContext"
 import axios from "axios"
+import myApi from "../services/myAPI"
 
 export default function FormInvitationCollaboration({
   followerID,

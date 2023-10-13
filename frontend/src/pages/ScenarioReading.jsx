@@ -6,6 +6,7 @@ import ChatBox from "../components/ChatBox"
 import summary from "../assets/images/sommaire.svg"
 import iconChat from "../assets/images/icon_chat.png"
 import axios from "axios"
+import myApi from "../services/myAPI"
 
 export default function ScenarioReading() {
   const location = useLocation()

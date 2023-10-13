@@ -4,6 +4,7 @@ import CardCampaign from "./CardCampaign"
 import "./UserProfileFavorite.scss"
 import { useEffect, useState } from "react"
 import axios from "axios"
+import myApi from "../services/myAPI"
 
 // export default function UserProfileFavorite({ scenariosUserFavorite, setScenariosUserFavorite, setFollowersProfile, user, followerID }) {
 export default function UserProfileFavorite({ user, followerID }) {

@@ -1,4 +1,6 @@
 import axios from "axios"
+import myApi from "../services/myAPI"
+
 import { useState } from "react"
 import nouvellePage from "../assets/images/nouvellePage.svg"
 import dotsCircle from "../assets/images/dotsCircle.png"

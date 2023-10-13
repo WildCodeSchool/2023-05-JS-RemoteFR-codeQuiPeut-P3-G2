@@ -2,6 +2,8 @@ import { useState, useContext } from "react"
 import MyContext from "./MyContext"
 import "./Login.scss"
 import axios from "axios"
+import myApi from "../services/myAPI"
+
 import croix from "../assets/images/Close.svg"
 import eye from "../assets/images/eye.svg"
 import eyeOff from "../assets/images/eye_Off.svg"
