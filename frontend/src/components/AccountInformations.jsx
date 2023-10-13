@@ -2,7 +2,6 @@ import { useState, useContext } from "react"
 import MyContext from "./MyContext"
 import "./AccountInformations.scss"
 import pen from "../assets/images/Pen.svg"
-import axios from "axios"
 import myApi from "../services/myAPI"
 
 import eye from "../assets/images/eye.svg"
@@ -28,8 +27,8 @@ export default function AccountInformations() {
   }
 
   const HandleClickPutInformations = () => {
-    axios
-      .put(`http://localhost:4242/utilisateurs/${user.id}`, {
+    myApi
+      .put(`/utilisateurs/${user.id}`, {
         lastname,
         firstname,
         login,
@@ -37,9 +36,7 @@ export default function AccountInformations() {
         img: user.img,
       })
       .then(() => {
-        axios
-          .get(`http://localhost:4242/utilisateurs/${user.id}`)
-          .then((res) => setUser(res.data))
+        myApi.get(`/utilisateurs/${user.id}`).then((res) => setUser(res.data))
       })
       .then(() => {
         setSuccesMessage(true)
@@ -64,8 +61,8 @@ export default function AccountInformations() {
   }
 
   const HandleClickPutPassWord = () => {
-    axios
-      .put(`http://localhost:4242/password/${user.id}`, {
+    myApi
+      .put(`/password/${user.id}`, {
         password,
       })
       .then(() => {

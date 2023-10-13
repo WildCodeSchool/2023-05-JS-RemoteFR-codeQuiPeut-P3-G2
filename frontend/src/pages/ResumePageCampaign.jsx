@@ -2,7 +2,6 @@ import { useState, useContext, useEffect } from "react"
 import { useLocation } from "react-router-dom"
 import MyContext from "../components/MyContext"
 import Navbar from "../components/Navbar"
-import axios from "axios"
 import myApi from "../services/myAPI"
 
 import fullStar from "../assets/images/etoile-pleine.png"
@@ -31,14 +30,14 @@ export default function ResumePageCampaign() {
     if (user !== null) {
       setIsFAvorite(!isFavorite)
       if (isFavorite) {
-        axios.delete(`http://localhost:4242/favoriteCampaign`, {
+        myApi.delete(`/favoriteCampaign`, {
           data: {
             utilisateurID: user.id,
             campaignID: campagneID,
           },
         })
       } else {
-        axios.post(`http://localhost:4242/favoriteCampaign`, {
+        myApi.post(`/favoriteCampaign`, {
           utilisateurID: user.id,
           campaignID: campagneID,
         })
@@ -50,10 +49,8 @@ export default function ResumePageCampaign() {
 
   useEffect(() => {
     if (user !== null) {
-      axios
-        .get(
-          `http://localhost:4242/utilisateurs/${user.id}/campagneFavorite/${campagneID}`
-        )
+      myApi
+        .get(`/utilisateurs/${user.id}/campagneFavorite/${campagneID}`)
         .then(({ data }) => {
           setIsFAvorite(true)
         })
@@ -62,19 +59,17 @@ export default function ResumePageCampaign() {
   }, [])
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:4242/campagnes/${campagneID}`)
+    myApi
+      .get(`/campagnes/${campagneID}`)
       .then(({ data }) => {
         setCampagne(data)
       })
       .catch((err) => console.error(err))
 
-    axios
-      .get(`http://localhost:4242/campagnes/${campagneID}/detailedScenarios`)
-      .then(({ data }) => {
-        data = data.map((item) => ({ ...item, title: item.name }))
-        setScenariosOfSelectedCampagne(data)
-      })
+    myApi.get(`/campagnes/${campagneID}/detailedScenarios`).then(({ data }) => {
+      data = data.map((item) => ({ ...item, title: item.name }))
+      setScenariosOfSelectedCampagne(data)
+    })
   }, [])
 
   return (

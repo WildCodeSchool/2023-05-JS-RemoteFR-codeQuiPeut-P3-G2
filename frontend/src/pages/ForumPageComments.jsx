@@ -2,7 +2,6 @@ import { useEffect, useState, useContext } from "react"
 import Navbar from "../components/Navbar"
 import { useLocation } from "react-router-dom"
 import MyContext from "../components/MyContext"
-import axios from "axios"
 import myApi from "../services/myAPI"
 
 export default function ForumPageComments() {
@@ -50,18 +49,16 @@ export default function ForumPageComments() {
 
   const handleClickSendComment = () => {
     if (valueNewComment !== "") {
-      axios
-        .post(`http://localhost:4242/commentaires_forum`, {
+      myApi
+        .post(`/commentaires_forum`, {
           utilisateurs_id: user.id,
           sujet_forum_id: topic.id,
           commentaire: valueNewComment,
           date_time: getDateOfDay(),
         })
         .then(() => {
-          axios
-            .get(
-              `http://localhost:4242/sujet_forum/${topic.id}/commentaires_forum`
-            )
+          myApi
+            .get(`/sujet_forum/${topic.id}/commentaires_forum`)
             .then(({ data }) => setComments(data))
             .catch((err) => console.error(err))
         })
@@ -109,8 +106,8 @@ export default function ForumPageComments() {
   }
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:4242/sujet_forum/${topic.id}/commentaires_forum`)
+    myApi
+      .get(`/sujet_forum/${topic.id}/commentaires_forum`)
       .then(({ data }) => setComments(data))
       .catch((err) => console.error(err))
 
@@ -209,7 +206,7 @@ export default function ForumPageComments() {
 
               <div className="div-newComment">
                 {showInputNewComment === false &&
-                  user.id &&
+                  user !== null &&
                   indexToShow.max >= comments.length - 1 && (
                     <button
                       type="button"
@@ -316,7 +313,7 @@ export default function ForumPageComments() {
 
               <div className="div-newComment">
                 {showInputNewComment === false &&
-                  user.id &&
+                  user !== null &&
                   indexToShow.min === 0 && (
                     <button
                       type="button"

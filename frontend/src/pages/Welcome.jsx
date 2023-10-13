@@ -6,7 +6,6 @@ import LivreAccueil from "../assets/LivreAccueil.png"
 import mokeUp from "../assets/Laptop.png"
 import Navbar from "../components/Navbar"
 import Slider from "react-slick"
-import axios from "axios"
 import myApi from "../services/myAPI"
 
 import { useState, useEffect, useContext } from "react"

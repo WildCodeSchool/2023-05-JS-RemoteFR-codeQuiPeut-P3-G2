@@ -1,6 +1,5 @@
 import { useState } from "react"
 import "./SignUp.scss"
-import axios from "axios"
 import myApi from "../services/myAPI"
 
 import croix from "../assets/images/Close.svg"
@@ -30,8 +29,8 @@ export default function SignUp({
   }
 
   const HandleSubmitSignUp = () => {
-    axios
-      .post("http://localhost:4242/signup", {
+    myApi
+      .post("/signup", {
         lastname,
         firstname,
         login,
@@ -102,18 +101,14 @@ export default function SignUp({
     const formData = new FormData()
     formData.append("image", file)
     if (img === "none") {
-      axios
-        .post("http://localhost:4242/tmpImage", formData)
-        .then(({ data }) => setImg(data))
+      myApi.post("/tmpImage", formData).then(({ data }) => setImg(data))
     } else {
-      axios.delete("http://localhost:4242/deleteTmpImage", {
+      myApi.delete("/deleteTmpImage", {
         data: {
           img_src: img,
         },
       })
-      axios
-        .post("http://localhost:4242/tmpImage", formData)
-        .then(({ data }) => setImg(data))
+      myApi.post("/tmpImage", formData).then(({ data }) => setImg(data))
     }
   }
 

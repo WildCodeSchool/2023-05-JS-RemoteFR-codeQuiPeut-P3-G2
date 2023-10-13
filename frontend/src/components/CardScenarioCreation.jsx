@@ -4,7 +4,6 @@ import pen from "../assets/images/Pen.svg"
 import publish from "../assets/images/icon-publish.png"
 import publishBleu from "../assets/images/icon-publishBleu.png"
 import { useState } from "react"
-import axios from "axios"
 import myApi from "../services/myAPI"
 
 function CardScenarioCreation({ scenario, user }) {
@@ -57,7 +56,7 @@ function CardScenarioCreation({ scenario, user }) {
       setIsPublished(true)
     }, 2000) // Réinitialise l'état après 2 secondes (2000 ms)
 
-    axios.put(`http://localhost:4242/scenarios/${scenario.id}`, {
+    myApi.put(`/scenarios/${scenario.id}`, {
       auteurs_id: scenario.auteursId, // author
       jeux_de_role_id: scenario.jeux_de_roleId,
       campagnes_id: scenario.campagnes_id, // A faire plus tard => campagneId

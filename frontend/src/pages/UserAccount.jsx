@@ -5,7 +5,6 @@ import "./UserAccount.scss"
 import profil from "../assets/images/pas_content.png"
 import pen from "../assets/images/Pen.svg"
 import MyContext from "../components/MyContext"
-import axios from "axios"
 import myApi from "../services/myAPI"
 
 export default function UserAccount() {
@@ -24,15 +23,15 @@ export default function UserAccount() {
     const formData = new FormData()
     formData.append("image", file)
     if (img === "none") {
-      axios
-        .post("http://localhost:4242/tmpImage", formData)
+      myApi
+        .post("/tmpImage", formData)
         .then(({ data }) => {
           setImg(data)
           return data
         })
         .then((newImg) => {
-          axios
-            .put(`http://localhost:4242/utilisateurs/${user.id}`, {
+          myApi
+            .put(`/utilisateurs/${user.id}`, {
               lastname: user.lastname,
               firstname: user.firstname,
               login: user.login,
@@ -40,26 +39,26 @@ export default function UserAccount() {
               img: newImg,
             })
             .then(() => {
-              axios
-                .get(`http://localhost:4242/utilisateurs/${user.id}`)
+              myApi
+                .get(`/utilisateurs/${user.id}`)
                 .then((res) => setUser(res.data))
             })
         })
     } else {
-      axios.delete("http://localhost:4242/deleteTmpImage", {
+      myApi.delete("/deleteTmpImage", {
         data: {
           img_src: img,
         },
       })
-      axios
-        .post("http://localhost:4242/tmpImage", formData)
+      myApi
+        .post("/tmpImage", formData)
         .then(({ data }) => {
           setImg(data)
           return data
         })
         .then((newImg) => {
-          axios
-            .put(`http://localhost:4242/utilisateurs/${user.id}`, {
+          myApi
+            .put(`/utilisateurs/${user.id}`, {
               lastname: user.lastname,
               firstname: user.firstname,
               login: user.login,
@@ -67,8 +66,8 @@ export default function UserAccount() {
               img: newImg,
             })
             .then(() => {
-              axios
-                .get(`http://localhost:4242/utilisateurs/${user.id}`)
+              myApi
+                .get(`/utilisateurs/${user.id}`)
                 .then((res) => setUser(res.data))
             })
         })

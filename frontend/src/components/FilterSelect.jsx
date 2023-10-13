@@ -1,5 +1,4 @@
 import { useEffect } from "react"
-import axios from "axios"
 import myApi from "../services/myAPI"
 
 import "./FilterSelect.scss"
@@ -14,8 +13,8 @@ function FilterSelect({
   setAuteurs,
 }) {
   useEffect(() => {
-    axios
-      .get("http://localhost:4242/auteurs")
+    myApi
+      .get("/auteurs")
       .then((res) => setAuteurs(res.data) || console.info("axios", res.data))
       .catch((error) => console.error(error))
   }, [])

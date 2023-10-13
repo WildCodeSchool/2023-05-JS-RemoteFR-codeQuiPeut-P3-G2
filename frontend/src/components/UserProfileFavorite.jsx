@@ -3,7 +3,6 @@ import Switch from "./Switch"
 import CardCampaign from "./CardCampaign"
 import "./UserProfileFavorite.scss"
 import { useEffect, useState } from "react"
-import axios from "axios"
 import myApi from "../services/myAPI"
 
 // export default function UserProfileFavorite({ scenariosUserFavorite, setScenariosUserFavorite, setFollowersProfile, user, followerID }) {
@@ -14,18 +13,16 @@ export default function UserProfileFavorite({ user, followerID }) {
   const [campagnes, setCampagnes] = useState([])
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:4242/scenariosFavorites/utilisateur/${followerID}`)
-      .then((res) => {
-        setScenariosUserFavorite(res.data)
-      })
+    myApi.get(`/scenariosFavorites/utilisateur/${followerID}`).then((res) => {
+      setScenariosUserFavorite(res.data)
+    })
 
-    axios.get(`http://localhost:4242/followers/${followerID}`).then((res) => {
+    myApi.get(`/followers/${followerID}`).then((res) => {
       setFollowersProfile(res.data)
     })
 
-    axios
-      .get(`http://localhost:4242/campagnesFavorites/utilisateur/${followerID}`)
+    myApi
+      .get(`/campagnesFavorites/utilisateur/${followerID}`)
       .then(({ data }) => setCampagnes(data))
       .catch((err) => console.error(err))
   }, [])
