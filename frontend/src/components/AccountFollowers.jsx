@@ -2,7 +2,8 @@ import { useEffect, useContext, useState } from "react"
 import MyContext from "./MyContext"
 import etoilePleine from "../assets/images/etoile-pleine.png"
 import "./AccountFollowers.scss"
-import axios from "axios"
+import myApi from "../services/myAPI"
+
 import UserProfile from "./userProfile"
 import FormInvitationCollaboration from "./FormInvitationCollaboration"
 
@@ -19,7 +20,7 @@ export default function AccountFollowers() {
     setFollowerId(id)
     setShowPopUpProfile(true)
 
-    axios.get(`http://localhost:4242/utilisateurs/${id}`).then((res) => {
+    myApi.get(`/utilisateurs/${id}`).then((res) => {
       setFollowersProfile(res.data)
     })
   }
@@ -30,11 +31,9 @@ export default function AccountFollowers() {
   }
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:4242/followers/${user.auteurId}`)
-      .then((res) => {
-        setFollowers(res.data)
-      })
+    myApi.get(`/followers/${user.auteurId}`).then((res) => {
+      setFollowers(res.data)
+    })
   }, [])
 
   return (

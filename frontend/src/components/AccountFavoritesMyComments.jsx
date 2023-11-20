@@ -1,6 +1,7 @@
 import "./AccountFavoritesMyComments.scss"
 import { useEffect, useState } from "react"
-import axios from "axios"
+import myApi from "../services/myAPI"
+
 import pen from "../assets/images/Pen.svg"
 import iconSupprimerYellow from "../assets/images/iconSupprimer_yellow.svg"
 
@@ -24,11 +25,11 @@ export default function AccountFavoritesMyComments({ user }) {
   }
 
   const handleDeleteComment = (id) => {
-    axios
-      .delete(`http://localhost:4242/scenarcomm/${id}`)
+    myApi
+      .delete(`/scenarcomm/${id}`)
       .then(() => {
-        axios
-          .get(`http://localhost:4242/utilisateurs/${user.id}/comments`)
+        myApi
+          .get(`/utilisateurs/${user.id}/comments`)
           .then(({ data }) => {
             setUserComments(data)
           })
@@ -49,15 +50,15 @@ export default function AccountFavoritesMyComments({ user }) {
   }
 
   const handleEditComment = (commentID, scenarioID) => {
-    axios
-      .put(`http://localhost:4242/scenarcomm/${commentID}`, {
+    myApi
+      .put(`/scenarcomm/${commentID}`, {
         utilisateurID: user.id,
         scenarioID,
         textcomment: editComment,
       })
       .then(() =>
-        axios
-          .get(`http://localhost:4242/utilisateurs/${user.id}/comments`)
+        myApi
+          .get(`/utilisateurs/${user.id}/comments`)
           .then(({ data }) => {
             const newAvis = data.map((avi) => ({ ...avi, edit: false }))
             setUserComments(newAvis)
@@ -82,8 +83,8 @@ export default function AccountFavoritesMyComments({ user }) {
   }
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:4242/utilisateurs/${user.id}/comments`)
+    myApi
+      .get(`/utilisateurs/${user.id}/comments`)
       .then(({ data }) => setUserComments(data))
       .catch((err) => console.error(err))
   }, [])

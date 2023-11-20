@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from "react"
 import MyContext from "./MyContext"
-import axios from "axios"
+import myApi from "../services/myAPI"
 
 export default function FormInvitationCollaboration({
   followerID,
@@ -53,7 +53,7 @@ export default function FormInvitationCollaboration({
         afficher: 1,
       }
 
-      axios.post(`http://localhost:4242/invitation`, myInvitation)
+      myApi.post(`/invitation`, myInvitation)
       setShowFormProposeCoWriting(false)
     }
   }
@@ -63,14 +63,12 @@ export default function FormInvitationCollaboration({
   }
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:4242/scenariosInProgress/utilisateur/${user.id}`)
-      .then((res) => {
-        const inProgress = res.data.filter(
-          (item) => parseInt(item.publication_date.slice(0, 4), 10) > 2990
-        )
-        setMyScenarios(inProgress)
-      })
+    myApi.get(`/scenariosInProgress/utilisateur/${user.id}`).then((res) => {
+      const inProgress = res.data.filter(
+        (item) => parseInt(item.publication_date.slice(0, 4), 10) > 2990
+      )
+      setMyScenarios(inProgress)
+    })
   }, [])
 
   return (

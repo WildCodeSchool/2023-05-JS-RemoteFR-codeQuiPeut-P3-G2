@@ -5,7 +5,7 @@ import SommaireReading from "../components/SommaireReading"
 import ChatBox from "../components/ChatBox"
 import summary from "../assets/images/sommaire.svg"
 import iconChat from "../assets/images/icon_chat.png"
-import axios from "axios"
+import myApi from "../services/myAPI"
 
 export default function ScenarioReading() {
   const location = useLocation()
@@ -40,8 +40,8 @@ export default function ScenarioReading() {
     const idPageSelected = pages.filter((item) => item.number === pageNumber)[0]
       .id
 
-    axios
-      .get(`http://localhost:4242/pages/${idPageSelected}/textes`) // on va chercher les textes de la page sélectionnée
+    myApi
+      .get(`/pages/${idPageSelected}/textes`) // on va chercher les textes de la page sélectionnée
       .then(({ data }) => {
         setTextes(data)
       })
@@ -50,8 +50,8 @@ export default function ScenarioReading() {
         setTextes([])
       })
 
-    axios
-      .get(`http://localhost:4242/pages/${idPageSelected}/images`) // on va chercher les images de la page sélectionnée
+    myApi
+      .get(`/pages/${idPageSelected}/images`) // on va chercher les images de la page sélectionnée
       .then(({ data }) => {
         setImages(data)
       })
@@ -151,8 +151,8 @@ export default function ScenarioReading() {
   window.onresize = resetWidthPageOnWindowResize
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:4242/scenarios/${scenarioID}/pages`)
+    myApi
+      .get(`/scenarios/${scenarioID}/pages`)
       .then(({ data }) => {
         setPages(data)
         return data
@@ -160,8 +160,8 @@ export default function ScenarioReading() {
       .then((pages) => {
         const idPageSelected = pages.filter((item) => item.number === 1)[0].id
 
-        axios
-          .get(`http://localhost:4242/pages/${idPageSelected}/textes`) // on va chercher les textes de la page sélectionnée
+        myApi
+          .get(`/pages/${idPageSelected}/textes`) // on va chercher les textes de la page sélectionnée
           .then(({ data }) => {
             setTextes(data)
           })
@@ -170,8 +170,8 @@ export default function ScenarioReading() {
             setTextes([])
           })
 
-        axios
-          .get(`http://localhost:4242/pages/${idPageSelected}/images`) // on va chercher les images de la page sélectionnée
+        myApi
+          .get(`/pages/${idPageSelected}/images`) // on va chercher les images de la page sélectionnée
           .then(({ data }) => {
             setImages(data)
           })

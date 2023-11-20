@@ -1,4 +1,5 @@
-import axios from "axios"
+import myApi from "../services/myAPI"
+
 import { useState, useEffect } from "react"
 
 import imgDefaultScenario from "../assets/images/defoscenario.png"
@@ -123,17 +124,17 @@ export default function FormEditCampaign({
     const formData = new FormData()
     formData.append("image", file)
     if (pictureScenario === "none") {
-      axios
-        .post("http://localhost:4242/tmpImage", formData)
+      myApi
+        .post("/tmpImage", formData)
         .then(({ data }) => console.info(data) || setPictureScenario(data))
     } else {
-      axios.delete("http://localhost:4242/deleteTmpImage", {
+      myApi.delete("/deleteTmpImage", {
         data: {
           img_src: pictureScenario,
         },
       })
-      axios
-        .post("http://localhost:4242/tmpImage", formData)
+      myApi
+        .post("/tmpImage", formData)
         .then(({ data }) => console.info(data) || setPictureScenario(data))
     }
   }
@@ -153,7 +154,7 @@ export default function FormEditCampaign({
     const startWritingdate = editedCampaign.start_writing_date.slice(0, 10)
     const publicationDate = editedCampaign.publication_date.slice(0, 10)
 
-    axios.put(`http://localhost:4242/campagnes/${editedCampaign.id}`, {
+    myApi.put(`/campagnes/${editedCampaign.id}`, {
       auteurs_id: editedCampaign.auteurs_id, // author
       jeux_de_role_id: roleGameID,
       name: campaignName,
@@ -166,7 +167,7 @@ export default function FormEditCampaign({
       synopsis,
     })
 
-    axios.put(`http://localhost:4242/themesCampagnes/${editedCampaign.id}`, {
+    myApi.put(`/themesCampagnes/${editedCampaign.id}`, {
       campagnes_id: editedCampaign.id,
       themes_id: themeID,
     })
@@ -179,8 +180,8 @@ export default function FormEditCampaign({
   }
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:4242/campagnes/${campaignID}`)
+    myApi
+      .get(`/campagnes/${campaignID}`)
       .then(({ data }) => {
         setEditedCampaign(data)
         return data
@@ -197,8 +198,8 @@ export default function FormEditCampaign({
         return campaign
       })
       .then((campaign) => {
-        axios
-          .get("http://localhost:4242/rolegames")
+        myApi
+          .get("/rolegames")
           .then(({ data }) => {
             setRoleGame(data)
             setValueRoleGame(
@@ -208,8 +209,8 @@ export default function FormEditCampaign({
           })
           .catch((err) => console.error(err))
 
-        axios
-          .get("http://localhost:4242/themes")
+        myApi
+          .get("/themes")
           .then(({ data }) => {
             setThemes(data)
           })

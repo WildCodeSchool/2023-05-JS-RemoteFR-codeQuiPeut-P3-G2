@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import croix from "../assets/images/Close.svg"
-import axios from "axios"
+import myApi from "../services/myAPI"
+
 import MyContext from "./MyContext"
 
 export default function ChatBox({ setShowChat, scenario }) {
@@ -36,16 +37,16 @@ export default function ChatBox({ setShowChat, scenario }) {
     // const newDate = now.toISOString()
     const newDate = handleFormatDate(now)
 
-    axios
-      .post(`http://localhost:4242/chat/`, {
+    myApi
+      .post(`/chat/`, {
         scenarios_id: scenario.id,
         utilisateurs_id: user.id,
         commentaire: newMessage,
         date_time: newDate,
       })
       .then(() => {
-        axios
-          .get(`http://localhost:4242/chat/scenario/${scenario.id}`)
+        myApi
+          .get(`/chat/scenario/${scenario.id}`)
           .then(({ data }) => setComments(data))
           .catch(() => setComments([]))
       })
@@ -55,8 +56,8 @@ export default function ChatBox({ setShowChat, scenario }) {
   }
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:4242/chat/scenario/${scenario.id}`)
+    myApi
+      .get(`/chat/scenario/${scenario.id}`)
       .then(({ data }) => setComments(data))
       .catch(() => setComments([]))
   }, [scenario])

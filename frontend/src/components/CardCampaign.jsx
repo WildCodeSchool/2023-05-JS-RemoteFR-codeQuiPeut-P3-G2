@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react"
 import { useNavigate } from "react-router-dom"
-import axios from "axios"
+import myApi from "../services/myAPI"
+
 import "./CardScenario.scss"
 import etoileVide from "../assets/images/etoile-vide.png"
 import etoilePleine from "../assets/images/etoile-pleine.png"
@@ -14,23 +15,12 @@ export default function CardCampaign({ campaign, user }) {
 
   useEffect(() => {
     if (user !== null) {
-      axios
-        .get(
-          `http://localhost:4242/utilisateurs/${user.id}/campagneFavorite/${campaign.id}`
-        )
+      myApi
+        .get(`/utilisateurs/${user.id}/campagneFavorite/${campaign.id}`)
         .then(({ data }) => {
           setfavorite(true)
         })
         .catch(() => setfavorite(false))
-
-      // axios
-      // .get(
-      //   `http://localhost:4242/utilisateurs/${user.id}/authorFavorite/${campaign.auteurs_id}`
-      // )
-      // .then(({ data }) => {
-      //     setFollowAutor(true)
-      // })
-      // .catch(() => setFollowAutor(false))
     }
   }, [])
 
@@ -43,14 +33,14 @@ export default function CardCampaign({ campaign, user }) {
     if (user !== null) {
       setfavorite(!favorite)
       if (favorite) {
-        axios.delete(`http://localhost:4242/favoriteCampaign`, {
+        myApi.delete(`/favoriteCampaign`, {
           data: {
             utilisateurID: user.id,
             campaignID: campaign.id,
           },
         })
       } else {
-        axios.post(`http://localhost:4242/favoriteCampaign`, {
+        myApi.post(`/favoriteCampaign`, {
           utilisateurID: user.id,
           campaignID: campaign.id,
         })
@@ -66,28 +56,28 @@ export default function CardCampaign({ campaign, user }) {
       if (
         followedAutors.find((item) => item.auteurs_id === campaign.auteurs_id)
       ) {
-        axios
-          .delete(`http://localhost:4242/autorFavorite`, {
+        myApi
+          .delete(`/autorFavorite`, {
             data: {
               utilisateurID: user.id,
               auteurID: campaign.auteurs_id,
             },
           })
           .then(() => {
-            axios
-              .get(`http://localhost:4242/autorFavorite/${user.id}`)
+            myApi
+              .get(`/autorFavorite/${user.id}`)
               .then(({ data }) => setFollowedAutors(data))
               .catch((err) => console.error(err))
           })
       } else {
-        axios
-          .post(`http://localhost:4242/autorFavorite`, {
+        myApi
+          .post(`/autorFavorite`, {
             utilisateurID: user.id,
             auteurID: campaign.auteurs_id,
           })
           .then(() => {
-            axios
-              .get(`http://localhost:4242/autorFavorite/${user.id}`)
+            myApi
+              .get(`/autorFavorite/${user.id}`)
               .then(({ data }) => setFollowedAutors(data))
               .catch((err) => console.error(err))
           })

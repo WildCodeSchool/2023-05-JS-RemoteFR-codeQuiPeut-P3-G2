@@ -1,4 +1,4 @@
-import axios from "axios"
+import myApi from "../services/myAPI"
 
 export default function InvitationPannel({
   invitations,
@@ -26,7 +26,7 @@ export default function InvitationPannel({
       (invitation) => invitation.id === id
     )
 
-    axios.put(`http://localhost:4242/invitation/${id}`, {
+    myApi.put(`/invitation/${id}`, {
       type: modifiedInvitation.type,
       etat: "rejected",
       reponse: modifiedInvitation.reponse,
@@ -45,7 +45,7 @@ export default function InvitationPannel({
       (invitation) => invitation.id === id
     )
 
-    axios.put(`http://localhost:4242/invitation/${id}`, {
+    myApi.put(`/invitation/${id}`, {
       type: modifiedInvitation.type,
       etat: "accepted",
       reponse: modifiedInvitation.reponse,

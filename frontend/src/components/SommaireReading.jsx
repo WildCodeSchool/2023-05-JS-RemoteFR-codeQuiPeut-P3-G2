@@ -1,4 +1,5 @@
-import axios from "axios"
+import myApi from "../services/myAPI"
+
 import scriptLogo from "../assets/images/ScripLogo.png"
 import { useNavigate } from "react-router-dom"
 // import { useState } from "react"
@@ -39,8 +40,8 @@ export default function SommaireReading(props) {
     const idPageSelected = newpages.filter((item) => item.selected === true)[0]
       .id
 
-    axios
-      .get(`http://localhost:4242/pages/${idPageSelected}/textes`) // on va chercher les textes de la page sélectionnée
+    myApi
+      .get(`/pages/${idPageSelected}/textes`) // on va chercher les textes de la page sélectionnée
       .then(({ data }) => {
         setTextes(data)
       })
@@ -49,8 +50,8 @@ export default function SommaireReading(props) {
         setTextes([])
       })
 
-    axios
-      .get(`http://localhost:4242/pages/${idPageSelected}/images`) // on va chercher les images de la page sélectionnée
+    myApi
+      .get(`/pages/${idPageSelected}/images`) // on va chercher les images de la page sélectionnée
       .then(({ data }) => {
         setImages(data)
       })

@@ -6,7 +6,8 @@ import ScripLogo from "../assets/ScripLogo.png"
 import Login from "./Login"
 import logout from "../assets/images/Logout.svg"
 import SignUp from "./Signup"
-import axios from "axios"
+import myApi from "../services/myAPI"
+
 import InvitationPannel from "./InvitationPannel"
 
 const Navbar = () => {
@@ -30,6 +31,9 @@ const Navbar = () => {
     navigate("/")
     setUser(null)
     setFollowedAutors([])
+
+    // suppression du token d'autentification
+    myApi.get("/logout")
   }
 
   const HandleClickOpenLogSignUp = () => {
@@ -54,12 +58,10 @@ const Navbar = () => {
 
   useEffect(() => {
     if (user !== null) {
-      axios
-        .get(`http://localhost:4242/invitations/utilisateur/${user.id}`)
-        .then(({ data }) => {
-          const emitted = data.filter((item) => item.etat === "emitted")
-          setNotifications(emitted)
-        })
+      myApi.get(`/invitations/utilisateur/${user.id}`).then(({ data }) => {
+        const emitted = data.filter((item) => item.etat === "emitted")
+        setNotifications(emitted)
+      })
     }
   }, [user])
 

@@ -4,7 +4,7 @@ import pen from "../assets/images/Pen.svg"
 import publish from "../assets/images/icon-publish.png"
 import publishBleu from "../assets/images/icon-publishBleu.png"
 import { useState } from "react"
-import axios from "axios"
+import myApi from "../services/myAPI"
 
 export default function CardCampaignCreation({ campagne, user }) {
   const navigate = useNavigate()
@@ -56,7 +56,7 @@ export default function CardCampaignCreation({ campagne, user }) {
       setIsPublished(true)
     }, 2000) // Réinitialise l'état après 2 secondes (2000 ms)
 
-    axios.put(`http://localhost:4242/campagnes/${campagne.id}`, {
+    myApi.put(`/campagnes/${campagne.id}`, {
       auteurs_id: campagne.auteurs_id, // author
       jeux_de_role_id: campagne.jeux_de_role_id,
       name: campagne.name,

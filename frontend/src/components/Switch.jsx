@@ -1,5 +1,4 @@
 import "./Switch.scss"
-// import axios from "axios"
 import React, { useState } from "react"
 
 function Switch({

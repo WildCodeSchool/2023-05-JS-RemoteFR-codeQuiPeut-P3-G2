@@ -3,7 +3,7 @@ import plusDansRond from "../assets/images/plusDansRond.png"
 import cadenas from "../assets/images/cadenas.png"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import axios from "axios"
+import myApi from "../services/myAPI"
 import FormNewForumTopic from "../components/FormNewForumTopic"
 import Footer from "../components/Footer"
 
@@ -91,13 +91,13 @@ export default function Forum() {
   }
 
   useEffect(() => {
-    axios
-      .get("http://localhost:4242/forumCategories")
+    myApi
+      .get("/forumCategories")
       .then(({ data }) => setCategories(data))
       .catch((err) => console.error(err))
 
-    axios
-      .get("http://localhost:4242/sujet_forum")
+    myApi
+      .get("/sujet_forum")
       .then(({ data }) => {
         setTopics(data)
         setOriginalTopics(data)

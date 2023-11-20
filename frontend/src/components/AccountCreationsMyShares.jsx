@@ -1,4 +1,5 @@
-import axios from "axios"
+import myApi from "../services/myAPI"
+
 import { useEffect, useState, useContext } from "react"
 import MyContext from "./MyContext"
 
@@ -19,7 +20,7 @@ export default function AccountCreationsMyShares() {
       (invitation) => invitation.id === id
     )
 
-    axios.put(`http://localhost:4242/invitation/${id}`, {
+    myApi.put(`/invitation/${id}`, {
       type: e.target.value,
       etat: modifiedInvitation.etat,
       reponse: modifiedInvitation.reponse,
@@ -40,7 +41,7 @@ export default function AccountCreationsMyShares() {
       (invitation) => invitation.id === id
     )
 
-    axios.put(`http://localhost:4242/invitation/${id}`, {
+    myApi.put(`/invitation/${id}`, {
       type: "Cancel collaboration",
       etat: modifiedInvitation.etat,
       reponse: modifiedInvitation.reponse,
@@ -59,12 +60,10 @@ export default function AccountCreationsMyShares() {
   }
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:4242/invitations/auteur/${user.auteurs_id}`)
-      .then(({ data }) => {
-        const newData = data.map((item) => ({ ...item, showMessages: false }))
-        setMyShares(newData)
-      })
+    myApi.get(`/invitations/auteur/${user.auteurs_id}`).then(({ data }) => {
+      const newData = data.map((item) => ({ ...item, showMessages: false }))
+      setMyShares(newData)
+    })
   }, [])
 
   return (

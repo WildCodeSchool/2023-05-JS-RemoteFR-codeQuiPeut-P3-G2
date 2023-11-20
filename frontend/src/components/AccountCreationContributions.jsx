@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext } from "react"
-import axios from "axios"
+import myApi from "../services/myAPI"
+
 import MyContext from "./MyContext"
 import CardScenarioContribution from "./CardScenarioContribution"
 
@@ -8,8 +9,8 @@ export default function AccountCreationContributions() {
   const [scenarios, setScenarios] = useState([])
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:4242/contributionScenarios/utilisateur/${user.id}`)
+    myApi
+      .get(`/contributionScenarios/utilisateur/${user.id}`)
       .then(({ data }) => setScenarios(data))
   })
 

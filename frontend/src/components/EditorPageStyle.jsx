@@ -1,6 +1,7 @@
 import { SketchPicker } from "react-color"
 import { React, useState, useEffect } from "react"
-import axios from "axios"
+import myApi from "../services/myAPI"
+
 import marges from "../assets/images/marges.png"
 
 export default function EditorPageStyle(props) {
@@ -74,11 +75,11 @@ export default function EditorPageStyle(props) {
 
     // on peut maintenant poster ce nouveau style puis récupérer l'ensemble des styles de textes de l'utilisateur
 
-    axios
-      .post(`http://localhost:4242/saved_style_page`, newStyleCss)
+    myApi
+      .post(`/saved_style_page`, newStyleCss)
       .then(() => {
-        axios
-          .get(`http://localhost:4242/saved_style_page/utilisateur/${user.id}`)
+        myApi
+          .get(`/saved_style_page/utilisateur/${user.id}`)
           .then(({ data }) => setSavedPageStyles(data))
           .catch((err) => console.error(err))
       })

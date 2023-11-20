@@ -1,4 +1,5 @@
-import axios from "axios"
+import myApi from "../services/myAPI"
+
 import { useState } from "react"
 import nouvellePage from "../assets/images/nouvellePage.svg"
 import dotsCircle from "../assets/images/dotsCircle.png"
@@ -49,20 +50,17 @@ export default function SommaireEditor(props) {
     newTextes,
     pageName
   ) => {
-    await axios.post(
-      `http://localhost:4242/pages/${pageID}/newtexteAtPageCreation`,
-      {
-        top,
-        left,
-        width,
-        height,
-        fontSize,
-        fontWeight,
-        textAlign,
-      }
-    )
+    await myApi.post(`/pages/${pageID}/newtexteAtPageCreation`, {
+      top,
+      left,
+      width,
+      height,
+      fontSize,
+      fontWeight,
+      textAlign,
+    })
 
-    const { data } = await axios.get(`http://localhost:4242/lasttexte`)
+    const { data } = await myApi.get(`/lasttexte`)
     data.placeHolder = placeholder
     if (pageName) {
       data.text = pageName
@@ -95,8 +93,8 @@ export default function SommaireEditor(props) {
       Math.max(...pagesOfScenarioSelected.map((page) => page.number)) + 1
 
     // on post une nouvelle page dans la base de donnée (page_type_id = 1 car page script)
-    axios
-      .post(`http://localhost:4242/pages`, {
+    myApi
+      .post(`/pages`, {
         scenarios_id: scenarioID,
         page_types_id: 1,
         titre: pageName,
@@ -104,8 +102,8 @@ export default function SommaireEditor(props) {
       })
       .then(() => {
         // on récupère la page de la base de donnée avec son id et on l'ajoute dans le state pagesOfScenarioSelected
-        axios
-          .get(`http://localhost:4242/scenarios/${scenarioID}/pages`)
+        myApi
+          .get(`/scenarios/${scenarioID}/pages`)
           .then(async ({ data }) => {
             data[data.length - 1].selected = true // on se place sur la page créée en la sélectionnant
             setPagesOfScenarioSelected(data)
@@ -189,8 +187,8 @@ export default function SommaireEditor(props) {
     Promise.all(
       // on utilise Promise.all pour s'assurer que le axios.post et la suite se feront uniquement après l'exécution des axios.put
       newPagesOfScenarioSelected.map((page) =>
-        axios
-          .put(`http://localhost:4242/pages/${page.id}`, {
+        myApi
+          .put(`/pages/${page.id}`, {
             scenarios_id: page.scenarios_id,
             page_types_id: page.page_types_id,
             titre: page.titre,
@@ -200,8 +198,8 @@ export default function SommaireEditor(props) {
       )
     ).then(() => {
       // on post une nouvelle page dans la base de donnée (page_type_id = 2 car page personnage)
-      axios
-        .post(`http://localhost:4242/pages`, {
+      myApi
+        .post(`/pages`, {
           scenarios_id: scenarioID,
           page_types_id: 2,
           titre: pageName,
@@ -209,8 +207,8 @@ export default function SommaireEditor(props) {
         })
         .then(() => {
           // on récupère toutes les pages de la base de donnée pour le scenario sélectionné et on sélectionne la dernière page ajoutée à la BDD
-          axios
-            .get(`http://localhost:4242/scenarios/${scenarioID}/pages`)
+          myApi
+            .get(`/scenarios/${scenarioID}/pages`)
             .then(async ({ data }) => {
               data[data.length - 1].selected = true // on se place sur la page créée en la sélectionnant
               setPagesOfScenarioSelected(data)
@@ -313,8 +311,8 @@ export default function SommaireEditor(props) {
     Promise.all(
       // on utilise Promise.all pour s'assurer que le axios.post et la suite se feront uniquement après l'exécution des axios.put
       newPagesOfScenarioSelected.map((page) =>
-        axios
-          .put(`http://localhost:4242/pages/${page.id}`, {
+        myApi
+          .put(`/pages/${page.id}`, {
             scenarios_id: page.scenarios_id,
             page_types_id: page.page_types_id,
             titre: page.titre,
@@ -324,8 +322,8 @@ export default function SommaireEditor(props) {
       )
     ).then(() => {
       // on post une nouvelle page dans la base de donnée (page_type_id = 3 car page objet)
-      axios
-        .post(`http://localhost:4242/pages`, {
+      myApi
+        .post(`/pages`, {
           scenarios_id: scenarioID,
           page_types_id: 3,
           titre: pageName,
@@ -333,8 +331,8 @@ export default function SommaireEditor(props) {
         })
         .then(() => {
           // on récupère toutes les pages de la base de donnée pour le scenario sélectionné et on sélectionne la dernière page ajoutée à la BDD
-          axios
-            .get(`http://localhost:4242/scenarios/${scenarioID}/pages`)
+          myApi
+            .get(`/scenarios/${scenarioID}/pages`)
             .then(async ({ data }) => {
               data[data.length - 1].selected = true // on se place sur la page créée en la sélectionnant
               setPagesOfScenarioSelected(data)
@@ -449,8 +447,8 @@ export default function SommaireEditor(props) {
     Promise.all(
       // on utilise Promise.all pour s'assurer que le axios.post et la suite se feront uniquement après l'exécution des axios.put
       newPagesOfScenarioSelected.map((page) =>
-        axios
-          .put(`http://localhost:4242/pages/${page.id}`, {
+        myApi
+          .put(`/pages/${page.id}`, {
             scenarios_id: page.scenarios_id,
             page_types_id: page.page_types_id,
             titre: page.titre,
@@ -460,8 +458,8 @@ export default function SommaireEditor(props) {
       )
     ).then(() => {
       // on post une nouvelle page dans la base de donnée (page_type_id = 4 car page lieux)
-      axios
-        .post(`http://localhost:4242/pages`, {
+      myApi
+        .post(`/pages`, {
           scenarios_id: scenarioID,
           page_types_id: 4,
           titre: pageName,
@@ -469,8 +467,8 @@ export default function SommaireEditor(props) {
         })
         .then(() => {
           // on récupère toutes les pages de la base de donnée pour le scenario sélectionné et on sélectionne la dernière page ajoutée à la BDD
-          axios
-            .get(`http://localhost:4242/scenarios/${scenarioID}/pages`)
+          myApi
+            .get(`/scenarios/${scenarioID}/pages`)
             .then(async ({ data }) => {
               data[data.length - 1].selected = true // on se place sur la page créée en la sélectionnant
               setPagesOfScenarioSelected(data)
@@ -533,8 +531,8 @@ export default function SommaireEditor(props) {
   // ------------------------------------------------------------------
 
   const handleClickButtonEditInfoScenario = (scenarioID) => {
-    axios
-      .get(`http://localhost:4242/scenarios/${scenarioID}`)
+    myApi
+      .get(`/scenarios/${scenarioID}`)
       .then(({ data }) => setScenarioForInfoEdit(data))
       .then(() => setShowEditScenario((prevstate) => !prevstate))
   }
@@ -558,8 +556,8 @@ export default function SommaireEditor(props) {
       )
     )
 
-    axios
-      .get(`http://localhost:4242/scenarios/${scenarioID}/pages`)
+    myApi
+      .get(`/scenarios/${scenarioID}/pages`)
       .then(({ data }) => {
         data[0].selected = true
         setPagesOfScenarioSelected(data)
@@ -569,8 +567,8 @@ export default function SommaireEditor(props) {
         const idPageSelected = pages.filter((item) => item.selected === true)[0]
           .id
 
-        axios
-          .get(`http://localhost:4242/pages/${idPageSelected}/textes`) // on va chercher les textes de la page sélectionnée
+        myApi
+          .get(`/pages/${idPageSelected}/textes`) // on va chercher les textes de la page sélectionnée
           .then(({ data }) => {
             setTextes(data)
           })
@@ -579,8 +577,8 @@ export default function SommaireEditor(props) {
             setTextes([])
           })
 
-        axios
-          .get(`http://localhost:4242/pages/${idPageSelected}/images`) // on va chercher les images de la page sélectionnée
+        myApi
+          .get(`/pages/${idPageSelected}/images`) // on va chercher les images de la page sélectionnée
           .then(({ data }) => {
             setImages(data)
           })
@@ -615,8 +613,8 @@ export default function SommaireEditor(props) {
       (item) => item.selected === true
     )[0].id
 
-    axios
-      .get(`http://localhost:4242/pages/${idPageSelected}/textes`) // on va chercher les textes de la page sélectionnée
+    myApi
+      .get(`/pages/${idPageSelected}/textes`) // on va chercher les textes de la page sélectionnée
       .then(({ data }) => {
         setTextes(data)
       })
@@ -625,8 +623,8 @@ export default function SommaireEditor(props) {
         setTextes([])
       })
 
-    axios
-      .get(`http://localhost:4242/pages/${idPageSelected}/images`) // on va chercher les images de la page sélectionnée
+    myApi
+      .get(`/pages/${idPageSelected}/images`) // on va chercher les images de la page sélectionnée
       .then(({ data }) => {
         setImages(data)
       })
@@ -688,7 +686,7 @@ export default function SommaireEditor(props) {
       (page) => page.id === pageID
     )[0]
 
-    axios.put(`http://localhost:4242/pages/${pageID}`, {
+    myApi.put(`/pages/${pageID}`, {
       scenarios_id: updatedPage.scenarios_id,
       page_types_id: updatedPage.page_types_id,
       titre: updatedPage.titre,
@@ -716,7 +714,7 @@ export default function SommaireEditor(props) {
       // nécessite d'utiliser des fonctions asynchrones pour que celà se fasse dans le bon ordre
       Promise.all(
         images.map((image) =>
-          axios.delete(`http://localhost:4242/images/${image.id}`, {
+          myApi.delete(`/images/${image.id}`, {
             data: {
               img_src: image.img_src,
             },
@@ -726,27 +724,21 @@ export default function SommaireEditor(props) {
         .then(() => {
           return Promise.all(
             textes.map((texte) =>
-              axios
-                .delete(`http://localhost:4242/styleText/texte/${texte.id}`)
-                .then(() => {
-                  return axios.delete(
-                    `http://localhost:4242/textes/${texte.id}`
-                  )
-                })
+              myApi.delete(`/styleText/texte/${texte.id}`).then(() => {
+                return myApi.delete(`/textes/${texte.id}`)
+              })
             )
           )
         })
         .then(() => {
           // suppression du style correspondant à pageID
-          axios
-            .delete(`http://localhost:4242/stylePage/page/${pageID}`)
+          myApi
+            .delete(`/stylePage/page/${pageID}`)
             .then(() => {
               // suppression de la page
-              axios
-                .delete(`http://localhost:4242/pages/${pageID}`)
-                .catch((err) => {
-                  console.error(err)
-                })
+              myApi.delete(`/pages/${pageID}`).catch((err) => {
+                console.error(err)
+              })
             })
             .then(() => {
               // on récupère l'ensemble des pages du scénario et on les transfère dans le state pagesOfScenarioSelected
@@ -754,8 +746,8 @@ export default function SommaireEditor(props) {
                 (scenario) => scenario.selected === true
               )[0].id
 
-              axios
-                .get(`http://localhost:4242/scenarios/${scenarioID}/pages`)
+              myApi
+                .get(`/scenarios/${scenarioID}/pages`)
                 .then(({ data }) => {
                   data[data.length - 1].selected = true // on se place sur la page créée en la sélectionnant
                   setPagesOfScenarioSelected(data)
@@ -767,8 +759,8 @@ export default function SommaireEditor(props) {
                     (item) => item.selected === true
                   )[0].id
 
-                  axios
-                    .get(`http://localhost:4242/pages/${idPageSelected}/textes`) // on va chercher les textes de la page sélectionnée
+                  myApi
+                    .get(`/pages/${idPageSelected}/textes`) // on va chercher les textes de la page sélectionnée
                     .then(({ data }) => {
                       setTextes(data)
                     })
@@ -777,8 +769,8 @@ export default function SommaireEditor(props) {
                       setTextes([])
                     })
 
-                  axios
-                    .get(`http://localhost:4242/pages/${idPageSelected}/images`) // on va chercher les images de la page sélectionnée
+                  myApi
+                    .get(`/pages/${idPageSelected}/images`) // on va chercher les images de la page sélectionnée
                     .then(({ data }) => {
                       setImages(data)
                     })
@@ -797,8 +789,8 @@ export default function SommaireEditor(props) {
                   newPagesOfScenarioSelected
                     .filter((page) => page.id !== pageID)
                     .map((page) =>
-                      axios
-                        .put(`http://localhost:4242/pages/${page.id}`, {
+                      myApi
+                        .put(`/pages/${page.id}`, {
                           scenarios_id: page.scenarios_id,
                           page_types_id: page.page_types_id,
                           titre: page.titre,

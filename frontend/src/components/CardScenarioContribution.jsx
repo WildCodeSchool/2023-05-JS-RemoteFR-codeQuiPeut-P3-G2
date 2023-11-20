@@ -1,8 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import "./CardScenarioCreation.scss"
 import pen from "../assets/images/Pen.svg"
-import { useEffect, useState } from "react"
-import axios from "axios"
 
 function CardScenarioContribution({ scenario, user }) {
   const navigate = useNavigate()

@@ -1,4 +1,4 @@
-import axios from "axios"
+import myApi from "../services/myAPI"
 import { useState, useEffect } from "react"
 
 import "./FormNewScenario.scss"
@@ -158,17 +158,17 @@ export default function FormNewScenario({
     const formData = new FormData()
     formData.append("image", file)
     if (pictureScenario === "none") {
-      axios
-        .post("http://localhost:4242/tmpImage", formData)
+      myApi
+        .post("/tmpImage", formData)
         .then(({ data }) => console.info(data) || setPictureScenario(data))
     } else {
-      axios.delete("http://localhost:4242/deleteTmpImage", {
+      myApi.delete("/deleteTmpImage", {
         data: {
           img_src: pictureScenario,
         },
       })
-      axios
-        .post("http://localhost:4242/tmpImage", formData)
+      myApi
+        .post("/tmpImage", formData)
         .then(({ data }) => console.info(data) || setPictureScenario(data))
     }
   }
@@ -200,8 +200,8 @@ export default function FormNewScenario({
     const roleGameID = roleGame.filter((game) => game.selected === true)[0].id
     const themeID = themes.filter((theme) => theme.selected === true)[0].id
 
-    axios
-      .post("http://localhost:4242/scenarios", {
+    myApi
+      .post("/scenarios", {
         auteurs_id: authorID, // author
         jeux_de_role_id: roleGameID,
         campagnes_id: campaignID, // A faire plus tard => campagneId
@@ -218,14 +218,14 @@ export default function FormNewScenario({
       })
       .then(async ({ data }) => {
         // post du theme du scenario
-        await axios.post(`http://localhost:4242/themesScenarios/`, {
+        await myApi.post(`/themesScenarios/`, {
           scenarios_id: data,
           themes_id: themeID,
         })
 
         // récupération du scénario avec son ID
-        axios
-          .get(`http://localhost:4242/scenarios/${data}`)
+        myApi
+          .get(`/scenarios/${data}`)
           .then(({ data }) => {
             let newScenariosOfEditedCampagne = scenariosOfEditedCampagne.map(
               (scenario) => ({ ...scenario, selected: false })
@@ -245,31 +245,27 @@ export default function FormNewScenario({
       })
 
     // mise à jour des scénarios précédants de la campagne pour passer leur type en campagne s'ils étaient en one shot
-    axios
-      .get(`http://localhost:4242/campagnes/${campaignID}/detailedScenarios`)
-      .then(({ data }) => {
-        data
-          .filter((item) => item.type === "one shot")
-          .map((scenario) =>
-            axios.put(`http://localhost:4242/scenarios/${scenario.id}`, {
-              auteurs_id: scenario.auteurs_id, // author
-              jeux_de_role_id: scenario.jeux_de_role_id,
-              campagnes_id: scenario.campagnes_id, // A faire plus tard => campagneId
-              name: scenario.name,
-              nb_player_min: scenario.nb_player_min,
-              nb_player_max: scenario.nb_player_max,
-              level: scenario.level,
-              start_writing_date: handleReformatDate(
-                scenario.start_writing_date
-              ),
-              publication_date: handleReformatDate(scenario.publication_date),
-              img: scenario.img,
-              type: "campagne",
-              description: scenario.description,
-              model: scenario.model, // a supprimer si table modifiée avec suppression de cette colonne
-            })
-          )
-      })
+    myApi.get(`/campagnes/${campaignID}/detailedScenarios`).then(({ data }) => {
+      data
+        .filter((item) => item.type === "one shot")
+        .map((scenario) =>
+          myApi.put(`/scenarios/${scenario.id}`, {
+            auteurs_id: scenario.auteurs_id, // author
+            jeux_de_role_id: scenario.jeux_de_role_id,
+            campagnes_id: scenario.campagnes_id, // A faire plus tard => campagneId
+            name: scenario.name,
+            nb_player_min: scenario.nb_player_min,
+            nb_player_max: scenario.nb_player_max,
+            level: scenario.level,
+            start_writing_date: handleReformatDate(scenario.start_writing_date),
+            publication_date: handleReformatDate(scenario.publication_date),
+            img: scenario.img,
+            type: "campagne",
+            description: scenario.description,
+            model: scenario.model, // a supprimer si table modifiée avec suppression de cette colonne
+          })
+        )
+    })
 
     setShowNewScenario(false)
   }
@@ -290,8 +286,8 @@ export default function FormNewScenario({
     const pageNumber = 1
 
     // on post une nouvelle page dans la base de donnée (page_type_id = 1 car page script)
-    axios
-      .post(`http://localhost:4242/pages`, {
+    myApi
+      .post(`/pages`, {
         scenarios_id: scenarioID,
         page_types_id: 1,
         titre: pageName,
@@ -299,8 +295,8 @@ export default function FormNewScenario({
       })
       .then(() => {
         // on récupère la page de la base de donnée avec son id et on l'ajoute dans le state pagesOfScenarioSelected
-        axios
-          .get(`http://localhost:4242/scenarios/${scenarioID}/pages`)
+        myApi
+          .get(`/scenarios/${scenarioID}/pages`)
           .then(async ({ data }) => {
             data[data.length - 1].selected = true // on se place sur la page créée en la sélectionnant
             setPagesOfScenarioSelected(data)
@@ -362,20 +358,17 @@ export default function FormNewScenario({
     newTextes,
     pageName
   ) => {
-    await axios.post(
-      `http://localhost:4242/pages/${pageID}/newtexteAtPageCreation`,
-      {
-        top,
-        left,
-        width,
-        height,
-        fontSize,
-        fontWeight,
-        textAlign,
-      }
-    )
+    await myApi.post(`/pages/${pageID}/newtexteAtPageCreation`, {
+      top,
+      left,
+      width,
+      height,
+      fontSize,
+      fontWeight,
+      textAlign,
+    })
 
-    const { data } = await axios.get(`http://localhost:4242/lasttexte`)
+    const { data } = await myApi.get(`/lasttexte`)
     data.placeHolder = placeholder
     if (pageName) {
       data.text = pageName
@@ -388,13 +381,13 @@ export default function FormNewScenario({
   // ----FIN SECTION-------------------------------------
 
   useEffect(() => {
-    axios
-      .get("http://localhost:4242/rolegames")
+    myApi
+      .get("/rolegames")
       .then(({ data }) => setRoleGame(data))
       .catch((err) => console.error(err))
 
-    axios
-      .get("http://localhost:4242/themes")
+    myApi
+      .get("/themes")
       .then(({ data }) => setThemes(data))
       .catch((err) => console.error(err))
   }, [])

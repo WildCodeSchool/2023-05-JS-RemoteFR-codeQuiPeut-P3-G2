@@ -1,18 +1,16 @@
 import { useState, useEffect } from "react"
 import etoilePleine from "../assets/images/etoile-pleine.png"
 import "./UserProfileFollowers.scss"
-import axios from "axios"
+import myApi from "../services/myAPI"
 
 export default function UserProfileFollowers({ followerID, followersProfile }) {
   // const { user } = useContext(MyContext)
   const [followersOfUserFollower, setFollowersOfUserFollower] = useState([])
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:4242/followers/${followersProfile.auteurs_id}`)
-      .then((res) => {
-        setFollowersOfUserFollower(res.data)
-      })
+    myApi.get(`/followers/${followersProfile.auteurs_id}`).then((res) => {
+      setFollowersOfUserFollower(res.data)
+    })
   }, [])
 
   return (

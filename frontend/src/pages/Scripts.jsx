@@ -4,7 +4,8 @@ import Button from "../components/Button"
 import Navbar from "../components/Navbar"
 import Switch from "../components/Switch"
 import "./Scripts.scss"
-import axios from "axios"
+import myApi from "../services/myAPI"
+
 import CardScenario from "../components/CardScenario"
 import FilterSelect from "../components/FilterSelect"
 import Footer from "../components/Footer"
@@ -199,29 +200,35 @@ function Scripts() {
   }
   // -----------------------------------------------------------------------------------
   useEffect(() => {
-    axios.get("http://localhost:4242/scenariosOneshot").then((res) => {
-      setScenarios(res.data)
-      setOriginalScenarios(res.data)
+    myApi.get("/scenariosOneshot").then((res) => {
+      const finished = res.data.filter(
+        (item) => parseInt(item.publication_date.slice(0, 4), 10) < 2990
+      )
+      setScenarios(finished)
+      setOriginalScenarios(finished)
     })
 
-    axios
-      .get("http://localhost:4242/rolegames")
+    myApi
+      .get("/rolegames")
       .then(({ data }) => setRoleGames(data))
       .catch((err) => console.error(err))
 
-    axios
-      .get("http://localhost:4242/themes")
+    myApi
+      .get("/themes")
       .then(({ data }) => {
         const newThemes = data.map((item) => ({ ...item, selected: false }))
         setThemes(newThemes)
       })
       .catch((err) => console.error(err))
 
-    axios
-      .get("http://localhost:4242/detailedCampagnes")
+    myApi
+      .get("/detailedCampagnes")
       .then(({ data }) => {
-        setCampagnes(data)
-        setOrginalCampagnes(data)
+        const finished = data.filter(
+          (item) => parseInt(item.publication_date.slice(0, 4), 10) < 2990
+        )
+        setCampagnes(finished)
+        setOrginalCampagnes(finished)
       })
       .catch((err) => console.error(err))
   }, [])

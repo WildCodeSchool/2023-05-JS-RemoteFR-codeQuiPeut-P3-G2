@@ -1,7 +1,7 @@
-import CardScenario from "./CardScenario"
 import { useEffect, useContext, useState } from "react"
 import MyContext from "./MyContext"
-import axios from "axios"
+import myApi from "../services/myAPI"
+
 import "./AccountCreations.scss"
 import AccountFavoritesMyFavorites from "./AccountFavoritesMyFavorites"
 import AccountFavoritesMyViews from "./AccountFavoritesMyViews"
@@ -27,21 +27,19 @@ export default function AccountFavorites() {
   }
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:4242/scenariosInProgress/utilisateur/${user.id}`)
-      .then((res) => {
-        const inProgress = res.data.filter(
-          (item) => parseInt(item.publication_date.slice(0, 4), 10) > 2990
-        )
-        setScenariosInProgress(inProgress)
-        const finished = res.data.filter(
-          (item) => parseInt(item.publication_date.slice(0, 4), 10) < 2990
-        )
-        setScenariosFinished(finished)
-      })
+    myApi.get(`/scenariosInProgress/utilisateur/${user.id}`).then((res) => {
+      const inProgress = res.data.filter(
+        (item) => parseInt(item.publication_date.slice(0, 4), 10) > 2990
+      )
+      setScenariosInProgress(inProgress)
+      const finished = res.data.filter(
+        (item) => parseInt(item.publication_date.slice(0, 4), 10) < 2990
+      )
+      setScenariosFinished(finished)
+    })
 
-    axios
-      .get(`http://localhost:4242/campagnesDetailed/auteur/${user.auteurId}`)
+    myApi
+      .get(`/campagnesDetailed/auteur/${user.auteurId}`)
       .then(({ data }) => {
         const inProgress = data.filter(
           (item) => parseInt(item.publication_date.slice(0, 4), 10) > 2990

@@ -6,7 +6,8 @@ import LivreAccueil from "../assets/LivreAccueil.png"
 import mokeUp from "../assets/Laptop.png"
 import Navbar from "../components/Navbar"
 import Slider from "react-slick"
-import axios from "axios"
+import myApi from "../services/myAPI"
+
 import { useState, useEffect, useContext } from "react"
 import { Link } from "react-router-dom"
 import CardCampaign from "../components/CardCampaign"
@@ -20,8 +21,8 @@ const Welcome = () => {
   const { user, setUser, setFollowedAutors } = useContext(MyContext)
 
   useEffect(() => {
-    axios
-      .get("http://localhost:4242/detailedCampagnes")
+    myApi
+      .get("/detailedCampagnes")
       .then(({ data }) => {
         setCampagnes(data)
         setOrginalCampagnes(data)

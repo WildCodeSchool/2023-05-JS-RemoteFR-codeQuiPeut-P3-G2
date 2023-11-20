@@ -1,6 +1,5 @@
 import { useEffect, useContext, useState } from "react"
 import MyContext from "./MyContext"
-import axios from "axios"
 import "./UserProfile.scss"
 import profil from "../assets/images/pas_content.png"
 import UserProfileFavorite from "./UserProfileFavorite"

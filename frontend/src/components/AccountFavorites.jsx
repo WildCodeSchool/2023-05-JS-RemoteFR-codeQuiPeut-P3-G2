@@ -1,7 +1,8 @@
 import CardScenario from "./CardScenario"
 import { useEffect, useContext, useState } from "react"
 import MyContext from "./MyContext"
-import axios from "axios"
+import myApi from "../services/myAPI"
+
 import "./AccountFavorites.scss"
 import AccountFavoritesMyFavorites from "./AccountFavoritesMyFavorites"
 import AccountFavoritesMyViews from "./AccountFavoritesMyViews"
@@ -20,20 +21,16 @@ export default function AccountFavorites() {
   }
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:4242/scenariosFavorites/utilisateur/${user.id}`)
-      .then((res) => {
-        setScenariosFavorite(res.data)
-      })
+    myApi.get(`/scenariosFavorites/utilisateur/${user.id}`).then((res) => {
+      setScenariosFavorite(res.data)
+    })
 
-    axios
-      .get(`http://localhost:4242/scenariosAvis/utilisateur/${user.id}`)
-      .then((res) => {
-        setScenariosAvis(res.data)
-      })
+    myApi.get(`/scenariosAvis/utilisateur/${user.id}`).then((res) => {
+      setScenariosAvis(res.data)
+    })
 
-    axios
-      .get(`http://localhost:4242/campagnesFavorites/utilisateur/${user.id}`)
+    myApi
+      .get(`/campagnesFavorites/utilisateur/${user.id}`)
       .then(({ data }) => setCampagnes(data))
       .catch((err) => console.error(err))
   }, [])

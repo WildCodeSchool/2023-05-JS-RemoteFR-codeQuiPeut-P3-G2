@@ -13,7 +13,7 @@ import soulignage from "../assets/images/soulignage.png"
 import marges from "../assets/images/marges.png"
 import { SketchPicker } from "react-color"
 import { React, useState, useEffect } from "react"
-import axios from "axios"
+import myApi from "../services/myAPI"
 
 export default function EditorTextStyle({
   textes,
@@ -1021,11 +1021,11 @@ export default function EditorTextStyle({
 
     // on peut maintenant poster ce nouveau style puis récupérer l'ensemble des styles de textes de l'utilisateur
 
-    axios
-      .post(`http://localhost:4242/saved_style_text`, newStyleCss)
+    myApi
+      .post(`/saved_style_text`, newStyleCss)
       .then(() => {
-        axios
-          .get(`http://localhost:4242/saved_style_text/utilisateur/${user.id}`)
+        myApi
+          .get(`/saved_style_text/utilisateur/${user.id}`)
           .then(({ data }) => setSavedTextStyles(data))
           .catch((err) => console.error(err))
       })
